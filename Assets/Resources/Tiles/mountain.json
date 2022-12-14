@@ -1,0 +1,7 @@
+{
+    "name": "Mountain",
+    "description": "Cannot move through this",
+    "texture": "Assets/Resources/Tiles/mountain.png",
+    "moveCost": 2,
+    "pathfindingTypes": ["air"]
+}
