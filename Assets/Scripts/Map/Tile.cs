@@ -2,23 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile
+public class Tile  // todo change to struct maybe?
 {
-    public TileData tileData;
-    public List<string> tileObjects;  // todo
+    public TileData data;
+    public TileContents contents;
 
-    public Tile(TileData tileData) {
+    public Tile(TileData tileData)
+    {
         if (tileData == null) {
             throw new System.NullReferenceException("tileData cannot be null");
         }
 
-        Debug.Log(tileData);
-        this.tileData = tileData;
-        this.tileObjects = new List<string>();  // todo add option to initialise tile with a list of tile objects
+        this.data = tileData;
+        this.contents = new TileContents();  // todo add option to initialise tile with TileContents
     }
 
     public override string ToString()
     {
-        return $"{tileData}, objects = {/*string.Join(",", tileObjects)*/0}";
+        if (contents != null) {
+            return $"{data}, {contents}";
+        } else {
+            return $"{data}";
+        }
     }
 }

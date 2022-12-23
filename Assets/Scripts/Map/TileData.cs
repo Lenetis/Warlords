@@ -23,7 +23,6 @@ public class TileData
     public void Initialize()
     {
         byte[] binaryImageData = File.ReadAllBytes(texture);
-        Debug.Log(binaryImageData);
         image = new Texture2D(0,0);  // todo for some reason this works, but I *really* don't like this.
         image.LoadImage(binaryImageData);
         image.Apply();
