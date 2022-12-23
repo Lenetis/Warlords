@@ -22,7 +22,7 @@ public class TileMap : MonoBehaviour
     private Tile[,] tiles;
 
 
-    public TextAsset[] jsons;
+    public string[] jsons;
 
     void Start()
     {
@@ -49,8 +49,8 @@ public class TileMap : MonoBehaviour
         TileData[] availableTiles = new TileData[jsons.Length];
 
         for (int i = 0; i < jsons.Length; i += 1) {
-            TileData tile = JsonUtility.FromJson<TileData>(jsons[i].text);
-            tile.Initialize();
+            
+            TileData tile = new TileData(jsons[i]);
             availableTiles[i] = tile;
         }
 
@@ -125,7 +125,7 @@ public class TileMap : MonoBehaviour
 
         for (int x = 0; x < width; x += 1) {
             for (int y = 0; y < height; y += 1) {
-                Color[] pixels = tiles[x, y].data.image.GetPixels(0, 0, tileSize, tileSize);
+                Color[] pixels = tiles[x, y].data.texture.GetPixels(0, 0, tileSize, tileSize);
                 texture.SetPixels(x * tileSize, y * tileSize, tileSize, tileSize, pixels);
             }
         }
