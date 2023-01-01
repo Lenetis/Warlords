@@ -38,7 +38,7 @@ public class CameraController : MonoBehaviour
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0){
-            transform.Translate(0, 0, scroll * zoomSpeed * -transform.position.z);  // todo it's probably better to change FoV instead of moving the camera
+            transform.Translate(0, 0, scroll * zoomSpeed * -transform.position.z);  // todo it's probably better to change FoV instead of moving the camera // no it's not (DK)
         }
     }
 }
