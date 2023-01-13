@@ -26,6 +26,7 @@ public class TileData
         byte[] binaryImageData = File.ReadAllBytes(texturePath);
         texture = new Texture2D(0,0);  // todo for some reason this works, but I *really* don't like this.
         texture.LoadImage(binaryImageData);
+        texture.filterMode = FilterMode.Point;
         texture.Apply();
 
         pathfindingTypes = new List<string>();
