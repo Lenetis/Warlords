@@ -61,16 +61,13 @@ public class TileMap : MonoBehaviour
         }
 
         // todo tmp
-        List<int> tmpUnitList = new List<int>();
-        tmpUnitList.Add(2);
-        tmpUnitList.Add(4);
-        tmpUnitList.Add(5);
+        List<Unit> tmpUnitList = new List<Unit>();
+        tmpUnitList.Add(new Unit("Assets/Resources/Units/scout.json"));
+        tmpUnitList.Add(new Unit("Assets/Resources/Units/knight.json"));
+        tmpUnitList.Add(new Unit("Assets/Resources/Units/scout.json"));
         Army tmpArmy;
         tmpArmy = new Army(tmpUnitList, new Position(1, 1));
         tiles[1, 1].contents.AddArmy(tmpArmy);
-
-        GameObject sprite = GameObject.Find("warlord");
-        tmpArmy.mapSprite = sprite;
     }
 
 

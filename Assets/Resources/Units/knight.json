@@ -1,0 +1,8 @@
+{
+    "name": "Knight",
+    "texture": "Assets/Resources/Units/knight.png",
+    "pathfindingTypes": ["land"],
+    "strength": 4,
+    "move": 14,
+    "upkeep": 4
+}
