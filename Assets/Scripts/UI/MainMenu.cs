@@ -50,19 +50,31 @@ public class MainMenu : MonoBehaviour
     public Sprite[] playerTypeSprites = new Sprite[5];
     public Image[] playerTypeImage = new Image[8];
 
-    /*
+    //Audio
+
+    public AudioSource audioSource;
+    public bool isPlayingMusic = false;
+    public float counter;
+
     // Start is called before the first frame update
     void Start()
     {
-        
-        
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }*/
+        counter += Time.deltaTime;
+        if (counter >= 5 && isPlayingMusic == false)
+        {
+            audioSource.GetComponent<AudioSource>().Play();
+            isPlayingMusic = true;
+        }
+
+    }
+
 
     public void ShowRandomMapPanel()
     {
