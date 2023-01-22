@@ -276,8 +276,6 @@ MonoBehaviour:
   jsons:
   - ./Assets/Resources/Tiles/sea.json
   - ./Assets/Resources/Tiles/grass.json
-  - ./Assets/Resources/Tiles/mountain.json
-  - ./Assets/Resources/Tiles/forest.json
 --- !u!64 &503963334
 MeshCollider:
   m_ObjectHideFlags: 0

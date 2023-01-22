@@ -10,6 +10,8 @@ public class MouseSelection : MonoBehaviour
     private List<Position> pathSteps;
     private List<GameObject> pathMarkers;
 
+    private Position previousPathGoal;
+
     private TileMap tileMap;
 
     private Army selectedArmy;  // todo add option to select one army when there are many on the same tile
@@ -44,10 +46,17 @@ public class MouseSelection : MonoBehaviour
                 if (Input.GetButtonUp("Move")) {
                     ClearPath();
                     selectedArmy.Move(hitPosition);
+
+                    previousPathGoal = new Position(-1, -1);
+                    // kinda hacky, but this is to ensure the next path after move will always be calculated, no matter if the position is the same or not
+
                 } else if (Input.GetButton("Move")) {
-                    pathSteps = tileMap.FindPath(selectedArmy.position, hitPosition);
-                    ClearPath();
-                    DrawPath();
+                    if (previousPathGoal != hitPosition) {
+                        pathSteps = tileMap.FindPath(selectedArmy.position, hitPosition, selectedArmy.pathfindingTypes);
+                        ClearPath();
+                        DrawPath();
+                        previousPathGoal = hitPosition;
+                    }
                 }
             } else {
                 if (Input.GetButtonDown("Info")) {
@@ -59,8 +68,10 @@ public class MouseSelection : MonoBehaviour
 
     private void DrawPath()
     {
-        foreach (Position step in pathSteps) {
-            pathMarkers.Add(Instantiate(pathStepMarker, step, Quaternion.identity));
+        if (pathSteps != null) {
+            foreach (Position step in pathSteps) {
+                pathMarkers.Add(Instantiate(pathStepMarker, step, Quaternion.identity));
+            }
         }
     }
 

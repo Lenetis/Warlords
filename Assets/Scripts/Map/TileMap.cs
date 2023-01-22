@@ -68,6 +68,13 @@ public class TileMap : MonoBehaviour
         Army tmpArmy;
         tmpArmy = new Army(tmpUnitList, new Position(1, 1));
         tiles[1, 1].contents.AddArmy(tmpArmy);
+
+        List<Unit> tmpUnitList2 = new List<Unit>();
+        tmpUnitList2.Add(new Unit("Assets/Resources/Units/okoń.json"));
+        tmpUnitList2.Add(new Unit("Assets/Resources/Units/okoń.json"));
+        Army tmpArmy2;
+        tmpArmy2 = new Army(tmpUnitList2, new Position(2, 2));
+        tiles[2, 2].contents.AddArmy(tmpArmy2);
     }
 
 
@@ -146,8 +153,16 @@ public class TileMap : MonoBehaviour
         return Max(Abs(start.x - goal.x), Abs(start.y - goal.y));
     }
 
-    public List<Position> FindPath(Position start, Position goal, string pathfindingType="Land")
+    public List<Position> FindPath(Position start, Position goal, HashSet<string> pathfindingTypes)
     {
+        if (!GetTile(start).data.pathfindingTypes.Overlaps(pathfindingTypes)){
+            return null;
+        }
+        if (!GetTile(goal).data.pathfindingTypes.Overlaps(pathfindingTypes)){
+            return null;
+        }
+        // todo maybe add checks if the goal is not on a very small unreachable island (BFS from goal position with max radius=3 for example)
+
         // A* Pathfinding
 
         // The set of discovered nodes that may need to be (re-)expanded.
@@ -189,20 +204,23 @@ public class TileMap : MonoBehaviour
 
             openList.Remove(current);
             foreach (Position neighbour in GetNeighbouringPositions(current)) {
-                // d(current,neighbor) is the weight of the edge from current to neighbor
-                // tentativeGScore is the distance from start to the neighbor through current
-                int tentativeGScore = gScore[current] + (int)GetTile(neighbour).data.moveCost;
-                if (!gScore.ContainsKey(neighbour) || tentativeGScore < gScore[neighbour]) {
-                    // This path to neighbor is better than any previous one. Record it!
-                    cameFrom[neighbour] = current;
-                    gScore[neighbour] = tentativeGScore;
-                    fScore[neighbour] = tentativeGScore + Heuristic(neighbour, goal);
-                    if (!openList.Contains(neighbour)) {
-                        openList.Add(neighbour);
-                    }
+                if (GetTile(neighbour).data.pathfindingTypes.Overlaps(pathfindingTypes)) {
 
-                    if (current == goal) {
-                        return ReconstructPath(cameFrom, current);
+                    // d(current,neighbor) is the weight of the edge from current to neighbor
+                    // tentativeGScore is the distance from start to the neighbor through current
+                    int tentativeGScore = gScore[current] + (int)GetTile(neighbour).data.moveCost;
+                    if (!gScore.ContainsKey(neighbour) || tentativeGScore < gScore[neighbour]) {
+                        // This path to neighbor is better than any previous one. Record it!
+                        cameFrom[neighbour] = current;
+                        gScore[neighbour] = tentativeGScore;
+                        fScore[neighbour] = tentativeGScore + Heuristic(neighbour, goal);
+                        if (!openList.Contains(neighbour)) {
+                            openList.Add(neighbour);
+                        }
+
+                        if (current == goal) {
+                            return ReconstructPath(cameFrom, current);
+                        }
                     }
                 }
             }
@@ -210,28 +228,6 @@ public class TileMap : MonoBehaviour
 
         // Open set is empty but goal was never reached        
         return null;
-
-
-        /*
-        List<Position> pathSteps = new List<Position>();
-        Position step = start;
-        while(step != end){
-            if (step.x > end.x) {
-                step.x -= 1;
-            } else if (step.x < end.x) {
-                step.x += 1;
-            }
-
-            if (step.y > end.y) {
-                step.y -= 1;
-            } else if (step.y < end.y) {
-                step.y += 1;
-            }
-
-            pathSteps.Add(step);
-        }
-        return pathSteps;
-        */
     }
 
     public List<Position> GetNeighbouringPositions(Position position)

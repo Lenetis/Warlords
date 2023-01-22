@@ -11,6 +11,7 @@ public class Army
     private int move;  // todo
     private int remainingMove;
     // todo add something to store path/orders/something like that
+    public HashSet<string> pathfindingTypes {get; private set;}
     public Position position;
 
     private GameObject mapSprite;
@@ -55,6 +56,15 @@ public class Army
         Texture2D texture = strongestUnit.texture;
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), 32);
         mapSprite.GetComponent<SpriteRenderer>().sprite = sprite;
+
+        pathfindingTypes = new HashSet<string>(units[0].pathfindingTypes);
+        foreach (Unit unit in units.Skip(1)) {
+            pathfindingTypes.IntersectWith(unit.pathfindingTypes);
+        }
+        if (pathfindingTypes.Count == 0) {
+            throw new System.ArgumentException($"No common pathfinding type exists in army {string.Join(", ", units)}");
+            // todo check this in the merging armies method (but don't remove this exception, it will still be useful in loading save files for example)
+        }
     }
 
     public void Move(Position newPosition)
@@ -71,6 +81,6 @@ public class Army
 
     public override string ToString()
     {
-        return $"[{string.Join(", ", units)}]";
+        return $"[{string.Join(", ", units)}], PathfindingTypes={string.Join(", ", pathfindingTypes)}";
     }
 }

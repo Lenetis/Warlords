@@ -1,0 +1,8 @@
+{
+    "name": "Okoń",
+    "texture": "Assets/Resources/Units/okoń.png",
+    "pathfindingTypes": ["sea"],
+    "strength": 300000,
+    "move": 180,
+    "upkeep": 50
+}

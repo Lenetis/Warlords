@@ -9,7 +9,7 @@ public class TileData
 {
     public string name;
     public string description;
-    public List<string> pathfindingTypes;  // todo change to a set maybe?
+    public HashSet<string> pathfindingTypes;  // todo change to a set maybe?
     public float moveCost;
     public Texture2D texture;
 
@@ -29,7 +29,7 @@ public class TileData
         texture.filterMode = FilterMode.Point;
         texture.Apply();
 
-        pathfindingTypes = new List<string>();
+        pathfindingTypes = new HashSet<string>();
         foreach (string pathfindingType in jObject.GetValue("pathfindingTypes")) {
             pathfindingTypes.Add(pathfindingType);
         }

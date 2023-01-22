@@ -9,7 +9,7 @@ public class Unit
 {
     public string name;
     public Texture2D texture;
-    public List<string> pathfindingTypes;  // todo change to a set maybe?
+    public HashSet<string> pathfindingTypes;  // todo change to a set maybe?
     public int strength;
     public int move;
     public int remainingMove;
@@ -28,7 +28,7 @@ public class Unit
         texture.filterMode = FilterMode.Point;
         texture.Apply();
 
-        pathfindingTypes = new List<string>();
+        pathfindingTypes = new HashSet<string>();
         foreach (string pathfindingType in jObject.GetValue("pathfindingTypes")) {
             pathfindingTypes.Add(pathfindingType);
         }
