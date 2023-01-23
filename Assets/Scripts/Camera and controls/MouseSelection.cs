@@ -28,6 +28,8 @@ public class MouseSelection : MonoBehaviour
         RaycastHit hitInfo;
 
         if (Physics.Raycast(ray, out hitInfo)) {
+            selectionMarker.SetActive(true);
+
             Position hitPosition = new Position((int)hitInfo.point.x, (int)hitInfo.point.y);
 
             selectionMarker.transform.position = hitPosition;
@@ -64,6 +66,8 @@ public class MouseSelection : MonoBehaviour
                 }
             }
         } else {
+            selectionMarker.SetActive(false);
+
             if (pathSteps != null) {
                 ClearPath();
 
