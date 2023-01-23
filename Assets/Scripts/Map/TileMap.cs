@@ -12,17 +12,16 @@ public class TileMap : MonoBehaviour
 {
     public int width;
     public int height;
+    
     public int tileSize;
 
+    public string[] jsons;
 
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
     private MeshCollider meshCollider;
 
     private Tile[,] tiles;
-
-
-    public string[] jsons;
 
     void Start()
     {
@@ -40,7 +39,6 @@ public class TileMap : MonoBehaviour
 
         GenerateTexture();
     }
-
 
     void GenerateMap()
     {
@@ -76,7 +74,6 @@ public class TileMap : MonoBehaviour
         tmpArmy2 = new Army(tmpUnitList2, new Position(2, 2));
         tiles[2, 2].contents.AddArmy(tmpArmy2);
     }
-
 
     void GenerateMesh()
     {
@@ -117,7 +114,6 @@ public class TileMap : MonoBehaviour
         meshFilter.mesh = mesh;
     }
 
-
     void GenerateTexture()
     {
         meshRenderer.material = new Material(Shader.Find("Standard"));
@@ -149,8 +145,8 @@ public class TileMap : MonoBehaviour
         return completePath;
     }
 
-    private int Heuristic(Position start, Position goal) {  // todo maybe replace ints with floats?
-        return Max(Abs(start.x - goal.x), Abs(start.y - goal.y));
+    private int Heuristic(Position pos, Position goal) {
+        return Max(Abs(pos.x - goal.x), Abs(pos.y - goal.y));
     }
 
     public List<Position> FindPath(Position start, Position goal, HashSet<string> pathfindingTypes)
@@ -196,7 +192,7 @@ public class TileMap : MonoBehaviour
                     minScore = fScore[pos];
                     current = pos;
                 }
-            }  // todo check pathfinding type
+            }
             
             if (current == goal) {
                 return ReconstructPath(cameFrom, current);
@@ -225,7 +221,6 @@ public class TileMap : MonoBehaviour
                 }
             }
         }
-
         // Open set is empty but goal was never reached        
         return null;
     }
@@ -241,12 +236,11 @@ public class TileMap : MonoBehaviour
                 }
             }
         }
-
         return positions;
     }
 
     public Tile GetTile(Position position)
     {
-        return tiles[position.x, position.y];  // todo check if not outside of bounds
+        return tiles[position.x, position.y];
     }
 }

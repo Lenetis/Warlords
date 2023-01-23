@@ -7,13 +7,15 @@ using Newtonsoft.Json.Linq;
 
 public class Unit
 {
-    public string name;
-    public Texture2D texture;
-    public HashSet<string> pathfindingTypes;  // todo change to a set maybe?
-    public int strength;
-    public int move;
-    public int remainingMove;
-    public int upkeep;
+    public string name {get; set;}
+    public Texture2D texture {get;}
+
+    public int strength {get;}
+    public int move {get;}
+    public int remainingMove {get;}
+    public HashSet<string> pathfindingTypes {get;}
+    public int upkeep {get;}
+    
     public Unit(string jsonPath)
     {
         string json = File.ReadAllText(jsonPath);

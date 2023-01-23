@@ -13,17 +13,17 @@ public struct Position
         this.y = y;
     }
 
-
     public static implicit operator Vector3(Position position)
     {
         return new Vector3(position.x, position.y);
     }
+
     public static implicit operator Vector2(Position position)
     {
         return new Vector2(position.x, position.y);
     }
 
-    // todo I really dislike that I had to write like 50 lines of code
+    // I really dislike that I had to write like 50 lines of code
     // just to be able to check if position1 != position2   >:(
 
     // override object.Equals

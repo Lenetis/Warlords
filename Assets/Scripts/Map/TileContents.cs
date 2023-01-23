@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class TileContents
 {
-    public List<Army> armies;
+    public List<Army> armies {get; private set;}
     // items
     // road ??  -- maybe in TileData
     // city
@@ -32,12 +32,9 @@ public class TileContents
 
     public void RemoveArmy(Army army)
     {
-        if (armies == null) {
-            throw new System.NullReferenceException($"Cannot remove army as there are no armies here o.o");
-        }
         armies.Remove(army);
         if (armies.Count == 0) {
-            armies = null;  // a.k.a premature optimization
+            armies = null;
         }
     }
 

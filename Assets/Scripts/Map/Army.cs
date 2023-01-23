@@ -7,13 +7,18 @@ using System.Linq;
 public class Army
 {
     public int owner = 0;  // todo
-    public List<Unit> units;
-    private int move;  // todo
-    private int remainingMove;
-    // todo add something to store path/orders/something like that
-    public HashSet<string> pathfindingTypes {get; private set;}
-    public Position position;
 
+    public List<Unit> units {get;}
+    
+    private int move;
+    private int remainingMove;
+    // todo it's probably better to store move and remaining move only in Unit (tile movement bonuses will cause problems)
+    
+    public Position position {get; private set;}
+    public HashSet<string> pathfindingTypes {get; private set;}
+    
+    // todo add something to store path/orders/something like that
+    
     private GameObject mapSprite;
 
     public Army(List<Unit> units, Position position)
@@ -28,12 +33,11 @@ public class Army
         Recalculate();
     }
 
-
     // todo change name to something more descriptive 
     // (function is called everytime the unit list changes, to refresh the army move, remaining move and sprite)
     private void Recalculate()
     {
-        this.units.Sort((o1, o2) => o1.strength.CompareTo(o2.strength));
+        units.Sort((unit1, unit2) => unit1.strength.CompareTo(unit2.strength));
         // units are sorted from weakest to strongest for now (todo change this when implementing custom unit orders)
 
         Unit strongestUnit = units[0];

@@ -7,12 +7,13 @@ using Newtonsoft.Json.Linq;
 
 public class TileData
 {
-    public string name;
-    public string description;
-    public HashSet<string> pathfindingTypes;  // todo change to a set maybe?
-    public float moveCost;
-    public Texture2D texture;
+    public string name {get;}
+    public string description {get;}
+    public Texture2D texture {get;}
 
+    public float moveCost {get;}
+    public HashSet<string> pathfindingTypes {get;}
+    
     public TileData(string jsonPath)
     {
         string json = File.ReadAllText(jsonPath);
@@ -34,7 +35,7 @@ public class TileData
             pathfindingTypes.Add(pathfindingType);
         }
 
-        moveCost = (float)jObject.GetValue("moveCost");   
+        moveCost = (float)jObject.GetValue("moveCost");
     }
 
     public override string ToString()

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Tile  // todo change to struct maybe?
 {
-    public TileData data;
-    public TileContents contents;
+    public TileData data {get;}
+    public TileContents contents {get;}
 
     public Tile(TileData tileData)
     {

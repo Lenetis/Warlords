@@ -9,12 +9,12 @@ public class MouseSelection : MonoBehaviour
     
     private List<Position> pathSteps;
     private List<GameObject> pathMarkers;
-
     private Position previousPathGoal;
 
     private TileMap tileMap;
 
     private Army selectedArmy;  // todo add option to select one army when there are many on the same tile
+
     void Start()
     {
         tileMap = FindObjectOfType<TileMap>();
