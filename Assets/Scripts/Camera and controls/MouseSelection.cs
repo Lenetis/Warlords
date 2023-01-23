@@ -52,8 +52,8 @@ public class MouseSelection : MonoBehaviour
 
                 } else if (Input.GetButton("Move")) {
                     if (previousPathGoal != hitPosition) {
-                        pathSteps = tileMap.FindPath(selectedArmy.position, hitPosition, selectedArmy.pathfindingTypes);
                         ClearPath();
+                        pathSteps = tileMap.FindPath(selectedArmy.position, hitPosition, selectedArmy.pathfindingTypes);
                         DrawPath();
                         previousPathGoal = hitPosition;
                     }
@@ -62,6 +62,13 @@ public class MouseSelection : MonoBehaviour
                 if (Input.GetButtonDown("Info")) {
                    Debug.Log(highlightedTile);
                 }
+            }
+        } else {
+            if (pathSteps != null) {
+                ClearPath();
+
+                previousPathGoal = new Position(-1, -1);
+                // kinda hacky, but this is to ensure the next path after mouse returns to legal position (over TileMap collider) will always be calculated
             }
         }
     }
@@ -80,5 +87,7 @@ public class MouseSelection : MonoBehaviour
         foreach (GameObject go in pathMarkers) {
             Destroy(go);
         }
+        pathMarkers.Clear();
+        pathSteps = null;
     }
 }
