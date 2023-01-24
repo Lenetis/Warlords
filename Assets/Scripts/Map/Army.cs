@@ -17,7 +17,13 @@ public class Army
     public Position position {get; private set;}
     public HashSet<string> pathfindingTypes {get; private set;}
     
-    // todo add something to store path/orders/something like that
+    private List<Position> path;
+
+    private bool moving;
+
+    private IEnumerator moveCoroutine;
+
+    private TileMap tileMap;
     
     private GameObject mapSprite;
 
@@ -29,6 +35,8 @@ public class Army
         mapSprite = new GameObject("Army");
         mapSprite.transform.position = position;
         mapSprite.AddComponent<SpriteRenderer>();
+
+        tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
 
         Recalculate();
     }
@@ -71,16 +79,39 @@ public class Army
         }
     }
 
-    public void Move(Position newPosition)
+    public void SetPath(List<Position> path)
     {
-        TileMap tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
+        if (moving) {
+            tileMap.StopCoroutine(moveCoroutine);
+            moving = false;
+        }
+        this.path = path;
+    }
 
-        tileMap.GetTile(position).contents.RemoveArmy(this);
-        tileMap.GetTile(newPosition).contents.AddArmy(this);
+    public void Move()
+    {
+        if (!moving && path != null) {
+            moving = true;
+            moveCoroutine = MoveCoroutine();
+            tileMap.StartCoroutine(moveCoroutine);
+        }
+    }
+    
+    private IEnumerator MoveCoroutine()
+    {
+        while (moving && path.Count > 0 && true) {  // todo replace "true" with check if all units have enough movement points
+            yield return new WaitForSeconds(0.2f);
+            Position nextPosition = path[0];
+            // todo maybe check if nextPosition is adjacent to the current position?
+            tileMap.GetTile(position).contents.RemoveArmy(this);
+            tileMap.GetTile(nextPosition).contents.AddArmy(this);
+            position = nextPosition;
+            mapSprite.transform.position = nextPosition;
+            path.RemoveAt(0);
 
-        position = newPosition;
-        mapSprite.transform.position = newPosition;
-        // todo don't do it like that because there will be problems if there is no room for more units on target tile
+            // todo check if there is room for more units on nextPosition tile
+        }
+        moving = false;
     }
 
     public override string ToString()

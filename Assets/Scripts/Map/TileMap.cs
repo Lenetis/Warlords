@@ -59,6 +59,7 @@ public class TileMap : MonoBehaviour
         }
 
         // todo tmp
+        tiles[1, 1] = new Tile(availableTiles[1]);
         List<Unit> tmpUnitList = new List<Unit>();
         tmpUnitList.Add(new Unit("Assets/Resources/Units/scout.json"));
         tmpUnitList.Add(new Unit("Assets/Resources/Units/knight.json"));
@@ -67,6 +68,7 @@ public class TileMap : MonoBehaviour
         tmpArmy = new Army(tmpUnitList, new Position(1, 1));
         tiles[1, 1].contents.AddArmy(tmpArmy);
 
+        tiles[2, 2] = new Tile(availableTiles[0]);
         List<Unit> tmpUnitList2 = new List<Unit>();
         tmpUnitList2.Add(new Unit("Assets/Resources/Units/okoń.json"));
         tmpUnitList2.Add(new Unit("Assets/Resources/Units/okoń.json"));
