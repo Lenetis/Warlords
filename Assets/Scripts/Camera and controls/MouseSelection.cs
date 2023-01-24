@@ -58,7 +58,7 @@ public class MouseSelection : MonoBehaviour
                     // kinda hacky, but this is to ensure the next path after move will always be calculated, no matter if the position is the same or not
 
                 } else if (Input.GetButton("Move")) {
-                    if (previousPathGoal != hitPosition) {
+                    if (previousPathGoal != hitPosition || pathSteps != null && pathSteps[0] != selectedArmy.position) {
                         ClearPath();
                         pathSteps = tileMap.FindPath(selectedArmy.position, hitPosition, selectedArmy.pathfindingTypes);
                         DrawPath();
