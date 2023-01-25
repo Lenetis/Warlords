@@ -50,6 +50,31 @@ public class MainMenu : MonoBehaviour
     public Sprite[] playerTypeSprites = new Sprite[5];
     public Image[] playerTypeImage = new Image[8];
 
+    //Game Options
+
+    
+    public GameObject gameOptionsPanel;
+    public GameObject raycastBlocker;
+
+    /*TODO
+    public Dictionary<int, string> neutralCities = new Dictionary<int, string>{
+            { 0, "Average" },
+            { 1, "Strong" },
+            { 2, "Active" }
+        };
+
+    public bool quests=false;
+    public bool viewEnemies = true;
+    public bool diplomacy = false;
+    public bool hiddenMap = false;
+    public bool viewProduction = true;
+
+    public bool intenseCombat = false;
+    public bool militaryAdvisor = true;
+    public bool quickStart = false;
+    public bool randomTurns = false;
+    */
+
     //Audio
 
     public AudioSource audioSource;
@@ -247,6 +272,20 @@ public class MainMenu : MonoBehaviour
             playerTypeImage[i].sprite = playerTypeSprites[3];
         }
         
+    }
+
+    public void ShowGameOptionsPanel()
+    {
+        gameOptionsPanel.SetActive(true);
+        raycastBlocker.SetActive(true);
+
+    }
+
+    public void HideGameOptionsPanel()
+    {
+        gameOptionsPanel.SetActive(false);
+        raycastBlocker.SetActive(false);
+
     }
 
 }
