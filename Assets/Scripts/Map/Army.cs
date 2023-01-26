@@ -17,7 +17,7 @@ public class Army
     public Position position {get; private set;}
     public HashSet<string> pathfindingTypes {get; private set;}
     
-    private List<Position> path;
+    public List<Position> path {get; private set;}
 
     private bool moving;
 

@@ -83,6 +83,12 @@ public class MouseSelection : MonoBehaviour
             } else {
                 if (Input.GetButtonDown("Info")) {
                    Debug.Log(highlightedTile);
+                   if (highlightedTile.contents != null && highlightedTile.contents.armies != null) {
+                       pathSteps = highlightedTile.contents.armies[0].path;
+                       DrawPath();
+                   }
+                } else if (Input.GetButtonUp("Info")) {
+                    ClearPath();
                 }
             }
         } else {
