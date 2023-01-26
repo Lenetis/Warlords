@@ -56,31 +56,35 @@ public class MainMenu : MonoBehaviour
     public GameObject gameOptionsPanel;
     public GameObject raycastBlocker;
 
-    /*TODO
+    
     public Dictionary<int, string> neutralCities = new Dictionary<int, string>{
             { 0, "Average" },
             { 1, "Strong" },
             { 2, "Active" }
         };
+    public int currentNeutralCities = 0;
 
-    public bool quests=false;
-    public bool viewEnemies = true;
-    public bool diplomacy = false;
-    public bool hiddenMap = false;
-    public bool viewProduction = true;
+    public bool[] gameOptionsBool = {false, true, false, false, true, false, true, false, false};
+    public TextMeshProUGUI[] gameOptionsText = new TextMeshProUGUI[10];
 
-    public bool intenseCombat = false;
-    public bool militaryAdvisor = true;
-    public bool quickStart = false;
-    public bool randomTurns = false;
+    /*/   gameOptionsBool   \*\  
+    0 = quests = false;
+    1 = viewEnemies = true;
+    2 = diplomacy = false;
+    3 = hiddenMap = false;
+    4 = viewProduction = true;
+
+    5 = intenseCombat = false;
+    6 = militaryAdvisor = true;
+    7 = quickStart = false;
+    8 = randomTurns = false;
     */
 
-    //Audio
+    // Audio
+    public GameObject audioSource;
 
-    public AudioSource audioSource;
-    public bool isPlayingMusic = false;
-    public float counter;
 
+    /*
     // Start is called before the first frame update
     void Start()
     {
@@ -91,15 +95,10 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        counter += Time.deltaTime;
-        if (counter >= 5 && isPlayingMusic == false)
-        {
-            audioSource.GetComponent<AudioSource>().Play();
-            isPlayingMusic = true;
-        }
+ 
 
     }
-
+    */
 
     public void ShowRandomMapPanel()
     {
@@ -202,6 +201,7 @@ public class MainMenu : MonoBehaviour
     public void ShowMainMenuPanel()
     {
         beginPanel.SetActive(false);
+        audioSource.GetComponent<AudioSource>().Play();
 
     }
 
@@ -286,6 +286,39 @@ public class MainMenu : MonoBehaviour
         gameOptionsPanel.SetActive(false);
         raycastBlocker.SetActive(false);
 
+    }
+
+    public void SetGameOption(int value)
+    {
+        if (value == 9)
+        {
+            if (currentNeutralCities < 2)
+            {
+                currentNeutralCities++;
+            }
+            else
+            {
+                currentNeutralCities = 0;
+            }
+
+            gameOptionsText[9].text = neutralCities[currentNeutralCities];
+        }
+        else
+        {
+            if (gameOptionsBool[value] == false)
+            {
+
+                gameOptionsText[value].text = "On";
+                gameOptionsBool[value] = true;
+            }
+            else
+            {
+
+                gameOptionsText[value].text = "Off";
+                gameOptionsBool[value] = false;
+            }
+        }
+        
     }
 
 }
