@@ -6,9 +6,9 @@ using System.Linq;
 
 public class Army
 {
-    public int owner = 0;  // todo
-
     public List<Unit> units {get;}
+
+    public Player owner {get;}
     
     private int move;
     private int remainingMove;
@@ -27,16 +27,19 @@ public class Army
     
     private GameObject mapSprite;
 
-    public Army(List<Unit> units, Position position)
+    public Army(List<Unit> units, Position position, Player owner)
     {
         this.units = units;
         this.position = position;
+        this.owner = owner;
 
         mapSprite = new GameObject("Army");
         mapSprite.transform.position = position;
         mapSprite.AddComponent<SpriteRenderer>();
 
         tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
+
+        owner.AddArmy(this);
 
         Recalculate();
     }
@@ -67,7 +70,9 @@ public class Army
 
         Texture2D texture = strongestUnit.texture;
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), 32);
-        mapSprite.GetComponent<SpriteRenderer>().sprite = sprite;
+        SpriteRenderer spriteRenderer = mapSprite.GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = sprite;
+        spriteRenderer.color = owner.color;  // todo change the recoloring to something more fancy
 
         pathfindingTypes = new HashSet<string>(units[0].pathfindingTypes);
         foreach (Unit unit in units.Skip(1)) {
@@ -85,7 +90,14 @@ public class Army
             tileMap.StopCoroutine(moveCoroutine);
             moving = false;
         }
-        this.path = path;
+        
+        // a non-null path has to start from the army position
+        if (path == null || path[0] != position) {
+            this.path = null;
+        } else {
+            this.path = path;
+            this.path.RemoveAt(0);  // skip the first element because we don't need to move to where we already are
+        }
     }
 
     public void Move()
@@ -99,12 +111,37 @@ public class Army
     
     private IEnumerator MoveCoroutine()
     {
-        while (moving && path.Count > 0 && true) {  // todo replace "true" with check if all units have enough movement points
+        foreach(Unit unit in units) {
+            if (unit.remainingMove <= 0) {
+                moving = false;
+                yield break;
+            }
+        }
+
+        while (moving && path.Count > 0) {
             yield return new WaitForSeconds(0.2f);
             Position nextPosition = path[0];
             // todo maybe check if nextPosition is adjacent to the current position?
-            tileMap.GetTile(position).contents.RemoveArmy(this);
-            tileMap.GetTile(nextPosition).contents.AddArmy(this);
+
+            Tile currentTile = tileMap.GetTile(position);
+            Tile nextTile = tileMap.GetTile(nextPosition);
+
+            foreach(Unit unit in units) {  // todo maybe move this to a separate method?
+                if (unit.remainingMove - nextTile.data.moveCost < 0) {
+                    moving = false;
+                    break;
+                }
+            }
+            if (!moving) {
+                break;
+            }
+            foreach(Unit unit in units) {
+                unit.remainingMove -= nextTile.data.moveCost;
+            }
+
+            currentTile.contents.RemoveArmy(this);
+            nextTile.contents.AddArmy(this);
+
             position = nextPosition;
             mapSprite.transform.position = nextPosition;
             path.RemoveAt(0);
@@ -112,6 +149,13 @@ public class Army
             // todo check if there is room for more units on nextPosition tile
         }
         moving = false;
+    }
+
+    public void StartTurn()
+    {
+        foreach (Unit unit in units) {
+            unit.StartTurn();
+        }
     }
 
     public override string ToString()

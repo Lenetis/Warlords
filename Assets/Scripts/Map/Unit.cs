@@ -12,7 +12,7 @@ public class Unit
 
     public int strength {get;}
     public int move {get;}
-    public int remainingMove {get;}
+    public int remainingMove {get; set;}
     public HashSet<string> pathfindingTypes {get;}
     public int upkeep {get;}
     
@@ -38,6 +38,13 @@ public class Unit
         strength = (int)jObject.GetValue("strength");
         move = (int)jObject.GetValue("move");
         upkeep = (int)jObject.GetValue("upkeep");
+
+        remainingMove = move;
+    }
+
+    public void StartTurn()
+    {
+        remainingMove = move;
     }
 
     public override string ToString()

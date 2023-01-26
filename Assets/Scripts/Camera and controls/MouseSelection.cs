@@ -11,19 +11,31 @@ public class MouseSelection : MonoBehaviour
     private List<GameObject> pathMarkers;
     private Position previousPathGoal;
 
-    private TileMap tileMap;
-
     private Army selectedArmy;  // todo add option to select one army when there are many on the same tile
+
+    private TileMap tileMap;
+    private GameController gameController;
 
     void Start()
     {
         tileMap = FindObjectOfType<TileMap>();
+        gameController = FindObjectOfType<GameController>();
 
         pathMarkers = new List<GameObject>();
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.T)) {
+            gameController.Turn();
+            if (selectedArmy != null && selectedArmy.owner != gameController.activePlayer) {
+                selectedArmy = null;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.M)) {
+            gameController.activePlayer.MoveAll();
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
 
@@ -39,6 +51,9 @@ public class MouseSelection : MonoBehaviour
             if (Input.GetButtonDown("Select")) {
                 if (highlightedTile.contents != null && highlightedTile.contents.armies != null) {
                     selectedArmy = highlightedTile.contents.armies[0];
+                    if (selectedArmy.owner != gameController.activePlayer) {
+                        selectedArmy = null;
+                    }
                 } else {
                     selectedArmy = null;
                 }

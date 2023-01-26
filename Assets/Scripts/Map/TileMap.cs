@@ -59,22 +59,32 @@ public class TileMap : MonoBehaviour
         }
 
         // todo tmp
+        Player player1 = new Player("Summoners", Color.cyan);
         tiles[1, 1] = new Tile(availableTiles[1]);
         List<Unit> tmpUnitList = new List<Unit>();
         tmpUnitList.Add(new Unit("Assets/Resources/Units/scout.json"));
         tmpUnitList.Add(new Unit("Assets/Resources/Units/knight.json"));
         tmpUnitList.Add(new Unit("Assets/Resources/Units/scout.json"));
         Army tmpArmy;
-        tmpArmy = new Army(tmpUnitList, new Position(1, 1));
+        tmpArmy = new Army(tmpUnitList, new Position(1, 1), player1);
         tiles[1, 1].contents.AddArmy(tmpArmy);
 
+        Player player2 = new Player("Magicians", Color.white);
         tiles[2, 2] = new Tile(availableTiles[0]);
         List<Unit> tmpUnitList2 = new List<Unit>();
         tmpUnitList2.Add(new Unit("Assets/Resources/Units/okoń.json"));
         tmpUnitList2.Add(new Unit("Assets/Resources/Units/okoń.json"));
         Army tmpArmy2;
-        tmpArmy2 = new Army(tmpUnitList2, new Position(2, 2));
+        tmpArmy2 = new Army(tmpUnitList2, new Position(2, 2), player2);
         tiles[2, 2].contents.AddArmy(tmpArmy2);
+
+        Player player3 = new Player("Necromancers", Color.red);
+        tiles[5, 5] = new Tile(availableTiles[1]);
+        List<Unit> tmpUnitList3 = new List<Unit>();
+        tmpUnitList3.Add(new Unit("Assets/Resources/Units/scout.json"));
+        Army tmpArmy3;
+        tmpArmy3 = new Army(tmpUnitList3, new Position(5, 5), player3);
+        tiles[5, 5].contents.AddArmy(tmpArmy3);
     }
 
     void GenerateMesh()

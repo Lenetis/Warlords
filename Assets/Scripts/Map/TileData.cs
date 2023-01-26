@@ -11,7 +11,7 @@ public class TileData
     public string description {get;}
     public Texture2D texture {get;}
 
-    public float moveCost {get;}
+    public int moveCost {get;}
     public HashSet<string> pathfindingTypes {get;}
     
     public TileData(string jsonPath)
@@ -35,7 +35,7 @@ public class TileData
             pathfindingTypes.Add(pathfindingType);
         }
 
-        moveCost = (float)jObject.GetValue("moveCost");
+        moveCost = (int)jObject.GetValue("moveCost");
     }
 
     public override string ToString()
