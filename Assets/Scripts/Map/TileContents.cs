@@ -4,9 +4,12 @@ using System.Collections.Generic;
 public class TileContents
 {
     public List<Army> armies {get; private set;}
+    public City city {get; set;}
+    // todo maybe change this to a superclass (e.g. Structure) and make all cities/roads?/temples/ports inherit from it?
+    //  (because there cannot be more than one of these on the same tile)
+
     // items
     // road ??  -- maybe in TileData
-    // city
     // port
     // temple/ruins
     // maybe something else
@@ -43,8 +46,11 @@ public class TileContents
         string toReturn = "";
         if (armies != null) {
             foreach (Army army in armies){
-                toReturn += $"Army: {army}";
+                toReturn += $"Army: {army} ";
             }
+        }
+        if (city != null) {
+            toReturn += $"City: {city}";
         }
         return toReturn;
     }

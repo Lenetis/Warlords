@@ -127,7 +127,7 @@ public class Army
             Tile nextTile = tileMap.GetTile(nextPosition);
 
             foreach(Unit unit in units) {  // todo maybe move this to a separate method?
-                if (unit.remainingMove - nextTile.data.moveCost < 0) {
+                if (unit.remainingMove - nextTile.moveCost < 0) {
                     moving = false;
                     break;
                 }
@@ -136,7 +136,7 @@ public class Army
                 break;
             }
             foreach(Unit unit in units) {
-                unit.remainingMove -= nextTile.data.moveCost;
+                unit.remainingMove -= nextTile.moveCost;
             }
 
             currentTile.contents.RemoveArmy(this);

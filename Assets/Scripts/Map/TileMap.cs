@@ -4,7 +4,6 @@ using UnityEngine;
 
 using static System.Math;
 
-
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshCollider))]
@@ -59,7 +58,7 @@ public class TileMap : MonoBehaviour
         }
 
         // todo tmp
-        Player player1 = new Player("Summoners", Color.cyan);
+        Player player1 = new Player("Assets/Resources/Players/defaultPlayer.json", "Summoners", Color.cyan);
         tiles[1, 1] = new Tile(availableTiles[1]);
         List<Unit> tmpUnitList = new List<Unit>();
         tmpUnitList.Add(new Unit("Assets/Resources/Units/scout.json"));
@@ -69,7 +68,7 @@ public class TileMap : MonoBehaviour
         tmpArmy = new Army(tmpUnitList, new Position(1, 1), player1);
         tiles[1, 1].contents.AddArmy(tmpArmy);
 
-        Player player2 = new Player("Magicians", Color.white);
+        Player player2 = new Player("Assets/Resources/Players/defaultPlayer.json", "Magicians", Color.white);
         tiles[2, 2] = new Tile(availableTiles[0]);
         List<Unit> tmpUnitList2 = new List<Unit>();
         tmpUnitList2.Add(new Unit("Assets/Resources/Units/okoń.json"));
@@ -78,13 +77,15 @@ public class TileMap : MonoBehaviour
         tmpArmy2 = new Army(tmpUnitList2, new Position(2, 2), player2);
         tiles[2, 2].contents.AddArmy(tmpArmy2);
 
-        Player player3 = new Player("Necromancers", Color.red);
+        Player player3 = new Player("Assets/Resources/Players/defaultPlayer.json", "Necromancers", Color.red);
         tiles[5, 5] = new Tile(availableTiles[1]);
         List<Unit> tmpUnitList3 = new List<Unit>();
         tmpUnitList3.Add(new Unit("Assets/Resources/Units/scout.json"));
         Army tmpArmy3;
         tmpArmy3 = new Army(tmpUnitList3, new Position(5, 5), player3);
         tiles[5, 5].contents.AddArmy(tmpArmy3);
+
+        City city = new City("Assets/Resources/Cities/city.json", new Position(10, 10), player3);
     }
 
     void GenerateMesh()
@@ -137,7 +138,7 @@ public class TileMap : MonoBehaviour
 
         for (int x = 0; x < width; x += 1) {
             for (int y = 0; y < height; y += 1) {
-                Color[] pixels = tiles[x, y].data.texture.GetPixels(0, 0, tileSize, tileSize);
+                Color[] pixels = tiles[x, y].texture.GetPixels(0, 0, tileSize, tileSize);
                 texture.SetPixels(x * tileSize, y * tileSize, tileSize, tileSize, pixels);
             }
         }
@@ -146,13 +147,13 @@ public class TileMap : MonoBehaviour
         meshRenderer.material.mainTexture = texture;
     }
 
-    private List<Position> ReconstructPath(Dictionary<Position, Position> cameFrom, Position current)
+    private List<Position> ReconstructPath(Dictionary<Position, Position> cameFrom, Position currentPosition)
     {
         List<Position> completePath = new List<Position>();
-        completePath.Add(current);
-        while (cameFrom.ContainsKey(current)) {
-            current = cameFrom[current];
-            completePath.Insert(0, current);
+        completePath.Add(currentPosition);
+        while (cameFrom.ContainsKey(currentPosition)) {
+            currentPosition = cameFrom[currentPosition];
+            completePath.Insert(0, currentPosition);
         }
         return completePath;
     }
@@ -161,12 +162,12 @@ public class TileMap : MonoBehaviour
         return Max(Abs(pos.x - goal.x), Abs(pos.y - goal.y));
     }
 
-    public List<Position> FindPath(Position start, Position goal, HashSet<string> pathfindingTypes)
+    public List<Position> FindPath(Position start, Position goal, Army army)
     {
-        if (!GetTile(start).data.pathfindingTypes.Overlaps(pathfindingTypes)){
+        if (!GetTile(start).pathfindingTypes.Overlaps(army.pathfindingTypes)){
             return null;
         }
-        if (!GetTile(goal).data.pathfindingTypes.Overlaps(pathfindingTypes)){
+        if (!GetTile(goal).pathfindingTypes.Overlaps(army.pathfindingTypes)){
             return null;
         }
         // todo maybe add checks if the goal is not on a very small unreachable island (BFS from goal position with max radius=3 for example)
@@ -198,36 +199,32 @@ public class TileMap : MonoBehaviour
             // This operation can occur in O(Log(N)) time if openSet is a min-heap or a priority queue -- todo            
             // choose position with the lowest fScore
             int minScore = int.MaxValue;
-            Position current = openList[0];
+            Position currentPosition = openList[0];
             foreach (Position pos in openList) {
                 if (fScore[pos] < minScore) {
                     minScore = fScore[pos];
-                    current = pos;
+                    currentPosition = pos;
                 }
             }
             
-            if (current == goal) {
-                return ReconstructPath(cameFrom, current);
+            if (currentPosition == goal) {
+                return ReconstructPath(cameFrom, currentPosition);
             }
 
-            openList.Remove(current);
-            foreach (Position neighbour in GetNeighbouringPositions(current)) {
-                if (GetTile(neighbour).data.pathfindingTypes.Overlaps(pathfindingTypes)) {
+            openList.Remove(currentPosition);
+            foreach (Position neighbourPosition in GetNeighbouringPositions(currentPosition)) {
+                Tile neighbourTile = GetTile(neighbourPosition);
+                if ((neighbourTile.owner == null || neighbourTile.owner == army.owner) && neighbourTile.pathfindingTypes.Overlaps(army.pathfindingTypes)) {
 
-                    // d(current,neighbor) is the weight of the edge from current to neighbor
                     // tentativeGScore is the distance from start to the neighbor through current
-                    int tentativeGScore = gScore[current] + (int)GetTile(neighbour).data.moveCost;
-                    if (!gScore.ContainsKey(neighbour) || tentativeGScore < gScore[neighbour]) {
+                    int tentativeGScore = gScore[currentPosition] + neighbourTile.moveCost;
+                    if (!gScore.ContainsKey(neighbourPosition) || tentativeGScore < gScore[neighbourPosition]) {
                         // This path to neighbor is better than any previous one. Record it!
-                        cameFrom[neighbour] = current;
-                        gScore[neighbour] = tentativeGScore;
-                        fScore[neighbour] = tentativeGScore + Heuristic(neighbour, goal);
-                        if (!openList.Contains(neighbour)) {
-                            openList.Add(neighbour);
-                        }
-
-                        if (current == goal) {
-                            return ReconstructPath(cameFrom, current);
+                        cameFrom[neighbourPosition] = currentPosition;
+                        gScore[neighbourPosition] = tentativeGScore;
+                        fScore[neighbourPosition] = tentativeGScore + Heuristic(neighbourPosition, goal);
+                        if (!openList.Contains(neighbourPosition)) {
+                            openList.Add(neighbourPosition);
                         }
                     }
                 }

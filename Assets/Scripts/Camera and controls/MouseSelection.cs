@@ -62,7 +62,7 @@ public class MouseSelection : MonoBehaviour
             if (selectedArmy != null) {
                 if (Input.GetButtonUp("Move")) {
                     if (pathSteps != null && pathSteps[0] != selectedArmy.position) {
-                        pathSteps = tileMap.FindPath(selectedArmy.position, hitPosition, selectedArmy.pathfindingTypes);
+                        pathSteps = tileMap.FindPath(selectedArmy.position, hitPosition, selectedArmy);
                     }
                     selectedArmy.SetPath(pathSteps);
                     selectedArmy.Move();
@@ -75,7 +75,7 @@ public class MouseSelection : MonoBehaviour
                 } else if (Input.GetButton("Move")) {
                     if (previousPathGoal != hitPosition || pathSteps != null && pathSteps[0] != selectedArmy.position) {
                         ClearPath();
-                        pathSteps = tileMap.FindPath(selectedArmy.position, hitPosition, selectedArmy.pathfindingTypes);
+                        pathSteps = tileMap.FindPath(selectedArmy.position, hitPosition, selectedArmy);
                         DrawPath();
                         previousPathGoal = hitPosition;
                     }
@@ -89,6 +89,12 @@ public class MouseSelection : MonoBehaviour
                    }
                 } else if (Input.GetButtonUp("Info")) {
                     ClearPath();
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.R) && highlightedTile.contents != null && highlightedTile.contents.city != null) {
+                if (highlightedTile.contents.city.owner == gameController.activePlayer) {
+                    highlightedTile.contents.city.Raze();
                 }
             }
         } else {

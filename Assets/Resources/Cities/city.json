@@ -1,0 +1,12 @@
+{
+    "occupiedPositions": [
+        [0, 0],
+        [0, 1],
+        [1, 0],
+        [1, 1]
+    ],
+    "buildableUnits": ["todo"],
+    "strengthBonus": 2,
+    "moveCost": 1,
+    "pathfindingTypes": ["land", "sea", "air"]
+}
