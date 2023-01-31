@@ -22,6 +22,8 @@ public class TileMap : MonoBehaviour
 
     private Tile[,] tiles;
 
+    public Texture2D miniMapTexture;
+
     void Start()
     {
         tiles = new Tile[width, height];
@@ -145,6 +147,7 @@ public class TileMap : MonoBehaviour
         texture.Apply();
 
         meshRenderer.material.mainTexture = texture;
+        miniMapTexture = texture;
     }
 
     private List<Position> ReconstructPath(Dictionary<Position, Position> cameFrom, Position currentPosition)

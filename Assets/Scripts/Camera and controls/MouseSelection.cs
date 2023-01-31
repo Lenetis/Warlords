@@ -16,12 +16,18 @@ public class MouseSelection : MonoBehaviour
     private TileMap tileMap;
     private GameController gameController;
 
+    //UI
+    public GameObject cam;
+    public GameObject displayArea;
+    public GameObject gui;
+
     void Start()
     {
         tileMap = FindObjectOfType<TileMap>();
         gameController = FindObjectOfType<GameController>();
 
         pathMarkers = new List<GameObject>();
+        cam.SetActive(true);
     }
 
     void Update()
@@ -36,7 +42,22 @@ public class MouseSelection : MonoBehaviour
             gameController.activePlayer.MoveAll();
         }
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        float dispAreaWidth = (displayArea.GetComponent<RectTransform>().anchorMax.x - displayArea.GetComponent<RectTransform>().anchorMin.x) * Screen.width + displayArea.GetComponent<RectTransform>().sizeDelta.x * gui.GetComponent<Canvas>().scaleFactor;
+        float dispAreaHeight = (displayArea.GetComponent<RectTransform>().anchorMax.y - displayArea.GetComponent<RectTransform>().anchorMin.y) * Screen.height + displayArea.GetComponent<RectTransform>().sizeDelta.y * gui.GetComponent<Canvas>().scaleFactor;
+        float dispAreaPosX = displayArea.GetComponent<RectTransform>().position.x;
+        float dispAreaPosY = displayArea.GetComponent<RectTransform>().position.y;
+        float dispAreaOriginX= dispAreaPosX - (dispAreaWidth / 2);
+        float dispAreaOriginY = dispAreaPosY - (dispAreaHeight / 2);
+
+        float screenOffset = (Screen.width - Screen.height)/2;
+        float screenWidth = Screen.width - (Screen.width - Screen.height);
+
+        float mousePosXNormalized = (Input.mousePosition.x - dispAreaOriginX) / dispAreaWidth;
+        float mousePosYNormalized = (Input.mousePosition.y - dispAreaOriginY) / dispAreaHeight;
+
+        Vector3 mousePos = new Vector3((mousePosXNormalized * screenWidth)+screenOffset, (mousePosYNormalized * Screen.height), 0);
+
+        Ray ray = Camera.main.ScreenPointToRay(mousePos);
         RaycastHit hitInfo;
 
         if (Physics.Raycast(ray, out hitInfo)) {
