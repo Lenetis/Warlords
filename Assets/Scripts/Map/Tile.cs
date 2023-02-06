@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tile  // todo change to struct maybe?
 {
-    private TileData data;
+    public TileData data;
     public TileContents contents {get;}  // todo change this to private as well
 
     public Texture2D texture

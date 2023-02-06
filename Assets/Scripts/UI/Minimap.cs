@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class GUI : MonoBehaviour
+public class Minimap : MonoBehaviour
 {
     public TileMap tileMap;
     public Texture2D tileMapTexture;

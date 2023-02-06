@@ -20,6 +20,7 @@ public class MouseSelection : MonoBehaviour
     public GameObject cam;
     public GameObject displayArea;
     public GameObject gui;
+    public Tile highlightedTile;
 
     void Start()
     {
@@ -67,7 +68,9 @@ public class MouseSelection : MonoBehaviour
 
             selectionMarker.transform.position = hitPosition;
 
-            Tile highlightedTile = tileMap.GetTile(hitPosition);
+            highlightedTile = tileMap.GetTile(hitPosition);
+
+            //Debug.Log(highlightedTile.data.name);
 
             if (Input.GetButtonDown("Select")) {
                 if (highlightedTile.contents != null && highlightedTile.contents.armies != null) {
