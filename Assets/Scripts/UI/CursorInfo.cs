@@ -13,6 +13,9 @@ public class CursorInfo : MonoBehaviour
     public TextMeshProUGUI objectName;
     public TextMeshProUGUI objectDescription;
 
+    public GameObject displayArea;
+    public bool isOverDispArea;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +25,38 @@ public class CursorInfo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(1)){
+        //can be done once if using fixed size window
+        float dispAreaWidth = (displayArea.GetComponent<RectTransform>().anchorMax.x - displayArea.GetComponent<RectTransform>().anchorMin.x) * Screen.width + displayArea.GetComponent<RectTransform>().sizeDelta.x * gui.GetComponent<Canvas>().scaleFactor;
+        float dispAreaHeight = (displayArea.GetComponent<RectTransform>().anchorMax.y - displayArea.GetComponent<RectTransform>().anchorMin.y) * Screen.height + displayArea.GetComponent<RectTransform>().sizeDelta.y * gui.GetComponent<Canvas>().scaleFactor;
+        float dispAreaPosX = displayArea.GetComponent<RectTransform>().position.x;
+        float dispAreaPosY = displayArea.GetComponent<RectTransform>().position.y;
+        float dispAreaOriginX = dispAreaPosX - (dispAreaWidth / 2);
+        float dispAreaOriginY = dispAreaPosY - (dispAreaHeight / 2);
+        float dispAreaEndX = dispAreaPosX + (dispAreaWidth / 2);
+        float dispAreaEndY = dispAreaPosY + (dispAreaHeight / 2);
+
+
+        if(Input.mousePosition.x>= dispAreaOriginX&& Input.mousePosition.x<= dispAreaEndX)
+        {
+            if (Input.mousePosition.y >= dispAreaOriginY && Input.mousePosition.y <= dispAreaEndY)
+            {
+                isOverDispArea = true;
+            }
+            else
+            {
+                isOverDispArea = false;
+            }
+        }
+        else
+        {
+            isOverDispArea = false;
+        }
+
+
+        //Debug.Log(dispAreaOriginX+" "+Input.mousePosition.x);
+
+        if (Input.GetMouseButton(1)&& isOverDispArea)
+        {
             objectName.text = mouseSelection.highlightedTile.data.name;
             objectDescription.text = mouseSelection.highlightedTile.data.description;
             //Debug.Log(gameObject.GetComponent<RectTransform>().anchoredPosition.x * gui.GetComponent<Canvas>().scaleFactor);

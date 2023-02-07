@@ -11,9 +11,12 @@ public class CameraController : MonoBehaviour
     private bool cameraPanButtonPressed;
     private Vector2 mousePosition;
 
+    public GameObject camUI;
+
     void Start()
     {
         cameraPanButtonPressed = false;
+        
     }
 
     void Update()
@@ -26,9 +29,52 @@ public class CameraController : MonoBehaviour
             cameraPanButtonPressed = false;
         }
 
+
         if (cameraPanButtonPressed){
+
             Vector2 newMousePosition = Input.mousePosition;
-            transform.Translate((mousePosition - newMousePosition) * panSpeed * -transform.position.z);
+            Vector2 diffPos = (mousePosition -newMousePosition) *panSpeed * - transform.position.z;
+
+            if (camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, 0, Mathf.Abs(camUI.transform.position.z))).x <= 0)
+            {
+                Debug.Log("-X");
+                if(diffPos.x<0)
+                {
+                    diffPos.x = 0;
+                }
+            }
+                
+            if (camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1, 0, Mathf.Abs(camUI.transform.position.z))).x >= 80)
+            {
+                Debug.Log("X");
+                if (diffPos.x > 0)
+                {
+                    diffPos.x = 0;
+                }
+            }
+                
+            if (camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, 0, Mathf.Abs(camUI.transform.position.z))).y <= 0)
+            {
+                Debug.Log("-Y");
+                if (diffPos.y < 0)
+                {
+                    diffPos.y = 0;
+                }
+            }
+                
+            if (camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, 1, Mathf.Abs(camUI.transform.position.z))).y >= 50)
+            {
+                Debug.Log("Y");
+                if (diffPos.y > 0)
+                {
+                    diffPos.y = 0;
+                }
+            }
+            
+            
+            
+            transform.Translate(diffPos);
+            //Debug.Log((mousePosition - newMousePosition) * panSpeed * -transform.position.z);
             // todo this "* -transform.position.z" kinda works for maintaining the same speed with different zoom levels, but I'd like to have something more elegant
 
             mousePosition = newMousePosition;
