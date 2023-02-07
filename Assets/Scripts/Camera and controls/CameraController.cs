@@ -37,7 +37,7 @@ public class CameraController : MonoBehaviour
 
             if (camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, 0, Mathf.Abs(camUI.transform.position.z))).x <= 0)
             {
-                Debug.Log("-X");
+                //Debug.Log("-X");
                 if(diffPos.x<0)
                 {
                     diffPos.x = 0;
@@ -46,7 +46,7 @@ public class CameraController : MonoBehaviour
                 
             if (camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1, 0, Mathf.Abs(camUI.transform.position.z))).x >= 80)
             {
-                Debug.Log("X");
+                //Debug.Log("X");
                 if (diffPos.x > 0)
                 {
                     diffPos.x = 0;
@@ -55,7 +55,7 @@ public class CameraController : MonoBehaviour
                 
             if (camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, 0, Mathf.Abs(camUI.transform.position.z))).y <= 0)
             {
-                Debug.Log("-Y");
+                //Debug.Log("-Y");
                 if (diffPos.y < 0)
                 {
                     diffPos.y = 0;
@@ -64,14 +64,12 @@ public class CameraController : MonoBehaviour
                 
             if (camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, 1, Mathf.Abs(camUI.transform.position.z))).y >= 50)
             {
-                Debug.Log("Y");
+                //Debug.Log("Y");
                 if (diffPos.y > 0)
                 {
                     diffPos.y = 0;
                 }
             }
-            
-            
             
             transform.Translate(diffPos);
             //Debug.Log((mousePosition - newMousePosition) * panSpeed * -transform.position.z);

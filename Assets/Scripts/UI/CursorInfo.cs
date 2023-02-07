@@ -16,6 +16,10 @@ public class CursorInfo : MonoBehaviour
     public GameObject displayArea;
     public bool isOverDispArea;
 
+    public Vector3 mousePosTmp;
+    public bool isMoved;
+    public bool isSaved;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,25 +56,42 @@ public class CursorInfo : MonoBehaviour
             isOverDispArea = false;
         }
 
-
         //Debug.Log(dispAreaOriginX+" "+Input.mousePosition.x);
 
-        if (Input.GetMouseButton(1)&& isOverDispArea)
+        if (Input.GetMouseButton(1) && isOverDispArea)
         {
-            objectName.text = mouseSelection.highlightedTile.data.name;
-            objectDescription.text = mouseSelection.highlightedTile.data.description;
-            //Debug.Log(gameObject.GetComponent<RectTransform>().anchoredPosition.x * gui.GetComponent<Canvas>().scaleFactor);
-            infoPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2(Input.mousePosition.x - Screen.width / 2, Input.mousePosition.y - Screen.height / 2) / gui.GetComponent<Canvas>().scaleFactor;
-            Cursor.visible = false;
-            infoPanel.SetActive(true);
+            if (!isSaved)
+            {
+                mousePosTmp = Input.mousePosition;
+                isSaved = true;
+            }
+
+            if (Input.mousePosition != mousePosTmp)
+            {
+                isMoved = true;
+            }
+
+            if (!isMoved)
+            {
+                objectName.text = mouseSelection.highlightedTile.data.name;
+                objectDescription.text = mouseSelection.highlightedTile.data.description;
+                //Debug.Log(gameObject.GetComponent<RectTransform>().anchoredPosition.x * gui.GetComponent<Canvas>().scaleFactor);
+                infoPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2(Input.mousePosition.x - Screen.width / 2, Input.mousePosition.y - Screen.height / 2) / gui.GetComponent<Canvas>().scaleFactor;
+                Cursor.visible = false;
+                infoPanel.SetActive(true);
+            }
+            else
+            {
+                infoPanel.SetActive(false);
+                Cursor.visible = true;
+            }
         }
         else
         {
             infoPanel.SetActive(false);
-            Cursor.visible = true;
+            Cursor.visible = true; 
+            isSaved = false;
+            isMoved = false;
         }
-
-        
-
     }
 }

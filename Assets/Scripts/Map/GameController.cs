@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour
     private int turn = 0;
     private int activePlayerIndex = 0;
 
+    private TurnInfoDisplay turnInfoDisplay;
+
     public Player activePlayer
     {
         get { return players[activePlayerIndex]; }
@@ -18,6 +20,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        turnInfoDisplay= GameObject.Find("Main").GetComponent<TurnInfoDisplay>();
         //players = new List<Player>();  // todo uncomment this after removing the tmp players from tilemap generation
     }
 
@@ -39,6 +42,7 @@ public class GameController : MonoBehaviour
         }
         
         Debug.Log(activePlayer.name + " Turn " + (turn + 1));
+        turnInfoDisplay.showTurnInfo(activePlayer.name,(turn+1));
         players[activePlayerIndex].StartTurn();
     }
 }
