@@ -5,6 +5,7 @@ using UnityEngine;
 public class MouseSelection : MonoBehaviour
 {
     public GameObject selectionMarker;
+    public GameObject selectedArmyMarker;
     public GameObject pathStepMarker;
     
     private List<Position> pathSteps;
@@ -75,10 +76,14 @@ public class MouseSelection : MonoBehaviour
             if (Input.GetButtonDown("Select")) {
                 if (highlightedTile.contents != null && highlightedTile.contents.armies != null) {
                     selectedArmy = highlightedTile.contents.armies[0];
+                    selectedArmyMarker.transform.position = selectedArmy.owner.armies[0].position;
+                    selectedArmyMarker.SetActive(true);
                     if (selectedArmy.owner != gameController.activePlayer) {
                         selectedArmy = null;
+                        selectedArmyMarker.SetActive(false);
                     }
                 } else {
+                    selectedArmyMarker.SetActive(false);
                     selectedArmy = null;
                 }
             }

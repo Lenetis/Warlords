@@ -13,7 +13,7 @@ public class Player
     public Texture2D cityTexture {get;}
     public Texture2D razedCityTexture {get;}
 
-    private List<Army> armies;
+    public List<Army> armies;
     private List<City> cities;
 
     public Player(string jsonPath, string name, Color color)
