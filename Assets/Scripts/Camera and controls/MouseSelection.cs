@@ -12,7 +12,7 @@ public class MouseSelection : MonoBehaviour
     private List<GameObject> pathMarkers;
     private Position previousPathGoal;
 
-    private Army selectedArmy;  // todo add option to select one army when there are many on the same tile
+    public Army selectedArmy {get; private set;}  // todo add option to select one army when there are many on the same tile
 
     private TileMap tileMap;
     private GameController gameController;
@@ -23,6 +23,8 @@ public class MouseSelection : MonoBehaviour
     public GameObject gui;
     public Tile highlightedTile;
 
+    private CityManagement cityManagement;
+
     void Start()
     {
         tileMap = FindObjectOfType<TileMap>();
@@ -30,6 +32,8 @@ public class MouseSelection : MonoBehaviour
 
         pathMarkers = new List<GameObject>();
         cam.SetActive(true);
+
+        cityManagement = GameObject.Find("Main").GetComponent<CityManagement>();
     }
 
     void Update()
@@ -38,6 +42,7 @@ public class MouseSelection : MonoBehaviour
             gameController.Turn();
             if (selectedArmy != null && selectedArmy.owner != gameController.activePlayer) {
                 selectedArmy = null;
+                cityManagement.DeselectArmy();
             }
         }
         if (Input.GetKeyDown(KeyCode.M)) {
@@ -74,17 +79,34 @@ public class MouseSelection : MonoBehaviour
             //Debug.Log(highlightedTile.data.name);
 
             if (Input.GetButtonDown("Select")) {
-                if (highlightedTile.contents != null && highlightedTile.contents.armies != null) {
-                    selectedArmy = highlightedTile.contents.armies[0];
-                    selectedArmyMarker.transform.position = selectedArmy.owner.armies[0].position;
-                    selectedArmyMarker.SetActive(true);
-                    if (selectedArmy.owner != gameController.activePlayer) {
+                if (highlightedTile.contents != null) {
+                    if (highlightedTile.contents.armies != null) {
+                        selectedArmy = highlightedTile.contents.armies[0];
+
+                        if (selectedArmy.owner == gameController.activePlayer) {
+                            selectedArmyMarker.transform.SetParent(selectedArmy.mapSprite.transform);
+                            selectedArmyMarker.transform.localPosition = Vector3.zero;
+                            selectedArmyMarker.SetActive(true);
+
+                            cityManagement.SelectArmy(selectedArmy);
+                        } else {
+                            selectedArmy = null;
+                            selectedArmyMarker.SetActive(false);
+                            selectedArmyMarker.transform.SetParent(null);
+
+                            cityManagement.DeselectArmy();
+                        }
+                    } else {
                         selectedArmy = null;
                         selectedArmyMarker.SetActive(false);
+                        selectedArmyMarker.transform.SetParent(null);
+
+                        cityManagement.DeselectArmy();
                     }
-                } else {
-                    selectedArmyMarker.SetActive(false);
-                    selectedArmy = null;
+
+                    if (highlightedTile.contents.city != null) {
+                        cityManagement.SelectCity(highlightedTile.contents.city);
+                    }
                 }
             }
 

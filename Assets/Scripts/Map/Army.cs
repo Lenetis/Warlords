@@ -25,9 +25,6 @@ public class Army
 
     private TileMap tileMap;
 
-    private MouseSelection mouseSelection;
-    private CityManagement cityManagement;
-
     public GameObject mapSprite;
 
     public Army(List<Unit> units, Position position, Player owner)
@@ -41,8 +38,6 @@ public class Army
         mapSprite.AddComponent<SpriteRenderer>();
 
         tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
-        mouseSelection = GameObject.Find("Main Camera").GetComponent<MouseSelection>();
-        cityManagement = GameObject.Find("Main").GetComponent<CityManagement>();
 
         owner.AddArmy(this);
 
@@ -149,15 +144,6 @@ public class Army
 
             position = nextPosition;
             mapSprite.transform.position = nextPosition;
-            mouseSelection.selectedArmyMarker.transform.position = position;
-
-            for (int i = 0; i < 8; i++)
-            {
-                if (i < units.Count)
-                {
-                     cityManagement.movesAvailable[i].text= units[i].remainingMove.ToString();
-                }
-            }
 
             path.RemoveAt(0);
 

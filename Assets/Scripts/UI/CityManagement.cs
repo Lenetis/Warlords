@@ -31,43 +31,47 @@ public class CityManagement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0))
-        {
-            if (mouseSelection.highlightedTile.contents.armies != null)
-            {
-                //Debug.Log("Army");
-                //Debug.Log(mouseSelection.highlightedTile.contents.armies[0].units.Count);
-                armyManagementPanel.SetActive(true);
-                for(int i = 0; i < 8; i++)
-                {
-                    if(i < mouseSelection.highlightedTile.contents.armies[0].owner.armies[0].units.Count)
-                    {
-                        units[i].SetActive(true);
-                        unitsImage[i].sprite = mouseSelection.highlightedTile.contents.armies[0].owner.armies[0].mapSprite.GetComponent<SpriteRenderer>().sprite;
-                        movesAvailable[i].text = mouseSelection.highlightedTile.contents.armies[0].owner.armies[0].units[i].remainingMove.ToString();
-                        unitsCheckBox[i].color = new Color(176f / 255f, 255f / 255f, 145f / 255f);
-                        activeUnits[i] = true;
-                        //Debug.Log(mouseSelection.highlightedTile.contents.armies[0].owner.armies.Count); 
-                    }
-                    else
-                    {
-                        units[i].SetActive(false);
-                        activeUnits[i] = false;
-                        movesAvailable[i].text="0";
-                    }
-                    
+        if (mouseSelection.selectedArmy != null) {
+            for (int i = 0; i < mouseSelection.selectedArmy.units.Count; i += 1) {
+                if (movesAvailable[i].text != mouseSelection.selectedArmy.units[i].remainingMove.ToString()) {
+                    movesAvailable[i].text = mouseSelection.selectedArmy.units[i].remainingMove.ToString();
                 }
             }
-            else if (mouseSelection.highlightedTile.contents.city != null)
+        }
+    }
+
+    public void SelectArmy(Army selectedArmy)
+    {
+        armyManagementPanel.SetActive(true);
+        for(int i = 0; i < 8; i++)
+        {
+            if(i < mouseSelection.selectedArmy.units.Count)
             {
-                cityName.text = "City";
-                cityManagementPanel.SetActive(true);
+                units[i].SetActive(true);
+                unitsImage[i].sprite = mouseSelection.highlightedTile.contents.armies[0].owner.armies[0].mapSprite.GetComponent<SpriteRenderer>().sprite;
+                movesAvailable[i].text = mouseSelection.highlightedTile.contents.armies[0].owner.armies[0].units[i].remainingMove.ToString();
+                unitsCheckBox[i].color = new Color(176f / 255f, 255f / 255f, 145f / 255f);
+                activeUnits[i] = true;
+                //Debug.Log(mouseSelection.highlightedTile.contents.armies[0].owner.armies.Count); 
             }
             else
             {
-                //Debug.Log("Terrain");
+                units[i].SetActive(false);
+                activeUnits[i] = false;
+                movesAvailable[i].text="0";
             }
         }
+    }
+
+    public void DeselectArmy()
+    {
+        armyManagementPanel.SetActive(false);
+    }
+
+    public void SelectCity(City selectedCity)
+    {
+        cityName.text = "City";
+        cityManagementPanel.SetActive(true);
     }
 
     public void HideCityManagementPanel()
