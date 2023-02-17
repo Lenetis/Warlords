@@ -38,6 +38,7 @@ public class City
             }
             producedUnitIndex = unitIndex;
             productionProgress = 0;
+            producing = true;
         }
     }
     private int productionProgress;
