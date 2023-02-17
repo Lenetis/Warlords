@@ -68,7 +68,6 @@ public class TileMap : MonoBehaviour
         tmpUnitList.Add(new Unit("Assets/Resources/Units/scout.json"));
         Army tmpArmy;
         tmpArmy = new Army(tmpUnitList, new Position(1, 1), player1);
-        tiles[1, 1].contents.AddArmy(tmpArmy);
 
         Player player2 = new Player("Assets/Resources/Players/defaultPlayer.json", "Magicians", Color.white);
         tiles[2, 2] = new Tile(availableTiles[0]);
@@ -77,7 +76,6 @@ public class TileMap : MonoBehaviour
         tmpUnitList2.Add(new Unit("Assets/Resources/Units/okoń.json"));
         Army tmpArmy2;
         tmpArmy2 = new Army(tmpUnitList2, new Position(2, 2), player2);
-        tiles[2, 2].contents.AddArmy(tmpArmy2);
 
         Player player3 = new Player("Assets/Resources/Players/defaultPlayer.json", "Necromancers", Color.red);
         tiles[5, 5] = new Tile(availableTiles[1]);
@@ -85,9 +83,9 @@ public class TileMap : MonoBehaviour
         tmpUnitList3.Add(new Unit("Assets/Resources/Units/scout.json"));
         Army tmpArmy3;
         tmpArmy3 = new Army(tmpUnitList3, new Position(5, 5), player3);
-        tiles[5, 5].contents.AddArmy(tmpArmy3);
 
-        City city = new City("Assets/Resources/Cities/city.json", new Position(10, 10), player3);
+        City city = new City("Assets/Resources/Cities/city.json", new Position(10, 10), player3, "Nowa Wieś", "Nowa Wieś is home to the vile creatures of darkness and the capital city of Necromancers");
+        city.producedUnit = city.buildableUnits[2];
     }
 
     void GenerateMesh()

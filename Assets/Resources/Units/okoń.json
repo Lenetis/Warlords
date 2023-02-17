@@ -4,5 +4,6 @@
     "pathfindingTypes": ["sea"],
     "strength": 300000,
     "move": 180,
-    "upkeep": 50
+    "upkeep": 50,
+    "productionCost": 20
 }

@@ -15,6 +15,7 @@ public class Unit
     public int remainingMove {get; set;}
     public HashSet<string> pathfindingTypes {get;}
     public int upkeep {get;}
+    public int productionCost{get;}
     
     public Unit(string jsonPath)
     {
@@ -38,6 +39,7 @@ public class Unit
         strength = (int)jObject.GetValue("strength");
         move = (int)jObject.GetValue("move");
         upkeep = (int)jObject.GetValue("upkeep");
+        productionCost = (int)jObject.GetValue("productionCost");
 
         remainingMove = move;
     }

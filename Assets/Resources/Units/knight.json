@@ -4,5 +4,6 @@
     "pathfindingTypes": ["land"],
     "strength": 4,
     "move": 14,
-    "upkeep": 4
+    "upkeep": 4,
+    "productionCost": 30
 }

@@ -12,20 +12,54 @@ public class City
     public Position position {get;}
     private List<Position> occupiedPositions;
 
+    public List<Unit> buildableUnits {get;}
+    private List<string> buildableUnitsPaths;  // will be used in saving
+
+    public List<Unit> buyableUnits {get;}
+    private List<string> buyableUnitsPaths;  // will be used in saving
+
     public int moveCost {get;}
     public HashSet<string> pathfindingTypes {get;}
+
+    public int income {get;}
+    public int production {get;}
+
+    public bool producing {get; set;}
+    private int producedUnitIndex;
+    public Unit producedUnit
+    {
+        get {
+            return buildableUnits[producedUnitIndex];
+        }
+        set {
+            int unitIndex = buildableUnits.IndexOf(value);
+            if (unitIndex == -1) {
+                throw new System.ArgumentException("Cannot set production to a non-buildable unit");
+            }
+            producedUnitIndex = unitIndex;
+            productionProgress = 0;
+        }
+    }
+    private int productionProgress;
 
     private GameObject mapSprite;
 
     public bool razed {get; private set;}
 
-    public City(string jsonPath, Position position, Player owner)
+    public string name {get; set;}
+    public string description {get; private set;}
+
+    public City(string jsonPath, Position position, Player owner, string name, string description)
     {
         this.position = position;
         this.owner = owner;
         razed = false;
+        producing = false;
 
-        mapSprite = new GameObject("Army");
+        this.name = name;
+        this.description = description;
+
+        mapSprite = new GameObject("City");
         mapSprite.transform.position = position;
         mapSprite.AddComponent<SpriteRenderer>();
 
@@ -36,6 +70,23 @@ public class City
         foreach (JToken jsonPosition in jObject.GetValue("occupiedPositions")) {
             occupiedPositions.Add(new Position((int)jsonPosition[0], (int)jsonPosition[1]));
         }
+
+        buildableUnits = new List<Unit>();
+        buildableUnitsPaths = new List<string>();
+        foreach (string unitPath in jObject.GetValue("buildableUnits")) {
+            buildableUnits.Add(new Unit(unitPath));
+            buildableUnitsPaths.Add(unitPath);
+        }
+
+        buyableUnits = new List<Unit>();
+        buyableUnitsPaths = new List<string>();
+        foreach (string unitPath in jObject.GetValue("buyableUnits")) {
+            buyableUnits.Add(new Unit(unitPath));
+            buyableUnitsPaths.Add(unitPath);
+        }
+
+        income = (int)jObject.GetValue("income");
+        production = (int)jObject.GetValue("production");
 
         pathfindingTypes = new HashSet<string>();
         foreach (string pathfindingType in jObject.GetValue("pathfindingTypes")) {
@@ -75,13 +126,40 @@ public class City
 
         if (razed) {
             owner = null;
+            // todo remove city from owner.cities
         }
     }
 
     public void Raze()
     {
         razed = true;
+        buildableUnits.Clear();
+        buildableUnitsPaths.Clear();
+        producing = false;
+
         Recalculate();
+    }
+
+    public void StartTurn()
+    {
+        if (producing) {
+            productionProgress += production;
+            Debug.Log($"{name} - progress: {productionProgress}/{producedUnit.productionCost}");
+            if (productionProgress >= producedUnit.productionCost) {
+                Debug.Log("added new Army");
+
+                // todo find a free tile within occupiedPositions
+                //      (what if there is none???)
+                Position freePosition = position;
+
+                Unit newUnit = new Unit(buildableUnitsPaths[producedUnitIndex]);
+                List<Unit> unitList = new List<Unit>();
+                unitList.Add(newUnit);
+                Army producedArmy = new Army(unitList, position, owner);
+
+                productionProgress = 0;
+            }
+        }
     }
 
     public override string ToString()

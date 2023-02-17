@@ -13,6 +13,17 @@ public class Army
     private int move;
     private int remainingMove;
     // todo it's probably better to store move and remaining move only in Unit (tile movement bonuses will cause problems)
+
+    public int upkeep
+    {
+        get {
+            int totalUpkeep = 0;
+            foreach (Unit unit in units) {
+                totalUpkeep += unit.upkeep;
+            }
+            return totalUpkeep;
+        }
+    }
     
     public Position position {get; private set;}
     public HashSet<string> pathfindingTypes {get; private set;}
@@ -38,6 +49,9 @@ public class Army
         mapSprite.AddComponent<SpriteRenderer>();
 
         tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
+
+        tileMap.GetTile(position).contents.AddArmy(this);
+        // todo check if this is a legal tile for this army (common pathfinding types, not full, without enemies, etc)
 
         owner.AddArmy(this);
 

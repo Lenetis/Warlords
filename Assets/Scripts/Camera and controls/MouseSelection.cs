@@ -80,7 +80,7 @@ public class MouseSelection : MonoBehaviour
 
             if (Input.GetButtonDown("Select")) {
                 if (highlightedTile.contents != null) {
-                    if (highlightedTile.contents.armies != null) {
+                    if (highlightedTile.contents.armies != null && (selectedArmy == null || selectedArmy.position != hitPosition)) {
                         selectedArmy = highlightedTile.contents.armies[0];
 
                         if (selectedArmy.owner == gameController.activePlayer) {
@@ -102,10 +102,10 @@ public class MouseSelection : MonoBehaviour
                         selectedArmyMarker.transform.SetParent(null);
 
                         cityManagement.DeselectArmy();
-                    }
 
-                    if (highlightedTile.contents.city != null) {
-                        cityManagement.SelectCity(highlightedTile.contents.city);
+                        if (highlightedTile.contents.city != null) {
+                            cityManagement.SelectCity(highlightedTile.contents.city);
+                        }
                     }
                 }
             }

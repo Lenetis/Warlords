@@ -70,7 +70,7 @@ public class CityManagement : MonoBehaviour
 
     public void SelectCity(City selectedCity)
     {
-        cityName.text = "City";
+        cityName.text = selectedCity.name;
         cityManagementPanel.SetActive(true);
     }
 
