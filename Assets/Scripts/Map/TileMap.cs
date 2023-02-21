@@ -131,6 +131,7 @@ public class TileMap : MonoBehaviour
     {
         meshRenderer.material = new Material(Shader.Find("Standard"));
         meshRenderer.material.color = new Color(1f, 1f, 1f);
+        meshRenderer.material.shader = Shader.Find("Sprites/Default");
         // todo maybe copy a base template material instead of generating a new material here
 
         Texture2D texture = new Texture2D(width * tileSize, height * tileSize);
