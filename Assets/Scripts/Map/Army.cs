@@ -86,6 +86,7 @@ public class Army
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), 32);
         SpriteRenderer spriteRenderer = mapSprite.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
+        spriteRenderer.sortingOrder = 20;
         spriteRenderer.color = owner.color;  // todo change the recoloring to something more fancy
 
         pathfindingTypes = new HashSet<string>(units[0].pathfindingTypes);

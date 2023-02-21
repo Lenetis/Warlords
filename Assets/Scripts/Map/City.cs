@@ -123,6 +123,7 @@ public class City
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), 32);
         SpriteRenderer spriteRenderer = mapSprite.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
+        spriteRenderer.sortingOrder = 10;
         spriteRenderer.color = owner.color;  // todo change the recoloring to something more fancy
 
         if (razed) {
