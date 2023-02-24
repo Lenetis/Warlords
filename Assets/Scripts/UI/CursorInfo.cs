@@ -13,7 +13,7 @@ public class CursorInfo : MonoBehaviour
     public TextMeshProUGUI objectName;
     public TextMeshProUGUI objectDescription;
 
-    public GameObject displayArea;
+    //public GameObject displayArea;
     public bool isOverDispArea;
 
     public Vector3 mousePosTmp;
@@ -35,43 +35,12 @@ public class CursorInfo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-
-        float dispAreaWidth = (displayArea.GetComponent<RectTransform>().anchorMax.x - displayArea.GetComponent<RectTransform>().anchorMin.x) * Screen.width + displayArea.GetComponent<RectTransform>().sizeDelta.x * gui.GetComponent<Canvas>().scaleFactor;
-        float dispAreaHeight = (displayArea.GetComponent<RectTransform>().anchorMax.y - displayArea.GetComponent<RectTransform>().anchorMin.y) * Screen.height + displayArea.GetComponent<RectTransform>().sizeDelta.y * gui.GetComponent<Canvas>().scaleFactor;
-        float dispAreaPosX = displayArea.GetComponent<RectTransform>().position.x;
-        float dispAreaPosY = displayArea.GetComponent<RectTransform>().position.y;
-        float dispAreaOriginX = dispAreaPosX - (dispAreaWidth / 2);
-        float dispAreaOriginY = dispAreaPosY - (dispAreaHeight / 2);
-        float dispAreaEndX = dispAreaPosX + (dispAreaWidth / 2);
-        float dispAreaEndY = dispAreaPosY + (dispAreaHeight / 2);
-
         float infoPanelWidth = (infoPanel.GetComponent<RectTransform>().anchorMax.x - infoPanel.GetComponent<RectTransform>().anchorMin.x) * Screen.width + infoPanel.GetComponent<RectTransform>().sizeDelta.x * gui.GetComponent<Canvas>().scaleFactor;
         float infoPanelHeight = (infoPanel.GetComponent<RectTransform>().anchorMax.y - infoPanel.GetComponent<RectTransform>().anchorMin.y) * Screen.height + infoPanel.GetComponent<RectTransform>().sizeDelta.y * gui.GetComponent<Canvas>().scaleFactor;
-
-        if (mode == 0)
-        {
-            if (Input.mousePosition.x >= dispAreaOriginX && Input.mousePosition.x <= dispAreaEndX)
-            {
-                if (Input.mousePosition.y >= dispAreaOriginY && Input.mousePosition.y <= dispAreaEndY)
-                {
-                    isOverDispArea = true;
-                }
-                else
-                {
-                    isOverDispArea = false;
-                }
-            }
-            else
-            {
-                isOverDispArea = false;
-            }
-        }
-        
-
+    
         //Debug.Log(dispAreaOriginX+" "+Input.mousePosition.x);
 
-        if (Input.GetMouseButton(1) && isOverDispArea || mode==1)
+        if (Input.GetMouseButton(1) && mouseSelection.isOverDispArea || mode==1)
         {
             correctionY = 0;
             correctionX = 0;
@@ -110,7 +79,7 @@ public class CursorInfo : MonoBehaviour
                 isMoved = true;
             }
 
-            if (!isMoved)
+            if (!isMoved && !mouseSelection.isSelected)
             {
                 if (mode == 0)
                 {
@@ -121,8 +90,8 @@ public class CursorInfo : MonoBehaviour
                     }
                     else if (mouseSelection.highlightedTile.contents.city != null)
                     {
-                        objectName.text = "City";
-                        objectDescription.text = "City";
+                        objectName.text = mouseSelection.highlightedTile.contents.city.name;
+                        objectDescription.text = mouseSelection.highlightedTile.contents.city.description;
                     }
                     else
                     {

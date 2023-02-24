@@ -6,95 +6,219 @@ using UnityEngine.UI;
 
 public class CityManagement : MonoBehaviour
 {
-    public MouseSelection mouseSelection;
+    public GameObject[] cityPanels =new GameObject[4];
+    public Button[] navButtons = new Button[4];
+    private City selectedCity;
 
+    //main, CP
     public GameObject cityManagementPanel;
-    public GameObject armyManagementPanel;
-
     public TextMeshProUGUI cityName;
+    public GameObject buildableUnitsPanel;
+    public GameObject unitCityButton;
+    public GameObject[] buildableUnits;
+    public Image[] buildableUnitsImage;
 
-    //L2
-    public GameObject[] units = new GameObject[8];
-    public Image[] unitsImage = new Image[8];
-    public Image[] unitsCheckBox = new Image[8];
-    public bool[] activeUnits = new bool[8];
-    public TextMeshProUGUI[] movesAvailable = new TextMeshProUGUI[8];
+    public GameObject currentUnitImage;
+    public TextMeshProUGUI productionTurnsLeft;
+    public TextMeshProUGUI[] unitCityStats = new TextMeshProUGUI[5];
+    public GameObject unitCityStatsPanel;
 
+    //CB
+    public TextMeshProUGUI cityIncome;
+    public TextMeshProUGUI cityDefence;
+    public TextMeshProUGUI cityOwner;
 
+    public GameObject buyableUnitsPanel;
+    public GameObject[] buyableUnits;
+    public Image[] buyableUnitsImage;
+
+    //CI
+
+    public TMP_InputField cityNameInput;
+    public TextMeshProUGUI cityDescripton;
 
     // Start is called before the first frame update
     void Start()
     {
-        mouseSelection = GameObject.Find("Main Camera").GetComponent<MouseSelection>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (mouseSelection.selectedArmy != null) {
-            for (int i = 0; i < mouseSelection.selectedArmy.units.Count; i += 1) {
-                if (movesAvailable[i].text != mouseSelection.selectedArmy.units[i].remainingMove.ToString()) {
-                    movesAvailable[i].text = mouseSelection.selectedArmy.units[i].remainingMove.ToString();
-                }
-            }
-        }
+        
     }
-
-    public void SelectArmy(Army selectedArmy)
+    public void SelectCity(City selectedCity)
     {
-        armyManagementPanel.SetActive(true);
-        for(int i = 0; i < 8; i++)
+        this.selectedCity = selectedCity;
+        cityName.text = selectedCity.name;
+        cityDescripton.text = selectedCity.description;
+        cityManagementPanel.SetActive(true);
+
+        if (selectedCity.razed)
         {
-            if(i < mouseSelection.selectedArmy.units.Count)
+            cityIncome.text = "Income: 0 Gold";
+            cityDefence.text = "Defence: 0";
+            cityOwner.text = "Owner: Razed City";
+
+            for(int i = 1; i < navButtons.Length; i++)
             {
-                units[i].SetActive(true);
-                unitsImage[i].sprite = mouseSelection.highlightedTile.contents.armies[0].owner.armies[0].mapSprite.GetComponent<SpriteRenderer>().sprite;
-                movesAvailable[i].text = mouseSelection.highlightedTile.contents.armies[0].owner.armies[0].units[i].remainingMove.ToString();
-                unitsCheckBox[i].color = new Color(176f / 255f, 255f / 255f, 145f / 255f);
-                activeUnits[i] = true;
-                //Debug.Log(mouseSelection.highlightedTile.contents.armies[0].owner.armies.Count); 
+                navButtons[i].interactable = false;
+            }
+
+            ShowCityPanel(0);
+        }
+        else
+        {
+
+            if (selectedCity.producing)
+            {
+                productionTurnsLeft.text = (selectedCity.productionProgress).ToString()+"/"+(selectedCity.producedUnit.productionCost).ToString()+"t";
+                currentUnitImage.GetComponent<Image>().sprite = Sprite.Create(selectedCity.producedUnit.texture, new Rect(0.0f, 0.0f, selectedCity.producedUnit.texture.width, selectedCity.producedUnit.texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+                currentUnitImage.SetActive(true);
+                unitCityStats[0].text = selectedCity.producedUnit.name;
+                unitCityStats[1].text = "Time: "+selectedCity.producedUnit.productionCost.ToString();
+                unitCityStats[2].text = "Cost: " + selectedCity.producedUnit.upkeep.ToString();
+                unitCityStats[3].text = "Strength: " + selectedCity.producedUnit.strength.ToString();
+                unitCityStats[4].text = "Move: " + selectedCity.producedUnit.move.ToString();
+                unitCityStatsPanel.SetActive(true);
+
             }
             else
             {
-                units[i].SetActive(false);
-                activeUnits[i] = false;
-                movesAvailable[i].text="0";
+                productionTurnsLeft.text = "-";
+                currentUnitImage.SetActive(false);
+                unitCityStatsPanel.SetActive(false);
             }
+
+            int buildableSize = selectedCity.buildableUnits.Count;
+            //int armySize = mouseSelection.selectedArmy.units.Count;
+
+            if(buildableSize> buildableUnits.Length)
+            {
+                buildableUnits = new GameObject[buildableSize];
+                buildableUnitsImage = new Image[buildableSize];
+            }
+
+
+            for (int i = 0; i < buildableSize; i++)
+            {
+                if (buildableUnits[i] == null) {
+                    //Debug.Log(buildableUnits[i]);
+                    buildableUnits[i] = Instantiate(unitCityButton, buildableUnitsPanel.transform);
+                    buildableUnits[i].transform.localPosition = new Vector3((i + 1) * ((buildableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / ((buildableSize) + 1))) - (buildableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / 2), 0, 0);
+                    buildableUnits[i].transform.SetParent(buildableUnitsPanel.transform);
+                    buildableUnits[i].name = i.ToString();
+
+                    buildableUnitsImage[i] = buildableUnits[i].transform.GetChild(0).gameObject.GetComponent<Image>();
+                    buildableUnitsImage[i].sprite = Sprite.Create(selectedCity.buildableUnits[i].texture, new Rect(0.0f, 0.0f, selectedCity.buildableUnits[i].texture.width, selectedCity.buildableUnits[i].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+                }
+                    
+            }
+
+            //CB
+
+            cityIncome.text = "Income: " + selectedCity.income.ToString() + " Gold";
+            cityDefence.text = "Defence: --";
+            cityOwner.text = "Owner: " + selectedCity.owner.name.ToString();
+
+            int buyableSize = selectedCity.buyableUnits.Count;
+            //int armySize = mouseSelection.selectedArmy.units.Count;
+
+            if (buyableSize > buyableUnits.Length)
+            {
+                buyableUnits = new GameObject[buyableSize];
+                buyableUnitsImage = new Image[buyableSize];
+            }
+
+            for (int i = 0; i < buyableSize; i++)
+            {
+                if (buyableUnits[i] == null)
+                {
+                    buyableUnits[i] = Instantiate(unitCityButton, buyableUnitsPanel.transform);
+                    buyableUnits[i].transform.localPosition = new Vector3((i + 1) * ((buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / ((buyableSize) + 1))) - (buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / 2), 0, 0);
+                    buyableUnits[i].transform.SetParent(buyableUnitsPanel.transform);
+                    buyableUnits[i].name = i.ToString();
+
+                    buyableUnitsImage[i] = buyableUnits[i].transform.GetChild(0).gameObject.GetComponent<Image>();
+                    buyableUnitsImage[i].sprite = Sprite.Create(selectedCity.buyableUnits[i].texture, new Rect(0.0f, 0.0f, selectedCity.buyableUnits[i].texture.width, selectedCity.buyableUnits[i].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+
+                    buyableUnits[i].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = selectedCity.buyableUnits[i].productionCost.ToString() + "gp";
+                }
+                
+            }
+
+            cityPanels[5].transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Are you sure that you\nwant to\nraze " + selectedCity.name + "?\nYou won't be popular!";
+
+            //Debug.Log(selectedCity.buildableUnits[0]);
         }
-    }
 
-    public void DeselectArmy()
-    {
-        armyManagementPanel.SetActive(false);
-    }
-
-    public void SelectCity(City selectedCity)
-    {
-        cityName.text = selectedCity.name;
-        cityManagementPanel.SetActive(true);
     }
 
     public void HideCityManagementPanel()
     {
         cityManagementPanel.SetActive(false);
+        /*for(int i = 0; i < buildableUnits.Length; i++)
+        {
+            Destroy(buildableUnits[i]);
+        }*/
     }
-    public void HideArmyManagementPanel()
+    public void SetUnitProduction(int index)
     {
-        armyManagementPanel.SetActive(false);
+        Debug.Log("Production: " + index);
+        selectedCity.producedUnit = selectedCity.buildableUnits[index];
+        //selectedCity.producing = true;
+        SelectCity(selectedCity);
     }
 
-    public void setUnitActivity(int index)
+    public void BuyUnit(int index)
     {
-        if (activeUnits[index] == true)
+        //todo
+        Debug.Log("Purchase: " + index);
+    }
+
+    public void ShowCityPanel(int index)
+    {
+        cityPanels[index].SetActive(true);
+        for(int i = 0; i < cityPanels.Length; i++)
         {
-            activeUnits[index] = false;
-            unitsCheckBox[index].color = new Color(255f / 255f, 102f / 255f, 80f / 255f);
+            if (i != index && index!=5)
+            {
+                //Debug.Log(i);
+                cityPanels[i].SetActive(false);
+            }
+
+            if (index == 0 || index == 1)
+            {
+                cityPanels[6].SetActive(true);
+            }
+
+            if (index == 7)
+            {
+                cityPanels[1].SetActive(true);
+            }
+            
         }
-        else
-        {
-            activeUnits[index] = true;
-            unitsCheckBox[index].color = new Color(176f / 255f, 255f / 255f, 145f / 255f);
-        }
+    }
+
+    public void Raze()
+    {
+        selectedCity.Raze();
+        //Debug.Log("City razed");
+        SelectCity(selectedCity);
+    }
+
+    public void Rename()
+    {
+        selectedCity.name = cityNameInput.text;
+        cityPanels[7].SetActive(false);
+        SelectCity(selectedCity);
+    }
+
+    public void StopProduction()
+    {
+        selectedCity.producing = false;
+        SelectCity(selectedCity);
     }
 
 }

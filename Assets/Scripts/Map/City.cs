@@ -41,7 +41,7 @@ public class City
             producing = true;
         }
     }
-    private int productionProgress;
+    public int productionProgress; //;)
 
     private GameObject mapSprite;
 
@@ -166,6 +166,6 @@ public class City
 
     public override string ToString()
     {
-        return "City";
+        return name;
     }
 }

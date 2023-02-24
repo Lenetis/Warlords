@@ -66,7 +66,7 @@ public class Minimap : MonoBehaviour
 
  
         /*
-        if (Input.GetKey(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             Color customColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1.0f);
             GameObject cube1= Instantiate(prefab, cam.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, 0, Mathf.Abs(cam.transform.position.z))), Quaternion.identity);
@@ -77,6 +77,7 @@ public class Minimap : MonoBehaviour
             cube3.GetComponent<Renderer>().material.SetColor("_Color", customColor);
             GameObject cube4 = Instantiate(prefab, cam.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1, 1, Mathf.Abs(cam.transform.position.z))), Quaternion.identity);
             cube4.GetComponent<Renderer>().material.SetColor("_Color", customColor);
+            GameObject cubeCenter = Instantiate(prefab, cam.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.5f, 0.5f, Mathf.Abs(cam.transform.position.z))), Quaternion.identity);
         }*/
 
         if (tileMap.miniMapTexture != null && isLoaded==false)

@@ -23,7 +23,11 @@ public class MouseSelection : MonoBehaviour
     public GameObject gui;
     public Tile highlightedTile;
 
+    private ArmyManagement armyManagement;
     private CityManagement cityManagement;
+
+    public bool isOverDispArea;
+    public bool isSelected;
 
     void Start()
     {
@@ -33,6 +37,7 @@ public class MouseSelection : MonoBehaviour
         pathMarkers = new List<GameObject>();
         cam.SetActive(true);
 
+        armyManagement = GameObject.Find("Main").GetComponent<ArmyManagement>();
         cityManagement = GameObject.Find("Main").GetComponent<CityManagement>();
     }
 
@@ -42,7 +47,7 @@ public class MouseSelection : MonoBehaviour
             gameController.Turn();
             if (selectedArmy != null && selectedArmy.owner != gameController.activePlayer) {
                 selectedArmy = null;
-                cityManagement.DeselectArmy();
+                armyManagement.DeselectArmy();
             }
         }
         if (Input.GetKeyDown(KeyCode.M)) {
@@ -53,8 +58,26 @@ public class MouseSelection : MonoBehaviour
         float dispAreaHeight = (displayArea.GetComponent<RectTransform>().anchorMax.y - displayArea.GetComponent<RectTransform>().anchorMin.y) * Screen.height + displayArea.GetComponent<RectTransform>().sizeDelta.y * gui.GetComponent<Canvas>().scaleFactor;
         float dispAreaPosX = displayArea.GetComponent<RectTransform>().position.x;
         float dispAreaPosY = displayArea.GetComponent<RectTransform>().position.y;
-        float dispAreaOriginX= dispAreaPosX - (dispAreaWidth / 2);
+        float dispAreaOriginX = dispAreaPosX - (dispAreaWidth / 2);
         float dispAreaOriginY = dispAreaPosY - (dispAreaHeight / 2);
+        float dispAreaEndX = dispAreaPosX + (dispAreaWidth / 2);
+        float dispAreaEndY = dispAreaPosY + (dispAreaHeight / 2);
+
+        if (Input.mousePosition.x >= dispAreaOriginX && Input.mousePosition.x <= dispAreaEndX)
+        {
+            if (Input.mousePosition.y >= dispAreaOriginY && Input.mousePosition.y <= dispAreaEndY)
+            {
+                isOverDispArea = true;
+            }
+            else
+            {
+                isOverDispArea = false;
+            }
+        }
+        else
+        {
+            isOverDispArea = false;
+        }
 
         float screenOffset = (Screen.width - Screen.height)/2;
         float screenWidth = Screen.width - (Screen.width - Screen.height);
@@ -78,7 +101,7 @@ public class MouseSelection : MonoBehaviour
 
             //Debug.Log(highlightedTile.data.name);
 
-            if (Input.GetButtonDown("Select")) {
+            if (Input.GetButtonDown("Select") && isOverDispArea) {
                 if (highlightedTile.contents != null) {
                     if (highlightedTile.contents.armies != null && (selectedArmy == null || selectedArmy.position != hitPosition)) {
                         selectedArmy = highlightedTile.contents.armies[0];
@@ -88,20 +111,22 @@ public class MouseSelection : MonoBehaviour
                             selectedArmyMarker.transform.localPosition = Vector3.zero;
                             selectedArmyMarker.SetActive(true);
 
-                            cityManagement.SelectArmy(selectedArmy);
+                            armyManagement.SelectArmy(selectedArmy);
+                            isSelected = true;
                         } else {
                             selectedArmy = null;
                             selectedArmyMarker.SetActive(false);
                             selectedArmyMarker.transform.SetParent(null);
 
-                            cityManagement.DeselectArmy();
+                            armyManagement.DeselectArmy();
                         }
                     } else {
                         selectedArmy = null;
                         selectedArmyMarker.SetActive(false);
                         selectedArmyMarker.transform.SetParent(null);
 
-                        cityManagement.DeselectArmy();
+                        armyManagement.DeselectArmy();
+                        isSelected = false;
 
                         if (highlightedTile.contents.city != null) {
                             cityManagement.SelectCity(highlightedTile.contents.city);
@@ -123,7 +148,7 @@ public class MouseSelection : MonoBehaviour
                     previousPathGoal = new Position(-1, -1);
                     // kinda hacky, but this is to ensure the next path after move will always be calculated, no matter if the position is the same or not
 
-                } else if (Input.GetButton("Move")) {
+                } else if (Input.GetButton("Move") && isOverDispArea) {
                     if (previousPathGoal != hitPosition || pathSteps != null && pathSteps[0] != selectedArmy.position) {
                         ClearPath();
                         pathSteps = tileMap.FindPath(selectedArmy.position, hitPosition, selectedArmy);
@@ -132,7 +157,7 @@ public class MouseSelection : MonoBehaviour
                     }
                 }
             } else {
-                if (Input.GetButtonDown("Info")) {
+                if (Input.GetButtonDown("Info") && isOverDispArea) {
                    Debug.Log(highlightedTile);
                    if (highlightedTile.contents != null && highlightedTile.contents.armies != null) {
                        pathSteps = highlightedTile.contents.armies[0].path;
