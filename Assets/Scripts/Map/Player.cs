@@ -54,9 +54,19 @@ public class Player
         armies.Add(army);
     }
 
+    public void RemoveArmy(Army army)
+    {
+        armies.Remove(army);
+    }
+
     public void AddCity(City city)
     {
         cities.Add(city);
+    }
+
+    public void RemoveCity(City city)
+    {
+        cities.Remove(city);
     }
 
     public void StartTurn()

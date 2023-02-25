@@ -4,7 +4,7 @@ using UnityEngine;
 
 using System.Linq;
 
-public class Army
+public class Army : IPlayerMapObject
 {
     public List<Unit> units {get;}
 
@@ -29,6 +29,7 @@ public class Army
     public HashSet<string> pathfindingTypes {get; private set;}
     
     public List<Position> path {get; private set;}
+    private IPlayerMapObject attackTarget;
 
     private bool moving;
 
@@ -56,6 +57,25 @@ public class Army
         owner.AddArmy(this);
 
         Recalculate();
+    }
+
+    public void RemoveUnit(Unit unit)
+    {
+        units.Remove(unit);
+        if (units.Count == 0) {
+            Destroy();
+        }
+    }
+
+    public void Destroy()
+    {
+        owner.RemoveArmy(this);
+        tileMap.GetTile(position).contents.RemoveArmy(this);
+
+        for (int i = 0; i < mapSprite.transform.childCount; i += 1) {
+            mapSprite.transform.GetChild(0).SetParent(null);  // todo this is awful, unit rendering should be moved to a separate script
+        }
+        GameObject.Destroy(mapSprite);
     }
 
     // todo change name to something more descriptive 
@@ -107,11 +127,21 @@ public class Army
         }
         
         // a non-null path has to start from the army position
-        if (path == null || path[0] != position) {
+        if (path == null || path.Count <= 1 || path[0] != position) {
             this.path = null;
         } else {
             this.path = path;
             this.path.RemoveAt(0);  // skip the first element because we don't need to move to where we already are
+
+            attackTarget = null;
+            Tile targetTile = tileMap.GetTile(path.Last());
+            if (targetTile.owner != null && targetTile.owner != owner) {
+                if (targetTile.contents.city != null) {  // todo this looks a bit spaghetti, but I'm not sure what else to do
+                    attackTarget = targetTile.contents.city;
+                } else {
+                    attackTarget = targetTile.contents.armies[0];  // todo make sure that armies[0] is the one with a visible sprite
+                }
+            }
         }
     }
 
@@ -141,37 +171,84 @@ public class Army
             Tile currentTile = tileMap.GetTile(position);
             Tile nextTile = tileMap.GetTile(nextPosition);
 
-            foreach(Unit unit in units) {  // todo maybe move this to a separate method?
-                if (unit.remainingMove - nextTile.moveCost < 0) {
-                    moving = false;
+            if (nextTile.owner == null || nextTile.owner == owner) {
+                foreach(Unit unit in units) {  // todo maybe move this to a separate method?
+                    if (unit.remainingMove - nextTile.moveCost < 0) {
+                        moving = false;
+                        break;
+                    }
+                }
+                if (!moving) {
                     break;
                 }
+                foreach(Unit unit in units) {
+                    unit.remainingMove -= nextTile.moveCost;
+                }
+
+                currentTile.contents.RemoveArmy(this);
+                nextTile.contents.AddArmy(this);
+
+                position = nextPosition;
+                mapSprite.transform.position = nextPosition;
+
+                path.RemoveAt(0);
+
+                // todo check if there is room for more units on nextPosition tile
+            } else {
+                if (path.Count == 1) {
+                    Battle battle = new Battle(this, attackTarget);
+                    battle.Start();
+                    if (battle.winner == owner) {
+                        City attackedCity = tileMap.GetTile(path[0]).contents.city;
+                        if (attackedCity != null) {
+                            attackedCity.Capture(owner);
+                        }
+                    }
+
+                    moving = false;
+                    path = null;
+                    attackTarget = null;
+
+                } else {
+                    // todo maybe find a different path instead of cancelling the move?
+                    moving = false;
+                    path = null;
+                }
             }
-            if (!moving) {
-                break;
-            }
-            foreach(Unit unit in units) {
-                unit.remainingMove -= nextTile.moveCost;
-            }
-
-            currentTile.contents.RemoveArmy(this);
-            nextTile.contents.AddArmy(this);
-
-            position = nextPosition;
-            mapSprite.transform.position = nextPosition;
-
-            path.RemoveAt(0);
-
-            // todo check if there is room for more units on nextPosition tile
         }
         moving = false;
     }
 
     public void StartTurn()
     {
+        if (attackTarget != null && path != null && !attackTarget.OccupiesPosition(path.Last())) {
+            // todo if fog of war is added, we need to check if attackTarget is visible
+            SetPath(tileMap.FindPath(position, attackTarget.position, this));
+ 
+            if (path == null) {
+                return;
+            }
+        }
+        
         foreach (Unit unit in units) {
             unit.StartTurn();
         }
+    }
+
+    public List<Army> GetSupportingArmies()
+    {
+        List<Army> supportingArmies;
+        Tile occupiedTile = tileMap.GetTile(position);
+        if (occupiedTile.contents.city != null) {
+            supportingArmies = occupiedTile.contents.city.GetSupportingArmies();
+        } else {
+            supportingArmies = occupiedTile.contents.armies;
+        }
+        return supportingArmies;
+    }
+
+    public bool OccupiesPosition(Position position) {
+        return this.position == position;
     }
 
     public override string ToString()

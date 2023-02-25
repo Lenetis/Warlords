@@ -215,6 +215,10 @@ public class TileMap : MonoBehaviour
 
             openList.Remove(currentPosition);
             foreach (Position neighbourPosition in GetNeighbouringPositions(currentPosition)) {
+                if (neighbourPosition == goal) {
+                    cameFrom[neighbourPosition] = currentPosition;
+                    return ReconstructPath(cameFrom, neighbourPosition);
+                }
                 Tile neighbourTile = GetTile(neighbourPosition);
                 if ((neighbourTile.owner == null || neighbourTile.owner == army.owner) && neighbourTile.pathfindingTypes.Overlaps(army.pathfindingTypes)) {
 

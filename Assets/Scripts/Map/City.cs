@@ -5,7 +5,7 @@ using UnityEngine;
 using System.IO;
 using Newtonsoft.Json.Linq;
 
-public class City
+public class City : IPlayerMapObject
 {
     public Player owner {get; private set;}
 
@@ -140,6 +140,18 @@ public class City
         producing = false;
 
         Recalculate();
+        owner.RemoveCity(this);
+        owner = null;
+    }
+
+    public void Capture(Player newOwner)
+    {
+        producing = false;
+        owner.RemoveCity(this);
+        newOwner.AddCity(this);
+        owner = newOwner;
+
+        Recalculate();
     }
 
     public void StartTurn()
@@ -162,6 +174,24 @@ public class City
                 productionProgress = 0;
             }
         }
+    }
+
+    public List<Army> GetSupportingArmies()
+    {
+        List<Army> supportingArmies = new List<Army>();
+
+        TileMap tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
+        foreach (Position occupiedPosition in occupiedPositions) {
+            Tile occupiedTile = tileMap.GetTile(position + occupiedPosition);
+            if (occupiedTile.contents.armies != null) {
+                supportingArmies.AddRange(occupiedTile.contents.armies);
+            }
+        }
+        return supportingArmies;
+    }
+
+    public bool OccupiesPosition(Position position) {
+        return occupiedPositions.Contains(position - this.position);
     }
 
     public override string ToString()
