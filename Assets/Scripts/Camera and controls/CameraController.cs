@@ -40,7 +40,7 @@ public class CameraController : MonoBehaviour
 
             float viewportWorldWidth = camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1, 0, Mathf.Abs(camUI.transform.position.z))).x - camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, 0, Mathf.Abs(camUI.transform.position.z))).x;
             Vector3 targetPosition= camUI.transform.position + diffPos;
-
+            Debug.Log(viewportWorldWidth);
             //Debug.Log(diffPos);
 
             if ((camUI.transform.position + diffPos).x- viewportWorldWidth/2 < 0)
@@ -73,7 +73,41 @@ public class CameraController : MonoBehaviour
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (scroll != 0){
-            transform.Translate(0, 0, scroll * zoomSpeed * -transform.position.z);  // todo it's probably better to change FoV instead of moving the camera  // no it's not (DK)
+            float zPositionDiff = scroll * zoomSpeed * -transform.position.z;
+            Vector3 targetPosition = camUI.transform.position + new Vector3(0, 0, zPositionDiff);
+            float viewportWorldWidth = camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1, 0, Mathf.Abs(targetPosition.z))).x - camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, 0, Mathf.Abs(targetPosition.z))).x;
+            
+            if(viewportWorldWidth>=mapHeight*0.75|| viewportWorldWidth >= mapWidth*0.75)
+            {
+                targetPosition = camUI.transform.position;
+            }
+            else
+            {
+                Debug.Log(viewportWorldWidth);
+                if ((camUI.transform.position).x - viewportWorldWidth / 2 < 0)
+                {
+                    targetPosition = new Vector3(viewportWorldWidth / 2, targetPosition.y, targetPosition.z);
+                }
+
+                if ((camUI.transform.position).x + viewportWorldWidth / 2 > mapHeight)
+                {
+                    targetPosition = new Vector3(mapHeight - (viewportWorldWidth / 2), targetPosition.y, targetPosition.z);
+                }
+
+                if ((camUI.transform.position).y - viewportWorldWidth / 2 < 0)
+                {
+                    targetPosition = new Vector3(targetPosition.x, viewportWorldWidth / 2, targetPosition.z);
+                }
+
+                if ((camUI.transform.position).y + viewportWorldWidth / 2 > mapWidth)
+                {
+                    targetPosition = new Vector3(targetPosition.x, mapWidth - (viewportWorldWidth / 2), targetPosition.z);
+                }
+
+                transform.position = targetPosition;  // todo it's probably better to change FoV instead of moving the camera  // no it's not (DK)
+            }
+
+            
         }
     }
 }
