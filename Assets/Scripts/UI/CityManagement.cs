@@ -50,6 +50,7 @@ public class CityManagement : MonoBehaviour
     }
     public void SelectCity(City selectedCity)
     {
+
         this.selectedCity = selectedCity;
         cityName.text = selectedCity.name;
         cityDescripton.text = selectedCity.description;
@@ -149,8 +150,6 @@ public class CityManagement : MonoBehaviour
             }
 
             cityPanels[5].transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Are you sure that you\nwant to\nraze " + selectedCity.name + "?\nYou won't be popular!";
-
-            //Debug.Log(selectedCity.buildableUnits[0]);
         }
 
     }
@@ -158,10 +157,15 @@ public class CityManagement : MonoBehaviour
     public void HideCityManagementPanel()
     {
         cityManagementPanel.SetActive(false);
-        /*for(int i = 0; i < buildableUnits.Length; i++)
+        for(int i = 0; i < buildableUnits.Length; i++)
         {
             Destroy(buildableUnits[i]);
-        }*/
+        }
+
+        for (int i = 0; i < buyableUnits.Length; i++)
+        {
+            Destroy(buyableUnits[i]);
+        }
     }
     public void SetUnitProduction(int index)
     {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CursorInfo : MonoBehaviour
 {
@@ -25,11 +26,16 @@ public class CursorInfo : MonoBehaviour
     public string buttonName;
     public string buttonDescription;
 
+    public GameObject unitImage;
+    public GameObject[] selectedUnits;
+    public GameController gameController;
+
 
     // Start is called before the first frame update
     void Start()
     {
         mouseSelection = GameObject.Find("Main Camera").GetComponent<MouseSelection>();
+        gameController = GameObject.Find("GameController").GetComponent<GameController>();
     }
 
     // Update is called once per frame
@@ -83,10 +89,30 @@ public class CursorInfo : MonoBehaviour
             {
                 if (mode == 0)
                 {
-                    if (mouseSelection.highlightedTile.contents.armies != null)
+                    if (mouseSelection.highlightedTile.contents.armies != null && mouseSelection.highlightedTile.contents.armies[0].owner==gameController.activePlayer)
                     {
-                        objectName.text = "Army";
-                        objectDescription.text = "Army";
+                        objectName.text = "";
+                        objectDescription.text = "";
+
+                        if (selectedUnits.Length == 0)
+                        {
+                            selectedUnits = new GameObject[mouseSelection.highlightedTile.contents.armies[0].units.Count];
+                        }
+                        
+                        for (int i = 0; i < selectedUnits.Length; i++)
+                        {
+                            if (selectedUnits[i] == null)
+                            {
+                                selectedUnits[i] = Instantiate(unitImage, infoPanel.transform);
+                                selectedUnits[i].transform.localPosition = new Vector3((i + 1) * ((infoPanel.GetComponent<RectTransform>().sizeDelta.x / ((mouseSelection.highlightedTile.contents.armies[0].units.Count) + 1))) - (infoPanel.GetComponent<RectTransform>().sizeDelta.x / 2), 0, 0);
+                                selectedUnits[i].transform.SetParent(infoPanel.transform);
+                                selectedUnits[i].name = i.ToString();
+
+                                selectedUnits[i].GetComponent<Image>().sprite = Sprite.Create(mouseSelection.highlightedTile.contents.armies[0].units[i].texture, new Rect(0.0f, 0.0f, mouseSelection.highlightedTile.contents.armies[0].units[i].texture.width, mouseSelection.highlightedTile.contents.armies[0].units[i].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+
+                            }
+
+                        }
                     }
                     else if (mouseSelection.highlightedTile.contents.city != null)
                     {
@@ -114,15 +140,27 @@ public class CursorInfo : MonoBehaviour
             else
             {
                 infoPanel.SetActive(false);
+                DeleteUnits();
+                selectedUnits = new GameObject[0];
                 Cursor.visible = true;
             }
         }
         else
         {
             infoPanel.SetActive(false);
+            DeleteUnits();
+            selectedUnits = new GameObject[0];
             Cursor.visible = true;
             isSaved = false;
             isMoved = false;
+        }
+    }
+
+    public void DeleteUnits()
+    {
+        for (int i = 0; i < selectedUnits.Length; i++)
+        {
+            Destroy(selectedUnits[i]);
         }
     }
 

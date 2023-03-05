@@ -10,6 +10,8 @@ public class ArmyManagement : MonoBehaviour
 
     public GameObject armyManagementPanel;
 
+    public Army selectedArmy;
+
     //L2
     public GameObject unitButton;
     public GameObject[] units;
@@ -38,6 +40,11 @@ public class ArmyManagement : MonoBehaviour
 
     public void SelectArmy(Army selectedArmy)
     {
+        this.selectedArmy = selectedArmy;
+        if (armyManagementPanel.activeSelf)
+        {
+            DeselectArmy();
+        }
         int armySize = mouseSelection.selectedArmy.units.Count;
         //int armySize = mouseSelection.selectedArmy.units.Count;
         units = new GameObject[armySize];

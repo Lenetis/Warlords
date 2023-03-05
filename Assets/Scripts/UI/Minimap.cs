@@ -32,11 +32,18 @@ public class Minimap : MonoBehaviour
 
     public GameObject minimapIndicator;
 
+    //Teleport\\
+    public bool isOverMinimap;
+    //public GameObject minimapArea;
+    public GameObject gui;
+    public CameraController cameraController;
+
 
     // Start is called before the first frame update
     void Start()
     {
         tileMap = GameObject.Find("TileMap").GetComponent<TileMap>();
+        cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
 
 
     }
@@ -44,6 +51,48 @@ public class Minimap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Teleport\\
+
+        //Debug.Log(isOverMinimap);
+
+        float minimapAreaWidth = (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * Screen.width + miniMapImage.GetComponent<RectTransform>().sizeDelta.x * gui.GetComponent<Canvas>().scaleFactor;
+        float minimapAreaHeight = (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * Screen.height + miniMapImage.GetComponent<RectTransform>().sizeDelta.y * gui.GetComponent<Canvas>().scaleFactor;
+        float minimapAreaPosX = miniMapImage.GetComponent<RectTransform>().position.x;
+        float minimapAreaPosY = miniMapImage.GetComponent<RectTransform>().position.y;
+        float minimapAreaOriginX = minimapAreaPosX - (minimapAreaWidth / 2);
+        float minimapAreaOriginY = minimapAreaPosY - (minimapAreaHeight / 2);
+        float minimapAreaEndX = minimapAreaPosX + (minimapAreaWidth / 2);
+        float minimapAreaEndY = minimapAreaPosY + (minimapAreaHeight / 2);
+
+
+        if (Input.mousePosition.x >= minimapAreaOriginX && Input.mousePosition.x <= minimapAreaEndX)
+        {
+            if (Input.mousePosition.y >= minimapAreaOriginY && Input.mousePosition.y <= minimapAreaEndY)
+            {
+                isOverMinimap = true;
+            }
+            else
+            {
+                isOverMinimap = false;
+            }
+        }
+        else
+        {
+            isOverMinimap = false;
+        }
+
+        if (Input.GetButton("Select") && isOverMinimap)
+        {
+            float mouseMinimapX = (Input.mousePosition.x - minimapAreaOriginX) / minimapAreaWidth;
+            float mouseMinimapY = (Input.mousePosition.y - minimapAreaOriginY) / minimapAreaHeight;
+            //cam.transform.parent.gameObject.transform.position = new Vector3(mouseMinimapX * width, mouseMinimapY * height, cam.transform.position.z);
+            cameraController.CheckNSetPosition(new Vector3(mouseMinimapX * width, mouseMinimapY * height, cam.transform.parent.gameObject.transform.position.z));
+            //Debug.Log("X: "+mouseMinimapX);
+            //Debug.Log("Y: " + mouseMinimapY);
+        }
+
+        //Limits\\
+
         if (cam != null)
         {
             viewportWorldWidth = cam.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1, 1, Mathf.Abs(cam.transform.position.z))).x - cam.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, 0, Mathf.Abs(cam.transform.position.z))).x;
@@ -61,7 +110,7 @@ public class Minimap : MonoBehaviour
         viewportNormalizedWidth = viewportWorldWidth / 80;
         viewportNormalizedHeight = viewportWorldHeight / 50;
 
-        minimapIndicator.GetComponent<RectTransform>().anchoredPosition = new Vector2((viewportNormalizedPosX * 200)-100, (viewportNormalizedPosY * 125)-100+ (200-125)/2);
+        minimapIndicator.GetComponent<RectTransform>().anchoredPosition = new Vector2((viewportNormalizedPosX * 200)-100, (viewportNormalizedPosY * 125)-100+ ((float)(200-125))/2);
         minimapIndicator.GetComponent<RectTransform>().sizeDelta= new Vector2(viewportNormalizedWidth*200, viewportNormalizedHeight*125);
 
  
@@ -101,6 +150,5 @@ public class Minimap : MonoBehaviour
             
             
         }
-        
     }
 }

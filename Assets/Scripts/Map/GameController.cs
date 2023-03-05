@@ -16,11 +16,15 @@ public class GameController : MonoBehaviour
 
     private List<Player> players;
 
+    private ResourcesDisplay resourcesDisplay;
 
     // Start is called before the first frame update
     void Start()
     {
         turnInfoDisplay= GameObject.Find("Main").GetComponent<TurnInfoDisplay>();
+        resourcesDisplay = GameObject.Find("Main").GetComponent<ResourcesDisplay>();
+
+        resourcesDisplay.UpdateResources(players[activePlayerIndex].cities.Count, players[activePlayerIndex].gold, CalculateIncome(players[activePlayerIndex].cities), CalculateUpkeep(players[activePlayerIndex].armies));
         //players = new List<Player>();  // todo uncomment this after removing the tmp players from tilemap generation
     }
 
@@ -40,9 +44,30 @@ public class GameController : MonoBehaviour
             turn += 1;
             activePlayerIndex = 0;
         }
-        
+
         Debug.Log(activePlayer.name + " Turn " + (turn + 1));
         turnInfoDisplay.showTurnInfo(activePlayer.name,(turn+1));
         players[activePlayerIndex].StartTurn();
+        resourcesDisplay.UpdateResources(players[activePlayerIndex].cities.Count, players[activePlayerIndex].gold, CalculateIncome(players[activePlayerIndex].cities), CalculateUpkeep(players[activePlayerIndex].armies));
+    }
+
+    public int CalculateIncome(List<City> cities)
+    {
+        int income = 0;
+        for(int i = 0; i < cities.Count; i++)
+        {
+            income += cities[i].income;
+        }
+        return income;
+    }
+
+    public int CalculateUpkeep(List<Army> armies)
+    {
+        int upkeep = 0;
+        for (int i = 0; i < armies.Count; i++)
+        {
+            upkeep += armies[i].upkeep;
+        }
+        return upkeep;
     }
 }

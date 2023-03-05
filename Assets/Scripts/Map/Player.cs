@@ -14,7 +14,7 @@ public class Player
     public Texture2D razedCityTexture {get;}
 
     public List<Army> armies;
-    private List<City> cities;
+    public List<City> cities;
 
     public int gold {get; private set;}
 
