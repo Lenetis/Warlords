@@ -244,13 +244,6 @@ public class Army : IPlayerMapObject
             } else {
                 if (path.Count == 1) {
                     Battle battle = new Battle(this, attackTarget);
-                    battle.Start();
-                    if (battle.winner == owner) {
-                        City attackedCity = tileMap.GetTile(path[0]).contents.city;
-                        if (attackedCity != null) {
-                            attackedCity.Capture(owner);
-                        }
-                    }
 
                     moving = false;
                     path = null;
