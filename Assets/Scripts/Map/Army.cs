@@ -64,8 +64,9 @@ public class Army : IPlayerMapObject
         units.Remove(unit);
         if (units.Count == 0) {
             Destroy();
+        } else {
+            Recalculate();
         }
-        Recalculate();
     }
 
     public void AddUnit(Unit unit)
