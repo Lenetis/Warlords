@@ -75,6 +75,13 @@ public class ArmyManagement : MonoBehaviour
         }
     }
 
+    public void RefreshSelection()
+    {
+        if (selectedArmy != null) {
+            SelectArmy(selectedArmy);
+        }
+    }
+
     public void DeselectArmy()
     {
         armyManagementPanel.SetActive(false);

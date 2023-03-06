@@ -65,6 +65,19 @@ public class Army : IPlayerMapObject
         if (units.Count == 0) {
             Destroy();
         }
+        Recalculate();
+    }
+
+    public void AddUnit(Unit unit)
+    {
+        units.Add(unit);
+        Recalculate();
+    }
+
+    public void AddUnits(List<Unit> units)
+    {
+        this.units.AddRange(units);
+        Recalculate();
     }
 
     public void Destroy()
@@ -76,6 +89,40 @@ public class Army : IPlayerMapObject
             mapSprite.transform.GetChild(0).SetParent(null);  // todo this is awful, unit rendering should be moved to a separate script
         }
         GameObject.Destroy(mapSprite);
+    }
+
+    // merge this army into other army and destroy this army
+    public void Merge(Army otherArmy)
+    {
+        if (otherArmy.position != position) {
+            throw new System.ArgumentException($"Cannot merge armies on different positions ({position} and {otherArmy.position}");
+        }
+        otherArmy.AddUnits(units);
+        Destroy();
+    }
+
+    // turn every unit in this army into a separate army
+    public void Split()
+    {
+        while (units.Count > 1) {
+            Unit lastUnit = units.Last();
+            units.RemoveAt(units.Count - 1);
+
+            List<Unit> newUnitList = new List<Unit>();
+            newUnitList.Add(lastUnit);
+            Army newArmy = new Army(newUnitList, position, owner);
+        }
+        Recalculate();
+    }
+
+    // turn unit into a separate army
+    public void SplitUnit(Unit unit)
+    {
+        RemoveUnit(unit);
+
+        List<Unit> newUnitList = new List<Unit>();
+        newUnitList.Add(unit);
+        Army newArmy = new Army(newUnitList, position, owner);
     }
 
     // todo change name to something more descriptive 

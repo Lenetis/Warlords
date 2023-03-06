@@ -53,6 +53,19 @@ public class MouseSelection : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M)) {
             gameController.activePlayer.MoveAll();
         }
+        if (Input.GetKeyDown(KeyCode.A) && selectedArmy != null) {
+            Tile mergeTile = tileMap.GetTile(selectedArmy.position);
+            while (mergeTile.contents.armies.Count > 1) {
+                mergeTile.contents.armies[0].Merge(mergeTile.contents.armies[1]);
+            }
+            selectedArmy = mergeTile.contents.armies[0];
+            armyManagement.DeselectArmy();
+            armyManagement.SelectArmy(selectedArmy);
+        }
+        if (Input.GetKeyDown(KeyCode.S) && selectedArmy != null) {
+            selectedArmy.Split();
+            armyManagement.RefreshSelection();
+        }
 
         float dispAreaWidth = (displayArea.GetComponent<RectTransform>().anchorMax.x - displayArea.GetComponent<RectTransform>().anchorMin.x) * Screen.width + displayArea.GetComponent<RectTransform>().sizeDelta.x * gui.GetComponent<Canvas>().scaleFactor;
         float dispAreaHeight = (displayArea.GetComponent<RectTransform>().anchorMax.y - displayArea.GetComponent<RectTransform>().anchorMin.y) * Screen.height + displayArea.GetComponent<RectTransform>().sizeDelta.y * gui.GetComponent<Canvas>().scaleFactor;
