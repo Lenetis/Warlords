@@ -11874,7 +11874,7 @@ MonoBehaviour:
   mode: 0
   buttonName: 
   buttonDescription: 
-  unitImage: {fileID: 5101531966051815363, guid: f18ca532d542b754c882566069375444, type: 3}
+  unitImage: {fileID: 5101531966051815363, guid: f11964ea25d3eac44963949491d7c2a7, type: 3}
   selectedUnits: []
   gameController: {fileID: 0}
 --- !u!114 &1454547765
@@ -11974,6 +11974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battlePanel: {fileID: 714381914}
+  turnDelay: 1
   unitImage: {fileID: 5101531966051815363, guid: f18ca532d542b754c882566069375444, type: 3}
   attackerPanel: {fileID: 1359753993}
   defenderPanel: {fileID: 1606565935}

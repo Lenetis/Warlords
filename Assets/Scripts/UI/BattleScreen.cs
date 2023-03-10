@@ -24,6 +24,8 @@ public class BattleScreen : MonoBehaviour
 
     public float turnDelay = 1;
     private float currentTurnDelay = 0;
+    private bool boool;
+    public Player winner;
 
     public GameObject unitImage;
     public GameObject attackerPanel;
@@ -37,6 +39,7 @@ public class BattleScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        boool = true;
         battle = null;
         attackerUnits = new List<GameObject>();
         defenderUnits = new List<GameObject>();
@@ -47,28 +50,57 @@ public class BattleScreen : MonoBehaviour
     {
         if (battle != null) {
             currentTurnDelay += Time.deltaTime;
-            if (currentTurnDelay >= turnDelay || battle.winner != null) {
-                currentTurnDelay -= turnDelay;
+            if (currentTurnDelay >= turnDelay*0.75 || battle.winner != null) {
 
-                Player winner = battle.Turn();
+                if (boool)
+                {
+                    winner = battle.Turn();
 
-                UpdateAttacker(battle.attackingUnits);
-                UpdateDefender(battle.defendingUnits);
-
-                if (winner != null) {
-                    string info;
-                    if (winner != battle.attackingPlayer) {
-                        info = "You have lost!";
-                    } else {
-                        info = winner.name + " have won\nthe battle!";
+                    if (battle.attackingUnits.Count < attackerUnits.Count)
+                    {
+                        attackerUnits[0].transform.GetChild(0).gameObject.SetActive(true);
+                        Debug.Log("BOOOOM");
                     }
 
-                    battle = null;
+                    if (battle.defendingUnits.Count < defenderUnits.Count)
+                    {
+                        defenderUnits[0].transform.GetChild(0).gameObject.SetActive(true);
+                        Debug.Log("BOOOOM");
+                    }
+                    boool = false;
+                }
+                
 
-                    ArmyManagement armyManagement = GameObject.Find("Main").GetComponent<ArmyManagement>();
-                    armyManagement.RefreshSelection();
-                    Debug.Log($"Battle ended. Winner = {winner}");
-                    winInfo.text = info;
+                if(currentTurnDelay >= turnDelay)
+                {
+                    UpdateAttacker(battle.attackingUnits);
+                    UpdateDefender(battle.defendingUnits);
+
+
+                    if (winner != null)
+                    {
+                        string info;
+                        if (winner != battle.attackingPlayer)
+                        {
+                            info = "You have lost!";
+                        }
+                        else
+                        {
+                            info = winner.name + " have won\nthe battle!";
+                        }
+
+                        battle = null;
+
+                        ArmyManagement armyManagement = GameObject.Find("Main").GetComponent<ArmyManagement>();
+                        armyManagement.RefreshSelection();
+                        Debug.Log($"Battle ended. Winner = {winner}");
+                        winInfo.text = info;
+
+
+                    }
+                    currentTurnDelay -= turnDelay;
+                    boool = true;
+
                 }
             }
         } else {

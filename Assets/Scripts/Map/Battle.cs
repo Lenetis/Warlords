@@ -62,6 +62,7 @@ public class Battle
 
         battleScreen = GameObject.Find("Main").GetComponent<BattleScreen>();
         battleScreen.battlePanel.SetActive(true);
+        battleScreen.winInfo.text = "";
         battleScreen.battle = this;
     }
 

@@ -93,7 +93,7 @@ public class CursorInfo : MonoBehaviour
                     {
                         objectName.text = "";
                         objectDescription.text = "";
-
+                        
                         if (selectedUnits.Length == 0)
                         {
                             selectedUnits = new GameObject[mouseSelection.highlightedTile.contents.armies[0].units.Count];
