@@ -6,6 +6,8 @@ public class Battle
 {
     // todo maybe add strength/attack/defence modifiers etc? (or maybe add them in Army)
 
+    private GameController gameController;
+
     private IPlayerMapObject defender;
 
     public List<Unit> attackingUnits {get; private set;}
@@ -20,12 +22,10 @@ public class Battle
 
     public Player winner {get; private set;}
 
-    private TileMap tileMap;
-
-    public BattleScreen battleScreen;
-
     public Battle(Army attacker, IPlayerMapObject defender)
     {
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        
         this.defender = defender;
 
         attackingUnits = new List<Unit>();
@@ -57,16 +57,9 @@ public class Battle
         } else {
             winner = null;
         }
-
-        tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
-
-        battleScreen = GameObject.Find("Main").GetComponent<BattleScreen>();
-        battleScreen.battlePanel.SetActive(true);
-        battleScreen.winInfo.text = "";
-        battleScreen.battle = this;
     }
 
-    // calculates a single turn of the battle. Returns winner if battle is over and null if it is not.
+    /// Calculates a single turn of the battle. Returns winner if battle is over and null if it is not.
     public Player Turn()
     {
         if (winner == null) {
@@ -89,7 +82,7 @@ public class Battle
         RemoveDeadUnits();
 
         if (winner == attackingPlayer) {
-            City attackedCity = tileMap.GetTile(defender.position).contents.city;
+            City attackedCity = gameController.tileMap.GetTile(defender.position).city;
             if (attackedCity != null) {
                 attackedCity.Capture(attackingPlayer);
             }
@@ -99,6 +92,7 @@ public class Battle
         return winner;
     }
 
+    /// Removes all units that died in this battle from their respective armies
     private void RemoveDeadUnits()
     {
         foreach (Army army in armies) {

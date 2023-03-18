@@ -50,11 +50,12 @@ public class ArmyManagement : MonoBehaviour
         {
             for (int i = 0; i < mouseSelection.selectedArmy.units.Count; i += 1)
             {
+                // todo this throws an IndexOutOfRangeException during battles, because movesAvailable.Length is equal to 0, even though selected army has more than 0 units.
+                //      I haven't checked why this happens, but it's probably related to "int armiesSize = 0;" in SelectArmy()
                 if (movesAvailable[i].text != mouseSelection.selectedArmy.units[i].remainingMove.ToString())
                 {
                     movesAvailable[i].text = mouseSelection.selectedArmy.units[i].remainingMove.ToString();
                 }
-                Debug.Log(i);
             }
         }
     }

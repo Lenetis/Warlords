@@ -7,10 +7,12 @@ using Newtonsoft.Json.Linq;
 
 public class City : IPlayerMapObject
 {
+    private GameController gameController;
+
     public Player owner {get; private set;}
 
     public Position position {get;}
-    private List<Position> occupiedPositions;
+    public List<Position> occupiedPositions {get;}
 
     public List<Unit> buildableUnits {get;}
     private List<string> buildableUnitsPaths;  // will be used in saving
@@ -41,17 +43,19 @@ public class City : IPlayerMapObject
             producing = true;
         }
     }
-    public int productionProgress; //;)
+    public int productionProgress {get; private set;}
 
-    private GameObject mapSprite;
+    private GameObject mapSprite;  // todo to remove
 
     public bool razed {get; private set;}
 
     public string name {get; set;}
     public string description {get; private set;}
 
-    public City(string jsonPath, Position position, Player owner, string name, string description)
+    public City(JObject attributes, Position position, Player owner, string name, string description)
     {
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+
         this.position = position;
         this.owner = owner;
         razed = false;
@@ -64,48 +68,36 @@ public class City : IPlayerMapObject
         mapSprite.transform.position = position;
         mapSprite.AddComponent<SpriteRenderer>();
 
-        string json = File.ReadAllText(jsonPath);
-        JObject jObject = JObject.Parse(json);
-
         occupiedPositions = new List<Position>();
-        foreach (JToken jsonPosition in jObject.GetValue("occupiedPositions")) {
+        foreach (JToken jsonPosition in attributes.GetValue("occupiedPositions")) {
             occupiedPositions.Add(new Position((int)jsonPosition[0], (int)jsonPosition[1]));
         }
 
         buildableUnits = new List<Unit>();
         buildableUnitsPaths = new List<string>();
-        foreach (string unitPath in jObject.GetValue("buildableUnits")) {
-            buildableUnits.Add(new Unit(unitPath));
+        foreach (string unitPath in attributes.GetValue("buildableUnits")) {
+            buildableUnits.Add(new Unit(gameController.resourceManager.LoadResource(unitPath)));
             buildableUnitsPaths.Add(unitPath);
         }
 
         buyableUnits = new List<Unit>();
         buyableUnitsPaths = new List<string>();
-        foreach (string unitPath in jObject.GetValue("buyableUnits")) {
-            buyableUnits.Add(new Unit(unitPath));
+        foreach (string unitPath in attributes.GetValue("buyableUnits")) {
+            buyableUnits.Add(new Unit(gameController.resourceManager.LoadResource(unitPath)));
             buyableUnitsPaths.Add(unitPath);
         }
 
-        income = (int)jObject.GetValue("income");
-        production = (int)jObject.GetValue("production");
+        income = (int)attributes.GetValue("income");
+        production = (int)attributes.GetValue("production");
 
         pathfindingTypes = new HashSet<string>();
-        foreach (string pathfindingType in jObject.GetValue("pathfindingTypes")) {
+        foreach (string pathfindingType in attributes.GetValue("pathfindingTypes")) {
             pathfindingTypes.Add(pathfindingType);
         }
 
-        moveCost = (int)jObject.GetValue("moveCost");
+        moveCost = (int)attributes.GetValue("moveCost");
 
-        TileMap tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
-        foreach (Position occupiedPosition in occupiedPositions) {
-            Tile occupiedTile = tileMap.GetTile(position + occupiedPosition);
-            if (occupiedTile.contents.city != null) {
-                throw new System.ArgumentException($"Position {position + occupiedPosition} is already occupied by another city");
-            }
-            occupiedTile.contents.city = this;
-        }
-
-        owner.AddCity(this);
+        gameController.AddCity(this);
 
         Recalculate();
     }
@@ -125,13 +117,9 @@ public class City : IPlayerMapObject
         spriteRenderer.sprite = sprite;
         spriteRenderer.sortingOrder = 10;
         spriteRenderer.color = owner.color;  // todo change the recoloring to something more fancy
-
-        if (razed) {
-            owner = null;
-            // todo remove city from owner.cities
-        }
     }
 
+    /// Sets the city to an inactive state (unable to produce any units) and removes it from its owner cities
     public void Raze()
     {
         razed = true;
@@ -140,20 +128,23 @@ public class City : IPlayerMapObject
         producing = false;
 
         Recalculate();
-        owner.RemoveCity(this);
         owner = null;
+
+        gameController.RazeCity(this);
     }
 
+    /// Changes the owner of this city to newOwner
     public void Capture(Player newOwner)
     {
         producing = false;
-        owner.RemoveCity(this);
-        newOwner.AddCity(this);
         owner = newOwner;
 
         Recalculate();
+
+        gameController.CaptureCity(this, newOwner);
     }
 
+    /// Starts turn this city - calculates unit production
     public void StartTurn()
     {
         if (producing) {
@@ -166,7 +157,7 @@ public class City : IPlayerMapObject
                 //      (what if there is none???)
                 Position freePosition = position;
 
-                Unit newUnit = new Unit(buildableUnitsPaths[producedUnitIndex]);
+                Unit newUnit = new Unit(gameController.resourceManager.LoadResource(buildableUnitsPaths[producedUnitIndex]));
                 List<Unit> unitList = new List<Unit>();
                 unitList.Add(newUnit);
                 Army producedArmy = new Army(unitList, position, owner);
@@ -176,6 +167,7 @@ public class City : IPlayerMapObject
         }
     }
 
+    /// Returns a list of all armies that will support this city if it is attacked (all armies within the city's occupied positions)
     public List<Army> GetSupportingArmies()
     {
         List<Army> supportingArmies = new List<Army>();
@@ -183,13 +175,14 @@ public class City : IPlayerMapObject
         TileMap tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
         foreach (Position occupiedPosition in occupiedPositions) {
             Tile occupiedTile = tileMap.GetTile(position + occupiedPosition);
-            if (occupiedTile.contents.armies != null) {
-                supportingArmies.AddRange(occupiedTile.contents.armies);
+            if (occupiedTile.armies != null) {
+                supportingArmies.AddRange(occupiedTile.armies);
             }
         }
         return supportingArmies;
     }
 
+    /// Returns true if the position is occupied by this city and false otherwise
     public bool OccupiesPosition(Position position) {
         return occupiedPositions.Contains(position - this.position);
     }

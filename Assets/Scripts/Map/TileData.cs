@@ -14,28 +14,23 @@ public class TileData
     public int moveCost {get;}
     public HashSet<string> pathfindingTypes {get;}
     
-    public TileData(string jsonPath)
+    public TileData(JObject attributes)
     {
-        string json = File.ReadAllText(jsonPath);
-        JObject jObject = JObject.Parse(json);
+        GameController gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        
+        name = (string)attributes.GetValue("name");
 
-        name = (string)jObject.GetValue("name");
+        description = (string)attributes.GetValue("description");
 
-        description = (string)jObject.GetValue("description");
-
-        string texturePath = (string)jObject.GetValue("texture");
-        byte[] binaryImageData = File.ReadAllBytes(texturePath);
-        texture = new Texture2D(0,0);  // todo for some reason this works, but I *really* don't like this.
-        texture.LoadImage(binaryImageData);
-        texture.filterMode = FilterMode.Point;
-        texture.Apply();
+        string texturePath = (string)attributes.GetValue("texture");
+        texture = gameController.resourceManager.LoadTexture(texturePath);
 
         pathfindingTypes = new HashSet<string>();
-        foreach (string pathfindingType in jObject.GetValue("pathfindingTypes")) {
+        foreach (string pathfindingType in attributes.GetValue("pathfindingTypes")) {
             pathfindingTypes.Add(pathfindingType);
         }
 
-        moveCost = (int)jObject.GetValue("moveCost");
+        moveCost = (int)attributes.GetValue("moveCost");
     }
 
     public override string ToString()

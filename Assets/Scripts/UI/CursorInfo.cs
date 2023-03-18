@@ -89,14 +89,14 @@ public class CursorInfo : MonoBehaviour
             {
                 if (mode == 0)
                 {
-                    if (mouseSelection.highlightedTile.contents.armies != null && mouseSelection.highlightedTile.contents.armies[0].owner==gameController.activePlayer)
+                    if (mouseSelection.highlightedTile.armies != null && mouseSelection.highlightedTile.armies[0].owner==gameController.activePlayer)
                     {
                         objectName.text = "";
                         objectDescription.text = "";
                         
                         if (selectedUnits.Length == 0)
                         {
-                            selectedUnits = new GameObject[mouseSelection.highlightedTile.contents.armies[0].units.Count];
+                            selectedUnits = new GameObject[mouseSelection.highlightedTile.armies[0].units.Count];
                         }
                         
                         for (int i = 0; i < selectedUnits.Length; i++)
@@ -104,20 +104,20 @@ public class CursorInfo : MonoBehaviour
                             if (selectedUnits[i] == null)
                             {
                                 selectedUnits[i] = Instantiate(unitImage, infoPanel.transform);
-                                selectedUnits[i].transform.localPosition = new Vector3((i + 1) * ((infoPanel.GetComponent<RectTransform>().sizeDelta.x / ((mouseSelection.highlightedTile.contents.armies[0].units.Count) + 1))) - (infoPanel.GetComponent<RectTransform>().sizeDelta.x / 2), 0, 0);
+                                selectedUnits[i].transform.localPosition = new Vector3((i + 1) * ((infoPanel.GetComponent<RectTransform>().sizeDelta.x / ((mouseSelection.highlightedTile.armies[0].units.Count) + 1))) - (infoPanel.GetComponent<RectTransform>().sizeDelta.x / 2), 0, 0);
                                 selectedUnits[i].transform.SetParent(infoPanel.transform);
                                 selectedUnits[i].name = i.ToString();
 
-                                selectedUnits[i].GetComponent<Image>().sprite = Sprite.Create(mouseSelection.highlightedTile.contents.armies[0].units[i].texture, new Rect(0.0f, 0.0f, mouseSelection.highlightedTile.contents.armies[0].units[i].texture.width, mouseSelection.highlightedTile.contents.armies[0].units[i].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+                                selectedUnits[i].GetComponent<Image>().sprite = Sprite.Create(mouseSelection.highlightedTile.armies[0].units[i].texture, new Rect(0.0f, 0.0f, mouseSelection.highlightedTile.armies[0].units[i].texture.width, mouseSelection.highlightedTile.armies[0].units[i].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
 
                             }
 
                         }
                     }
-                    else if (mouseSelection.highlightedTile.contents.city != null)
+                    else if (mouseSelection.highlightedTile.city != null)
                     {
-                        objectName.text = mouseSelection.highlightedTile.contents.city.name;
-                        objectDescription.text = mouseSelection.highlightedTile.contents.city.description;
+                        objectName.text = mouseSelection.highlightedTile.city.name;
+                        objectDescription.text = mouseSelection.highlightedTile.city.description;
                     }
                     else
                     {

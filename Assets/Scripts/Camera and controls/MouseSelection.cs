@@ -61,12 +61,12 @@ public class MouseSelection : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.A) && selectedArmy != null)
         {
             Tile mergeTile = tileMap.GetTile(selectedArmy.position);
-            while (mergeTile.contents.armies.Count > 1)
+            while (mergeTile.armies.Count > 1)
             {
-                mergeTile.contents.armies[0].Merge(mergeTile.contents.armies[1]);
+                mergeTile.armies[0].Merge(mergeTile.armies[1]);
             }
-            selectedArmy = mergeTile.contents.armies[0];
-            selectedArmies = mergeTile.contents.armies;
+            selectedArmy = mergeTile.armies[0];
+            selectedArmies = mergeTile.armies;
             armyManagement.DeselectArmy();
             armyManagement.SelectArmy(selectedArmies);
         }
@@ -126,12 +126,12 @@ public class MouseSelection : MonoBehaviour
 
             if (Input.GetButtonDown("Select") && isOverDispArea)
             {
-                if (highlightedTile.contents != null)
+                if (highlightedTile != null)
                 {
-                    if (highlightedTile.contents.armies != null && (selectedArmy == null || selectedArmy.position != hitPosition))
+                    if (highlightedTile.armies != null && (selectedArmy == null || selectedArmy.position != hitPosition))
                     {
-                        selectedArmy = highlightedTile.contents.armies[0];
-                        selectedArmies = highlightedTile.contents.armies;
+                        selectedArmy = highlightedTile.armies[0];
+                        selectedArmies = highlightedTile.armies;
 
                         if (selectedArmy.owner == gameController.activePlayer)
                         {
@@ -160,9 +160,9 @@ public class MouseSelection : MonoBehaviour
                         armyManagement.DeselectArmy();
                         isSelected = false;
 
-                        if (highlightedTile.contents.city != null)
+                        if (highlightedTile.city != null)
                         {
-                            cityManagement.SelectCity(highlightedTile.contents.city);
+                            cityManagement.SelectCity(highlightedTile.city);
                         }
                     }
                 }
@@ -177,13 +177,12 @@ public class MouseSelection : MonoBehaviour
                         pathSteps = tileMap.FindPath(selectedArmy.position, hitPosition, selectedArmy);
                     }
                     selectedArmy.SetPath(pathSteps);
-                    selectedArmy.Move();
+                    gameController.StartArmyMove(selectedArmy);
 
                     ClearPath();
 
                     previousPathGoal = new Position(-1, -1);
                     // kinda hacky, but this is to ensure the next path after move will always be calculated, no matter if the position is the same or not
-
                 }
                 else if (Input.GetButton("Move") && isOverDispArea)
                 {
@@ -201,9 +200,9 @@ public class MouseSelection : MonoBehaviour
                 if (Input.GetButtonDown("Info") && isOverDispArea)
                 {
                     Debug.Log(highlightedTile);
-                    if (highlightedTile.contents != null && highlightedTile.contents.armies != null)
+                    if (highlightedTile != null && highlightedTile.armies != null)
                     {
-                        pathSteps = highlightedTile.contents.armies[0].path;
+                        pathSteps = highlightedTile.armies[0].path;
                         DrawPath();
                     }
                 }
@@ -213,11 +212,11 @@ public class MouseSelection : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.R) && highlightedTile.contents != null && highlightedTile.contents.city != null)
+            if (Input.GetKeyDown(KeyCode.R) && highlightedTile != null && highlightedTile.city != null)
             {
-                if (highlightedTile.contents.city.owner == gameController.activePlayer)
+                if (highlightedTile.city.owner == gameController.activePlayer)
                 {
-                    highlightedTile.contents.city.Raze();
+                    highlightedTile.city.Raze();
                 }
             }
         }

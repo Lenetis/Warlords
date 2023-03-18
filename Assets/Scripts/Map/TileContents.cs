@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class TileContents
+public class TileContents  // todo change to a struct and remove ALL methods
 {
     public List<Army> armies {get; private set;}
     public City city {get; set;}
@@ -9,7 +9,7 @@ public class TileContents
     //  (because there cannot be more than one of these on the same tile)
 
     // items
-    // road ??  -- maybe in TileData
+    // road
     // port
     // temple/ruins
     // maybe something else
@@ -19,12 +19,7 @@ public class TileContents
         armies = null;
     }
 
-    public TileContents(Army army)
-    {
-        armies = null;
-        AddArmy(army);
-    }
-
+    /// Adds army to tile contents
     public void AddArmy(Army army)
     {
         if (armies == null) {
@@ -33,6 +28,7 @@ public class TileContents
         armies.Add(army);        
     }
 
+    /// Removes army from tile contents
     public void RemoveArmy(Army army)
     {
         armies.Remove(army);
@@ -45,7 +41,7 @@ public class TileContents
     {
         string toReturn = "";
         if (armies != null) {
-            foreach (Army army in armies){
+            foreach (Army army in armies) {
                 toReturn += $"Army: {army} ";
             }
         }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tile  // todo change to struct maybe?
 {
     public TileData data;
-    public TileContents contents {get;}  // todo change this to private as well
+    private TileContents contents;
 
     public Texture2D texture
     {
@@ -22,6 +22,20 @@ public class Tile  // todo change to struct maybe?
                 return contents.city.owner;
             }
             return null;
+        }
+    }
+
+    public List<Army> armies
+    {
+        get {
+            return contents.armies;
+        }
+    }
+
+    public City city
+    {
+        get {
+            return contents.city;
         }
     }
 
@@ -52,7 +66,25 @@ public class Tile  // todo change to struct maybe?
         }
 
         this.data = tileData;
-        this.contents = new TileContents();  // todo add option to initialise tile with TileContents
+        this.contents = new TileContents();
+    }
+
+    /// Adds army to this tile's contents
+    public void AddArmy(Army army)
+    {
+        contents.AddArmy(army);
+    }
+
+    /// Removes army from this tile's contents
+    public void RemoveArmy(Army army)
+    {
+        contents.RemoveArmy(army);
+    }
+
+    /// Adds city to this tile's contents
+    public void AddCity(City city)
+    {
+        contents.city = city;
     }
 
     public override string ToString()

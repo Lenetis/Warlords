@@ -7,19 +7,45 @@ using Newtonsoft.Json.Linq;
 
 public class Player
 {
+    private GameController gameController;
+    
     public string name {get;}
     public Color color {get;}
 
     public Texture2D cityTexture {get;}
     public Texture2D razedCityTexture {get;}
 
-    public List<Army> armies;
-    public List<City> cities;
+    public List<Army> armies {get;}
+    public List<City> cities {get;}
 
     public int gold {get; private set;}
 
-    public Player(string jsonPath, string name, Color color)
+    public int income 
     {
+        get {
+            int income = 0;
+            foreach (City city in cities) {
+               income += city.income;
+            }
+            return income;
+        }
+    }
+
+    public int upkeep 
+    {
+        get {
+            int upkeep = 0;
+            foreach (Army army in armies) {
+                upkeep += army.upkeep;
+            }
+            return upkeep;
+        }
+    }
+
+    public Player(JObject attributes, string name, Color color)
+    {
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+
         this.name = name;
         this.color = color;
 
@@ -28,55 +54,42 @@ public class Player
         armies = new List<Army>();
         cities = new List<City>();
 
-        string json = File.ReadAllText(jsonPath);
-        JObject jObject = JObject.Parse(json);
+        string texturePath = (string)attributes.GetValue("cityTexture");
+        cityTexture = gameController.resourceManager.LoadTexture(texturePath);
 
-        string texturePath = (string)jObject.GetValue("cityTexture");
-        byte[] binaryImageData = File.ReadAllBytes(texturePath);
-        cityTexture = new Texture2D(0, 0);  // todo for some reason this works, but I *really* don't like this
-        cityTexture.LoadImage(binaryImageData);
-        cityTexture.filterMode = FilterMode.Point;
-        cityTexture.Apply();
-
-        texturePath = (string)jObject.GetValue("razedCityTexture");
-        binaryImageData = File.ReadAllBytes(texturePath);
-        razedCityTexture = new Texture2D(0, 0);  // todo for some reason this works, but I *really* don't like this
-        razedCityTexture.LoadImage(binaryImageData);
-        razedCityTexture.filterMode = FilterMode.Point;
-        razedCityTexture.Apply();
-
-        GameController gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-        gameController.AddPlayer(this);
+        texturePath = (string)attributes.GetValue("razedCityTexture");
+        razedCityTexture = gameController.resourceManager.LoadTexture(texturePath);
     }
 
+    /// Adds army to this player's army list
     public void AddArmy(Army army)
     {
         armies.Add(army);
     }
 
+    /// Removes army from this player's army list
     public void RemoveArmy(Army army)
     {
         armies.Remove(army);
     }
 
+    /// Adds city to this player's city list
     public void AddCity(City city)
     {
         cities.Add(city);
     }
 
+    /// Removes city from this player's city list
     public void RemoveCity(City city)
     {
         cities.Remove(city);
     }
 
+    /// Starts turn - starts turn of all armies and updates gold amount according to army upkeep and city income and, if it's >= 0, starts turn of all cities
     public void StartTurn()
     {
-        foreach (Army army in armies) {
-            gold -= army.upkeep;
-        }
-        foreach (City city in cities) {
-            gold += city.income;
-        }
+        gold -= upkeep;
+        gold += income;
 
         foreach (Army army in armies) {
             army.StartTurn();
@@ -91,10 +104,12 @@ public class Player
             // todo add a variable to tell UI if this 0 means just exactly 0, or "city production stopped"
         }
     }
+
+    /// Orders all armies to move along their paths
     public void MoveAll()
     {
         foreach (Army army in armies) {
-            army.Move();
+            gameController.StartArmyMove(army);
         }
     }
 

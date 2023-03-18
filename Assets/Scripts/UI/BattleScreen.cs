@@ -22,7 +22,7 @@ public class BattleScreen : MonoBehaviour
         }
     }
 
-    public float turnDelay = 1;
+    public float turnDelay = 1;  // todo move this delay to game, use BattleScreen only for displaying the battle info, not for time-related stuff
     private float currentTurnDelay = 0;
     private bool boool;
     public Player winner;

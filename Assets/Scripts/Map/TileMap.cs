@@ -9,6 +9,8 @@ using static System.Math;
 [RequireComponent(typeof(MeshCollider))]
 public class TileMap : MonoBehaviour
 {
+    private GameController gameController;
+
     public int width;
     public int height;
     
@@ -24,24 +26,33 @@ public class TileMap : MonoBehaviour
 
     public Texture2D miniMapTexture;
 
+    /// Start is called before the first frame update
     void Start()
     {
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
         tiles = new Tile[width, height];
 
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
         meshCollider = GetComponent<MeshCollider>();
+    }
 
+    /// Initializes the tile map - generates map, mesh, texture and sets some test units
+    public void Initialize()
+    {
         GenerateMap();
 
         GenerateMesh();
 
         meshCollider.sharedMesh = meshFilter.mesh;
 
+        SpaghettiInitialize();
+
         GenerateTexture();
     }
 
-    void GenerateMap()
+    /// TMP method that generates a completely random map //todo
+    private void GenerateMap()
     {
         // the real actual map generation is a todo, this here is just completely random
 
@@ -49,7 +60,7 @@ public class TileMap : MonoBehaviour
 
         for (int i = 0; i < jsons.Length; i += 1) {
             
-            TileData tile = new TileData(jsons[i]);
+            TileData tile = new TileData(gameController.resourceManager.LoadResource(jsons[i]));
             availableTiles[i] = tile;
         }
 
@@ -58,37 +69,44 @@ public class TileMap : MonoBehaviour
                 tiles[x, y] = new Tile(availableTiles[Random.Range(0, availableTiles.Length)]);
             }
         }
+    }
 
-        // todo tmp
-        Player player1 = new Player("Assets/Resources/Players/defaultPlayer.json", "Summoners", Color.cyan);
-        tiles[1, 1] = new Tile(availableTiles[1]);
+    /// TMP method that places test units and city on the generated map //todo
+    public void SpaghettiInitialize()
+    {
+        Player player1 = new Player(gameController.resourceManager.LoadResource("Assets/Resources/Players/defaultPlayer.json"), "Summoners", Color.cyan);
+        gameController.AddPlayer(player1);
+        tiles[1, 1] = new Tile(new TileData(gameController.resourceManager.LoadResource(jsons[1])));
         List<Unit> tmpUnitList = new List<Unit>();
-        tmpUnitList.Add(new Unit("Assets/Resources/Units/scout.json"));
-        tmpUnitList.Add(new Unit("Assets/Resources/Units/knight.json"));
-        tmpUnitList.Add(new Unit("Assets/Resources/Units/scout.json"));
+        tmpUnitList.Add(new Unit(gameController.resourceManager.LoadResource("Assets/Resources/Units/scout.json")));
+        tmpUnitList.Add(new Unit(gameController.resourceManager.LoadResource("Assets/Resources/Units/knight.json")));
+        tmpUnitList.Add(new Unit(gameController.resourceManager.LoadResource("Assets/Resources/Units/scout.json")));
         Army tmpArmy;
         tmpArmy = new Army(tmpUnitList, new Position(1, 1), player1);
 
-        Player player2 = new Player("Assets/Resources/Players/defaultPlayer.json", "Magicians", Color.white);
-        tiles[2, 2] = new Tile(availableTiles[0]);
+        Player player2 = new Player(gameController.resourceManager.LoadResource("Assets/Resources/Players/defaultPlayer.json"), "Magicians", Color.white);
+        gameController.AddPlayer(player2);
+        tiles[2, 2] = new Tile(new TileData(gameController.resourceManager.LoadResource(jsons[0])));
         List<Unit> tmpUnitList2 = new List<Unit>();
-        tmpUnitList2.Add(new Unit("Assets/Resources/Units/okoń.json"));
-        tmpUnitList2.Add(new Unit("Assets/Resources/Units/okoń.json"));
+        tmpUnitList2.Add(new Unit(gameController.resourceManager.LoadResource("Assets/Resources/Units/okoń.json")));
+        tmpUnitList2.Add(new Unit(gameController.resourceManager.LoadResource("Assets/Resources/Units/okoń.json")));
         Army tmpArmy2;
         tmpArmy2 = new Army(tmpUnitList2, new Position(2, 2), player2);
 
-        Player player3 = new Player("Assets/Resources/Players/defaultPlayer.json", "Necromancers", Color.red);
-        tiles[5, 5] = new Tile(availableTiles[1]);
+        Player player3 = new Player(gameController.resourceManager.LoadResource("Assets/Resources/Players/defaultPlayer.json"), "Necromancers", Color.red);
+        gameController.AddPlayer(player3);
+        tiles[5, 5] = new Tile(new TileData(gameController.resourceManager.LoadResource(jsons[1])));
         List<Unit> tmpUnitList3 = new List<Unit>();
-        tmpUnitList3.Add(new Unit("Assets/Resources/Units/scout.json"));
+        tmpUnitList3.Add(new Unit(gameController.resourceManager.LoadResource("Assets/Resources/Units/scout.json")));
         Army tmpArmy3;
         tmpArmy3 = new Army(tmpUnitList3, new Position(5, 5), player3);
 
-        City city = new City("Assets/Resources/Cities/city.json", new Position(10, 10), player3, "Nowa Wieś", "Nowa Wieś is home to the vile creatures of darkness and the capital city of Necromancers");
+        City city = new City(gameController.resourceManager.LoadResource("Assets/Resources/Cities/city.json"), new Position(10, 10), player3, "Nowa Wieś", "Nowa Wieś is home to the vile creatures of darkness and the capital city of Necromancers");
         city.producedUnit = city.buildableUnits[2];
     }
 
-    void GenerateMesh()
+    /// Generates mesh that the texture will be displayed on. Must be called after map generation
+    private void GenerateMesh()
     {
         Vector3[] vertices = new Vector3[4];
         int[] triangles = new int[2 * 3];
@@ -127,7 +145,8 @@ public class TileMap : MonoBehaviour
         meshFilter.mesh = mesh;
     }
 
-    void GenerateTexture()
+    /// Generates map texture to display on the map mesh
+    private void GenerateTexture()
     {
         meshRenderer.material = new Material(Shader.Find("Standard"));
         meshRenderer.material.color = new Color(1f, 1f, 1f);
@@ -149,6 +168,7 @@ public class TileMap : MonoBehaviour
         miniMapTexture = texture;
     }
 
+    /// Returns path from the start position of pathfinding to currentPosition
     private List<Position> ReconstructPath(Dictionary<Position, Position> cameFrom, Position currentPosition)
     {
         List<Position> completePath = new List<Position>();
@@ -160,16 +180,18 @@ public class TileMap : MonoBehaviour
         return completePath;
     }
 
-    private int Heuristic(Position pos, Position goal) {
-        return Max(Abs(pos.x - goal.x), Abs(pos.y - goal.y));
+    /// Returns estimated cost of moving from currentPosition to goal
+    private int Heuristic(Position currentPosition, Position goal) {
+        return Max(Abs(currentPosition.x - goal.x), Abs(currentPosition.y - goal.y));
     }
 
+    /// Returns a shortest path from start to goal for a given army. Returns null if no path exists
     public List<Position> FindPath(Position start, Position goal, Army army)
     {
-        if (!GetTile(start).pathfindingTypes.Overlaps(army.pathfindingTypes)){
+        if (!GetTile(start).pathfindingTypes.Overlaps(army.pathfindingTypes)) {
             return null;
         }
-        if (!GetTile(goal).pathfindingTypes.Overlaps(army.pathfindingTypes)){
+        if (!GetTile(goal).pathfindingTypes.Overlaps(army.pathfindingTypes)) {
             return null;
         }
         // todo maybe add checks if the goal is not on a very small unreachable island (BFS from goal position with max radius=3 for example)
@@ -240,6 +262,7 @@ public class TileMap : MonoBehaviour
         return null;
     }
 
+    /// Returns a list of positions neighbouring with the given position
     public List<Position> GetNeighbouringPositions(Position position)
     {
         List<Position> positions = new List<Position>();
@@ -254,6 +277,7 @@ public class TileMap : MonoBehaviour
         return positions;
     }
 
+    /// Returns the tile at the given position
     public Tile GetTile(Position position)
     {
         return tiles[position.x, position.y];

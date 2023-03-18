@@ -17,29 +17,24 @@ public class Unit
     public int upkeep {get;}
     public int productionCost{get;}
     
-    public Unit(string jsonPath)
+    public Unit(JObject attributes)
     {
-        string json = File.ReadAllText(jsonPath);
-        JObject jObject = JObject.Parse(json);
+        GameController gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
-        name = (string)jObject.GetValue("name");
+        name = (string)attributes.GetValue("name");
 
-        string texturePath = (string)jObject.GetValue("texture");
-        byte[] binaryImageData = File.ReadAllBytes(texturePath);
-        texture = new Texture2D(0,0);  // todo for some reason this works, but I *really* don't like this.
-        texture.LoadImage(binaryImageData);
-        texture.filterMode = FilterMode.Point;
-        texture.Apply();
+        string texturePath = (string)attributes.GetValue("texture");
+        texture = gameController.resourceManager.LoadTexture(texturePath);
 
         pathfindingTypes = new HashSet<string>();
-        foreach (string pathfindingType in jObject.GetValue("pathfindingTypes")) {
+        foreach (string pathfindingType in attributes.GetValue("pathfindingTypes")) {
             pathfindingTypes.Add(pathfindingType);
         }
 
-        strength = (int)jObject.GetValue("strength");
-        move = (int)jObject.GetValue("move");
-        upkeep = (int)jObject.GetValue("upkeep");
-        productionCost = (int)jObject.GetValue("productionCost");
+        strength = (int)attributes.GetValue("strength");
+        move = (int)attributes.GetValue("move");
+        upkeep = (int)attributes.GetValue("upkeep");
+        productionCost = (int)attributes.GetValue("productionCost");
 
         remainingMove = move;
     }

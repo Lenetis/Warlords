@@ -6,13 +6,13 @@ using System.Linq;
 
 public class Army : IPlayerMapObject
 {
+    private GameController gameController;
+
     public List<Unit> units {get;}
 
     public Player owner {get;}
     
     private int move;
-    private int remainingMove;
-    // todo it's probably better to store move and remaining move only in Unit (tile movement bonuses will cause problems)
 
     public int upkeep
     {
@@ -25,22 +25,18 @@ public class Army : IPlayerMapObject
         }
     }
     
-    public Position position {get; private set;}
+    public Position position {get; set;}
     public HashSet<string> pathfindingTypes {get; private set;}
     
     public List<Position> path {get; private set;}
     private IPlayerMapObject attackTarget;
 
-    private bool moving;
-
-    private IEnumerator moveCoroutine;
-
-    private TileMap tileMap;
-
-    public GameObject mapSprite;
+    public GameObject mapSprite;  // todo to remove
 
     public Army(List<Unit> units, Position position, Player owner)
     {
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        
         this.units = units;
         this.position = position;
         this.owner = owner;
@@ -49,16 +45,12 @@ public class Army : IPlayerMapObject
         mapSprite.transform.position = position;
         mapSprite.AddComponent<SpriteRenderer>();
 
-        tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
-
-        tileMap.GetTile(position).contents.AddArmy(this);
-        // todo check if this is a legal tile for this army (common pathfinding types, not full, without enemies, etc)
-
-        owner.AddArmy(this);
+        gameController.AddArmy(this);
 
         Recalculate();
     }
 
+    /// Removes unit from army
     public void RemoveUnit(Unit unit)
     {
         units.Remove(unit);
@@ -69,30 +61,33 @@ public class Army : IPlayerMapObject
         }
     }
 
+    /// Adds unit to army
     public void AddUnit(Unit unit)
     {
         units.Add(unit);
         Recalculate();
     }
 
+    /// Adds a list of units to army
     public void AddUnits(List<Unit> units)
     {
         this.units.AddRange(units);
         Recalculate();
     }
 
+    /// Destroys the army - removes this army (and all its units) from the game
     public void Destroy()
     {
-        owner.RemoveArmy(this);
-        tileMap.GetTile(position).contents.RemoveArmy(this);
+        gameController.DestroyArmy(this);
 
+        // todo remove this!!
         for (int i = 0; i < mapSprite.transform.childCount; i += 1) {
             mapSprite.transform.GetChild(0).SetParent(null);  // todo this is awful, unit rendering should be moved to a separate script
         }
         GameObject.Destroy(mapSprite);
     }
 
-    // merge this army into other army and destroy this army
+    /// Merges this army into other army and destroys this army
     public void Merge(Army otherArmy)
     {
         if (otherArmy.position != position) {
@@ -102,7 +97,7 @@ public class Army : IPlayerMapObject
         Destroy();
     }
 
-    // turn every unit in this army into a separate army
+    /// Turns every unit in this army into a separate army
     public void Split()
     {
         while (units.Count > 1) {
@@ -116,7 +111,7 @@ public class Army : IPlayerMapObject
         Recalculate();
     }
 
-    // turn unit into a separate army
+    /// Splits unit from this army and turns it into a separate army
     public void SplitUnit(Unit unit)
     {
         RemoveUnit(unit);
@@ -134,21 +129,11 @@ public class Army : IPlayerMapObject
         // units are sorted from weakest to strongest for now (todo change this when implementing custom unit orders)
 
         Unit strongestUnit = units[0];
-        Unit leastRemainingMoveUnit = units[0];
-        Unit leastMoveUnit = units[0];
         foreach (Unit unit in units.Skip(1)) {
             if (unit.strength > strongestUnit.strength) {
                 strongestUnit = unit;
             }
-            if (unit.remainingMove < leastRemainingMoveUnit.remainingMove) {
-                leastRemainingMoveUnit = unit;
-            }
-            if (unit.move < leastMoveUnit.move) {
-                leastMoveUnit = unit;
-            }
         }
-        move = leastMoveUnit.move;
-        remainingMove = leastMoveUnit.remainingMove;
 
         Texture2D texture = strongestUnit.texture;
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), 32);
@@ -163,17 +148,12 @@ public class Army : IPlayerMapObject
         }
         if (pathfindingTypes.Count == 0) {
             throw new System.ArgumentException($"No common pathfinding type exists in army {string.Join(", ", units)}");
-            // todo check this in the merging armies method (but don't remove this exception, it will still be useful in loading save files for example)
         }
     }
 
-    public void SetPath(List<Position> path)
-    {
-        if (moving) {
-            tileMap.StopCoroutine(moveCoroutine);
-            moving = false;
-        }
-        
+    /// Sets army path to a new value. If the last step of the new path is an enemy unit, that unit becomes the army's attackTarget
+    public void SetPath(List<Position> path)  // todo shouldn't this be in the path setter instead of a new method?
+    {        
         // a non-null path has to start from the army position
         if (path == null || path.Count <= 1 || path[0] != position) {
             this.path = null;
@@ -182,112 +162,88 @@ public class Army : IPlayerMapObject
             this.path.RemoveAt(0);  // skip the first element because we don't need to move to where we already are
 
             attackTarget = null;
-            Tile targetTile = tileMap.GetTile(path.Last());
+            Tile targetTile = gameController.tileMap.GetTile(path.Last());
             if (targetTile.owner != null && targetTile.owner != owner) {
-                if (targetTile.contents.city != null) {  // todo this looks a bit spaghetti, but I'm not sure what else to do
-                    attackTarget = targetTile.contents.city;
+                if (targetTile.city != null) {  // todo this looks a bit spaghetti, but I'm not sure what else to do
+                    attackTarget = targetTile.city;
                 } else {
-                    attackTarget = targetTile.contents.armies[0];  // todo make sure that armies[0] is the one with a visible sprite
+                    attackTarget = targetTile.armies[0];  // todo make sure that armies[0] is the one with a visible sprite
                 }
             }
         }
     }
 
-    public void Move()
+    /// Moves army by one step on its path. Returns true if the move succeeded and false otherwise (i.e. if there is no path or army doesn't have enough move points)
+    public bool MoveOneStep()
     {
-        if (!moving && path != null) {
-            moving = true;
-            moveCoroutine = MoveCoroutine();
-            tileMap.StartCoroutine(moveCoroutine);
+        if (path == null || path.Count == 0) {
+            return false;
         }
-    }
-    
-    private IEnumerator MoveCoroutine()
-    {
-        foreach(Unit unit in units) {
-            if (unit.remainingMove <= 0) {
-                moving = false;
-                yield break;
+
+        Position nextPosition = path[0];
+        Tile nextTile = gameController.tileMap.GetTile(nextPosition);
+
+        if (nextTile.owner == null || nextTile.owner == owner) {
+            foreach(Unit unit in units) {
+                if (unit.remainingMove - nextTile.moveCost < 0) {
+                    return false;
+                }
             }
-        }
 
-        while (moving && path.Count > 0) {
-            yield return new WaitForSeconds(0.2f);
-            Position nextPosition = path[0];
-            // todo maybe check if nextPosition is adjacent to the current position?
+            gameController.MoveArmy(this, nextPosition);
+            mapSprite.transform.position = nextPosition;  // todo this probably shouldn't be here
+            foreach(Unit unit in units) {
+                unit.remainingMove -= nextTile.moveCost;
+            }
+            path.RemoveAt(0);
 
-            Tile currentTile = tileMap.GetTile(position);
-            Tile nextTile = tileMap.GetTile(nextPosition);
+            return true;
+        } else {
+            if (path.Count == 1) {
+                gameController.StartBattle(this, attackTarget);
 
-            if (nextTile.owner == null || nextTile.owner == owner) {
-                foreach(Unit unit in units) {  // todo maybe move this to a separate method?
-                    if (unit.remainingMove - nextTile.moveCost < 0) {
-                        moving = false;
-                        break;
-                    }
-                }
-                if (!moving) {
-                    break;
-                }
-                foreach(Unit unit in units) {
-                    unit.remainingMove -= nextTile.moveCost;
-                }
+                path = null;
+                attackTarget = null;
 
-                currentTile.contents.RemoveArmy(this);
-                nextTile.contents.AddArmy(this);
-
-                position = nextPosition;
-                mapSprite.transform.position = nextPosition;
-
-                path.RemoveAt(0);
-
-                // todo check if there is room for more units on nextPosition tile
             } else {
-                if (path.Count == 1) {
-                    Battle battle = new Battle(this, attackTarget);
-
-                    moving = false;
-                    path = null;
-                    attackTarget = null;
-
-                } else {
-                    // todo maybe find a different path instead of cancelling the move?
-                    moving = false;
-                    path = null;
-                }
+                // todo maybe find a different path instead of cancelling the move?
+                path = null;
             }
+            return false;
         }
-        moving = false;
     }
 
+    /// Starts turn (resets move points) of every unit in this army and updates path if attackTarget has moved
     public void StartTurn()
     {
+        foreach (Unit unit in units) {
+            unit.StartTurn();
+        }
+
         if (attackTarget != null && path != null && !attackTarget.OccupiesPosition(path.Last())) {
             // todo if fog of war is added, we need to check if attackTarget is visible
-            SetPath(tileMap.FindPath(position, attackTarget.position, this));
+            SetPath(gameController.tileMap.FindPath(position, attackTarget.position, this));
  
             if (path == null) {
                 return;
             }
         }
-        
-        foreach (Unit unit in units) {
-            unit.StartTurn();
-        }
     }
 
+    /// Returns a list of all armies that will support this army if it is attacked (a.k.a. all armies on the same tile and in the same city as this army)
     public List<Army> GetSupportingArmies()
     {
         List<Army> supportingArmies;
-        Tile occupiedTile = tileMap.GetTile(position);
-        if (occupiedTile.contents.city != null) {
-            supportingArmies = occupiedTile.contents.city.GetSupportingArmies();
+        Tile occupiedTile = gameController.tileMap.GetTile(position);
+        if (occupiedTile.city != null) {
+            supportingArmies = occupiedTile.city.GetSupportingArmies();
         } else {
-            supportingArmies = occupiedTile.contents.armies;
+            supportingArmies = occupiedTile.armies;
         }
         return supportingArmies;
     }
 
+    /// Returns true if the position is occupied by this army and false otherwise
     public bool OccupiesPosition(Position position) {
         return this.position == position;
     }

@@ -7,8 +7,6 @@ public interface IPlayerMapObject
     public Player owner {get;}
     public Position position {get;}
 
-    // sprite??
-
     public void StartTurn();
 
     public List<Army> GetSupportingArmies();

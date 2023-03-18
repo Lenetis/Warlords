@@ -24,16 +24,15 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Camera Pan")){
+        if (Input.GetButtonDown("Camera Pan")) {
             cameraPanButtonPressed = true;
             mousePosition = Input.mousePosition;
         }
-        if (Input.GetButtonUp("Camera Pan")){
+        if (Input.GetButtonUp("Camera Pan")) {
             cameraPanButtonPressed = false;
         }
 
-        if (cameraPanButtonPressed){
-
+        if (cameraPanButtonPressed) {
             Vector2 newMousePosition = Input.mousePosition;
             Vector3 diffPos = (mousePosition -newMousePosition) *panSpeed * - transform.position.z;
 
@@ -51,7 +50,7 @@ public class CameraController : MonoBehaviour
         }
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll != 0){
+        if (scroll != 0) {
             float zPositionDiff = scroll * zoomSpeed * -transform.position.z;
             Vector3 targetPosition = camUI.transform.position + new Vector3(0, 0, zPositionDiff);
             CheckNSetPosition(targetPosition);
