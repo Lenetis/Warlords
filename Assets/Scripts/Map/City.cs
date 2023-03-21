@@ -128,9 +128,9 @@ public class City : IPlayerMapObject
         producing = false;
 
         Recalculate();
-        owner = null;
 
         gameController.RazeCity(this);
+        owner = null;
     }
 
     /// Changes the owner of this city to newOwner
