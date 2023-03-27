@@ -6,7 +6,7 @@ public class Battle
 {
     // todo maybe add strength/attack/defence modifiers etc? (or maybe add them in Army)
 
-    private GameController gameController;
+    private static GameController gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
     private IPlayerMapObject defender;
 
@@ -24,8 +24,6 @@ public class Battle
 
     public Battle(Army attacker, IPlayerMapObject defender)
     {
-        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-        
         this.defender = defender;
 
         attackingUnits = new List<Unit>();

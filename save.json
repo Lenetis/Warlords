@@ -1,0 +1,172 @@
+{
+  "players": [
+    {
+      "baseFile": "Assets/Resources/Players/defaultPlayer.json",
+      "name": "Summoners",
+      "color": "00FFFF",
+      "gold": 0
+    },
+    {
+      "baseFile": "Assets/Resources/Players/defaultPlayer.json",
+      "name": "Magicians",
+      "color": "FFFFFF",
+      "gold": 0
+    },
+    {
+      "baseFile": "Assets/Resources/Players/defaultPlayer.json",
+      "name": "Necromancers",
+      "color": "FF0000",
+      "gold": 14
+    }
+  ],
+  "armies": [
+    {
+      "owner": "Summoners",
+      "position": [
+        6,
+        1
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/scout.json",
+          "name": "Scout",
+          "strength": 3,
+          "move": 18,
+          "remainingMove": 18,
+          "pathfindingTypes": [
+            "land"
+          ],
+          "upkeep": 3,
+          "productionCost": 10
+        },
+        {
+          "baseFile": "Assets/Resources/Units/scout.json",
+          "name": "Scout",
+          "strength": 3,
+          "move": 18,
+          "remainingMove": 18,
+          "pathfindingTypes": [
+            "land"
+          ],
+          "upkeep": 3,
+          "productionCost": 10
+        },
+        {
+          "baseFile": "Assets/Resources/Units/knight.json",
+          "name": "Knight",
+          "strength": 4,
+          "move": 14,
+          "remainingMove": 14,
+          "pathfindingTypes": [
+            "land"
+          ],
+          "upkeep": 4,
+          "productionCost": 30
+        }
+      ]
+    },
+    {
+      "owner": "Magicians",
+      "position": [
+        2,
+        2
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/okoń.json",
+          "name": "Okoń",
+          "strength": 300000,
+          "move": 180,
+          "remainingMove": 180,
+          "pathfindingTypes": [
+            "sea"
+          ],
+          "upkeep": 50,
+          "productionCost": 20
+        },
+        {
+          "baseFile": "Assets/Resources/Units/okoń.json",
+          "name": "Okoń",
+          "strength": 300000,
+          "move": 180,
+          "remainingMove": 180,
+          "pathfindingTypes": [
+            "sea"
+          ],
+          "upkeep": 50,
+          "productionCost": 20
+        }
+      ]
+    },
+    {
+      "owner": "Necromancers",
+      "position": [
+        5,
+        5
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/scout.json",
+          "name": "Scout",
+          "strength": 3,
+          "move": 18,
+          "remainingMove": 18,
+          "pathfindingTypes": [
+            "land"
+          ],
+          "upkeep": 3,
+          "productionCost": 10
+        }
+      ]
+    }
+  ],
+  "cities": [
+    {
+      "baseFile": "Assets/Resources/Cities/city.json",
+      "owner": "Necromancers",
+      "name": "Nowa Wieś",
+      "description": "Nowa Wieś is home to the vile creatures of darkness and the capital city of Necromancers",
+      "position": [
+        10,
+        10
+      ],
+      "occupiedPositions": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "moveCost": 1,
+      "pathfindingTypes": [
+        "land",
+        "sea",
+        "air"
+      ],
+      "income": 10,
+      "production": 10,
+      "buildableUnits": [
+        "Assets/Resources/Units/okoń.json",
+        "Assets/Resources/Units/scout.json",
+        "Assets/Resources/Units/knight.json"
+      ],
+      "buyableUnits": [
+        "Assets/Resources/Units/scout.json",
+        "Assets/Resources/Units/knight.json"
+      ],
+      "producedUnitIndex": 1,
+      "productionProgress": 0
+    }
+  ]
+}

@@ -12,7 +12,7 @@ public class MouseSelection : MonoBehaviour
     private List<GameObject> pathMarkers;
     private Position previousPathGoal;
 
-    public Army selectedArmy { get; private set; }  // todo add option to select one army when there are many on the same tile
+    public Army selectedArmy { get; private set; }
 
     private TileMap tileMap;
     private GameController gameController;
@@ -74,6 +74,14 @@ public class MouseSelection : MonoBehaviour
         {
             selectedArmy.Split();
             armyManagement.RefreshSelection();
+        }
+        if(Input.GetKeyDown(KeyCode.F5))
+        {
+            ResourceManager.SaveGame("save.json");
+        }
+        if(Input.GetKeyDown(KeyCode.F9))
+        {
+            ResourceManager.LoadGame("save.json");
         }
 
         float dispAreaWidth = (displayArea.GetComponent<RectTransform>().anchorMax.x - displayArea.GetComponent<RectTransform>().anchorMin.x) * Screen.width + displayArea.GetComponent<RectTransform>().sizeDelta.x * gui.GetComponent<Canvas>().scaleFactor;

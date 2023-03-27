@@ -16,14 +16,12 @@ public class TileData
     
     public TileData(JObject attributes)
     {
-        GameController gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-        
         name = (string)attributes.GetValue("name");
 
         description = (string)attributes.GetValue("description");
 
         string texturePath = (string)attributes.GetValue("texture");
-        texture = gameController.resourceManager.LoadTexture(texturePath);
+        texture = ResourceManager.LoadTexture(texturePath);
 
         pathfindingTypes = new HashSet<string>();
         foreach (string pathfindingType in attributes.GetValue("pathfindingTypes")) {

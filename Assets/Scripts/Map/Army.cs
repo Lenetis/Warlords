@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 public class Army : IPlayerMapObject
 {
-    private GameController gameController;
+    private static GameController gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
     public List<Unit> units {get;}
 
     public Player owner {get;}
     
-    private int move;
-
     public int upkeep
     {
         get {
@@ -34,9 +33,7 @@ public class Army : IPlayerMapObject
     public GameObject mapSprite;  // todo to remove
 
     public Army(List<Unit> units, Position position, Player owner)
-    {
-        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-        
+    {        
         this.units = units;
         this.position = position;
         this.owner = owner;
@@ -44,8 +41,6 @@ public class Army : IPlayerMapObject
         mapSprite = new GameObject("Army");
         mapSprite.transform.position = position;
         mapSprite.AddComponent<SpriteRenderer>();
-
-        gameController.AddArmy(this);
 
         Recalculate();
     }
@@ -246,6 +241,39 @@ public class Army : IPlayerMapObject
     /// Returns true if the position is occupied by this army and false otherwise
     public bool OccupiesPosition(Position position) {
         return this.position == position;
+    }
+
+    /// Serializes this army into a JObject
+    public JObject ToJObject()
+    {
+        JObject armyJObject = new JObject();
+        armyJObject.Add("owner", owner?.name);
+        armyJObject.Add("position", new JArray(position.x, position.y));
+
+        if (path != null) {
+            armyJObject.Add("path", new JArray(path.Select(position => new JArray(position.x, position.y))));
+        }
+        
+        armyJObject.Add("units", new JArray(units.Select(unit => unit.ToJObject())));
+
+        return armyJObject;
+    }
+
+    /// Creates a new army from JObject
+    public static Army FromJObject(JObject attributes)
+    {
+        ResourceManager.ExpandWithBaseFile(attributes);
+
+        List<Unit> units = new List<Unit>();
+        foreach (JObject unitJObject in attributes.GetValue("units")) {
+            units.Add(Unit.FromJObject(unitJObject));
+        }
+
+        Position position = new Position((int)attributes.GetValue("position")[0], (int)attributes.GetValue("position")[1]);
+
+        Player owner = gameController.GetPlayerByName((string)attributes.GetValue("owner"));
+
+        return new Army(units, position, owner);
     }
 
     public override string ToString()

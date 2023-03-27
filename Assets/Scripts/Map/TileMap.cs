@@ -9,8 +9,6 @@ using static System.Math;
 [RequireComponent(typeof(MeshCollider))]
 public class TileMap : MonoBehaviour
 {
-    private GameController gameController;
-
     public int width;
     public int height;
     
@@ -29,7 +27,6 @@ public class TileMap : MonoBehaviour
     /// Start is called before the first frame update
     void Start()
     {
-        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
         tiles = new Tile[width, height];
 
         meshFilter = GetComponent<MeshFilter>();
@@ -46,8 +43,6 @@ public class TileMap : MonoBehaviour
 
         meshCollider.sharedMesh = meshFilter.mesh;
 
-        SpaghettiInitialize();
-
         GenerateTexture();
     }
 
@@ -60,7 +55,7 @@ public class TileMap : MonoBehaviour
 
         for (int i = 0; i < jsons.Length; i += 1) {
             
-            TileData tile = new TileData(gameController.resourceManager.LoadResource(jsons[i]));
+            TileData tile = new TileData(ResourceManager.LoadResource(jsons[i]));
             availableTiles[i] = tile;
         }
 
@@ -69,40 +64,6 @@ public class TileMap : MonoBehaviour
                 tiles[x, y] = new Tile(availableTiles[Random.Range(0, availableTiles.Length)]);
             }
         }
-    }
-
-    /// TMP method that places test units and city on the generated map //todo
-    public void SpaghettiInitialize()
-    {
-        Player player1 = new Player(gameController.resourceManager.LoadResource("Assets/Resources/Players/defaultPlayer.json"), "Summoners", Color.cyan);
-        gameController.AddPlayer(player1);
-        tiles[1, 1] = new Tile(new TileData(gameController.resourceManager.LoadResource(jsons[1])));
-        List<Unit> tmpUnitList = new List<Unit>();
-        tmpUnitList.Add(new Unit(gameController.resourceManager.LoadResource("Assets/Resources/Units/scout.json")));
-        tmpUnitList.Add(new Unit(gameController.resourceManager.LoadResource("Assets/Resources/Units/knight.json")));
-        tmpUnitList.Add(new Unit(gameController.resourceManager.LoadResource("Assets/Resources/Units/scout.json")));
-        Army tmpArmy;
-        tmpArmy = new Army(tmpUnitList, new Position(1, 1), player1);
-
-        Player player2 = new Player(gameController.resourceManager.LoadResource("Assets/Resources/Players/defaultPlayer.json"), "Magicians", Color.white);
-        gameController.AddPlayer(player2);
-        tiles[2, 2] = new Tile(new TileData(gameController.resourceManager.LoadResource(jsons[0])));
-        List<Unit> tmpUnitList2 = new List<Unit>();
-        tmpUnitList2.Add(new Unit(gameController.resourceManager.LoadResource("Assets/Resources/Units/okoń.json")));
-        tmpUnitList2.Add(new Unit(gameController.resourceManager.LoadResource("Assets/Resources/Units/okoń.json")));
-        Army tmpArmy2;
-        tmpArmy2 = new Army(tmpUnitList2, new Position(2, 2), player2);
-
-        Player player3 = new Player(gameController.resourceManager.LoadResource("Assets/Resources/Players/defaultPlayer.json"), "Necromancers", Color.red);
-        gameController.AddPlayer(player3);
-        tiles[5, 5] = new Tile(new TileData(gameController.resourceManager.LoadResource(jsons[1])));
-        List<Unit> tmpUnitList3 = new List<Unit>();
-        tmpUnitList3.Add(new Unit(gameController.resourceManager.LoadResource("Assets/Resources/Units/scout.json")));
-        Army tmpArmy3;
-        tmpArmy3 = new Army(tmpUnitList3, new Position(5, 5), player3);
-
-        City city = new City(gameController.resourceManager.LoadResource("Assets/Resources/Cities/city.json"), new Position(10, 10), player3, "Nowa Wieś", "Nowa Wieś is home to the vile creatures of darkness and the capital city of Necromancers");
-        city.producedUnit = city.buildableUnits[2];
     }
 
     /// Generates mesh that the texture will be displayed on. Must be called after map generation

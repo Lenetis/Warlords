@@ -84,7 +84,19 @@ public class Tile  // todo change to struct maybe?
     /// Adds city to this tile's contents
     public void AddCity(City city)
     {
+        if (contents.city != null) {
+            throw new System.ArgumentException($"Cannot add city to this tile. Tile is already occupied by another city");
+        }
         contents.city = city;
+    }
+
+    /// Removes city from this tile's contents
+    public void RemoveCity()
+    {
+        if (contents.city == null) {
+            throw new System.ArgumentException($"Cannot remove city from this tile. Tile has no city");
+        }
+        contents.city = null;
     }
 
     public override string ToString()

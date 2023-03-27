@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using System.IO;
 using Newtonsoft.Json.Linq;
 
 public class Player
 {
-    private GameController gameController;
+    public string baseFile {get; private set;}
+    
+    private static GameController gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     
     public string name {get;}
     public Color color {get;}
@@ -42,23 +43,21 @@ public class Player
         }
     }
 
-    public Player(JObject attributes, string name, Color color)
+    // todo maybe change this constructor to use less arguments
+    public Player(string baseFile, string name, Color color, int gold, Texture2D cityTexture, Texture2D razedCityTexture)
     {
-        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        this.baseFile = baseFile;
 
         this.name = name;
         this.color = color;
 
-        this.gold = 0;
+        this.gold = gold;
+
+        this.cityTexture = cityTexture;
+        this.razedCityTexture = razedCityTexture;
 
         armies = new List<Army>();
         cities = new List<City>();
-
-        string texturePath = (string)attributes.GetValue("cityTexture");
-        cityTexture = gameController.resourceManager.LoadTexture(texturePath);
-
-        texturePath = (string)attributes.GetValue("razedCityTexture");
-        razedCityTexture = gameController.resourceManager.LoadTexture(texturePath);
     }
 
     /// Adds army to this player's army list
@@ -111,6 +110,48 @@ public class Player
         foreach (Army army in armies) {
             gameController.StartArmyMove(army);
         }
+    }
+
+    /// Serializes this player into a JObject
+    public JObject ToJObject()
+    {
+        JObject playerJObject = new JObject();
+
+        if (baseFile != null) {
+            playerJObject.Add("baseFile", baseFile);
+        }
+
+        playerJObject.Add("name", name);
+        playerJObject.Add("color", ColorUtility.ToHtmlStringRGB(color));
+        playerJObject.Add("gold", gold);
+
+        return playerJObject;
+    }
+
+    /// Creates a new player from JObject
+    public static Player FromJObject(JObject attributes)
+    {
+        ResourceManager.ExpandWithBaseFile(attributes);
+        string baseFile = null;
+        if (attributes.ContainsKey("baseFile")) {
+            baseFile = (string)attributes.GetValue("baseFile");
+        }
+
+        string name = (string)attributes.GetValue("name");
+
+        string colorCode = (string)attributes.GetValue("color");
+        if (colorCode[0] != '#') {
+            colorCode = '#' + colorCode;
+        }
+        Color color;
+        ColorUtility.TryParseHtmlString(colorCode, out color);
+
+        int gold = (int)attributes.GetValue("gold");
+
+        Texture2D cityTexture = ResourceManager.LoadTexture((string)attributes.GetValue("cityTexture"));
+        Texture2D razedCityTexture = ResourceManager.LoadTexture((string)attributes.GetValue("razedCityTexture"));
+
+        return new Player(baseFile, name, color, gold, cityTexture, razedCityTexture);
     }
 
     public override string ToString()

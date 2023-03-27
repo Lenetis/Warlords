@@ -5,7 +5,6 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public TileMap tileMap {get; private set;}
-    public ResourceManager resourceManager {get; private set;}
 
     public float armyMoveDelay = 0.15f;
     private float currentArmyMoveDelay = 0;
@@ -17,7 +16,9 @@ public class GameController : MonoBehaviour
         get { return players[activePlayerIndex]; }
     }
 
-    private List<Player> players;
+    public List<Player> players {get; private set;}
+    public List<Army> armies {get; private set;}
+    public List<City> cities {get; private set;}
 
     private List<Army> movingArmies;
 
@@ -30,12 +31,16 @@ public class GameController : MonoBehaviour
     void Start()
     {
         tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();  // todo replace with new TileMap(...) and change TileMap to not be a MonoBehaviour
-        resourceManager = new ResourceManager();
+
+        players = new List<Player>();
+        armies = new List<Army>();
+        cities = new List<City>();
 
         movingArmies = new List<Army>();
-        players = new List<Player>();
 
         tileMap.Initialize();
+
+        ResourceManager.LoadGame("save.json");
 
         turnInfoDisplay= GameObject.Find("Main").GetComponent<TurnInfoDisplay>();
         resourcesDisplay = GameObject.Find("Main").GetComponent<ResourcesDisplay>();
@@ -138,9 +143,25 @@ public class GameController : MonoBehaviour
     }
 
     /// Adds a new player to the list of players
-    public void AddPlayer(Player player)
+    public void AddPlayer(Player newPlayer)
     {
-        players.Add(player);
+        foreach (Player player in players) {
+            if (player.name == newPlayer.name) {
+                throw new KeyNotFoundException($"Cannot add player. Player with name {newPlayer.name} already exists.");
+            }
+        }
+        players.Add(newPlayer);
+    }
+
+    /// Returns a player with the provided name. Throws KeyNotFoundException if no such player exists
+    public Player GetPlayerByName(string playerName)
+    {
+        foreach (Player player in players) {
+            if (player.name == playerName) {
+                return player;
+            }
+        }
+        throw new KeyNotFoundException($"Player {playerName} does not exist.");
     }
 
     /// Adds an army to the tile at the army's position, and to the army owner's armies
@@ -148,6 +169,8 @@ public class GameController : MonoBehaviour
     {
         tileMap.GetTile(army.position).AddArmy(army);
         army.owner.AddArmy(army);
+
+        armies.Add(army);
     }
 
     /// Removes the army from TileMap and from its owner armies
@@ -155,6 +178,8 @@ public class GameController : MonoBehaviour
     {
         army.owner.RemoveArmy(army);
         tileMap.GetTile(army.position).RemoveArmy(army);
+
+        armies.Remove(army);
     }
 
     /// Adds a city to all tiles in the city's occupied position, and to the city owner's cities
@@ -162,19 +187,29 @@ public class GameController : MonoBehaviour
     {
         foreach (Position occupiedPosition in city.occupiedPositions) {
             Tile occupiedTile = tileMap.GetTile(city.position + occupiedPosition);
-            if (occupiedTile.city != null) {
-                throw new System.ArgumentException($"Position {city.position + occupiedPosition} is already occupied by another city");
-            }
             occupiedTile.AddCity(city);
         }
 
         city.owner.AddCity(city);
+
+        cities.Add(city);
     }
 
     /// Removes the city from its owner cities
     public void RazeCity(City city)
     {
         city.owner.RemoveCity(city);
+    }
+
+    /// Removes the city from TileMap and from its owner cities
+    public void DestroyCity(City city)
+    {
+        city.owner.RemoveCity(city);
+        foreach (Position occupiedPosition in city.occupiedPositions) {
+            tileMap.GetTile(city.position + occupiedPosition).RemoveCity();
+        }
+
+        cities.Remove(city);
     }
 
     /// Changes the owner of the city
@@ -202,5 +237,17 @@ public class GameController : MonoBehaviour
         turnInfoDisplay.showTurnInfo(activePlayer.name, turn + 1);
         activePlayer.StartTurn();
         resourcesDisplay.UpdateResources(activePlayer.cities.Count, activePlayer.gold, activePlayer.income, activePlayer.upkeep);
+    }
+
+    /// Removes all armies, cities and players from the game
+    public void Clear()
+    {
+        while (armies.Count > 0) {
+            armies[0].Destroy();
+        }     
+        while (cities.Count > 0) {
+            cities[0].Destroy();
+        }
+        players.Clear();
     }
 }
