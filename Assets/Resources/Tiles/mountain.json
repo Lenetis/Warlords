@@ -1,6 +1,6 @@
 {
     "name": "Mountain",
-    "description": "Cannot move through this",
+    "description": "Only for flying armies",
     "texture": "Assets/Resources/Tiles/mountain.png",
     "moveCost": 10,
     "pathfindingTypes": ["air"]

@@ -1,0 +1,7 @@
+{
+    "name": "Hills",
+    "description": "Slows down movemet",
+    "texture": "Assets/Resources/Tiles/Hills.png",
+    "moveCost": 6,
+    "pathfindingTypes": ["land", "air"]
+}

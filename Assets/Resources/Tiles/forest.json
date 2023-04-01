@@ -2,6 +2,6 @@
     "name": "Forest",
     "description": "Difficult to move through",
     "texture": "Assets/Resources/Tiles/forest.png",
-    "moveCost": 5,
+    "moveCost": 4,
     "pathfindingTypes": ["land", "air"]
 }

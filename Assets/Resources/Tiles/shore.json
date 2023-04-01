@@ -1,0 +1,7 @@
+{
+    "name": "Shore",
+    "description": "Only for flying armies and boats",
+    "texture": "Assets/Resources/Tiles/Hills.png",
+    "moveCost": 2,
+    "pathfindingTypes": ["sea", "air"]
+}

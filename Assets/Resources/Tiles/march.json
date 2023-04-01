@@ -1,0 +1,7 @@
+{
+    "name": "March",
+    "description": "Very hard to pass trough this",
+    "texture": "Assets/Resources/Tiles/March.png",
+    "moveCost": 5,
+    "pathfindingTypes": ["land", "air"]
+}
