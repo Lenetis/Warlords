@@ -155,6 +155,7 @@ public class City : IPlayerMapObject
                 List<Unit> unitList = new List<Unit>();
                 unitList.Add(newUnit);
                 Army producedArmy = new Army(unitList, position, owner);
+                gameController.AddArmy(producedArmy);
 
                 productionProgress = 0;
             }

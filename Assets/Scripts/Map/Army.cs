@@ -102,6 +102,7 @@ public class Army : IPlayerMapObject
             List<Unit> newUnitList = new List<Unit>();
             newUnitList.Add(lastUnit);
             Army newArmy = new Army(newUnitList, position, owner);
+            gameController.AddArmy(newArmy);
         }
         Recalculate();
     }
@@ -114,6 +115,7 @@ public class Army : IPlayerMapObject
         List<Unit> newUnitList = new List<Unit>();
         newUnitList.Add(unit);
         Army newArmy = new Army(newUnitList, position, owner);
+        gameController.AddArmy(newArmy);
     }
 
     // todo change name to something more descriptive 
