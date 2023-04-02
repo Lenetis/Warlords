@@ -19,7 +19,6 @@ public class CameraController : MonoBehaviour
     void Start()
     {
         cameraPanButtonPressed = false;
-        
     }
 
     void Update()
@@ -33,11 +32,12 @@ public class CameraController : MonoBehaviour
         }
 
         if (cameraPanButtonPressed) {
+
             Vector2 newMousePosition = Input.mousePosition;
-            Vector3 diffPos = (mousePosition -newMousePosition) *panSpeed * - transform.position.z;
+            Vector3 diffPos = (mousePosition - newMousePosition) * panSpeed * -transform.position.z;
 
             float viewportWorldWidth = camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1, 0, Mathf.Abs(camUI.transform.position.z))).x - camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, 0, Mathf.Abs(camUI.transform.position.z))).x;
-            Vector3 targetPosition= camUI.transform.position + diffPos;
+            Vector3 targetPosition = camUI.transform.position + diffPos;
             //Debug.Log(viewportWorldWidth);
             //Debug.Log(diffPos);
 
@@ -50,7 +50,8 @@ public class CameraController : MonoBehaviour
         }
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll != 0) {
+        if (scroll != 0)
+        {
             float zPositionDiff = scroll * zoomSpeed * -transform.position.z;
             Vector3 targetPosition = camUI.transform.position + new Vector3(0, 0, zPositionDiff);
             CheckNSetPosition(targetPosition);
@@ -63,9 +64,34 @@ public class CameraController : MonoBehaviour
 
         float viewportWorldWidth = camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1, 0, Mathf.Abs(targetPosition.z))).x - camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, 0, Mathf.Abs(targetPosition.z))).x;
 
-        if (viewportWorldWidth >= mapHeight * 0.75 || viewportWorldWidth >= mapWidth * 0.75)
+        if (viewportWorldWidth >= mapHeight || viewportWorldWidth >= mapWidth)
         {
-            targetPosition = camUI.transform.position;
+
+            targetPosition = new Vector3(camUI.transform.position.x, 25, -(float)CalculateCamDistance(50 / 2));
+
+            viewportWorldWidth = 50;
+
+            if ((targetPosition).x - viewportWorldWidth / 2 < 0)
+            {
+                targetPosition = new Vector3(viewportWorldWidth / 2, targetPosition.y, targetPosition.z);
+            }
+
+            if ((targetPosition).x + viewportWorldWidth / 2 > mapHeight)
+            {
+                targetPosition = new Vector3(mapHeight - (viewportWorldWidth / 2), targetPosition.y, targetPosition.z);
+            }
+
+            if ((targetPosition).y - viewportWorldWidth / 2 < 0)
+            {
+                targetPosition = new Vector3(targetPosition.x, viewportWorldWidth / 2, targetPosition.z);
+            }
+
+            if ((targetPosition).y + viewportWorldWidth / 2 > mapWidth)
+            {
+                targetPosition = new Vector3(targetPosition.x, mapWidth - (viewportWorldWidth / 2), targetPosition.z);
+            }
+
+            transform.position = targetPosition;
         }
         else
         {
@@ -92,5 +118,17 @@ public class CameraController : MonoBehaviour
 
             transform.position = targetPosition;  // todo it's probably better to change FoV instead of moving the camera  // no it's not (DK)
         }
+    }
+
+    public double ConvertToRadians(double angle)
+    {
+        return (System.Math.PI / 180) * angle;
+    }
+
+    public double CalculateCamDistance(double mapDim)
+    {
+        double distance = mapDim / System.Math.Tan(ConvertToRadians(30));
+        Debug.Log(distance);
+        return distance;
     }
 }
