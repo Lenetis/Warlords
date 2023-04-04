@@ -77,6 +77,7 @@ public static class ResourceManager
         save.Add("players", new JArray(gameController.players.Select(player => player.ToJObject())));
         save.Add("armies", new JArray(gameController.armies.Select(army => army.ToJObject())));
         save.Add("cities", new JArray(gameController.cities.Select(city => city.ToJObject())));
+        save.Add("tileMap", gameController.tileMap.ToJObject());
 
         File.WriteAllText(fileName, save.ToString());
         Debug.Log("Saved!");
@@ -90,6 +91,8 @@ public static class ResourceManager
         JObject loadJObject = JObject.Parse(fileContents);
 
         gameController.Clear();
+
+        gameController.tileMap.FromJObject((JObject)loadJObject.GetValue("tileMap"));
 
         foreach (JObject playerJObject in loadJObject.GetValue("players")) {
             gameController.AddPlayer(Player.FromJObject(playerJObject));

@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 
 public class TileData
 {
+    public string baseFile {get;}
     public string name {get;}
     public string description {get;}
     public Texture2D texture {get;}
@@ -15,6 +16,8 @@ public class TileData
     
     public TileData(JObject attributes)
     {
+        baseFile = (string)attributes.GetValue("baseFile");
+        
         name = (string)attributes.GetValue("name");
 
         description = (string)attributes.GetValue("description");

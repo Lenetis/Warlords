@@ -4,11 +4,16 @@ using UnityEngine;
 
 using static System.Math;
 
+using System.Linq;
+using Newtonsoft.Json.Linq;
+
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 [RequireComponent(typeof(MeshCollider))]
-public class TileMap : MonoBehaviour
+public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change into a static class?
 {
+    private const int digitsPerTile = 2;  // how many hex digits represent a single tile in save file
+
     public int width;
     public int height;
     
@@ -242,5 +247,87 @@ public class TileMap : MonoBehaviour
     public Tile GetTile(Position position)
     {
         return tiles[position.x, position.y];
+    }
+
+    /// Sets the tile at the given position to the provided tile
+    public void SetTile(Tile tile, Position position)
+    {
+        tiles[position.x, position.y] = tile;
+        Color[] pixels = tile.texture.GetPixels(0, 0, tileSize, tileSize);
+        Texture2D texture = (Texture2D)meshRenderer.material.mainTexture;
+        texture.SetPixels(position.x * tileSize, position.y * tileSize, tileSize, tileSize, pixels);
+        texture.Apply();
+    }
+
+    /// Creates a new tileMap from JObject   // todo maybe return new TileMap instead of void?
+    public void FromJObject(JObject attributes)
+    {
+        ResourceManager.ExpandWithBaseFile(attributes);
+
+        width = (int)attributes.GetValue("width");
+        height = (int)attributes.GetValue("height");
+
+        tiles = new Tile[width, height];
+
+        string mapString = (string)attributes.GetValue("mapString");
+        List<TileData> tileTypes = new List<TileData>();
+        foreach (string tilePath in attributes.GetValue("tileTypes")) {
+            tileTypes.Add(new TileData(ResourceManager.LoadResource(tilePath)));
+        }
+
+        for (int i = 0; i < mapString.Length / digitsPerTile; i += 1) {
+            int index = System.Convert.ToInt32(mapString.Substring(i * digitsPerTile, digitsPerTile), 16);
+            int x = i / height;
+            int y = i % height;
+
+            tiles[x, y] = new Tile(tileTypes[index]);
+        }
+
+        for (int x = 0; x < width; x += 1) {
+            for (int y = 0; y < height; y += 1) {
+                Tile tile = tiles[x, y];
+                if (!tileTypes.Contains(tile.data)) {
+                    tileTypes.Add(tile.data);
+                }
+                mapString += tileTypes.IndexOf(tile.data).ToString($"X{digitsPerTile}");
+            }
+        }
+
+        GenerateMesh();
+
+        meshCollider.sharedMesh = meshFilter.mesh;
+
+        GenerateTexture();
+    }
+
+    /// Serializes the TileMap into a JObject
+    public JObject ToJObject()
+    {
+        JObject tileMapJObject = new JObject();
+
+        tileMapJObject.Add("width", width);
+        tileMapJObject.Add("height", height);
+
+        List<string> tileTypes = new List<string>();
+        // todo maybe use something else than a list (O(1) access that keeps ordering)
+
+        string mapString = "";
+
+        // todo digitsPerTile could be calculated based on tileTypes.Count, but that would require iterating over all tiles two times
+
+        for (int x = 0; x < width; x += 1) {
+            for (int y = 0; y < height; y += 1) {
+                Tile tile = tiles[x, y];
+                if (!tileTypes.Contains(tile.data.baseFile)) {
+                    tileTypes.Add(tile.data.baseFile);
+                }
+                mapString += tileTypes.IndexOf(tile.data.baseFile).ToString($"X{digitsPerTile}");
+            }
+        }
+
+        tileMapJObject.Add("tileTypes", new JArray(tileTypes));
+        tileMapJObject.Add("mapString", mapString);
+
+        return tileMapJObject;
     }
 }
