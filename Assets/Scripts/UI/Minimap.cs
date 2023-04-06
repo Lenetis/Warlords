@@ -38,6 +38,9 @@ public class Minimap : MonoBehaviour
     public GameObject gui;
     public CameraController cameraController;
 
+    //resizable frame
+    public GameObject[] borders=new GameObject[4];
+
 
     // Start is called before the first frame update
     void Start()
@@ -112,8 +115,11 @@ public class Minimap : MonoBehaviour
 
         minimapIndicator.GetComponent<RectTransform>().anchoredPosition = new Vector2((viewportNormalizedPosX * miniMapImage.GetComponent<RectTransform>().sizeDelta.x) -100+ ((float)(200 - miniMapImage.GetComponent<RectTransform>().sizeDelta.x)) / 2, (viewportNormalizedPosY * miniMapImage.GetComponent<RectTransform>().sizeDelta.y) -100+ ((float)(200- miniMapImage.GetComponent<RectTransform>().sizeDelta.y))/2);
         minimapIndicator.GetComponent<RectTransform>().sizeDelta= new Vector2(viewportNormalizedWidth* miniMapImage.GetComponent<RectTransform>().sizeDelta.x, viewportNormalizedHeight* miniMapImage.GetComponent<RectTransform>().sizeDelta.y);
+        borders[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(1f,0);
+        borders[1].GetComponent<RectTransform>().anchoredPosition = new Vector2(-1f,0);
+        borders[2].GetComponent<RectTransform>().anchoredPosition = new Vector2(0,-1f);
+        borders[3].GetComponent<RectTransform>().anchoredPosition = new Vector2(0,1f);
 
- 
         /*
         if (Input.GetKeyDown(KeyCode.P))
         {
