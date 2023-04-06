@@ -73,7 +73,10 @@ public class MouseSelection : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S) && selectedArmy != null)
         {
             selectedArmy.Split();
-            armyManagement.RefreshSelection();
+            Tile splitTile = tileMap.GetTile(selectedArmy.position);
+            selectedArmies = splitTile.armies;
+            armyManagement.SelectArmy(selectedArmies);
+            //armyManagement.RefreshSelection();
         }
         if(Input.GetKeyDown(KeyCode.F5))
         {

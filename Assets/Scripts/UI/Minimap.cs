@@ -104,14 +104,14 @@ public class Minimap : MonoBehaviour
         }
         
 
-        viewportNormalizedPosX = viewportWorldPosX / 80;
-        viewportNormalizedPosY = viewportWorldPosY / 50;
+        viewportNormalizedPosX = viewportWorldPosX / width;
+        viewportNormalizedPosY = viewportWorldPosY / height;
 
-        viewportNormalizedWidth = viewportWorldWidth / 80;
-        viewportNormalizedHeight = viewportWorldHeight / 50;
+        viewportNormalizedWidth = viewportWorldWidth / width;
+        viewportNormalizedHeight = viewportWorldHeight / height;
 
-        minimapIndicator.GetComponent<RectTransform>().anchoredPosition = new Vector2((viewportNormalizedPosX * 200)-100, (viewportNormalizedPosY * 125)-100+ ((float)(200-125))/2);
-        minimapIndicator.GetComponent<RectTransform>().sizeDelta= new Vector2(viewportNormalizedWidth*200, viewportNormalizedHeight*125);
+        minimapIndicator.GetComponent<RectTransform>().anchoredPosition = new Vector2((viewportNormalizedPosX * miniMapImage.GetComponent<RectTransform>().sizeDelta.x) -100+ ((float)(200 - miniMapImage.GetComponent<RectTransform>().sizeDelta.x)) / 2, (viewportNormalizedPosY * miniMapImage.GetComponent<RectTransform>().sizeDelta.y) -100+ ((float)(200- miniMapImage.GetComponent<RectTransform>().sizeDelta.y))/2);
+        minimapIndicator.GetComponent<RectTransform>().sizeDelta= new Vector2(viewportNormalizedWidth* miniMapImage.GetComponent<RectTransform>().sizeDelta.x, viewportNormalizedHeight* miniMapImage.GetComponent<RectTransform>().sizeDelta.y);
 
  
         /*
@@ -135,6 +135,9 @@ public class Minimap : MonoBehaviour
             height = tileMap.height;
             width = tileMap.width;
             isLoaded = true;
+            cameraController.mapWidth = (int)width;
+            cameraController.mapHeight = (int)height;
+
             miniMapImage.GetComponent<RawImage>().texture = tileMapTexture;
             
             if (width >= height)

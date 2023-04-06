@@ -13,8 +13,8 @@ public class CameraController : MonoBehaviour
 
     public GameObject camUI;
 
-    public int mapWidth = 50;
-    public int mapHeight = 80;
+    public int mapHeight;
+    public int mapWidth;
 
     void Start()
     {
@@ -64,21 +64,21 @@ public class CameraController : MonoBehaviour
 
         float viewportWorldWidth = camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1, 0, Mathf.Abs(targetPosition.z))).x - camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, 0, Mathf.Abs(targetPosition.z))).x;
 
-        if (viewportWorldWidth >= mapHeight || viewportWorldWidth >= mapWidth)
+        if (viewportWorldWidth >= mapWidth || viewportWorldWidth >= mapHeight)
         {
 
-            targetPosition = new Vector3(camUI.transform.position.x, 25, -(float)CalculateCamDistance(50 / 2));
+            targetPosition = new Vector3(camUI.transform.position.x, mapHeight / 2, -(float)CalculateCamDistance(mapHeight / 2));
 
-            viewportWorldWidth = 50;
+            viewportWorldWidth = mapHeight;
 
             if ((targetPosition).x - viewportWorldWidth / 2 < 0)
             {
                 targetPosition = new Vector3(viewportWorldWidth / 2, targetPosition.y, targetPosition.z);
             }
 
-            if ((targetPosition).x + viewportWorldWidth / 2 > mapHeight)
+            if ((targetPosition).x + viewportWorldWidth / 2 > mapWidth)
             {
-                targetPosition = new Vector3(mapHeight - (viewportWorldWidth / 2), targetPosition.y, targetPosition.z);
+                targetPosition = new Vector3(mapWidth - (viewportWorldWidth / 2), targetPosition.y, targetPosition.z);
             }
 
             if ((targetPosition).y - viewportWorldWidth / 2 < 0)
@@ -86,9 +86,9 @@ public class CameraController : MonoBehaviour
                 targetPosition = new Vector3(targetPosition.x, viewportWorldWidth / 2, targetPosition.z);
             }
 
-            if ((targetPosition).y + viewportWorldWidth / 2 > mapWidth)
+            if ((targetPosition).y + viewportWorldWidth / 2 > mapHeight)
             {
-                targetPosition = new Vector3(targetPosition.x, mapWidth - (viewportWorldWidth / 2), targetPosition.z);
+                targetPosition = new Vector3(targetPosition.x, mapHeight - (viewportWorldWidth / 2), targetPosition.z);
             }
 
             transform.position = targetPosition;
@@ -101,9 +101,9 @@ public class CameraController : MonoBehaviour
                 targetPosition = new Vector3(viewportWorldWidth / 2, targetPosition.y, targetPosition.z);
             }
 
-            if ((targetPosition).x + viewportWorldWidth / 2 > mapHeight)
+            if ((targetPosition).x + viewportWorldWidth / 2 > mapWidth)
             {
-                targetPosition = new Vector3(mapHeight - (viewportWorldWidth / 2), targetPosition.y, targetPosition.z);
+                targetPosition = new Vector3(mapWidth - (viewportWorldWidth / 2), targetPosition.y, targetPosition.z);
             }
 
             if ((targetPosition).y - viewportWorldWidth / 2 < 0)
@@ -111,9 +111,9 @@ public class CameraController : MonoBehaviour
                 targetPosition = new Vector3(targetPosition.x, viewportWorldWidth / 2, targetPosition.z);
             }
 
-            if ((targetPosition).y + viewportWorldWidth / 2 > mapWidth)
+            if ((targetPosition).y + viewportWorldWidth / 2 > mapHeight)
             {
-                targetPosition = new Vector3(targetPosition.x, mapWidth - (viewportWorldWidth / 2), targetPosition.z);
+                targetPosition = new Vector3(targetPosition.x, mapHeight - (viewportWorldWidth / 2), targetPosition.z);
             }
 
             transform.position = targetPosition;  // todo it's probably better to change FoV instead of moving the camera  // no it's not (DK)
