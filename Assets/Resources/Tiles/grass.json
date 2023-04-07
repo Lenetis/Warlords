@@ -1,7 +1,11 @@
 {
-    "name": "grass",
+    "name": "Grass",
     "description": "The next best thing after roads",
-    "texture": "Assets/Resources/Tiles/grass.png",
+    "textures": [
+        "Assets/Resources/Tiles/grass.png",
+        "Assets/Resources/Tiles/grass1.png",
+        "Assets/Resources/Tiles/grass2.png"
+    ],
     "moveCost": 2,
     "pathfindingTypes": ["land", "air"]
 }

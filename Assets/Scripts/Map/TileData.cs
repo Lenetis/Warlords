@@ -9,7 +9,15 @@ public class TileData
     public string baseFile {get;}
     public string name {get;}
     public string description {get;}
-    public Texture2D texture {get;}
+    public Texture2D texture
+    {
+        get {
+            // todo I don't like it too much that tileData.texture may not be equal to tileData.texture (the same object!)
+            //      but I'm not sure how else to allow multiple textures per tileData without changing lots of things in other places
+            return textures[Random.Range(0, textures.Count)];
+        }
+    }
+    private List<Texture2D> textures;
 
     public int moveCost {get;}
     public HashSet<string> pathfindingTypes {get;}
@@ -22,8 +30,16 @@ public class TileData
 
         description = (string)attributes.GetValue("description");
 
-        string texturePath = (string)attributes.GetValue("texture");
-        texture = ResourceManager.LoadTexture(texturePath);
+        textures = new List<Texture2D>();
+        if (attributes.ContainsKey("textures")) {
+            foreach (string texturePath in attributes.GetValue("textures")) {
+                textures.Add(ResourceManager.LoadTexture(texturePath));
+            }
+        } else {
+            string texturePath = (string)attributes.GetValue("texture");
+            textures.Add(ResourceManager.LoadTexture(texturePath));
+        }
+        
 
         pathfindingTypes = new HashSet<string>();
         foreach (string pathfindingType in attributes.GetValue("pathfindingTypes")) {
