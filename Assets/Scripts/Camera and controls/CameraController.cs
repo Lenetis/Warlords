@@ -63,13 +63,21 @@ public class CameraController : MonoBehaviour
         Vector3 targetPosition = targetPosition2;
 
         float viewportWorldWidth = camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(1, 0, Mathf.Abs(targetPosition.z))).x - camUI.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0, 0, Mathf.Abs(targetPosition.z))).x;
-
-        if (viewportWorldWidth >= mapWidth || viewportWorldWidth >= mapHeight)
+        
+        if ((int)viewportWorldWidth > mapWidth || (int)viewportWorldWidth > mapHeight)
         {
+            if (viewportWorldWidth >= mapHeight)
+            {
+                targetPosition = new Vector3(camUI.transform.position.x, mapHeight / 2, -(float)CalculateCamDistance(mapHeight / 2));
+                viewportWorldWidth = mapHeight;
+            }
+            else
+            {
+                targetPosition = new Vector3(mapWidth / 2, camUI.transform.position.y, -(float)CalculateCamDistance(mapWidth / 2));
+                viewportWorldWidth = mapWidth;
+            }
 
-            targetPosition = new Vector3(camUI.transform.position.x, mapHeight / 2, -(float)CalculateCamDistance(mapHeight / 2));
-
-            viewportWorldWidth = mapHeight;
+            
 
             if ((targetPosition).x - viewportWorldWidth / 2 < 0)
             {

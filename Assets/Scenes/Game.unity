@@ -4612,8 +4612,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5b68dc6e1fd1b349bf2700fe5f6664c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 80
-  height: 50
+  width: 50
+  height: 80
   tileSize: 32
   jsons:
   - ./Assets/Resources/Tiles/sea.json
