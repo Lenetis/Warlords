@@ -4612,14 +4612,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5b68dc6e1fd1b349bf2700fe5f6664c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 50
-  height: 80
+  width: 80
+  height: 50
   tileSize: 32
   jsons:
-  - ./Assets/Resources/Tiles/sea.json
-  - ./Assets/Resources/Tiles/grass.json
-  - ./Assets/Resources/Tiles/sea.json
-  - ./Assets/Resources/Tiles/forest.json
+  - Assets/Resources/Tiles/sea.json
+  - Assets/Resources/Tiles/grass.json
+  - Assets/Resources/Tiles/sea.json
+  - Assets/Resources/Tiles/forest.json
   miniMapTexture: {fileID: 0}
 --- !u!64 &503963334
 MeshCollider:
@@ -5148,6 +5148,7 @@ GameObject:
   - component: {fileID: 539077149}
   - component: {fileID: 539077152}
   - component: {fileID: 539077153}
+  - component: {fileID: 539077154}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -5260,6 +5261,31 @@ MonoBehaviour:
   gui: {fileID: 867103921}
   isOverDispArea: 0
   isSelected: 0
+--- !u!114 &539077154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539077148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f194cc64e49618a41b92214ec1a76b99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tilePaths:
+  - Assets/Resources/Tiles/sea.json
+  - Assets/Resources/Tiles/grass.json
+  - Assets/Resources/Tiles/forest.json
+  - Assets/Resources/Tiles/hills.json
+  - Assets/Resources/Tiles/mountain.json
+  - Assets/Resources/Tiles/march.json
+  - Assets/Resources/Tiles/shore.json
+  unitPaths:
+  - Assets/Resources/Units/knight.json
+  - Assets/Resources/Units/scout.json
+  cityPaths:
+  - ./Assets/Resources/Cities/city.json
 --- !u!1 &540637552
 GameObject:
   m_ObjectHideFlags: 0

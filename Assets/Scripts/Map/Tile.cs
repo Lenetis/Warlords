@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tile  // todo change to struct maybe?
 {
-    public TileData data {get;}
+    public TileData data {get; set;}
     private TileContents contents;
 
     public Texture2D texture
@@ -97,6 +97,17 @@ public class Tile  // todo change to struct maybe?
             throw new System.ArgumentException($"Cannot remove city from this tile. Tile has no city");
         }
         contents.city = null;
+    }
+
+    /// Removes everything from this tile's contents
+    public void Clear()
+    {
+        if (contents.city != null) {
+            contents.city.Destroy();
+        }
+        while (contents.armies != null) {
+            contents.armies[0].Destroy();
+        }
     }
 
     public override string ToString()

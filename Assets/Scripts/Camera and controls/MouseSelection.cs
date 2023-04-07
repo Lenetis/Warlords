@@ -22,6 +22,7 @@ public class MouseSelection : MonoBehaviour
     public GameObject displayArea;
     public GameObject gui;
     public Tile highlightedTile;
+    public Position highlightedPosition;
 
     private ArmyManagement armyManagement;
     private CityManagement cityManagement;
@@ -127,19 +128,17 @@ public class MouseSelection : MonoBehaviour
         {
             selectionMarker.SetActive(true);
 
-            Position hitPosition = new Position((int)hitInfo.point.x, (int)hitInfo.point.y);
+            highlightedPosition = new Position((int)hitInfo.point.x, (int)hitInfo.point.y);
 
-            selectionMarker.transform.position = hitPosition;
+            selectionMarker.transform.position = highlightedPosition;
 
-            highlightedTile = tileMap.GetTile(hitPosition);
-
-            //Debug.Log(highlightedTile.data.name);
+            highlightedTile = tileMap.GetTile(highlightedPosition);
 
             if (Input.GetButtonDown("Select") && isOverDispArea)
             {
                 if (highlightedTile != null)
                 {
-                    if (highlightedTile.armies != null && (selectedArmy == null || selectedArmy.position != hitPosition))
+                    if (highlightedTile.armies != null && (selectedArmy == null || selectedArmy.position != highlightedPosition))
                     {
                         selectedArmy = highlightedTile.armies[0];
                         selectedArmies = highlightedTile.armies;
@@ -185,7 +184,7 @@ public class MouseSelection : MonoBehaviour
                 {
                     if (pathSteps != null && pathSteps[0] != selectedArmy.position)
                     {
-                        pathSteps = tileMap.FindPath(selectedArmy.position, hitPosition, selectedArmy);
+                        pathSteps = tileMap.FindPath(selectedArmy.position, highlightedPosition, selectedArmy);
                     }
                     selectedArmy.SetPath(pathSteps);
                     gameController.StartArmyMove(selectedArmy);
@@ -197,12 +196,12 @@ public class MouseSelection : MonoBehaviour
                 }
                 else if (Input.GetButton("Move") && isOverDispArea)
                 {
-                    if (previousPathGoal != hitPosition || pathSteps != null && pathSteps[0] != selectedArmy.position)
+                    if (previousPathGoal != highlightedPosition || pathSteps != null && pathSteps[0] != selectedArmy.position)
                     {
                         ClearPath();
-                        pathSteps = tileMap.FindPath(selectedArmy.position, hitPosition, selectedArmy);
+                        pathSteps = tileMap.FindPath(selectedArmy.position, highlightedPosition, selectedArmy);
                         DrawPath();
-                        previousPathGoal = hitPosition;
+                        previousPathGoal = highlightedPosition;
                     }
                 }
             }

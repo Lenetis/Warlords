@@ -134,6 +134,50 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
         miniMapTexture = texture;
     }
 
+    /// Applies the modified texture. Useful when you want to SetTile more than one tile at the same time without applying the texture after each SetTile call
+    public void ApplyTexture()
+    {
+        Texture2D texture = (Texture2D)meshRenderer.material.mainTexture;
+        texture.Apply();
+    }
+
+    /// Changes the size of the tileMap to new size. Leaves the old tiles the same where applicable and fills the new tiles with the same tile type as at [0, 0]
+    public void Resize(int newWidth, int newHeight)
+    {
+        Tile[,] newTiles = new Tile[newWidth, newHeight];
+
+        for (int x = 0; x < newWidth; x += 1) {
+            for (int y = 0; y < newHeight; y += 1) {
+                newTiles[x, y] = new Tile(tiles[0, 0].data);
+            }
+        }
+
+        for (int x = 0; x < Min(width, newWidth); x += 1) {
+            for (int y = 0; y < Min(height, newHeight); y += 1) {
+                newTiles[x, y] = tiles[x, y];
+            }
+        }
+
+        tiles = newTiles;
+        width = newWidth;
+        height = newHeight;
+
+        GenerateMesh();
+
+        meshCollider.sharedMesh = meshFilter.mesh;
+
+        GenerateTexture();
+
+        // todo remove this and instead notify GameController (and then UIController, when it's finally added...)
+        Minimap minimapUI = GameObject.Find("Main").GetComponent<Minimap>();
+        minimapUI.width = newWidth;
+        minimapUI.height = newHeight;
+        minimapUI.isLoaded = false;
+        CameraController controller = Camera.main.GetComponent<CameraController>();
+        controller.mapWidth = newWidth;
+        controller.mapHeight = newHeight;
+    }
+
     /// Returns path from the start position of pathfinding to currentPosition
     private List<Position> ReconstructPath(Dictionary<Position, Position> cameFrom, Position currentPosition)
     {
@@ -228,12 +272,12 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
         return null;
     }
 
-    /// Returns a list of positions neighbouring with the given position
-    public List<Position> GetNeighbouringPositions(Position position)
+    /// Returns a list of positions around the given position within the specified distance
+    public List<Position> GetNeighbouringPositions(Position position, int distance = 1)
     {
         List<Position> positions = new List<Position>();
-        for (int x = Max(position.x - 1, 0); x <= Min(position.x + 1, width - 1); x += 1) {
-            for (int y = Max(position.y - 1, 0); y <= Min(position.y + 1, height - 1); y += 1) {
+        for (int x = Max(position.x - distance, 0); x <= Min(position.x + distance, width - 1); x += 1) {
+            for (int y = Max(position.y - distance, 0); y <= Min(position.y + distance, height - 1); y += 1) {
                 Position neighbour = new Position(x, y);
                 if (neighbour != position) {
                     positions.Add(neighbour);
@@ -250,13 +294,31 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
     }
 
     /// Sets the tile at the given position to the provided tile
-    public void SetTile(Tile tile, Position position)
+    /// If applyTexture is set to true, automatically updates the texture. If not, you need to call ApplyTexture() afterwards
+    public void SetTile(Tile tile, Position position, bool applyTexture = false)
     {
         tiles[position.x, position.y] = tile;
         Color[] pixels = tile.texture.GetPixels(0, 0, tileSize, tileSize);
         Texture2D texture = (Texture2D)meshRenderer.material.mainTexture;
         texture.SetPixels(position.x * tileSize, position.y * tileSize, tileSize, tileSize, pixels);
-        texture.Apply();
+
+        if (applyTexture) {
+            texture.Apply();
+        }
+    }
+
+    /// Sets the tile data (not its contents) at the given position to the provided tile
+    /// If applyTexture is set to true, automatically updates the texture. If not, you need to call ApplyTexture() afterwards
+    public void SetTileData(TileData tileData, Position position, bool applyTexture = false)
+    {
+        tiles[position.x, position.y].data = tileData;
+        Color[] pixels = tileData.texture.GetPixels(0, 0, tileSize, tileSize);
+        Texture2D texture = (Texture2D)meshRenderer.material.mainTexture;
+        texture.SetPixels(position.x * tileSize, position.y * tileSize, tileSize, tileSize, pixels);
+
+        if (applyTexture) {
+            texture.Apply();
+        }
     }
 
     /// Creates a new tileMap from JObject   // todo maybe return new TileMap instead of void?

@@ -17,20 +17,18 @@ public class City : IPlayerMapObject
     public string name {get; set;}
     public string description {get; private set;}
 
-    public Position position {get;}
-    public List<Position> occupiedPositions {get;}
+    public Position position {get; private set;}
+    public List<Position> occupiedPositions {get; private set;}
 
-    public List<Unit> buildableUnits {get;}
-    private List<string> buildableUnitsPaths;  // will be used in saving
+    public List<Unit> buildableUnits {get; private set;}
 
-    public List<Unit> buyableUnits {get;}
-    private List<string> buyableUnitsPaths;  // will be used in saving
+    public List<Unit> buyableUnits {get; private set;}
 
-    public int moveCost {get;}
-    public HashSet<string> pathfindingTypes {get;}
+    public int moveCost {get; private set;}
+    public HashSet<string> pathfindingTypes {get; private set;}
 
-    public int income {get;}
-    public int production {get;}
+    public int income {get; private set;}
+    public int production {get; private set;}
 
     public bool producing {get; set;}
     private int producedUnitIndex;
@@ -55,34 +53,17 @@ public class City : IPlayerMapObject
 
     public bool razed {get; private set;}
 
-    // todo change this constructor to use way less arguments (pack argument groups into structs maybe?)
-    public City(string baseFile, Player owner, string name, string description, Position position, List<Position> occupiedPositions, int moveCost, HashSet<string> pathfindingTypes, int income, int production, bool razed, List<Unit> buildableUnits, List<Unit> buyableUnits, int? producedUnitIndex, int productionProgress)
+
+    public City(JObject baseAttributes, Player owner, string name, string description, Position position)
     {
-        this.baseFile = baseFile;
+        LoadBaseAttributes(baseAttributes);
 
         this.owner = owner;
         this.name = name;
         this.description = description;
         this.position = position;
-        this.occupiedPositions = occupiedPositions;
-        this.moveCost = moveCost;
-        this.pathfindingTypes = pathfindingTypes;
-        this.income = income;
-        this.production = production;
-        this.razed = razed;
-        this.buildableUnits = buildableUnits;
-        this.buyableUnits = buyableUnits;
-        
-        if (producedUnitIndex != null) {
-            producing = true;
-            this.producedUnitIndex = (int)producedUnitIndex;
-        } else {
-            producing = false;
-            this.producedUnitIndex = 0;
-        }
-        this.productionProgress = productionProgress;
 
-        mapSprite = new GameObject("City");
+        mapSprite = new GameObject($"City({name})");
         mapSprite.transform.position = position;
         mapSprite.AddComponent<SpriteRenderer>();
 
@@ -111,7 +92,6 @@ public class City : IPlayerMapObject
     {
         razed = true;
         buildableUnits.Clear();
-        buildableUnitsPaths.Clear();
         producing = false;
 
         Recalculate();
@@ -136,6 +116,12 @@ public class City : IPlayerMapObject
     {
         GameObject.Destroy(mapSprite);
         gameController.DestroyCity(this);
+    }
+
+    /// TMP method that destroys the city's mapSprite. Todo remove this when sprites are moved to another script
+    public void DestroySprite()
+    {
+        GameObject.Destroy(mapSprite);
     }
 
     /// Starts turn this city - calculates unit production
@@ -224,11 +210,6 @@ public class City : IPlayerMapObject
     public static City FromJObject(JObject attributes)
     {
         ResourceManager.ExpandWithBaseFile(attributes);
-        
-        string baseFile = null;
-        if (attributes.ContainsKey("baseFile")) {
-            baseFile = (string)attributes.GetValue("baseFile");
-        }
 
         string ownerName = (string)attributes.GetValue("owner");
         Player owner = (ownerName == null) ? null : gameController.GetPlayerByName(ownerName);
@@ -238,48 +219,59 @@ public class City : IPlayerMapObject
 
         Position position = new Position((int)attributes.GetValue("position")[0], (int)attributes.GetValue("position")[1]);
 
-        List<Position> occupiedPositions = new List<Position>();
-        foreach (JToken token in attributes.GetValue("occupiedPositions")) {
-            occupiedPositions.Add(new Position((int)token[0], (int)token[1]));
+        City newCity = new City(attributes, owner, name, description, position);
+
+        if (!newCity.razed) {
+            if (attributes.ContainsKey("producedUnitIndex")) {
+                newCity.producedUnitIndex =(int)attributes.GetValue("producedUnitIndex");
+                newCity.productionProgress = (int)attributes.GetValue("productionProgress");
+            }
         }
 
-        int moveCost = (int)attributes.GetValue("moveCost");
+        return newCity;
+    }
 
-        HashSet<string> pathfindingTypes = new HashSet<string>();
-        foreach (string pathfindingType in attributes.GetValue("pathfindingTypes")) {
+    /// Loads the base attributes (the ones that are guaranteed to be in every city JObject)
+    private void LoadBaseAttributes(JObject baseAttributes)
+    {
+        ResourceManager.ExpandWithBaseFile(baseAttributes);
+        
+        baseFile = null;
+        if (baseAttributes.ContainsKey("baseFile")) {
+            baseFile = (string)baseAttributes.GetValue("baseFile");
+        }
+
+        occupiedPositions = new List<Position>();
+        foreach (JToken token in baseAttributes.GetValue("occupiedPositions")) {
+            occupiedPositions.Add(new Position((int)token[0], (int)token[1]));
+        }
+        moveCost = (int)baseAttributes.GetValue("moveCost");
+
+        pathfindingTypes = new HashSet<string>();
+        foreach (string pathfindingType in baseAttributes.GetValue("pathfindingTypes")) {
             pathfindingTypes.Add(pathfindingType);
         }
 
-        int income = (int)attributes.GetValue("income");
-        int production = (int)attributes.GetValue("production");
+        income = (int)baseAttributes.GetValue("income");
+        production = (int)baseAttributes.GetValue("production");
 
-        bool razed = false;
-        if (attributes.ContainsKey("razed")) {
-            razed = (bool)attributes.GetValue("razed");
+        razed = false;
+        if (baseAttributes.ContainsKey("razed")) {
+            razed = (bool)baseAttributes.GetValue("razed");
         }
-
         
-        List<Unit> buildableUnits = new List<Unit>();
-        List<Unit> buyableUnits = new List<Unit>();
-        int? producedUnitIndex = null;
-        int productionProgress = 0;
+        buildableUnits = new List<Unit>();
+        buyableUnits = new List<Unit>();
 
         if (!razed) {
-            foreach (string unitPath in attributes.GetValue("buildableUnits")) {
+            foreach (string unitPath in baseAttributes.GetValue("buildableUnits")) {
                 buildableUnits.Add(Unit.FromJObject(ResourceManager.LoadResource(unitPath)));
             }
             
-            foreach (string unitPath in attributes.GetValue("buyableUnits")) {
+            foreach (string unitPath in baseAttributes.GetValue("buyableUnits")) {
                 buyableUnits.Add(Unit.FromJObject(ResourceManager.LoadResource(unitPath)));
             }
-
-            if (attributes.ContainsKey("producedUnitIndex")) {
-                producedUnitIndex =(int)attributes.GetValue("producedUnitIndex");
-                productionProgress = (int)attributes.GetValue("productionProgress");
-            }
         }
-
-        return new City(baseFile, owner, name, description, position, occupiedPositions, moveCost, pathfindingTypes, income, production, razed, buildableUnits, buyableUnits, producedUnitIndex, productionProgress);
     }
 
     public override string ToString()

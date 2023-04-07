@@ -204,7 +204,9 @@ public class GameController : MonoBehaviour
     /// Removes the city from TileMap and from its owner cities
     public void DestroyCity(City city)
     {
-        city.owner.RemoveCity(city);
+        if (city.owner != null) {
+            city.owner.RemoveCity(city);
+        }
         foreach (Position occupiedPosition in city.occupiedPositions) {
             tileMap.GetTile(city.position + occupiedPosition).RemoveCity();
         }
