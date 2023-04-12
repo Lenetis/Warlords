@@ -18,8 +18,10 @@ public class ArmyManagement : MonoBehaviour
     public GameObject[] units;
     public Image[] unitsImage;
     public Image[] unitsCheckBox;
-    public bool[] activeUnits;
+    List<bool> activeUnits = new List<bool>();
     public TextMeshProUGUI[] movesAvailable;
+    public int[,] colorPalette = {{114, 161, 255 } ,{114, 255, 157 },{ 255, 255, 114 },{ 255, 125, 114 },
+                                { 255, 114, 228 },{193, 114, 255 },{ 114, 251, 255 },{ 199, 255, 114 }};
 
     // Start is called before the first frame update
     void Start()
@@ -78,12 +80,14 @@ public class ArmyManagement : MonoBehaviour
         units = new GameObject[armiesSize];
         unitsImage = new Image[armiesSize];
         unitsCheckBox = new Image[armiesSize];
-        activeUnits = new bool[armiesSize];
+        activeUnits = new List<bool>();
         movesAvailable = new TextMeshProUGUI[armiesSize];
 
         int counter = 0;
 
         armyManagementPanel.SetActive(true);
+
+        int colorIndex=0;
         for (int i = 0; i < selectedArmies.Count; i++)
         {
             for (int j = 0; j < selectedArmies[i].units.Count; j++)
@@ -93,6 +97,8 @@ public class ArmyManagement : MonoBehaviour
                 units[counter].transform.localPosition = new Vector3((counter + 1) * ((armyManagementPanel.GetComponent<RectTransform>().sizeDelta.x / ((armiesSize) + 1))) - (armyManagementPanel.GetComponent<RectTransform>().sizeDelta.x / 2), 10, 0);
                 units[counter].transform.SetParent(armyManagementPanel.transform);
                 units[counter].name = counter.ToString();
+                units[counter].GetComponent<UnitButton>().army = i;
+                units[counter].GetComponent<UnitButton>().unit = j;
 
                 unitsImage[counter] = units[counter].transform.GetChild(1).gameObject.GetComponent<Image>();
                 unitsImage[counter].sprite = Sprite.Create(selectedArmies[i].units[j].texture, new Rect(0.0f, 0.0f, selectedArmies[i].units[j].texture.width, selectedArmies[i].units[j].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
@@ -103,10 +109,17 @@ public class ArmyManagement : MonoBehaviour
                 unitsCheckBox[counter] = units[counter].transform.GetChild(2).gameObject.GetComponent<Image>();
                 unitsCheckBox[counter].color = new Color(176f / 255f, 255f / 255f, 145f / 255f);
 
-                activeUnits[counter] = true;
-                //Debug.Log(mouseSelection.highlightedTile.contents.armies[0].owner.armies.Count); 
+                units[counter].transform.GetChild(3).gameObject.GetComponent<TextMeshProUGUI>().text = (i+1).ToString();
+
+                if (colorIndex >= 8)
+                {
+                    colorIndex = 0;
+                }
+                units[counter].GetComponent<Image>().color = new Color32(System.Convert.ToByte(colorPalette[colorIndex, 0]), System.Convert.ToByte(colorPalette[colorIndex, 1]), System.Convert.ToByte(colorPalette[colorIndex, 2]), 100);
+                activeUnits.Add(true);
                 counter++;
             }
+            colorIndex++;
         }
     }
 
@@ -132,9 +145,10 @@ public class ArmyManagement : MonoBehaviour
         armyManagementPanel.SetActive(false);
     }
 
-    public void setUnitActivity(int index)
+    public void SetUnitActivity(int index)
     {
-        Debug.Log(index);
+        Debug.Log("Button index: "+index);
+        Debug.Log("Button index: " + index+"; Army: " + units[index].GetComponent<UnitButton>().army+"; Unit: "+units[index].GetComponent<UnitButton>().unit);
         if (activeUnits[index] == true)
         {
             activeUnits[index] = false;

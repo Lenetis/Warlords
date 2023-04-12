@@ -5,6 +5,8 @@ using UnityEngine.EventSystems;
 public class UnitButton : MonoBehaviour, IPointerClickHandler
 {
     public ArmyManagement armyManagement;
+    public int army;
+    public int unit;
     void Start()
     {
         armyManagement= GameObject.Find("Main").GetComponent<ArmyManagement>();
@@ -14,7 +16,7 @@ public class UnitButton : MonoBehaviour, IPointerClickHandler
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            armyManagement.setUnitActivity(int.Parse(gameObject.name));
+            armyManagement.SetUnitActivity(int.Parse(gameObject.name));
         }
     }
 }

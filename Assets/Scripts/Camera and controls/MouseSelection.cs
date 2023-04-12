@@ -61,23 +61,11 @@ public class MouseSelection : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.A) && selectedArmy != null)
         {
-            Tile mergeTile = tileMap.GetTile(selectedArmy.position);
-            while (mergeTile.armies.Count > 1)
-            {
-                mergeTile.armies[0].Merge(mergeTile.armies[1]);
-            }
-            selectedArmy = mergeTile.armies[0];
-            selectedArmies = mergeTile.armies;
-            armyManagement.DeselectArmy();
-            armyManagement.SelectArmy(selectedArmies);
+            MergeTileUnits(selectedArmy);
         }
         if (Input.GetKeyDown(KeyCode.S) && selectedArmy != null)
         {
-            selectedArmy.Split();
-            Tile splitTile = tileMap.GetTile(selectedArmy.position);
-            selectedArmies = splitTile.armies;
-            armyManagement.SelectArmy(selectedArmies);
-            //armyManagement.RefreshSelection();
+            SplitTileUnits(selectedArmy);
         }
         if(Input.GetKeyDown(KeyCode.F5))
         {
@@ -263,5 +251,27 @@ public class MouseSelection : MonoBehaviour
         }
         pathMarkers.Clear();
         pathSteps = null;
+    }
+
+    public void MergeTileUnits(Army selectedArmy)
+    {
+        Tile mergeTile = tileMap.GetTile(selectedArmy.position);
+        while (mergeTile.armies.Count > 1)
+        {
+            mergeTile.armies[0].Merge(mergeTile.armies[1]);
+        }
+        selectedArmy = mergeTile.armies[0];
+        selectedArmies = mergeTile.armies;
+        armyManagement.DeselectArmy();
+        armyManagement.SelectArmy(selectedArmies);
+    }
+
+    public void SplitTileUnits(Army selectedArmy)
+    {
+        selectedArmy.Split();
+        Tile splitTile = tileMap.GetTile(selectedArmy.position);
+        selectedArmies = splitTile.armies;
+        armyManagement.SelectArmy(selectedArmies);
+        //armyManagement.RefreshSelection();
     }
 }
