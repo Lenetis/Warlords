@@ -6453,9 +6453,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 539077153}
-        m_TargetAssemblyTypeName: MouseSelection, Assembly-CSharp
-        m_MethodName: MergeTileUnits
+      - m_Target: {fileID: 1454547766}
+        m_TargetAssemblyTypeName: ArmyManagement, Assembly-CSharp
+        m_MethodName: changeMSMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8430,7 +8430,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GRP
+  m_text: ADD
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12518,8 +12518,10 @@ MonoBehaviour:
   unitButton: {fileID: 2962281003473992094, guid: ddfef44353e188e42886bce6402e49ce, type: 3}
   units: []
   unitsImage: []
-  unitsCheckBox: []
+  activeUnits: 
   movesAvailable: []
+  MSMode: 1
+  modeButonText: {fileID: 876271716}
 --- !u!114 &1454547767
 MonoBehaviour:
   m_ObjectHideFlags: 0

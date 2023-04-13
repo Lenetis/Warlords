@@ -17,11 +17,13 @@ public class ArmyManagement : MonoBehaviour
     public GameObject unitButton;
     public GameObject[] units;
     public Image[] unitsImage;
-    public Image[] unitsCheckBox;
-    List<bool> activeUnits = new List<bool>();
+    /////public Image[] unitsCheckBox;
+    public List<bool> activeUnits = new List<bool>();
     public TextMeshProUGUI[] movesAvailable;
     public int[,] colorPalette = {{114, 161, 255 } ,{114, 255, 157 },{ 255, 255, 114 },{ 255, 125, 114 },
                                 { 255, 114, 228 },{193, 114, 255 },{ 114, 251, 255 },{ 199, 255, 114 }};
+    public int MSMode = 1;
+    public TextMeshProUGUI modeButonText;
 
     // Start is called before the first frame update
     void Start()
@@ -79,7 +81,7 @@ public class ArmyManagement : MonoBehaviour
 
         units = new GameObject[armiesSize];
         unitsImage = new Image[armiesSize];
-        unitsCheckBox = new Image[armiesSize];
+        /////unitsCheckBox = new Image[armiesSize];
         activeUnits = new List<bool>();
         movesAvailable = new TextMeshProUGUI[armiesSize];
 
@@ -106,8 +108,8 @@ public class ArmyManagement : MonoBehaviour
                 movesAvailable[counter] = units[counter].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
                 movesAvailable[counter].text = selectedArmies[i].units[j].remainingMove.ToString();
 
-                unitsCheckBox[counter] = units[counter].transform.GetChild(2).gameObject.GetComponent<Image>();
-                unitsCheckBox[counter].color = new Color(176f / 255f, 255f / 255f, 145f / 255f);
+                /////unitsCheckBox[counter] = units[counter].transform.GetChild(2).gameObject.GetComponent<Image>();
+                /////unitsCheckBox[counter].color = new Color(176f / 255f, 255f / 255f, 145f / 255f);
 
                 units[counter].transform.GetChild(3).gameObject.GetComponent<TextMeshProUGUI>().text = (i+1).ToString();
 
@@ -149,15 +151,43 @@ public class ArmyManagement : MonoBehaviour
     {
         Debug.Log("Button index: "+index);
         Debug.Log("Button index: " + index+"; Army: " + units[index].GetComponent<UnitButton>().army+"; Unit: "+units[index].GetComponent<UnitButton>().unit);
+
+        if (MSMode == -1)
+        {
+            selectedArmies[units[index].GetComponent<UnitButton>().army].SplitUnit(selectedArmies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
+        }
+        else
+        {
+            selectedArmies[0].AddUnit(selectedArmies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
+            selectedArmies[units[index].GetComponent<UnitButton>().army].RemoveUnit(selectedArmies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
+        }
+        
+
+        
+        SelectArmy(selectedArmies);
         if (activeUnits[index] == true)
         {
             activeUnits[index] = false;
-            unitsCheckBox[index].color = new Color(255f / 255f, 102f / 255f, 80f / 255f);
+            /////unitsCheckBox[index].color = new Color(255f / 255f, 102f / 255f, 80f / 255f);
         }
         else
         {
             activeUnits[index] = true;
-            unitsCheckBox[index].color = new Color(176f / 255f, 255f / 255f, 145f / 255f);
+            /////unitsCheckBox[index].color = new Color(176f / 255f, 255f / 255f, 145f / 255f);
+        }
+    }
+
+    public void changeMSMode()
+    {
+        if (MSMode == 1)
+        {
+            MSMode = -1;
+            modeButonText.text = "DEL";
+        }
+        else
+        {
+            MSMode = 1;
+            modeButonText.text = "ADD";
         }
     }
 }
