@@ -95,9 +95,9 @@ public class ArmyManagement : MonoBehaviour
             for (int j = 0; j < selectedArmies[i].units.Count; j++)
             {
 
-                units[counter] = Instantiate(unitButton, armyManagementPanel.transform);
-                units[counter].transform.localPosition = new Vector3((counter + 1) * ((armyManagementPanel.GetComponent<RectTransform>().sizeDelta.x / ((armiesSize) + 1))) - (armyManagementPanel.GetComponent<RectTransform>().sizeDelta.x / 2), 10, 0);
-                units[counter].transform.SetParent(armyManagementPanel.transform);
+                units[counter] = Instantiate(unitButton, armyManagementPanel.transform.GetChild(0).gameObject.transform);
+                units[counter].transform.localPosition = new Vector3((counter + 1) * ((armyManagementPanel.transform.GetChild(0).gameObject.GetComponent<RectTransform>().sizeDelta.x / ((armiesSize) + 1))) - (armyManagementPanel.transform.GetChild(0).gameObject.GetComponent<RectTransform>().sizeDelta.x / 2), 10, 0);
+                units[counter].transform.SetParent(armyManagementPanel.transform.GetChild(0).gameObject.transform);
                 units[counter].name = counter.ToString();
                 units[counter].GetComponent<UnitButton>().army = i;
                 units[counter].GetComponent<UnitButton>().unit = j;

@@ -29,13 +29,14 @@ public class CursorInfo : MonoBehaviour
     public GameObject unitImage;
     public GameObject[] selectedUnits;
     public GameController gameController;
-
+    public UIController uiController;
 
     // Start is called before the first frame update
     void Start()
     {
         mouseSelection = GameObject.Find("Main Camera").GetComponent<MouseSelection>();
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
+        uiController = GameObject.Find("UIController").GetComponent<UIController>();
     }
 
     // Update is called once per frame
@@ -46,7 +47,7 @@ public class CursorInfo : MonoBehaviour
     
         //Debug.Log(dispAreaOriginX+" "+Input.mousePosition.x);
 
-        if (Input.GetMouseButton(1) && mouseSelection.isOverDispArea || mode==1)
+        if (Input.GetMouseButton(1) && mouseSelection.isOverDispArea && uiController.dispAreaAvailable || mode==1)
         {
             correctionY = 0;
             correctionX = 0;

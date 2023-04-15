@@ -31,6 +31,10 @@ public class MouseSelection : MonoBehaviour
     public bool isSelected;
 
     public List<Army> selectedArmies;
+    public GameObject gameMenu;
+    private bool isGameMenuActive = false;
+
+    private UIController uiController;
 
     void Start()
     {
@@ -42,11 +46,28 @@ public class MouseSelection : MonoBehaviour
 
         armyManagement = GameObject.Find("Main").GetComponent<ArmyManagement>();
         cityManagement = GameObject.Find("Main").GetComponent<CityManagement>();
+        uiController = GameObject.Find("UIController").GetComponent<UIController>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (!isGameMenuActive)
+            {
+                gameMenu.SetActive(true);
+                uiController.setDispAreaAvailability(false);
+                isGameMenuActive = true;
+            }
+            else
+            {
+                gameMenu.SetActive(false);
+                uiController.setDispAreaAvailability(true);
+                isGameMenuActive = false;
+            }
+            
+        }
+        if (Input.GetKeyDown(KeyCode.T) && uiController.dispAreaAvailable)
         {
             gameController.Turn();
             if (selectedArmy != null && selectedArmy.owner != gameController.activePlayer)
@@ -55,15 +76,15 @@ public class MouseSelection : MonoBehaviour
                 armyManagement.DeselectArmy();
             }
         }
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M) && uiController.dispAreaAvailable)
         {
             gameController.activePlayer.MoveAll();
         }
-        if (Input.GetKeyDown(KeyCode.A) && selectedArmy != null)
+        if (Input.GetKeyDown(KeyCode.A) && selectedArmy != null && uiController.dispAreaAvailable)
         {
             MergeTileUnits(selectedArmy);
         }
-        if (Input.GetKeyDown(KeyCode.S) && selectedArmy != null)
+        if (Input.GetKeyDown(KeyCode.S) && selectedArmy != null && uiController.dispAreaAvailable)
         {
             SplitTileUnits(selectedArmy);
         }
@@ -112,7 +133,7 @@ public class MouseSelection : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
         RaycastHit hitInfo;
 
-        if (Physics.Raycast(ray, out hitInfo))
+        if (Physics.Raycast(ray, out hitInfo) && uiController.dispAreaAvailable)
         {
             selectionMarker.SetActive(true);
 
@@ -122,7 +143,7 @@ public class MouseSelection : MonoBehaviour
 
             highlightedTile = tileMap.GetTile(highlightedPosition);
 
-            if (Input.GetButtonDown("Select") && isOverDispArea)
+            if (Input.GetButtonDown("Select") && isOverDispArea && uiController.dispAreaAvailable)
             {
                 if (highlightedTile != null)
                 {
@@ -168,7 +189,7 @@ public class MouseSelection : MonoBehaviour
 
             if (selectedArmy != null)
             {
-                if (Input.GetButtonUp("Move"))
+                if (Input.GetButtonUp("Move") && uiController.dispAreaAvailable)
                 {
                     if (pathSteps != null && pathSteps[0] != selectedArmy.position)
                     {
@@ -182,7 +203,7 @@ public class MouseSelection : MonoBehaviour
                     previousPathGoal = new Position(-1, -1);
                     // kinda hacky, but this is to ensure the next path after move will always be calculated, no matter if the position is the same or not
                 }
-                else if (Input.GetButton("Move") && isOverDispArea)
+                else if (Input.GetButton("Move") && isOverDispArea && uiController.dispAreaAvailable)
                 {
                     if (previousPathGoal != highlightedPosition || pathSteps != null && pathSteps[0] != selectedArmy.position)
                     {
@@ -195,7 +216,7 @@ public class MouseSelection : MonoBehaviour
             }
             else
             {
-                if (Input.GetButtonDown("Info") && isOverDispArea)
+                if (Input.GetButtonDown("Info") && isOverDispArea && uiController.dispAreaAvailable)
                 {
                     Debug.Log(highlightedTile);
                     if (highlightedTile != null && highlightedTile.armies != null)
@@ -210,7 +231,7 @@ public class MouseSelection : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.R) && highlightedTile != null && highlightedTile.city != null)
+            if (Input.GetKeyDown(KeyCode.R) && highlightedTile != null && highlightedTile.city != null && uiController.dispAreaAvailable)
             {
                 if (highlightedTile.city.owner == gameController.activePlayer)
                 {

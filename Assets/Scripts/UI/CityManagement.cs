@@ -37,10 +37,12 @@ public class CityManagement : MonoBehaviour
     public TMP_InputField cityNameInput;
     public TextMeshProUGUI cityDescripton;
 
+    public UIController uiController;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        uiController=GameObject.Find("UIController").GetComponent<UIController>();
     }
 
     // Update is called once per frame
@@ -50,7 +52,7 @@ public class CityManagement : MonoBehaviour
     }
     public void SelectCity(City selectedCity)
     {
-
+        uiController.setDispAreaAvailability(false);
         this.selectedCity = selectedCity;
         cityName.text = selectedCity.name;
         cityDescripton.text = selectedCity.description;
@@ -166,6 +168,7 @@ public class CityManagement : MonoBehaviour
         {
             Destroy(buyableUnits[i]);
         }
+        uiController.setDispAreaAvailability(true);
     }
     public void SetUnitProduction(int index)
     {
