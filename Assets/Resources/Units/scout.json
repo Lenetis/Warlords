@@ -2,8 +2,8 @@
     "name": "Scout",
     "texture": "Assets/Resources/Units/scout.png",
     "pathfindingTypes": ["land"],
-    "strength": 3,
-    "move": 18,
-    "upkeep": 3,
-    "productionCost": 10
+    "strength": 1,
+    "move": 16,
+    "upkeep": 1,
+    "productionCost": 2
 }

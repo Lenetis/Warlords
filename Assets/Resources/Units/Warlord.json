@@ -1,0 +1,9 @@
+{
+    "name": "Warlord",
+    "texture": "Assets/Resources/Units/Warlord.png",
+    "pathfindingTypes": ["land"],
+    "strength": 5,
+    "move": 14,
+    "upkeep": 0,
+    "productionCost": 30
+}

@@ -1,0 +1,9 @@
+{
+    "name": "Pikeman",
+    "texture": "Assets/Resources/Units/Pikeman.png",
+    "pathfindingTypes": ["land"],
+    "strength": 4,
+    "move": 8,
+    "upkeep": 2,
+    "productionCost": 5
+}

@@ -1,0 +1,9 @@
+{
+    "name": "Light Cavalry",
+    "texture": "Assets/Resources/Units/LightCavalry.png",
+    "pathfindingTypes": ["land"],
+    "strength": 3,
+    "move": 20,
+    "upkeep": 3,
+    "productionCost": 6
+}

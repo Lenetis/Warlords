@@ -1,0 +1,9 @@
+{
+    "name": "Warlord",
+    "texture": "Assets/Resources/Units/GigantBat.png",
+    "pathfindingTypes": ["land", "air"],
+    "strength": 1,
+    "move": 16,
+    "upkeep": 2,
+    "productionCost": 5
+}

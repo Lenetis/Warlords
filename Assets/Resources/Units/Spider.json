@@ -1,0 +1,9 @@
+{
+    "name": "Spider",
+    "texture": "Assets/Resources/Units/Spider.png",
+    "pathfindingTypes": ["land"],
+    "strength": 5,
+    "move": 12,
+    "upkeep": 6,
+    "productionCost": 12
+}

@@ -1,0 +1,9 @@
+{
+    "name": "Archer",
+    "texture": "Assets/Resources/Units/Archer.png",
+    "pathfindingTypes": ["land"],
+    "strength": 3,
+    "move": 12,
+    "upkeep": 3,
+    "productionCost": 7
+}

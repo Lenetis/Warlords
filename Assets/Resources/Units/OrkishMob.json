@@ -1,0 +1,9 @@
+{
+    "name": "Orkish Mob",
+    "texture": "Assets/Resources/Units/OrkishMob.png",
+    "pathfindingTypes": ["land"],
+    "strength": 3,
+    "move": 14,
+    "upkeep": 2,
+    "productionCost": 4
+}

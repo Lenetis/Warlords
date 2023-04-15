@@ -1,0 +1,9 @@
+{
+    "name": "Heavy Infantry",
+    "texture": "Assets/Resources/Units/HeavyInfantry.png",
+    "pathfindingTypes": ["land"],
+    "strength": 4,
+    "move": 8,
+    "upkeep": 2,
+    "productionCost": 5
+}
