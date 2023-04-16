@@ -80,6 +80,9 @@ public class GameController : MonoBehaviour
     /// Starts the army's automatic movement along its path
     public void StartArmyMove(Army army)
     {
+        if (!armies.Contains(army)) {
+            throw new System.ArgumentException($"Army does not exist in the game: {army}");
+        }
         if (!movingArmies.Contains(army)) {
             movingArmies.Add(army);
         }
