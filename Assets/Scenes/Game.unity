@@ -5496,6 +5496,10 @@ MonoBehaviour:
   unitPaths:
   - Assets/Resources/Units/knight.json
   - Assets/Resources/Units/scout.json
+  - Assets/Resources/Units/pikeman.json
+  - Assets/Resources/Units/warlord.json
+  - Assets/Resources/Units/spider.json
+  - Assets/Resources/Units/HeavyInfantry.json
   cityPaths:
   - ./Assets/Resources/Cities/city.json
 --- !u!1 &540637552
