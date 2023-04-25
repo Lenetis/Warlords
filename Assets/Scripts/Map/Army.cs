@@ -40,7 +40,8 @@ public class Army : IPlayerMapObject
 
         mapSprite = new GameObject("Army");
         mapSprite.transform.position = position;
-        mapSprite.AddComponent<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = mapSprite.AddComponent<SpriteRenderer>();
+        spriteRenderer.material = new Material(Shader.Find("Shader Graphs/ColorMaskShader"));
 
         Recalculate();
     }
@@ -137,7 +138,8 @@ public class Army : IPlayerMapObject
         SpriteRenderer spriteRenderer = mapSprite.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
         spriteRenderer.sortingOrder = 20;
-        spriteRenderer.color = owner.color;  // todo change the recoloring to something more fancy
+        spriteRenderer.color = owner.color;
+        spriteRenderer.material.SetTexture("_MaskTexture", strongestUnit.maskTexture);
 
         pathfindingTypes = new HashSet<string>(units[0].pathfindingTypes);
         foreach (Unit unit in units.Skip(1)) {

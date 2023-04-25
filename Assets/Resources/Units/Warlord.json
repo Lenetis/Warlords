@@ -1,6 +1,7 @@
 {
     "name": "Warlord",
     "texture": "Assets/Resources/Units/Warlord.png",
+    "maskTexture": "Assets/Resources/Units/WarlordMask.png",
     "pathfindingTypes": ["land"],
     "strength": 5,
     "move": 14,

@@ -1,6 +1,7 @@
 {
     "name": "Spider",
     "texture": "Assets/Resources/Units/Spider.png",
+    "maskTexture": "Assets/Resources/Units/SpiderMask.png",
     "pathfindingTypes": ["land"],
     "strength": 5,
     "move": 12,

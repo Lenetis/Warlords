@@ -1,6 +1,7 @@
 {
     "name": "Heavy Infantry",
     "texture": "Assets/Resources/Units/HeavyInfantry.png",
+    "maskTexture": "Assets/Resources/Units/HeavyInfantryMask.png",
     "pathfindingTypes": ["land"],
     "strength": 4,
     "move": 8,

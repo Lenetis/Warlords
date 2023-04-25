@@ -10,6 +10,7 @@ public class Unit
 
     public string name {get; set;}
     public Texture2D texture {get;}
+    public Texture2D maskTexture {get;}
 
     public int strength {get;}
     public int move {get;}
@@ -19,12 +20,13 @@ public class Unit
     public int productionCost{get;}
     
     // todo change this constructor to use fewer arguments
-    public Unit(string baseFile, string name, Texture2D texture, int strength, int move, int remainingMove, HashSet<string> pathfindingTypes, int upkeep, int productionCost)
+    public Unit(string baseFile, string name, Texture2D texture, Texture2D maskTexture, int strength, int move, int remainingMove, HashSet<string> pathfindingTypes, int upkeep, int productionCost)
     {
         this.baseFile = baseFile;
 
         this.name = name;
         this.texture = texture;
+        this.maskTexture = maskTexture;
         this.strength = strength;
         this.move = move;
         this.remainingMove = remainingMove;
@@ -73,6 +75,15 @@ public class Unit
         string texturePath = (string)attributes.GetValue("texture");
         Texture2D texture = ResourceManager.LoadTexture(texturePath);
 
+        Texture2D maskTexture;
+        if (attributes.ContainsKey("maskTexture")) {
+            string maskTexturePath = (string)attributes.GetValue("maskTexture");
+            maskTexture = ResourceManager.LoadTexture(maskTexturePath);
+        } else {
+            maskTexture = Texture2D.whiteTexture;
+        }
+        
+
         HashSet<string> pathfindingTypes = new HashSet<string>();
         foreach (string pathfindingType in attributes.GetValue("pathfindingTypes")) {
             pathfindingTypes.Add(pathfindingType);
@@ -90,7 +101,7 @@ public class Unit
             remainingMove = move;
         }
 
-        return new Unit(baseFile, name, texture, strength, move, remainingMove, pathfindingTypes, upkeep, productionCost);
+        return new Unit(baseFile, name, texture, maskTexture, strength, move, remainingMove, pathfindingTypes, upkeep, productionCost);
     }
 
     public override string ToString()

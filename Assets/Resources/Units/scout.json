@@ -1,6 +1,7 @@
 {
     "name": "Scout",
     "texture": "Assets/Resources/Units/scout.png",
+    "maskTexture": "Assets/Resources/Units/scoutMask.png",
     "pathfindingTypes": ["land"],
     "strength": 1,
     "move": 16,

@@ -1,6 +1,7 @@
 {
     "name": "Pikeman",
     "texture": "Assets/Resources/Units/Pikeman.png",
+    "maskTexture": "Assets/Resources/Units/PikemanMask.png",
     "pathfindingTypes": ["land"],
     "strength": 4,
     "move": 8,
