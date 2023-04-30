@@ -1,6 +1,7 @@
 {
     "name": "Warlord",
     "texture": "Assets/Resources/Units/GigantBat.png",
+	"maskTexture": "Assets/Resources/Units/GigantBatMask.png",
     "pathfindingTypes": ["land", "air"],
     "strength": 1,
     "move": 16,

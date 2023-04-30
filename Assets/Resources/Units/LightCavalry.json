@@ -1,6 +1,7 @@
 {
     "name": "Light Cavalry",
     "texture": "Assets/Resources/Units/LightCavalry.png",
+	"maskTexture": "Assets/Resources/Units/LightCavalryMask.png",
     "pathfindingTypes": ["land"],
     "strength": 3,
     "move": 20,

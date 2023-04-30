@@ -1,0 +1,10 @@
+{
+    "name": "Heavy Cavalry",
+    "texture": "Assets/Resources/Units/HeavyCavalry.png",
+	"maskTexture": "Assets/Resources/Units/HeavyCavalryMask.png",
+    "pathfindingTypes": ["land"],
+    "strength": 4,
+    "move": 16,
+    "upkeep": 4,
+    "productionCost": 8
+}
