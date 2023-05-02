@@ -94,25 +94,38 @@ public class CursorInfo : MonoBehaviour
                     {
                         objectName.text = "";
                         objectDescription.text = "";
-                        
+
+                        int allUnitsCount = 0;
+                        for(int i=0; i< mouseSelection.highlightedTile.armies.Count; i++)
+                        {
+                            for(int j=0; j< mouseSelection.highlightedTile.armies[i].units.Count; j++)
+                            {
+                                allUnitsCount++;
+                            }
+                        }
+
                         if (selectedUnits.Length == 0)
                         {
-                            selectedUnits = new GameObject[mouseSelection.highlightedTile.armies[0].units.Count];
+                            selectedUnits = new GameObject[allUnitsCount];
                         }
-                        
-                        for (int i = 0; i < selectedUnits.Length; i++)
+
+                        int index = 0;
+                        for (int i = 0; i < mouseSelection.highlightedTile.armies.Count; i++)
                         {
-                            if (selectedUnits[i] == null)
+
+                            for(int j=0; j< mouseSelection.highlightedTile.armies[i].units.Count; j++)
                             {
-                                selectedUnits[i] = Instantiate(unitImage, infoPanel.transform);
-                                selectedUnits[i].transform.localPosition = new Vector3((i + 1) * ((infoPanel.GetComponent<RectTransform>().sizeDelta.x / ((mouseSelection.highlightedTile.armies[0].units.Count) + 1))) - (infoPanel.GetComponent<RectTransform>().sizeDelta.x / 2), 0, 0);
-                                selectedUnits[i].transform.SetParent(infoPanel.transform);
-                                selectedUnits[i].name = i.ToString();
+                                if (selectedUnits[index] == null)
+                                {
+                                    selectedUnits[index] = Instantiate(unitImage, infoPanel.transform);
+                                    selectedUnits[index].transform.localPosition = new Vector3((index + 1) * ((infoPanel.GetComponent<RectTransform>().sizeDelta.x / ((allUnitsCount) + 1))) - (infoPanel.GetComponent<RectTransform>().sizeDelta.x / 2), 0, 0);
+                                    selectedUnits[index].transform.SetParent(infoPanel.transform);
+                                    selectedUnits[index].name = index.ToString();
 
-                                selectedUnits[i].GetComponent<Image>().sprite = Sprite.Create(mouseSelection.highlightedTile.armies[0].units[i].texture, new Rect(0.0f, 0.0f, mouseSelection.highlightedTile.armies[0].units[i].texture.width, mouseSelection.highlightedTile.armies[0].units[i].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
-
+                                    selectedUnits[index].GetComponent<Image>().sprite = Sprite.Create(mouseSelection.highlightedTile.armies[i].units[j].texture, new Rect(0.0f, 0.0f, mouseSelection.highlightedTile.armies[i].units[j].texture.width, mouseSelection.highlightedTile.armies[i].units[j].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+                                }
+                                index++;
                             }
-
                         }
                     }
                     else if (mouseSelection.highlightedTile.city != null)
