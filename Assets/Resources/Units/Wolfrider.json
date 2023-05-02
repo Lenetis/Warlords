@@ -1,0 +1,10 @@
+{
+    "name": "Wolfrider",
+    "texture": "Assets/Resources/Units/Wolfrider.png",
+    "maskTexture": "Assets/Resources/Units/WolfriderMask.png",
+    "pathfindingTypes": ["land"],
+    "strength": 4,
+    "move": 16,
+    "upkeep": 4,
+    "productionCost": 8
+}

@@ -1,6 +1,7 @@
 {
     "name": "Gigant",
     "texture": "Assets/Resources/Units/Gigant.png",
+	"maskTexture": "Assets/Resources/Units/GigantMask.png",
     "pathfindingTypes": ["land"],
     "strength": 6,
     "move": 16,

@@ -1,0 +1,10 @@
+{
+    "name": "Unicorn",
+    "texture": "Assets/Resources/Units/Unicorn.png",
+    "maskTexture": "Assets/Resources/Units/UnicornMask.png",
+    "pathfindingTypes": ["land"],
+    "strength": 7,
+    "move": 16,
+    "upkeep": 7,
+    "productionCost": 15
+}
