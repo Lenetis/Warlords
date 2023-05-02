@@ -13027,7 +13027,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 170, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1361732296
 MonoBehaviour:
@@ -18336,9 +18336,11 @@ MonoBehaviour:
   UIPanels:
   - {fileID: 110054918814830518}
   - {fileID: 96277822}
-  LoadGameButton: {fileID: 5821331719184908839, guid: 4019f3a563e38f74f85fe748217f7b70, type: 3}
+  loadGameButton: {fileID: 5821331719184908839, guid: 4019f3a563e38f74f85fe748217f7b70, type: 3}
   savedGames: []
   savedGameButtons: []
+  deleteGameButton: {fileID: 6346861084756557147, guid: 2a12815f121e0e04dae9624c96829270, type: 3}
+  deleteGameButtons: []
   buttonsLabel: {fileID: 110054920217541939}
   saveNameInput: {fileID: 1361732296}
 --- !u!1 &1990653035

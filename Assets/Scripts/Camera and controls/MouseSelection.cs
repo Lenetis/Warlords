@@ -32,7 +32,6 @@ public class MouseSelection : MonoBehaviour
 
     public List<Army> selectedArmies;
     public GameObject gameMenu;
-    private bool isGameMenuActive = false;
 
     private UIController uiController;
 
@@ -53,17 +52,15 @@ public class MouseSelection : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!isGameMenuActive)
+            if (!gameMenu.activeSelf)
             {
                 gameMenu.SetActive(true);
                 uiController.setDispAreaAvailability(false);
-                isGameMenuActive = true;
             }
             else
             {
                 gameMenu.SetActive(false);
                 uiController.setDispAreaAvailability(true);
-                isGameMenuActive = false;
             }
             
         }
