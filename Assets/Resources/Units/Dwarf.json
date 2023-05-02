@@ -1,0 +1,10 @@
+{
+    "name": "Dwarf",
+    "texture": "Assets/Resources/Units/Dwarf.png",
+    "maskTexture": "Assets/Resources/Units/DwarfMask.png",
+    "pathfindingTypes": ["land"],
+    "strength": 3,
+    "move": 8,
+    "upkeep": 3,
+    "productionCost": 7
+}

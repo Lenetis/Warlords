@@ -1,0 +1,10 @@
+{
+    "name": "Minotaur",
+    "texture": "Assets/Resources/Units/Minotaur.png",
+    "maskTexture": "Assets/Resources/Units/MinotaurMask.png",
+    "pathfindingTypes": ["land"],
+    "strength": 5,
+    "move": 12,
+    "upkeep": 5,
+    "productionCost": 10
+}

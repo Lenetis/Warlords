@@ -1,0 +1,10 @@
+{
+    "name": "Ghost",
+    "texture": "Assets/Resources/Units/Ghost.png",
+    "maskTexture": "Assets/Resources/Units/GhostMask.png",
+    "pathfindingTypes": ["land"],
+    "strength": 7,
+    "move": 16,
+    "upkeep": 7,
+    "productionCost": 13
+}

@@ -1,0 +1,10 @@
+{
+    "name": "Elephant",
+    "texture": "Assets/Resources/Units/Elephant.png",
+    "maskTexture": "Assets/Resources/Units/ElephantMask.png",
+    "pathfindingTypes": ["land"],
+    "strength": 8,
+    "move": 16,
+    "upkeep": 7,
+    "productionCost": 15
+}

@@ -1,6 +1,7 @@
 {
     "name": "Archer",
     "texture": "Assets/Resources/Units/Archer.png",
+	"maskTexture": "Assets/Resources/Units/ArcherMask.png",
     "pathfindingTypes": ["land"],
     "strength": 3,
     "move": 12,
