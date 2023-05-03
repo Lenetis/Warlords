@@ -44,6 +44,8 @@ public class Army : IPlayerMapObject
         spriteRenderer.material = new Material(Shader.Find("Shader Graphs/ColorMaskShader"));
 
         Recalculate();
+
+        AddToGame();
     }
 
     /// Removes unit from army
@@ -71,16 +73,29 @@ public class Army : IPlayerMapObject
         Recalculate();
     }
 
+    /// Adds this army to the tileMap and to its owner armies
+    private void AddToGame()
+    {
+        // todo, this could also be done by event handlers in tileMap and owner. Is it a good idea? todo?
+        gameController.tileMap.GetTile(position).AddArmy(this);
+        owner.AddArmy(this);
+
+        EventManager.OnArmyCreated(this);
+    }
+
     /// Destroys the army - removes this army (and all its units) from the game
     public void Destroy()
     {
-        gameController.DestroyArmy(this);
+        owner.RemoveArmy(this);
+        gameController.tileMap.GetTile(position).RemoveArmy(this);
 
         // todo remove this!!
         for (int i = 0; i < mapSprite.transform.childCount; i += 1) {
             mapSprite.transform.GetChild(0).SetParent(null);  // todo this is awful, unit rendering should be moved to a separate script
         }
         GameObject.Destroy(mapSprite);
+
+        EventManager.OnArmyDestroyed(this);
     }
 
     /// Merges this army into other army and destroys this army
@@ -102,8 +117,7 @@ public class Army : IPlayerMapObject
 
             List<Unit> newUnitList = new List<Unit>();
             newUnitList.Add(lastUnit);
-            Army newArmy = new Army(newUnitList, position, owner);
-            gameController.AddArmy(newArmy);
+            new Army(newUnitList, position, owner);
         }
         Recalculate();
     }
@@ -115,8 +129,7 @@ public class Army : IPlayerMapObject
 
         List<Unit> newUnitList = new List<Unit>();
         newUnitList.Add(unit);
-        Army newArmy = new Army(newUnitList, position, owner);
-        gameController.AddArmy(newArmy);
+        new Army(newUnitList, position, owner);
     }
 
     // todo change name to something more descriptive 
@@ -180,36 +193,56 @@ public class Army : IPlayerMapObject
         }
 
         Position nextPosition = path[0];
-        Tile nextTile = gameController.tileMap.GetTile(nextPosition);
-
-        if (nextTile.owner == null || nextTile.owner == owner) {
-            foreach(Unit unit in units) {
-                if (unit.remainingMove - nextTile.moveCost < 0) {
-                    return false;
-                }
-            }
-
-            gameController.MoveArmy(this, nextPosition);
-            mapSprite.transform.position = nextPosition;  // todo this probably shouldn't be here
-            foreach(Unit unit in units) {
-                unit.remainingMove -= nextTile.moveCost;
-            }
-            path.RemoveAt(0);
-
-            return true;
-        } else {
-            if (path.Count == 1) {
-                gameController.StartBattle(this, attackTarget);
-
-                path = null;
-                attackTarget = null;
-
-            } else {
-                // todo maybe find a different path instead of cancelling the move?
-                path = null;
-            }
+        if (!gameController.tileMap.CanMoveInOneStep(position, nextPosition, pathfindingTypes)) {
+            Debug.LogError($"Cannot move army from {position} to {nextPosition}. Either the positions are not adjacent, or there is no matching pathfinding type.");
             return false;
         }
+
+        Tile nextTile = gameController.tileMap.GetTile(nextPosition);
+        foreach (Unit unit in units) {
+            if (unit.remainingMove - nextTile.moveCost < 0) {
+                return false;
+            }
+        }
+        
+        if (attackTarget != null && attackTarget.OccupiesPosition(nextPosition)) {
+            new Battle(this, attackTarget);  // this line looks super cursed, but everything communicates nicely through events, so it's fine. todo?
+
+            path = null;
+            attackTarget = null;
+            
+            return false;
+        }
+        else {
+            if (nextTile.owner == null || nextTile.owner == owner) {
+                //todo check if there is room for more units on the target tile
+
+                Tile currentTile = gameController.tileMap.GetTile(position);
+
+                ArmyMovedEventData eventData;
+                eventData.startPosition = position;
+                eventData.endPosition = nextPosition;
+
+                currentTile.RemoveArmy(this);
+                nextTile.AddArmy(this);
+                position = nextPosition;
+
+                mapSprite.transform.position = nextPosition;  // todo this probably shouldn't be here
+                foreach (Unit unit in units) {
+                    unit.remainingMove -= nextTile.moveCost;
+                }
+                path.RemoveAt(0);
+
+                EventManager.OnArmyMoved(this, eventData);
+
+                return true;
+            }
+            else {
+                // todo maybe find a different path instead of cancelling the move?
+                path = null;
+                return false;
+            }
+        }   
     }
 
     /// Starts turn (resets move points) of every unit in this army and updates path if attackTarget has moved

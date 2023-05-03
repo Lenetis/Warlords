@@ -98,10 +98,10 @@ public static class ResourceManager
             gameController.AddPlayer(Player.FromJObject(playerJObject));
         }
         foreach (JObject armyJObject in loadJObject.GetValue("armies")) {
-            gameController.AddArmy(Army.FromJObject(armyJObject));
+            Army.FromJObject(armyJObject);
         }
         foreach (JObject cityJObject in loadJObject.GetValue("cities")) {
-            gameController.AddCity(City.FromJObject(cityJObject));
+            City.FromJObject(cityJObject);
         }
         Debug.Log("Loaded!");
     }

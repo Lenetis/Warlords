@@ -27,6 +27,24 @@ public class GameController : MonoBehaviour
     private TurnInfoDisplay turnInfoDisplay;  // todo remove this, replace with a main UI Controller object
     private ResourcesDisplay resourcesDisplay;  // todo remove this, replace with a main UI Controller object
 
+    void Awake()
+    {
+        EventManager.ArmyCreatedEvent += ArmyCreatedHandler;
+        EventManager.ArmyDestroyedEvent += ArmyDestroyedHandler;
+        EventManager.BattleStartedEvent += BattleStartedHandler;
+        EventManager.CityCreatedEvent += CityCreatedHandler;
+        EventManager.CityDestroyedEvent += CityDestroyedHandler;
+    }
+
+    void OnDestroy()
+    {
+        EventManager.ArmyCreatedEvent -= ArmyCreatedHandler;
+        EventManager.ArmyDestroyedEvent -= ArmyDestroyedHandler;
+        EventManager.BattleStartedEvent -= BattleStartedHandler;
+        EventManager.CityCreatedEvent -= CityCreatedHandler;
+        EventManager.CityDestroyedEvent -= CityDestroyedHandler;
+    }
+
     /// Start is called before the first frame update
     void Start()
     {
@@ -105,29 +123,26 @@ public class GameController : MonoBehaviour
                 movingArmies.RemoveAt(i);
                 i -= 1;
             }
+            if (activeBattle != null) {
+                return;
+            }
         }
     }
 
-    /// Moves army from it's position to newPosition. Throws System.ArgumentException if newPosition is not adjacent to army position or is an invalid position for this army
-    public void MoveArmy(Army army, Position newPosition)
+    /// Adds the newly created army to the list of all armies
+    private void ArmyCreatedHandler(object sender, System.EventArgs args)
     {
-        if (!tileMap.GetNeighbouringPositions(army.position).Contains(newPosition)) {
-            throw new System.ArgumentException($"Cannot move army from {army.position} to {newPosition}. Positions are not adjacent.");
-        }
-        Tile targetTile = tileMap.GetTile(newPosition);
-        if (!targetTile.pathfindingTypes.Overlaps(army.pathfindingTypes)) {
-            throw new System.ArgumentException($"No common pathfinding type exists between army at {army.position} and tile at {newPosition}.");
-        }
+        armies.Add((Army)sender);
+    }
 
-        //todo check if there is room for more units on the target tile
-
-        tileMap.GetTile(army.position).RemoveArmy(army);
-        targetTile.AddArmy(army);
-        army.position = newPosition;  // todo I don't like this... Why should setting army position be done from an outside object?
+    /// Removes the army from the list of all armies
+    private void ArmyDestroyedHandler(object sender, System.EventArgs args)
+    {
+        armies.Remove((Army)sender);
     }
 
     /// Stops automatic movement of all moving armies and starts a battle between attacker and defender
-    public void StartBattle(Army attacker, IPlayerMapObject defender)
+    private void BattleStartedHandler(object sender, System.EventArgs args)
     {
         if (activeBattle != null) {
             // this should never happen, but let's throw an exception just in case
@@ -136,13 +151,19 @@ public class GameController : MonoBehaviour
 
         // todo add a super cool camera animation centering on the attacker or something
 
-        activeBattle = new Battle(attacker, defender);
+        activeBattle = (Battle)sender;
+    }
 
-        // todo replace all of this with some nice elegant communication with a main "UI Controller" object
-        BattleScreen battleScreen = GameObject.Find("Main").GetComponent<BattleScreen>();
-        battleScreen.battlePanel.SetActive(true);
-        battleScreen.winInfo.text = "";
-        battleScreen.battle = activeBattle;
+    /// Adds the newly created city to the list of all cities
+    public void CityCreatedHandler(object sender, System.EventArgs args)
+    {
+        cities.Add((City)sender);
+    }
+
+    /// Removes the city from the list of all cities
+    public void CityDestroyedHandler(object sender, System.EventArgs args)
+    {
+        cities.Remove((City)sender);
     }
 
     /// Adds a new player to the list of players
@@ -165,63 +186,6 @@ public class GameController : MonoBehaviour
             }
         }
         throw new KeyNotFoundException($"Player {playerName} does not exist.");
-    }
-
-    /// Adds an army to the tile at the army's position, and to the army owner's armies
-    public void AddArmy(Army army)
-    {
-        tileMap.GetTile(army.position).AddArmy(army);
-        army.owner.AddArmy(army);
-
-        armies.Add(army);
-    }
-
-    /// Removes the army from TileMap and from its owner armies
-    public void DestroyArmy(Army army)
-    {
-        army.owner.RemoveArmy(army);
-        tileMap.GetTile(army.position).RemoveArmy(army);
-
-        armies.Remove(army);
-    }
-
-    /// Adds a city to all tiles in the city's occupied position, and to the city owner's cities
-    public void AddCity(City city)
-    {
-        foreach (Position occupiedPosition in city.occupiedPositions) {
-            Tile occupiedTile = tileMap.GetTile(city.position + occupiedPosition);
-            occupiedTile.AddCity(city);
-        }
-
-        city.owner.AddCity(city);
-
-        cities.Add(city);
-    }
-
-    /// Removes the city from its owner cities
-    public void RazeCity(City city)
-    {
-        city.owner.RemoveCity(city);
-    }
-
-    /// Removes the city from TileMap and from its owner cities
-    public void DestroyCity(City city)
-    {
-        if (city.owner != null) {
-            city.owner.RemoveCity(city);
-        }
-        foreach (Position occupiedPosition in city.occupiedPositions) {
-            tileMap.GetTile(city.position + occupiedPosition).RemoveCity();
-        }
-
-        cities.Remove(city);
-    }
-
-    /// Changes the owner of the city
-    public void CaptureCity(City city, Player newOwner)
-    {
-        city.owner.RemoveCity(city);
-        newOwner.AddCity(city);
     }
 
     /// Ends the active player's turn and starts the next player's turn

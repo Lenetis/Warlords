@@ -68,6 +68,8 @@ public class City : IPlayerMapObject
         mapSprite.AddComponent<SpriteRenderer>();
 
         Recalculate();
+
+        AddToGame();
     }
 
     // todo change name to something more descriptive 
@@ -96,8 +98,10 @@ public class City : IPlayerMapObject
 
         Recalculate();
 
-        gameController.RazeCity(this);
+        owner.RemoveCity(this);
         owner = null;
+
+        EventManager.OnCityRazed(this);
     }
 
     /// Changes the owner of this city to newOwner
@@ -108,20 +112,37 @@ public class City : IPlayerMapObject
 
         Recalculate();
 
-        gameController.CaptureCity(this, newOwner);
+        owner.RemoveCity(this);
+        newOwner.AddCity(this);
+
+        EventManager.OnCityCaptured(this);
+    }
+
+    /// Adds this city to the tileMap and to its owner cities
+    private void AddToGame()
+    {
+        foreach (Position occupiedPosition in occupiedPositions) {
+            Tile occupiedTile = gameController.tileMap.GetTile(position + occupiedPosition);
+            occupiedTile.AddCity(this);
+        }
+        owner.AddCity(this);
+
+        EventManager.OnCityCreated(this);
     }
 
     /// Destroys the city, completely removing it from the game
     public void Destroy()
     {
         GameObject.Destroy(mapSprite);
-        gameController.DestroyCity(this);
-    }
+        
+        if (owner != null) {
+            owner.RemoveCity(this);
+        }
+        foreach (Position occupiedPosition in occupiedPositions) {
+            gameController.tileMap.GetTile(position + occupiedPosition).RemoveCity();
+        }
 
-    /// TMP method that destroys the city's mapSprite. Todo remove this when sprites are moved to another script
-    public void DestroySprite()
-    {
-        GameObject.Destroy(mapSprite);
+        EventManager.OnCityDestroyed(this);
     }
 
     /// Starts turn this city - calculates unit production
@@ -131,7 +152,7 @@ public class City : IPlayerMapObject
             productionProgress += production;
             Debug.Log($"{name} - progress: {productionProgress}/{producedUnit.productionCost}");
             if (productionProgress >= producedUnit.productionCost) {
-                Debug.Log("added new Army");
+                Debug.Log("created new Army");
 
                 // todo find a free tile within occupiedPositions
                 //      (what if there is none???)
@@ -140,8 +161,7 @@ public class City : IPlayerMapObject
                 Unit newUnit = Unit.FromJObject(ResourceManager.LoadResource(buildableUnits[producedUnitIndex].baseFile));
                 List<Unit> unitList = new List<Unit>();
                 unitList.Add(newUnit);
-                Army producedArmy = new Army(unitList, position, owner);
-                gameController.AddArmy(producedArmy);
+                new Army(unitList, position, owner);
 
                 productionProgress = 0;
             }

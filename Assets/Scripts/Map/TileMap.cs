@@ -287,6 +287,19 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
         return positions;
     }
 
+    /// Returns true if it is possible to move in one step from startPosition to endPosition with the given pathfindingTypes
+    public bool CanMoveInOneStep(Position startPosition, Position endPosition, HashSet<string> pathfindingTypes)
+    {
+        Tile targetTile = GetTile(endPosition);
+        if (!targetTile.pathfindingTypes.Overlaps(pathfindingTypes)) {
+            return false;
+        }
+        if (!GetNeighbouringPositions(startPosition).Contains(endPosition)) {
+            return false;
+        }
+        return true;
+    }
+
     /// Returns the tile at the given position
     public Tile GetTile(Position position)
     {

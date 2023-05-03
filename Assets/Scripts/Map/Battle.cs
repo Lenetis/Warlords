@@ -55,6 +55,8 @@ public class Battle
         } else {
             winner = null;
         }
+
+        EventManager.OnBattleStarted(this);
     }
 
     /// Calculates a single turn of the battle. Returns winner if battle is over and null if it is not.

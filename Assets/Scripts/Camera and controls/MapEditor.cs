@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Newtonsoft.Json.Linq;
+
 public class MapEditor : MonoBehaviour
 {
     private GameController gameController;
@@ -130,9 +132,7 @@ public class MapEditor : MonoBehaviour
             Unit unit = Unit.FromJObject(ResourceManager.LoadResource(unitPaths[activeUnitIndex]));
             List<Unit> unitList = new List<Unit>();
             unitList.Add(unit);
-            Army army = new Army(unitList, symmetryPosition, gameController.activePlayer);
-
-            gameController.AddArmy(army);
+            new Army(unitList, symmetryPosition, gameController.activePlayer);
         }
     }
 
@@ -155,19 +155,18 @@ public class MapEditor : MonoBehaviour
         // probably a //todo
 
         foreach (Position symmetryPosition in positions) {
-            City city = new City(ResourceManager.LoadResource(cityPaths[activeCityIndex]), gameController.activePlayer, "Editor City", "No description", symmetryPosition); // City.FromJObject(ResourceManager.LoadResource(cityPaths[activeCityIndex]));
+            JObject cityResource = ResourceManager.LoadResource(cityPaths[activeCityIndex]);  // disgusting, todo
 
             bool legalPosition = true;
-            foreach(Position occupiedPosition in city.occupiedPositions) {
-                Tile occupiedTile = tileMap.GetTile(occupiedPosition + city.position);
+            foreach(JArray JObjectPosition in cityResource.GetValue("occupiedPositions")) {
+                Position occupiedPosition = new Position((int)JObjectPosition[0], (int)JObjectPosition[1]);
+                Tile occupiedTile = tileMap.GetTile(occupiedPosition + symmetryPosition);
                 if (occupiedTile.city != null) {
                     legalPosition = false;
                 }
             }
             if (legalPosition) {
-                gameController.AddCity(city);
-            } else {
-                city.DestroySprite();
+                new City(cityResource, gameController.activePlayer, "Editor City", "No description", symmetryPosition);
             }
         }
     }

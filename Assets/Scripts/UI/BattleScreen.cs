@@ -36,6 +36,16 @@ public class BattleScreen : MonoBehaviour
     public TextMeshProUGUI winInfo;
 
 
+    void Awake()
+    {
+        EventManager.BattleStartedEvent += BattleStartedHandler;
+    }
+
+    void OnDestroy()
+    {
+        EventManager.BattleStartedEvent -= BattleStartedHandler;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -119,6 +129,13 @@ public class BattleScreen : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void BattleStartedHandler(object sender, System.EventArgs args)
+    {
+        battlePanel.SetActive(true);
+        winInfo.text = "";
+        battle = (Battle)sender;
     }
 
     private void UpdateUnitImages(List<Unit> units, List<GameObject> unitImages, GameObject unitPanel)
