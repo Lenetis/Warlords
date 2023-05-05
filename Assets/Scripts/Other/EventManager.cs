@@ -8,6 +8,14 @@ public struct ArmyMovedEventData
     public Position endPosition;
 }
 
+public struct TileMapResizedEventData
+{
+    public int oldWidth;
+    public int oldHeight;
+    public int newWidth;
+    public int newHeight;
+}
+
 public static class EventManager
 {
     public static event System.EventHandler<ArmyMovedEventData> ArmyMovedEvent;
@@ -18,6 +26,8 @@ public static class EventManager
     public static event System.EventHandler CityCreatedEvent;
     public static event System.EventHandler CityDestroyedEvent;
     public static event System.EventHandler CityRazedEvent;
+    public static event System.EventHandler<TileMapResizedEventData> TileMapResizedEvent;
+    public static event System.EventHandler TurnEvent;
 
 
     public static void OnArmyMoved(object sender, ArmyMovedEventData eventData) {
@@ -50,5 +60,13 @@ public static class EventManager
 
     public static void OnCityRazed(object sender) {
         CityRazedEvent?.Invoke(sender, System.EventArgs.Empty);
+    }
+
+    public static void OnTileMapResized(object sender, TileMapResizedEventData eventData) {
+        TileMapResizedEvent?.Invoke(sender, eventData);
+    }
+
+    public static void OnTurn(object sender) {
+        TurnEvent?.Invoke(sender, System.EventArgs.Empty);
     }
 }

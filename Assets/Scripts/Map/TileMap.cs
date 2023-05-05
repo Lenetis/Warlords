@@ -158,6 +158,12 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
             }
         }
 
+        TileMapResizedEventData eventData;
+        eventData.oldWidth = width;
+        eventData.oldHeight = height;
+        eventData.newWidth = newWidth;
+        eventData.newHeight = newHeight;
+
         tiles = newTiles;
         width = newWidth;
         height = newHeight;
@@ -168,7 +174,7 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
 
         GenerateTexture();
 
-        // todo remove this and instead notify GameController (and then UIController, when it's finally added...)
+        // todo remove this when handling of TileMapResizedEvent is added
         Minimap minimapUI = GameObject.Find("Main").GetComponent<Minimap>();
         minimapUI.width = newWidth;
         minimapUI.height = newHeight;
@@ -176,6 +182,8 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
         CameraController controller = Camera.main.GetComponent<CameraController>();
         controller.mapWidth = newWidth;
         controller.mapHeight = newHeight;
+
+        EventManager.OnTileMapResized(this, eventData);
     }
 
     /// Returns path from the start position of pathfinding to currentPosition
