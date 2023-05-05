@@ -25,6 +25,8 @@ public class ArmyManagement : MonoBehaviour
     public int MSMode = 1;
     public TextMeshProUGUI modeButonText;
 
+    public int counter;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -85,7 +87,7 @@ public class ArmyManagement : MonoBehaviour
         activeUnits = new List<bool>();
         movesAvailable = new TextMeshProUGUI[armiesSize];
 
-        int counter = 0;
+        counter = 0;
 
         armyManagementPanel.SetActive(true);
 
@@ -96,7 +98,7 @@ public class ArmyManagement : MonoBehaviour
             {
 
                 units[counter] = Instantiate(unitButton, armyManagementPanel.transform.GetChild(0).gameObject.transform);
-                units[counter].transform.localPosition = new Vector3((counter + 1) * ((armyManagementPanel.transform.GetChild(0).gameObject.GetComponent<RectTransform>().sizeDelta.x / ((armiesSize) + 1))) - (armyManagementPanel.transform.GetChild(0).gameObject.GetComponent<RectTransform>().sizeDelta.x / 2), 10, 0);
+                units[counter].transform.localPosition = new Vector3((counter + 1) * ((armyManagementPanel.transform.GetChild(0).gameObject.GetComponent<RectTransform>().sizeDelta.x / ((armiesSize) + 1))) - (armyManagementPanel.transform.GetChild(0).gameObject.GetComponent<RectTransform>().sizeDelta.x / 2), 5, 0);
                 units[counter].transform.SetParent(armyManagementPanel.transform.GetChild(0).gameObject.transform);
                 units[counter].name = counter.ToString();
                 units[counter].GetComponent<UnitButton>().army = i;
@@ -149,31 +151,32 @@ public class ArmyManagement : MonoBehaviour
 
     public void SetUnitActivity(int index)
     {
-        Debug.Log("Button index: "+index);
-        Debug.Log("Button index: " + index+"; Army: " + units[index].GetComponent<UnitButton>().army+"; Unit: "+units[index].GetComponent<UnitButton>().unit);
+        if (counter != 1)
+        {
+            Debug.Log("Button index: " + index);
+            Debug.Log("Button index: " + index + "; Army: " + units[index].GetComponent<UnitButton>().army + "; Unit: " + units[index].GetComponent<UnitButton>().unit);
 
-        if (MSMode == -1)
-        {
-            selectedArmies[units[index].GetComponent<UnitButton>().army].SplitUnit(selectedArmies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
-        }
-        else
-        {
-            selectedArmies[0].AddUnit(selectedArmies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
-            selectedArmies[units[index].GetComponent<UnitButton>().army].RemoveUnit(selectedArmies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
-        }
-        
+            if (MSMode == -1)
+            {
+                selectedArmies[units[index].GetComponent<UnitButton>().army].SplitUnit(selectedArmies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
+            }
+            else
+            {
+                selectedArmies[0].AddUnit(selectedArmies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
+                selectedArmies[units[index].GetComponent<UnitButton>().army].RemoveUnit(selectedArmies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
+            }
 
-        
-        SelectArmy(selectedArmies);
-        if (activeUnits[index] == true)
-        {
-            activeUnits[index] = false;
-            /////unitsCheckBox[index].color = new Color(255f / 255f, 102f / 255f, 80f / 255f);
-        }
-        else
-        {
-            activeUnits[index] = true;
-            /////unitsCheckBox[index].color = new Color(176f / 255f, 255f / 255f, 145f / 255f);
+            SelectArmy(selectedArmies);
+            if (activeUnits[index] == true)
+            {
+                activeUnits[index] = false;
+                /////unitsCheckBox[index].color = new Color(255f / 255f, 102f / 255f, 80f / 255f);
+            }
+            else
+            {
+                activeUnits[index] = true;
+                /////unitsCheckBox[index].color = new Color(176f / 255f, 255f / 255f, 145f / 255f);
+            }
         }
     }
 

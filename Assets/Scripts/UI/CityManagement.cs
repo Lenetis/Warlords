@@ -53,10 +53,11 @@ public class CityManagement : MonoBehaviour
     public void SelectCity(City selectedCity)
     {
         uiController.setDispAreaAvailability(false);
+        uiController.setMinMapAreaAvailability(false);
         this.selectedCity = selectedCity;
         cityName.text = selectedCity.name;
         cityDescripton.text = selectedCity.description;
-        cityManagementPanel.SetActive(true);
+        
 
         if (selectedCity.razed)
         {
@@ -73,6 +74,10 @@ public class CityManagement : MonoBehaviour
         }
         else
         {
+            for (int i = 1; i < navButtons.Length; i++)
+            {
+                navButtons[i].interactable = true;
+            }
 
             if (selectedCity.producing)
             {
@@ -153,7 +158,7 @@ public class CityManagement : MonoBehaviour
 
             cityPanels[5].transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Are you sure that you\nwant to\nraze " + selectedCity.name + "?\nYou won't be popular!";
         }
-
+        cityManagementPanel.SetActive(true);
     }
 
     public void HideCityManagementPanel()
@@ -169,6 +174,7 @@ public class CityManagement : MonoBehaviour
             Destroy(buyableUnits[i]);
         }
         uiController.setDispAreaAvailability(true);
+        uiController.setMinMapAreaAvailability(true);
     }
     public void SetUnitProduction(int index)
     {

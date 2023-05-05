@@ -41,12 +41,14 @@ public class Minimap : MonoBehaviour
     //resizable frame
     public GameObject[] borders=new GameObject[4];
 
+    private UIController uiController;
 
     // Start is called before the first frame update
     void Start()
     {
         tileMap = GameObject.Find("TileMap").GetComponent<TileMap>();
         cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
+        uiController = GameObject.Find("UIController").GetComponent<UIController>();
 
 
     }
@@ -84,7 +86,7 @@ public class Minimap : MonoBehaviour
             isOverMinimap = false;
         }
 
-        if (Input.GetButton("Select") && isOverMinimap)
+        if (Input.GetButton("Select") && isOverMinimap && uiController.minMapAreaAvailable)
         {
             float mouseMinimapX = (Input.mousePosition.x - minimapAreaOriginX) / minimapAreaWidth;
             float mouseMinimapY = (Input.mousePosition.y - minimapAreaOriginY) / minimapAreaHeight;

@@ -56,11 +56,13 @@ public class MouseSelection : MonoBehaviour
             {
                 gameMenu.SetActive(true);
                 uiController.setDispAreaAvailability(false);
+                uiController.setMinMapAreaAvailability(false);
             }
             else
             {
                 gameMenu.SetActive(false);
                 uiController.setDispAreaAvailability(true);
+                uiController.setMinMapAreaAvailability(true);
             }
             
         }
