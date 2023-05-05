@@ -9,7 +9,7 @@ public class GameController : MonoBehaviour
     public float armyMoveDelay = 0.15f;
     private float currentArmyMoveDelay = 0;
 
-    private int turn = 0;
+    public int turn {get; private set;} = 0;
     private int activePlayerIndex = 0;
     public Player activePlayer
     {
@@ -203,9 +203,13 @@ public class GameController : MonoBehaviour
         }
 
         Debug.Log(activePlayer.name + " Turn " + (turn + 1));
+
+        // remove these lines when turnEvent handler is added
         turnInfoDisplay.showTurnInfo(activePlayer.name, turn + 1);
         activePlayer.StartTurn();
         resourcesDisplay.UpdateResources(activePlayer.cities.Count, activePlayer.gold, activePlayer.income, activePlayer.upkeep);
+
+        EventManager.OnTurn(this);
     }
 
     /// Removes all armies, cities and players from the game
