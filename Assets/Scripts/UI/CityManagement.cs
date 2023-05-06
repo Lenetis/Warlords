@@ -151,7 +151,7 @@ public class CityManagement : MonoBehaviour
                     buyableUnitsImage[i] = buyableUnits[i].transform.GetChild(0).gameObject.GetComponent<Image>();
                     buyableUnitsImage[i].sprite = Sprite.Create(selectedCity.buyableUnits[i].texture, new Rect(0.0f, 0.0f, selectedCity.buyableUnits[i].texture.width, selectedCity.buyableUnits[i].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
 
-                    buyableUnits[i].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = selectedCity.buyableUnits[i].productionCost.ToString() + "gp";
+                    buyableUnits[i].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = selectedCity.buyableUnits[i].purchaseCost.ToString() + "gp";
                 }
                 
             }
@@ -186,8 +186,11 @@ public class CityManagement : MonoBehaviour
 
     public void BuyUnit(int index)
     {
-        //todo
         Debug.Log("Purchase: " + index);
+        selectedCity.BuyUnit(selectedCity.buyableUnits[index], 3);
+        // todo add ability to replace a specific unit instead of the last one (replace 3 with the correct index)
+        // also todo, refresh the units in the city production panel
+        // also also todo, refresh the amount of gold in UI after the unit has been bought
     }
 
     public void ShowCityPanel(int index)

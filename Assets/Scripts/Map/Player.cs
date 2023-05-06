@@ -19,7 +19,20 @@ public class Player
     public List<Army> armies {get;}
     public List<City> cities {get;}
 
-    public int gold {get; private set;}
+    private int _gold;
+    public int gold
+    {
+        get {
+            return _gold;
+        }
+        set {
+            if (value < 0) {
+                throw new System.ArgumentException("The amount of gold cannot be less than 0");
+            } else {
+                _gold = value;
+            }
+        }
+    }
 
     public int income 
     {
@@ -87,19 +100,19 @@ public class Player
     /// Starts turn - starts turn of all armies and updates gold amount according to army upkeep and city income and, if it's >= 0, starts turn of all cities
     public void StartTurn()
     {
-        gold -= upkeep;
-        gold += income;
+        _gold -= upkeep;
+        _gold += income;
 
         foreach (Army army in armies) {
             army.StartTurn();
         }
 
-        if (gold >= 0) {
+        if (_gold >= 0) {
             foreach (City city in cities) {
                 city.StartTurn();
             }
         } else {
-            gold = 0;
+            _gold = 0;
             // todo add a variable to tell UI if this 0 means just exactly 0, or "city production stopped"
         }
     }

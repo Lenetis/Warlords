@@ -35,16 +35,24 @@ public class City : IPlayerMapObject
     public Unit producedUnit
     {
         get {
+            if (producing == false) {
+                return null;
+            }
             return buildableUnits[producedUnitIndex];
         }
         set {
-            int unitIndex = buildableUnits.IndexOf(value);
-            if (unitIndex == -1) {
-                throw new System.ArgumentException("Cannot set production to a non-buildable unit");
+            if (value == null) {
+                producing = false;
             }
-            producedUnitIndex = unitIndex;
+            else {
+                int unitIndex = buildableUnits.IndexOf(value);
+                if (unitIndex == -1) {
+                    throw new System.ArgumentException("Cannot set production to a non-buildable unit");
+                }
+                producedUnitIndex = unitIndex;
+                producing = true;
+            }
             productionProgress = 0;
-            producing = true;
         }
     }
     public int productionProgress {get; private set;}
@@ -143,6 +151,31 @@ public class City : IPlayerMapObject
         }
 
         EventManager.OnCityDestroyed(this);
+    }
+
+    /// TODO OPIS
+    public void BuyUnit(Unit unit, int replaceIndex)
+    {
+        if (buyableUnits.Contains(unit)) {
+            if (!buildableUnits.Any(buildableUnit => buildableUnit.baseFile == unit.baseFile)) {
+                owner.gold -= unit.purchaseCost;
+                if (replaceIndex >= buildableUnits.Count) {
+                    buildableUnits.Add(unit);
+                }
+                else {
+                    buildableUnits[replaceIndex] = unit;
+                    if (producedUnitIndex == replaceIndex) {
+                        producing = false;
+                    }
+                }
+            }
+            else {
+                throw new System.ArgumentException("Cannot buy a unit that has already been bought");
+            }
+        }
+        else {
+            throw new System.ArgumentException("Cannot buy a non-buyable unit");
+        }
     }
 
     /// Starts turn this city - calculates unit production
