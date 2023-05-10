@@ -35,6 +35,16 @@ public class MouseSelection : MonoBehaviour
 
     private UIController uiController;
 
+    void Awake()
+    {
+        EventManager.ArmyMovedEvent += ArmyMovedHandler;
+    }
+
+    void OnDestroy()
+    {
+        EventManager.ArmyMovedEvent -= ArmyMovedHandler;
+    }
+
     void Start()
     {
         tileMap = FindObjectOfType<TileMap>();
@@ -157,25 +167,21 @@ public class MouseSelection : MonoBehaviour
                             selectedArmyMarker.transform.localPosition = Vector3.zero;
                             selectedArmyMarker.SetActive(true);
 
+                            ClearPath();
+                            pathSteps = selectedArmy.path;
+                            DrawPath();
+
                             armyManagement.SelectArmy(selectedArmies);
                             isSelected = true;
                         }
                         else
                         {
-                            selectedArmy = null;
-                            selectedArmyMarker.SetActive(false);
-                            selectedArmyMarker.transform.SetParent(null);
-
-                            armyManagement.DeselectArmy();
+                            DeselectArmy();
                         }
                     }
                     else
                     {
-                        selectedArmy = null;
-                        selectedArmyMarker.SetActive(false);
-                        selectedArmyMarker.transform.SetParent(null);
-
-                        armyManagement.DeselectArmy();
+                        DeselectArmy();
                         isSelected = false;
 
                         if (highlightedTile.city != null)
@@ -197,8 +203,6 @@ public class MouseSelection : MonoBehaviour
                     selectedArmy.SetPath(pathSteps);
                     gameController.StartArmyMove(selectedArmy);
 
-                    ClearPath();
-
                     previousPathGoal = new Position(-1, -1);
                     // kinda hacky, but this is to ensure the next path after move will always be calculated, no matter if the position is the same or not
                 }
@@ -211,22 +215,6 @@ public class MouseSelection : MonoBehaviour
                         DrawPath();
                         previousPathGoal = highlightedPosition;
                     }
-                }
-            }
-            else
-            {
-                if (Input.GetButtonDown("Info") && isOverDispArea && uiController.dispAreaAvailable)
-                {
-                    Debug.Log(highlightedTile);
-                    if (highlightedTile != null && highlightedTile.armies != null)
-                    {
-                        pathSteps = highlightedTile.armies[0].path;
-                        DrawPath();
-                    }
-                }
-                else if (Input.GetButtonUp("Info"))
-                {
-                    ClearPath();
                 }
             }
 
@@ -244,12 +232,31 @@ public class MouseSelection : MonoBehaviour
 
             if (pathSteps != null)
             {
-                ClearPath();
-
                 previousPathGoal = new Position(-1, -1);
                 // kinda hacky, but this is to ensure the next path after mouse returns to legal position (over TileMap collider) will always be calculated
             }
         }
+    }
+
+    private void ArmyMovedHandler(object sender, ArmyMovedEventData eventData)
+    {
+        Army movedArmy = (Army)sender;
+        if (movedArmy == selectedArmy) {
+            ClearPath();
+            pathSteps = movedArmy.path;        
+            DrawPath();
+        }
+    }
+    
+    private void DeselectArmy()
+    {
+        ClearPath();
+
+        selectedArmy = null;
+        selectedArmyMarker.SetActive(false);
+        selectedArmyMarker.transform.SetParent(null);
+
+        armyManagement.DeselectArmy();
     }
 
     private void DrawPath()
