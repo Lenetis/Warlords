@@ -178,7 +178,7 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
         Minimap minimapUI = GameObject.Find("Main").GetComponent<Minimap>();
         minimapUI.width = newWidth;
         minimapUI.height = newHeight;
-        minimapUI.isLoaded = false;
+        minimapUI.isTileMapLoaded = false;
         CameraController controller = Camera.main.GetComponent<CameraController>();
         controller.mapWidth = newWidth;
         controller.mapHeight = newHeight;

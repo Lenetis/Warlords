@@ -43,8 +43,6 @@ public class GameMenu : MonoBehaviour
         {
             armyManagementPanel.SetActive(false);
         }
-        uiController.setDispAreaAvailability(true);
-        uiController.setMinMapAreaAvailability(true);
         HidePanel(0);
         gameObject.SetActive(false);
     }
@@ -54,8 +52,6 @@ public class GameMenu : MonoBehaviour
         if (CheckForDuplicate(saveNameInput.text))
         {
             ResourceManager.SaveGame(saveNameInput.text + ".json");
-            uiController.setDispAreaAvailability(true);
-            uiController.setMinMapAreaAvailability(true);
             HidePanel(1);
             gameObject.SetActive(false);
             //Debug.Log("File saved");

@@ -9,7 +9,9 @@ public class Minimap : MonoBehaviour
     public TileMap tileMap;
     public Texture2D tileMapTexture;
     public GameObject miniMapImage;
-    public bool isLoaded=false;
+    public GameObject cityMiniMapImage;
+    public bool isTileMapLoaded = false;
+    public bool areCitiesLoaded = false;
     public float width;
     public float height;
     public float ratio;
@@ -42,6 +44,9 @@ public class Minimap : MonoBehaviour
     public GameObject[] borders=new GameObject[4];
 
     private UIController uiController;
+    private GameController gameController;
+
+    public Image cityIcon;
 
     // Start is called before the first frame update
     void Start()
@@ -49,8 +54,7 @@ public class Minimap : MonoBehaviour
         tileMap = GameObject.Find("TileMap").GetComponent<TileMap>();
         cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
         uiController = GameObject.Find("UIController").GetComponent<UIController>();
-
-
+        gameController= GameObject.Find("GameController").GetComponent<GameController>();
     }
 
     // Update is called once per frame
@@ -86,7 +90,7 @@ public class Minimap : MonoBehaviour
             isOverMinimap = false;
         }
 
-        if (Input.GetButton("Select") && isOverMinimap && uiController.minMapAreaAvailable)
+        if (Input.GetButton("Select") && isOverMinimap && uiController.controllsAvailable())
         {
             float mouseMinimapX = (Input.mousePosition.x - minimapAreaOriginX) / minimapAreaWidth;
             float mouseMinimapY = (Input.mousePosition.y - minimapAreaOriginY) / minimapAreaHeight;
@@ -137,29 +141,62 @@ public class Minimap : MonoBehaviour
             GameObject cubeCenter = Instantiate(prefab, cam.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.5f, 0.5f, Mathf.Abs(cam.transform.position.z))), Quaternion.identity);
         }*/
 
-        if (tileMap.miniMapTexture != null && isLoaded==false)
+        if (tileMap.miniMapTexture != null && isTileMapLoaded==false)
         {
             tileMapTexture = tileMap.miniMapTexture;
             height = tileMap.height;
             width = tileMap.width;
-            isLoaded = true;
+            isTileMapLoaded = true;
             cameraController.mapWidth = (int)width;
             cameraController.mapHeight = (int)height;
 
             miniMapImage.GetComponent<RawImage>().texture = tileMapTexture;
-            
+            cityMiniMapImage.GetComponent<RawImage>().texture = tileMapTexture;
+
+
             if (width >= height)
             {
                 ratio = height / width;
                 miniMapImage.GetComponent<RectTransform>().sizeDelta = new Vector2(200, ratio * 200);
+                cityMiniMapImage.GetComponent<RectTransform>().sizeDelta = new Vector2(200, ratio * 200);
             }
             else
             {
                 ratio = width / height;
                 miniMapImage.GetComponent<RectTransform>().sizeDelta = new Vector2(ratio * 200, 200);
+                cityMiniMapImage.GetComponent<RectTransform>().sizeDelta = new Vector2(ratio * 200, 200);
             }
             
             
         }
+        if (tileMap.miniMapTexture != null && gameController.cities!=null && areCitiesLoaded == false)
+        {
+            DrawCities();
+        }
+    }
+
+    public void DrawCities()
+    {
+        for(int i=0; i<gameController.cities.Count; i++)
+        {
+            float normX = ((float)gameController.cities[i].position.x+1) / (float)tileMap.width;
+            float normY = ((float)gameController.cities[i].position.y+1) / (float)tileMap.height;
+            //Debug.Log((miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x));
+            Image tmp = Instantiate(cityIcon, miniMapImage.transform.GetChild(0));
+            //tmp.GetComponent<RectTransform>().localScale = new Vector2(100f,100f);
+            tmp.transform.localScale = new Vector3(0.2f,0.2f,0.3f);
+            //tmp.GetComponent<RectTransform>().position = new Vector2(miniMapImage.GetComponent<RectTransform>().anchorMin.x + (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * normX, miniMapImage.GetComponent<RectTransform>().anchorMin.y + (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * normY);
+            tmp.GetComponent<RectTransform>().anchoredPosition = new Vector2(-miniMapImage.GetComponent<RectTransform>().sizeDelta.x/2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -miniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
+            tmp.color = gameController.cities[i].owner.color;
+
+            tmp = Instantiate(cityIcon, cityMiniMapImage.transform.GetChild(0));
+            //tmp.GetComponent<RectTransform>().localScale = new Vector2(100f,100f);
+            tmp.transform.localScale = new Vector3(0.2f, 0.2f, 0.3f);
+            //tmp.GetComponent<RectTransform>().position = new Vector2(miniMapImage.GetComponent<RectTransform>().anchorMin.x + (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * normX, miniMapImage.GetComponent<RectTransform>().anchorMin.y + (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * normY);
+            tmp.GetComponent<RectTransform>().anchoredPosition = new Vector2(-cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
+            tmp.color = gameController.cities[i].owner.color;
+        }
+
+        areCitiesLoaded = true;
     }
 }

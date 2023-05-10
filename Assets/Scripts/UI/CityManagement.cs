@@ -52,8 +52,6 @@ public class CityManagement : MonoBehaviour
     }
     public void SelectCity(City selectedCity)
     {
-        uiController.setDispAreaAvailability(false);
-        uiController.setMinMapAreaAvailability(false);
         this.selectedCity = selectedCity;
         cityName.text = selectedCity.name;
         cityDescripton.text = selectedCity.description;
@@ -173,8 +171,6 @@ public class CityManagement : MonoBehaviour
         {
             Destroy(buyableUnits[i]);
         }
-        uiController.setDispAreaAvailability(true);
-        uiController.setMinMapAreaAvailability(true);
     }
     public void SetUnitProduction(int index)
     {

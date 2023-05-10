@@ -65,18 +65,14 @@ public class MouseSelection : MonoBehaviour
             if (!gameMenu.activeSelf)
             {
                 gameMenu.SetActive(true);
-                uiController.setDispAreaAvailability(false);
-                uiController.setMinMapAreaAvailability(false);
             }
             else
             {
                 gameMenu.SetActive(false);
-                uiController.setDispAreaAvailability(true);
-                uiController.setMinMapAreaAvailability(true);
             }
             
         }
-        if (Input.GetKeyDown(KeyCode.T) && uiController.dispAreaAvailable)
+        if (Input.GetKeyDown(KeyCode.T) && uiController.controllsAvailable())
         {
             gameController.Turn();
             if (selectedArmy != null && selectedArmy.owner != gameController.activePlayer)
@@ -85,15 +81,15 @@ public class MouseSelection : MonoBehaviour
                 armyManagement.DeselectArmy();
             }
         }
-        if (Input.GetKeyDown(KeyCode.M) && uiController.dispAreaAvailable)
+        if (Input.GetKeyDown(KeyCode.M) && uiController.controllsAvailable())
         {
             gameController.activePlayer.MoveAll();
         }
-        if (Input.GetKeyDown(KeyCode.A) && selectedArmy != null && uiController.dispAreaAvailable)
+        if (Input.GetKeyDown(KeyCode.A) && selectedArmy != null && uiController.controllsAvailable())
         {
             MergeTileUnits(selectedArmy);
         }
-        if (Input.GetKeyDown(KeyCode.S) && selectedArmy != null && uiController.dispAreaAvailable)
+        if (Input.GetKeyDown(KeyCode.S) && selectedArmy != null && uiController.controllsAvailable())
         {
             SplitTileUnits(selectedArmy);
         }
@@ -142,7 +138,7 @@ public class MouseSelection : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(mousePos);
         RaycastHit hitInfo;
 
-        if (Physics.Raycast(ray, out hitInfo) && uiController.dispAreaAvailable)
+        if (Physics.Raycast(ray, out hitInfo) && uiController.controllsAvailable())
         {
             selectionMarker.SetActive(true);
 
@@ -152,7 +148,7 @@ public class MouseSelection : MonoBehaviour
 
             highlightedTile = tileMap.GetTile(highlightedPosition);
 
-            if (Input.GetButtonDown("Select") && isOverDispArea && uiController.dispAreaAvailable)
+            if (Input.GetButtonDown("Select") && isOverDispArea && uiController.controllsAvailable())
             {
                 if (highlightedTile != null)
                 {
@@ -194,7 +190,7 @@ public class MouseSelection : MonoBehaviour
 
             if (selectedArmy != null)
             {
-                if (Input.GetButtonUp("Move") && uiController.dispAreaAvailable)
+                if (Input.GetButtonUp("Move") && uiController.controllsAvailable())
                 {
                     if (pathSteps != null && pathSteps[0] != selectedArmy.position)
                     {
@@ -206,7 +202,7 @@ public class MouseSelection : MonoBehaviour
                     previousPathGoal = new Position(-1, -1);
                     // kinda hacky, but this is to ensure the next path after move will always be calculated, no matter if the position is the same or not
                 }
-                else if (Input.GetButton("Move") && isOverDispArea && uiController.dispAreaAvailable)
+                else if (Input.GetButton("Move") && isOverDispArea && uiController.controllsAvailable())
                 {
                     if (previousPathGoal != highlightedPosition || pathSteps != null && pathSteps[0] != selectedArmy.position)
                     {
@@ -218,7 +214,7 @@ public class MouseSelection : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.R) && highlightedTile != null && highlightedTile.city != null && uiController.dispAreaAvailable)
+            if (Input.GetKeyDown(KeyCode.R) && highlightedTile != null && highlightedTile.city != null && uiController.controllsAvailable())
             {
                 if (highlightedTile.city.owner == gameController.activePlayer)
                 {

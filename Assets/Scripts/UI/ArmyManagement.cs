@@ -18,7 +18,7 @@ public class ArmyManagement : MonoBehaviour
     public GameObject[] units;
     public Image[] unitsImage;
     /////public Image[] unitsCheckBox;
-    public List<bool> activeUnits = new List<bool>();
+    //public List<bool> activeUnits = new List<bool>();
     public TextMeshProUGUI[] movesAvailable;
     public int[,] colorPalette = {{114, 161, 255 } ,{114, 255, 157 },{ 255, 255, 114 },{ 255, 125, 114 },
                                 { 255, 114, 228 },{193, 114, 255 },{ 114, 251, 255 },{ 199, 255, 114 }};
@@ -84,7 +84,7 @@ public class ArmyManagement : MonoBehaviour
         units = new GameObject[armiesSize];
         unitsImage = new Image[armiesSize];
         /////unitsCheckBox = new Image[armiesSize];
-        activeUnits = new List<bool>();
+        //activeUnits = new List<bool>();
         movesAvailable = new TextMeshProUGUI[armiesSize];
 
         counter = 0;
@@ -120,7 +120,7 @@ public class ArmyManagement : MonoBehaviour
                     colorIndex = 0;
                 }
                 units[counter].GetComponent<Image>().color = new Color32(System.Convert.ToByte(colorPalette[colorIndex, 0]), System.Convert.ToByte(colorPalette[colorIndex, 1]), System.Convert.ToByte(colorPalette[colorIndex, 2]), 100);
-                activeUnits.Add(true);
+                //activeUnits.Add(true);
                 counter++;
             }
             colorIndex++;
@@ -158,6 +158,7 @@ public class ArmyManagement : MonoBehaviour
 
             if (MSMode == -1)
             {
+                if(selectedArmies[0].units.Count!=1)
                 selectedArmies[units[index].GetComponent<UnitButton>().army].SplitUnit(selectedArmies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
             }
             else
@@ -167,6 +168,7 @@ public class ArmyManagement : MonoBehaviour
             }
 
             SelectArmy(selectedArmies);
+            /*
             if (activeUnits[index] == true)
             {
                 activeUnits[index] = false;
@@ -176,7 +178,7 @@ public class ArmyManagement : MonoBehaviour
             {
                 activeUnits[index] = true;
                 /////unitsCheckBox[index].color = new Color(176f / 255f, 255f / 255f, 145f / 255f);
-            }
+            }*/
         }
     }
 

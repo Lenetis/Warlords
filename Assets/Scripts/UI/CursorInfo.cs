@@ -47,7 +47,7 @@ public class CursorInfo : MonoBehaviour
     
         //Debug.Log(dispAreaOriginX+" "+Input.mousePosition.x);
 
-        if (Input.GetMouseButton(1) && mouseSelection.isOverDispArea && uiController.dispAreaAvailable || mode==1)
+        if (Input.GetMouseButton(1) && mouseSelection.isOverDispArea && uiController.controllsAvailable() || mode==1)
         {
             correctionY = 0;
             correctionX = 0;

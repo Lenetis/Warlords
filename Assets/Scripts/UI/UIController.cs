@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    public bool dispAreaAvailable;
-    public bool minMapAreaAvailable;
+    public GameObject cityManagement;
+    public GameObject gameMenu;
 
     // Start is called before the first frame update
     void Start()
     {
-        dispAreaAvailable = true;
-        minMapAreaAvailable = true;
+
     }
 
     // Update is called once per frame
@@ -20,13 +19,13 @@ public class UIController : MonoBehaviour
         
     }
 
-    public void setDispAreaAvailability(bool status)
+    public bool controllsAvailable()
     {
-        dispAreaAvailable = status;
-    }
+        if(!gameMenu.activeSelf && !cityManagement.activeSelf)
+        {
+            return true;
+        }
 
-    public void setMinMapAreaAvailability(bool status)
-    {
-        minMapAreaAvailable = status;
+        return false;
     }
 }
