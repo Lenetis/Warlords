@@ -195,6 +195,7 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
             currentPosition = cameFrom[currentPosition];
             completePath.Insert(0, currentPosition);
         }
+        completePath.RemoveAt(0);  // remove the first position because we don't need to move to where we already are
         return completePath;
     }
 
@@ -206,6 +207,9 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
     /// Returns a shortest path from start to goal for a given army. Returns null if no path exists
     public List<Position> FindPath(Position start, Position goal, Army army)
     {
+        if (start == goal) {
+            return null;
+        }
         if (!GetTile(start).pathfindingTypes.Overlaps(army.pathfindingTypes)) {
             return null;
         }

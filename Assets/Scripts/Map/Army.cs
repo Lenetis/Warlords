@@ -167,11 +167,10 @@ public class Army : IPlayerMapObject
     public void SetPath(List<Position> path)  // todo shouldn't this be in the path setter instead of a new method?
     {        
         // a non-null path has to start from the army position
-        if (path == null || path.Count <= 1 || path[0] != position) {
+        if (path == null || path.Count == 0) {
             this.path = null;
         } else {
             this.path = path;
-            this.path.RemoveAt(0);  // skip the first element because we don't need to move to where we already are
 
             attackTarget = null;
             Tile targetTile = gameController.tileMap.GetTile(path.Last());
