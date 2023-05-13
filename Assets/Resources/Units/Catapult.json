@@ -6,6 +6,6 @@
     "strength": 2,
     "move": 16,
     "upkeep": 8,
-    "productionCost": 16,
-    "purchaseCost": 100
+    "productionCost": 4,
+    "purchaseCost": 500
 }

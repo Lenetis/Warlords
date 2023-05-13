@@ -2,9 +2,9 @@
     "name": "Orkish Mob",
     "texture": "Assets/Resources/Units/OrkishMob.png",
     "pathfindingTypes": ["land"],
-    "strength": 3,
+    "strength": 2,
     "move": 14,
     "upkeep": 2,
-    "productionCost": 4,
+    "productionCost": 2,
     "purchaseCost": 100
 }
