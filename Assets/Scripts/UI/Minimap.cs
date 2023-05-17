@@ -181,20 +181,28 @@ public class Minimap : MonoBehaviour
         {
             float normX = ((float)gameController.cities[i].position.x+1) / (float)tileMap.width;
             float normY = ((float)gameController.cities[i].position.y+1) / (float)tileMap.height;
-            //Debug.Log((miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x));
-            Image tmp = Instantiate(cityIcon, miniMapImage.transform.GetChild(0));
-            //tmp.GetComponent<RectTransform>().localScale = new Vector2(100f,100f);
-            tmp.transform.localScale = new Vector3(0.2f,0.2f,0.3f);
-            //tmp.GetComponent<RectTransform>().position = new Vector2(miniMapImage.GetComponent<RectTransform>().anchorMin.x + (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * normX, miniMapImage.GetComponent<RectTransform>().anchorMin.y + (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * normY);
-            tmp.GetComponent<RectTransform>().anchoredPosition = new Vector2(-miniMapImage.GetComponent<RectTransform>().sizeDelta.x/2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -miniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
-            tmp.color = gameController.cities[i].owner.color;
 
-            tmp = Instantiate(cityIcon, cityMiniMapImage.transform.GetChild(0));
-            //tmp.GetComponent<RectTransform>().localScale = new Vector2(100f,100f);
-            tmp.transform.localScale = new Vector3(0.2f, 0.2f, 0.3f);
-            //tmp.GetComponent<RectTransform>().position = new Vector2(miniMapImage.GetComponent<RectTransform>().anchorMin.x + (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * normX, miniMapImage.GetComponent<RectTransform>().anchorMin.y + (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * normY);
-            tmp.GetComponent<RectTransform>().anchoredPosition = new Vector2(-cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
-            tmp.color = gameController.cities[i].owner.color;
+            if (!gameController.cities[i].razed)
+            {
+                //Debug.Log((miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x));
+                Image tmp = Instantiate(cityIcon, miniMapImage.transform.GetChild(0));
+                //tmp.GetComponent<RectTransform>().localScale = new Vector2(100f,100f);
+                tmp.transform.localScale = new Vector3(0.2f,0.2f,0.3f);
+                //tmp.GetComponent<RectTransform>().position = new Vector2(miniMapImage.GetComponent<RectTransform>().anchorMin.x + (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * normX, miniMapImage.GetComponent<RectTransform>().anchorMin.y + (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * normY);
+                tmp.GetComponent<RectTransform>().anchoredPosition = new Vector2(-miniMapImage.GetComponent<RectTransform>().sizeDelta.x/2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -miniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
+                tmp.color = gameController.cities[i].owner.color;
+
+                tmp = Instantiate(cityIcon, cityMiniMapImage.transform.GetChild(0));
+                //tmp.GetComponent<RectTransform>().localScale = new Vector2(100f,100f);
+                tmp.transform.localScale = new Vector3(0.2f, 0.2f, 0.3f);
+                //tmp.GetComponent<RectTransform>().position = new Vector2(miniMapImage.GetComponent<RectTransform>().anchorMin.x + (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * normX, miniMapImage.GetComponent<RectTransform>().anchorMin.y + (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * normY);
+                tmp.GetComponent<RectTransform>().anchoredPosition = new Vector2(-cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
+                tmp.color = gameController.cities[i].owner.color;
+            }
+            else
+            {
+                // todo, I'm not sure if there are supposed to be icons for razed cities, but if yes, add them here
+            }
         }
 
         areCitiesLoaded = true;

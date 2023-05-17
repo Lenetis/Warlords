@@ -9,7 +9,20 @@ public class City : MultitileStructure, IOwnableMapObject
 {
     public string baseFile {get; private set;}
 
-    public Player owner {get; private set;}
+    private Player _owner;
+    public Player owner
+    {
+        get {
+            if (razed) {
+                return null;
+                // a razed city technically doesn't need to have an owner, but we still need a reference to the owner's city textures
+            }
+            return _owner;
+        }
+        private set {
+            _owner = value;
+        }
+    }
 
     
     public string name {get; set;}
@@ -74,28 +87,27 @@ public class City : MultitileStructure, IOwnableMapObject
     {
         Texture2D texture;
         if (!razed) {
-            texture = owner.cityTexture;
+            texture = _owner.cityTexture;
         } else {
-            texture = owner.razedCityTexture;
+            texture = _owner.razedCityTexture;
         }
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), 32);
         SpriteRenderer spriteRenderer = mapSprite.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
         spriteRenderer.sortingOrder = 10;
-        spriteRenderer.color = owner.color;  // todo change the recoloring to something more fancy
+        spriteRenderer.color = _owner.color;  // todo change the recoloring to something more fancy
     }
 
     /// Sets the city to an inactive state (unable to produce any units) and removes it from its owner cities
     public void Raze()
     {
+        _owner.RemoveCity(this);
+
         razed = true;
         buildableUnits.Clear();
         producing = false;
 
         UpdateSprite();
-
-        owner.RemoveCity(this);
-        owner = null;
 
         EventManager.OnCityRazed(this);
     }
@@ -119,7 +131,7 @@ public class City : MultitileStructure, IOwnableMapObject
     {
         base.AddToGame();
 
-        owner.AddCity(this);
+        owner?.AddCity(this);
         EventManager.OnCityCreated(this);
 
         CreateSprite();
@@ -133,8 +145,8 @@ public class City : MultitileStructure, IOwnableMapObject
 
         GameObject.Destroy(mapSprite);
         
-        if (owner != null) {
-            owner.RemoveCity(this);
+        if (_owner != null) {
+            _owner.RemoveCity(this);
         }
 
         EventManager.OnCityDestroyed(this);
@@ -215,7 +227,7 @@ public class City : MultitileStructure, IOwnableMapObject
             cityJObject.Add("baseFile", baseFile);
         }
 
-        cityJObject.Add("owner", owner?.name);
+        cityJObject.Add("owner", _owner?.name);
         cityJObject.Add("name", name);
         cityJObject.Add("description", description);
         cityJObject.Add("position", new JArray(position.x, position.y));
