@@ -132,7 +132,8 @@ public class MapEditor : MonoBehaviour
             Unit unit = Unit.FromJObject(ResourceManager.LoadResource(unitPaths[activeUnitIndex]));
             List<Unit> unitList = new List<Unit>();
             unitList.Add(unit);
-            new Army(unitList, symmetryPosition, gameController.activePlayer);
+            Army newArmy = new Army(unitList, symmetryPosition, gameController.activePlayer);
+            newArmy.AddToGame();
         }
     }
 
@@ -155,18 +156,9 @@ public class MapEditor : MonoBehaviour
         // probably a //todo
 
         foreach (Position symmetryPosition in positions) {
-            JObject cityResource = ResourceManager.LoadResource(cityPaths[activeCityIndex]);  // disgusting, todo
-
-            bool legalPosition = true;
-            foreach(JArray JObjectPosition in cityResource.GetValue("occupiedPositions")) {
-                Position occupiedPosition = new Position((int)JObjectPosition[0], (int)JObjectPosition[1]);
-                Tile occupiedTile = tileMap.GetTile(occupiedPosition + symmetryPosition);
-                if (occupiedTile.city != null) {
-                    legalPosition = false;
-                }
-            }
-            if (legalPosition) {
-                new City(cityResource, gameController.activePlayer, "Editor City", "No description", symmetryPosition);
+            City city = new City(ResourceManager.LoadResource(cityPaths[activeCityIndex]), gameController.activePlayer, "Editor City", "No description", symmetryPosition);
+            if (city.CanAddToGame()) {
+                city.AddToGame();
             }
         }
     }

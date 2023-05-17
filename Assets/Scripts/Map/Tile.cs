@@ -18,8 +18,8 @@ public class Tile  // todo change to struct maybe?
             if (contents.armies != null) {
                 return contents.armies[0].owner;
             }
-            if (contents.city != null) {
-                return contents.city.owner;
+            if (contents.structure as IOwnableMapObject != null) {
+                return ((IOwnableMapObject)contents.structure).owner;
             }
             return null;
         }
@@ -32,18 +32,18 @@ public class Tile  // todo change to struct maybe?
         }
     }
 
-    public City city
+    public Structure structure
     {
         get {
-            return contents.city;
+            return contents.structure;
         }
     }
 
     public int moveCost
     {
         get {
-            if (contents.city != null) {
-                return contents.city.moveCost;
+            if (contents.structure != null) {
+                return contents.structure.pathfinding.moveCost;
             }
             return data.moveCost;
         }
@@ -52,8 +52,8 @@ public class Tile  // todo change to struct maybe?
     public HashSet<string> pathfindingTypes
     {
         get {
-            if (contents.city != null) {
-                return contents.city.pathfindingTypes;
+            if (contents.structure != null) {
+                return contents.structure.pathfinding.pathfindingTypes;
             }
             return data.pathfindingTypes; 
         }
@@ -82,28 +82,28 @@ public class Tile  // todo change to struct maybe?
     }
 
     /// Adds city to this tile's contents
-    public void AddCity(City city)
+    public void AddStructure(Structure structure)
     {
-        if (contents.city != null) {
-            throw new System.ArgumentException($"Cannot add city to this tile. Tile is already occupied by another city");
+        if (contents.structure != null) {
+            throw new System.ArgumentException($"Cannot add structure to this tile. Tile is already occupied by another structure");
         }
-        contents.city = city;
+        contents.structure = structure;
     }
 
     /// Removes city from this tile's contents
-    public void RemoveCity()
+    public void RemoveStructure()
     {
-        if (contents.city == null) {
-            throw new System.ArgumentException($"Cannot remove city from this tile. Tile has no city");
+        if (contents.structure == null) {
+            throw new System.ArgumentException($"Cannot remove structure from this tile. Tile has no structure");
         }
-        contents.city = null;
+        contents.structure = null;
     }
 
     /// Removes everything from this tile's contents
     public void Clear()
     {
-        if (contents.city != null) {
-            contents.city.Destroy();
+        if (contents.structure != null) {
+            contents.structure.Destroy();
         }
         while (contents.armies != null) {
             contents.armies[0].Destroy();

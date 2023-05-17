@@ -17,6 +17,8 @@
     "income": 10,
     "production": 10,
     "strengthBonus": 2,
-    "moveCost": 1,
-    "pathfindingTypes": ["land", "sea", "air"]
+    "pathfinding": {
+        "moveCost": 1,
+        "pathfindingTypes": ["land", "sea", "air"]
+    }
 }

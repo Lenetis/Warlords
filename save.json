@@ -37,7 +37,8 @@
             "land"
           ],
           "upkeep": 3,
-          "productionCost": 10
+          "productionCost": 10,
+          "purchaseCost": 10
         }
       ]
     },
@@ -58,7 +59,8 @@
             "land"
           ],
           "upkeep": 3,
-          "productionCost": 10
+          "productionCost": 10,
+          "purchaseCost": 10
         }
       ]
     },
@@ -79,7 +81,8 @@
             "land"
           ],
           "upkeep": 3,
-          "productionCost": 10
+          "productionCost": 10,
+          "purchaseCost": 10
         }
       ]
     },
@@ -100,7 +103,8 @@
             "land"
           ],
           "upkeep": 3,
-          "productionCost": 10
+          "productionCost": 10,
+          "purchaseCost": 10
         }
       ]
     },
@@ -121,7 +125,8 @@
             "land"
           ],
           "upkeep": 4,
-          "productionCost": 30
+          "productionCost": 30,
+          "purchaseCost": 100
         }
       ]
     },
@@ -142,7 +147,8 @@
             "land"
           ],
           "upkeep": 4,
-          "productionCost": 30
+          "productionCost": 30,
+          "purchaseCost": 100
         }
       ]
     }
@@ -175,12 +181,14 @@
           1
         ]
       ],
-      "moveCost": 1,
-      "pathfindingTypes": [
-        "land",
-        "sea",
-        "air"
-      ],
+      "pathfinding": {
+        "moveCost": 1,
+        "pathfindingTypes": [
+          "land",
+          "sea",
+          "air"
+        ]
+      },
       "income": 10,
       "production": 10,
       "buildableUnits": [
@@ -223,12 +231,14 @@
           1
         ]
       ],
-      "moveCost": 1,
-      "pathfindingTypes": [
-        "land",
-        "sea",
-        "air"
-      ],
+      "pathfinding": {
+        "moveCost": 1,
+        "pathfindingTypes": [
+          "land",
+          "sea",
+          "air"
+        ]
+      },
       "income": 10,
       "production": 10,
       "buildableUnits": [
@@ -271,12 +281,14 @@
           1
         ]
       ],
-      "moveCost": 1,
-      "pathfindingTypes": [
-        "land",
-        "sea",
-        "air"
-      ],
+      "pathfinding": {
+        "moveCost": 1,
+        "pathfindingTypes": [
+          "land",
+          "sea",
+          "air"
+        ]
+      },
       "income": 10,
       "production": 10,
       "buildableUnits": [
@@ -319,12 +331,14 @@
           1
         ]
       ],
-      "moveCost": 1,
-      "pathfindingTypes": [
-        "land",
-        "sea",
-        "air"
-      ],
+      "pathfinding": {
+        "moveCost": 1,
+        "pathfindingTypes": [
+          "land",
+          "sea",
+          "air"
+        ]
+      },
       "income": 10,
       "production": 10,
       "buildableUnits": [
@@ -367,12 +381,14 @@
           1
         ]
       ],
-      "moveCost": 1,
-      "pathfindingTypes": [
-        "land",
-        "sea",
-        "air"
-      ],
+      "pathfinding": {
+        "moveCost": 1,
+        "pathfindingTypes": [
+          "land",
+          "sea",
+          "air"
+        ]
+      },
       "income": 10,
       "production": 10,
       "buildableUnits": [
@@ -415,12 +431,14 @@
           1
         ]
       ],
-      "moveCost": 1,
-      "pathfindingTypes": [
-        "land",
-        "sea",
-        "air"
-      ],
+      "pathfinding": {
+        "moveCost": 1,
+        "pathfindingTypes": [
+          "land",
+          "sea",
+          "air"
+        ]
+      },
       "income": 10,
       "production": 10,
       "buildableUnits": [
@@ -463,12 +481,14 @@
           1
         ]
       ],
-      "moveCost": 1,
-      "pathfindingTypes": [
-        "land",
-        "sea",
-        "air"
-      ],
+      "pathfinding": {
+        "moveCost": 1,
+        "pathfindingTypes": [
+          "land",
+          "sea",
+          "air"
+        ]
+      },
       "income": 10,
       "production": 10,
       "buildableUnits": [

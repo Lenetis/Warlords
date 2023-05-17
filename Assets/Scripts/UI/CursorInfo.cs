@@ -49,6 +49,7 @@ public class CursorInfo : MonoBehaviour
 
         if (Input.GetMouseButton(1) && mouseSelection.isOverDispArea && uiController.controllsAvailable() || mode==1)
         {
+            Debug.Log(mouseSelection.highlightedTile);
             correctionY = 0;
             correctionX = 0;
 
@@ -128,10 +129,11 @@ public class CursorInfo : MonoBehaviour
                             }
                         }
                     }
-                    else if (mouseSelection.highlightedTile.city != null)
+                    else if (mouseSelection.highlightedTile.structure as City != null)
                     {
-                        objectName.text = mouseSelection.highlightedTile.city.name;
-                        objectDescription.text = mouseSelection.highlightedTile.city.description;
+                        City city = (City)mouseSelection.highlightedTile.structure;
+                        objectName.text = city.name;
+                        objectDescription.text = city.description;
                     }
                     else
                     {

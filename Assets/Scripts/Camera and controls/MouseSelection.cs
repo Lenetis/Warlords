@@ -180,9 +180,9 @@ public class MouseSelection : MonoBehaviour
                         DeselectArmy();
                         isSelected = false;
 
-                        if (highlightedTile.city != null)
+                        if (highlightedTile.structure as City != null)
                         {
-                            cityManagement.SelectCity(highlightedTile.city);
+                            cityManagement.SelectCity((City)highlightedTile.structure);
                         }
                     }
                 }
@@ -211,14 +211,6 @@ public class MouseSelection : MonoBehaviour
                         DrawPath();
                         previousPathGoal = highlightedPosition;
                     }
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.R) && highlightedTile != null && highlightedTile.city != null && uiController.controllsAvailable())
-            {
-                if (highlightedTile.city.owner == gameController.activePlayer)
-                {
-                    highlightedTile.city.Raze();
                 }
             }
         }

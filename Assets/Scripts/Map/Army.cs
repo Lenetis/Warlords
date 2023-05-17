@@ -5,10 +5,8 @@ using UnityEngine;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-public class Army : IPlayerMapObject
+public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOwnableMapObject
 {
-    private static GameController gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-
     public List<Unit> units {get;}
 
     public Player owner {get;}
@@ -23,29 +21,67 @@ public class Army : IPlayerMapObject
             return totalUpkeep;
         }
     }
-    
-    public Position position {get; set;}
     public HashSet<string> pathfindingTypes {get; private set;}
     
     public List<Position> path {get; private set;}
-    private IPlayerMapObject attackTarget;
+    private IOwnableMapObject attackTarget;
 
-    public GameObject mapSprite;  // todo to remove
-
-    public Army(List<Unit> units, Position position, Player owner)
+    public Army(List<Unit> units, Position position, Player owner) : base(position)
     {        
         this.units = units;
-        this.position = position;
         this.owner = owner;
+        
+        UpdatePathfindingTypes();
+        SortUnits();
+    }
 
+    /// Creates the mapSprite GameObject representing this army
+    protected override void CreateSprite()
+    {
         mapSprite = new GameObject("Army");
         mapSprite.transform.position = position;
         SpriteRenderer spriteRenderer = mapSprite.AddComponent<SpriteRenderer>();
         spriteRenderer.material = new Material(Shader.Find("Shader Graphs/ColorMaskShader"));
+    }
 
-        Recalculate();
+    /// Updates the sprite of mapSprite GameObject. (E.g. when the unit list changes)
+    public override void UpdateSprite()
+    {
+        Unit strongestUnit = units[^1];
+        // (assuming the list is already sorted and the stronged unit is always the last)
 
-        AddToGame();
+        Texture2D texture = strongestUnit.texture;
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), 32);
+        SpriteRenderer spriteRenderer = mapSprite.GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = sprite;
+        spriteRenderer.sortingOrder = 20;
+        spriteRenderer.color = owner.color;
+        spriteRenderer.material.SetTexture("_MaskTexture", strongestUnit.maskTexture);
+    }
+
+    /// Sorts the unit list from weakest to strongest and alphabetically in case of the same strength (todo change this when implementing custom unit orders)
+    private void SortUnits()
+    {
+        units.Sort((unit1, unit2) => {
+            int result = unit1.strength.CompareTo(unit2.strength);
+            if (result == 0) {
+                result = unit1.name.CompareTo(unit2.name);
+            }
+            return result;
+        });
+    }
+
+    /// Updates the pathfindingTypes HashSet to include only the common pathfinding types from the unit list.
+    /// Throws ArgumentException if no common pathfinding type exists.
+    private void UpdatePathfindingTypes()
+    {
+        pathfindingTypes = new HashSet<string>(units[0].pathfindingTypes);
+        foreach (Unit unit in units.Skip(1)) {
+            pathfindingTypes.IntersectWith(unit.pathfindingTypes);
+        }
+        if (pathfindingTypes.Count == 0) {
+            throw new System.ArgumentException($"No common pathfinding type exists in army {string.Join(", ", units)}");
+        }
     }
 
     /// Removes unit from army
@@ -55,7 +91,8 @@ public class Army : IPlayerMapObject
         if (units.Count == 0) {
             Destroy();
         } else {
-            Recalculate();
+            UpdatePathfindingTypes();
+            UpdateSprite();
         }
     }
 
@@ -63,28 +100,46 @@ public class Army : IPlayerMapObject
     public void AddUnit(Unit unit)
     {
         units.Add(unit);
-        Recalculate();
+
+        UpdatePathfindingTypes();
+        SortUnits();
+
+        UpdateSprite();
     }
 
     /// Adds a list of units to army
     public void AddUnits(List<Unit> units)
     {
         this.units.AddRange(units);
-        Recalculate();
+
+        UpdatePathfindingTypes();
+        SortUnits();
+
+        UpdateSprite();
     }
 
-    /// Adds this army to the tileMap and to its owner armies
-    private void AddToGame()
+    /// Should check if there is still place for (units.Count) units on the occupied tile. Currently always returns true. TODO
+    public override bool CanAddToGame()
     {
-        // todo, this could also be done by event handlers in tileMap and owner. Is it a good idea? todo?
+        return true;  // todo check if there is space for this army on this position
+    }
+
+    /// Adds this army to the tileMap and to its owner armies, and creates the army sprite
+    public override void AddToGame()
+    {
+        base.AddToGame();
+
         gameController.tileMap.GetTile(position).AddArmy(this);
         owner.AddArmy(this);
 
         EventManager.OnArmyCreated(this);
+
+        CreateSprite();
+        UpdateSprite();
     }
 
     /// Destroys the army - removes this army (and all its units) from the game
-    public void Destroy()
+    public override void Destroy()
     {
         owner.RemoveArmy(this);
         gameController.tileMap.GetTile(position).RemoveArmy(this);
@@ -117,9 +172,13 @@ public class Army : IPlayerMapObject
 
             List<Unit> newUnitList = new List<Unit>();
             newUnitList.Add(lastUnit);
-            new Army(newUnitList, position, owner);
+            Army newArmy = new Army(newUnitList, position, owner);
+            newArmy.AddToGame();
         }
-        Recalculate();
+        UpdatePathfindingTypes();
+        SortUnits();
+
+        UpdateSprite();
     }
 
     /// Splits unit from this army and turns it into a separate army
@@ -129,38 +188,8 @@ public class Army : IPlayerMapObject
 
         List<Unit> newUnitList = new List<Unit>();
         newUnitList.Add(unit);
-        new Army(newUnitList, position, owner);
-    }
-
-    // todo change name to something more descriptive 
-    // (function is called everytime the unit list changes, to refresh the army move, remaining move and sprite)
-    private void Recalculate()
-    {
-        units.Sort((unit1, unit2) => unit1.strength.CompareTo(unit2.strength));
-        // units are sorted from weakest to strongest for now (todo change this when implementing custom unit orders)
-
-        Unit strongestUnit = units[0];
-        foreach (Unit unit in units.Skip(1)) {
-            if (unit.strength > strongestUnit.strength) {
-                strongestUnit = unit;
-            }
-        }
-
-        Texture2D texture = strongestUnit.texture;
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), 32);
-        SpriteRenderer spriteRenderer = mapSprite.GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = sprite;
-        spriteRenderer.sortingOrder = 20;
-        spriteRenderer.color = owner.color;
-        spriteRenderer.material.SetTexture("_MaskTexture", strongestUnit.maskTexture);
-
-        pathfindingTypes = new HashSet<string>(units[0].pathfindingTypes);
-        foreach (Unit unit in units.Skip(1)) {
-            pathfindingTypes.IntersectWith(unit.pathfindingTypes);
-        }
-        if (pathfindingTypes.Count == 0) {
-            throw new System.ArgumentException($"No common pathfinding type exists in army {string.Join(", ", units)}");
-        }
+        Army newArmy = new Army(newUnitList, position, owner);
+        newArmy.AddToGame();
     }
 
     /// Sets army path to a new value. If the last step of the new path is an enemy unit, that unit becomes the army's attackTarget
@@ -175,8 +204,8 @@ public class Army : IPlayerMapObject
             attackTarget = null;
             Tile targetTile = gameController.tileMap.GetTile(path.Last());
             if (targetTile.owner != null && targetTile.owner != owner) {
-                if (targetTile.city != null) {  // todo this looks a bit spaghetti, but I'm not sure what else to do
-                    attackTarget = targetTile.city;
+                if (targetTile.structure as IOwnableMapObject != null) {  // todo this looks a bit spaghetti, but I'm not sure what else to do
+                    attackTarget = (IOwnableMapObject)targetTile.structure;
                 } else {
                     attackTarget = targetTile.armies[0];  // todo make sure that armies[0] is the one with a visible sprite
                 }
@@ -184,7 +213,7 @@ public class Army : IPlayerMapObject
         }
     }
 
-    /// Moves army by one step on its path. Returns true if the move succeeded and false otherwise (i.e. if there is no path or army doesn't have enough move points)
+    /// Moves army by one step on its path. Returns true if the move succeeded and false otherwise (e.g. if there is no path or army doesn't have enough move points)
     public bool MoveOneStep()
     {
         if (path == null || path.Count == 0) {
@@ -204,7 +233,7 @@ public class Army : IPlayerMapObject
             }
         }
         
-        if (attackTarget != null && attackTarget.OccupiesPosition(nextPosition)) {
+        if (attackTarget != null && ((MapObject)attackTarget).OccupiesPosition(nextPosition)) {
             new Battle(this, attackTarget);  // this line looks super cursed, but everything communicates nicely through events, so it's fine. todo?
 
             path = null;
@@ -251,7 +280,7 @@ public class Army : IPlayerMapObject
             unit.StartTurn();
         }
 
-        if (attackTarget != null && path != null && !attackTarget.OccupiesPosition(path.Last())) {
+        if (attackTarget != null && path != null && !((MapObject)attackTarget).OccupiesPosition(path.Last())) {
             // todo if fog of war is added, we need to check if attackTarget is visible
             SetPath(gameController.tileMap.FindPath(position, attackTarget.position, this));
  
@@ -266,17 +295,12 @@ public class Army : IPlayerMapObject
     {
         List<Army> supportingArmies;
         Tile occupiedTile = gameController.tileMap.GetTile(position);
-        if (occupiedTile.city != null) {
-            supportingArmies = occupiedTile.city.GetSupportingArmies();
+        if (occupiedTile.structure as IOwnableMapObject != null) {
+            supportingArmies = ((IOwnableMapObject)occupiedTile.structure).GetSupportingArmies();
         } else {
             supportingArmies = occupiedTile.armies;
         }
         return supportingArmies;
-    }
-
-    /// Returns true if the position is occupied by this army and false otherwise
-    public bool OccupiesPosition(Position position) {
-        return this.position == position;
     }
 
     /// Serializes this army into a JObject

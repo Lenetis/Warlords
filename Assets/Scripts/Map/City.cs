@@ -5,11 +5,9 @@ using UnityEngine;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-public class City : IPlayerMapObject
+public class City : MultitileStructure, IOwnableMapObject
 {
     public string baseFile {get; private set;}
-
-    private static GameController gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
     public Player owner {get; private set;}
 
@@ -17,15 +15,9 @@ public class City : IPlayerMapObject
     public string name {get; set;}
     public string description {get; private set;}
 
-    public Position position {get; private set;}
-    public List<Position> occupiedPositions {get; private set;}
-
     public List<Unit> buildableUnits {get; private set;}
 
     public List<Unit> buyableUnits {get; private set;}
-
-    public int moveCost {get; private set;}
-    public HashSet<string> pathfindingTypes {get; private set;}
 
     public int income {get; private set;}
     public int production {get; private set;}
@@ -57,32 +49,28 @@ public class City : IPlayerMapObject
     }
     public int productionProgress {get; private set;}
 
-    private GameObject mapSprite;  // todo to remove
-
     public bool razed {get; private set;}
 
 
-    public City(JObject baseAttributes, Player owner, string name, string description, Position position)
+    public City(JObject baseAttributes, Player owner, string name, string description, Position position) : base(position, LoadOccupiedPositions(baseAttributes))
     {
         LoadBaseAttributes(baseAttributes);
 
         this.owner = owner;
         this.name = name;
         this.description = description;
-        this.position = position;
+    }
 
+    /// Creates the mapSprite GameObject representing this city
+    protected override void CreateSprite()
+    {
         mapSprite = new GameObject($"City({name})");
         mapSprite.transform.position = position;
         mapSprite.AddComponent<SpriteRenderer>();
-
-        Recalculate();
-
-        AddToGame();
     }
 
-    // todo change name to something more descriptive 
-    // (function is called everytime the city owner changes, to change the city mapSprite)
-    private void Recalculate()
+    /// Updates the sprite of mapSprite GameObject. (E.g. when the owner changes or when the city is razed)
+    public override void UpdateSprite()
     {
         Texture2D texture;
         if (!razed) {
@@ -104,7 +92,7 @@ public class City : IPlayerMapObject
         buildableUnits.Clear();
         producing = false;
 
-        Recalculate();
+        UpdateSprite();
 
         owner.RemoveCity(this);
         owner = null;
@@ -118,7 +106,7 @@ public class City : IPlayerMapObject
         producing = false;
         owner = newOwner;
 
-        Recalculate();
+        UpdateSprite();
 
         owner.RemoveCity(this);
         newOwner.AddCity(this);
@@ -126,34 +114,35 @@ public class City : IPlayerMapObject
         EventManager.OnCityCaptured(this);
     }
 
-    /// Adds this city to the tileMap and to its owner cities
-    private void AddToGame()
+    /// Adds this city to the tileMap and to its owner cities, and creates the city sprite
+    public override void AddToGame()
     {
-        foreach (Position occupiedPosition in occupiedPositions) {
-            Tile occupiedTile = gameController.tileMap.GetTile(position + occupiedPosition);
-            occupiedTile.AddCity(this);
-        }
-        owner.AddCity(this);
+        base.AddToGame();
 
+        owner.AddCity(this);
         EventManager.OnCityCreated(this);
+
+        CreateSprite();
+        UpdateSprite();
     }
 
     /// Destroys the city, completely removing it from the game
-    public void Destroy()
+    public override void Destroy()
     {
+        base.Destroy();
+
         GameObject.Destroy(mapSprite);
         
         if (owner != null) {
             owner.RemoveCity(this);
         }
-        foreach (Position occupiedPosition in occupiedPositions) {
-            gameController.tileMap.GetTile(position + occupiedPosition).RemoveCity();
-        }
 
         EventManager.OnCityDestroyed(this);
     }
 
-    /// TODO OPIS
+    /// Adds the given unit to the list of buildable units.
+    /// If (replaceIndex < buildableUnits.Count), replaces the unit at replaceIndex. Otherwise adds new unit to the list.
+    /// Raises System.ArgumentException if the unit is already buildable or if it doesn't exist in the buyableUnits list.
     public void BuyUnit(Unit unit, int replaceIndex)
     {
         if (buyableUnits.Contains(unit)) {
@@ -194,7 +183,8 @@ public class City : IPlayerMapObject
                 Unit newUnit = Unit.FromJObject(ResourceManager.LoadResource(buildableUnits[producedUnitIndex].baseFile));
                 List<Unit> unitList = new List<Unit>();
                 unitList.Add(newUnit);
-                new Army(unitList, position, owner);
+                Army producedArmy = new Army(unitList, position, owner);
+                producedArmy.AddToGame();
 
                 productionProgress = 0;
             }
@@ -208,17 +198,12 @@ public class City : IPlayerMapObject
 
         TileMap tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
         foreach (Position occupiedPosition in occupiedPositions) {
-            Tile occupiedTile = tileMap.GetTile(position + occupiedPosition);
+            Tile occupiedTile = tileMap.GetTile(occupiedPosition);
             if (occupiedTile.armies != null) {
                 supportingArmies.AddRange(occupiedTile.armies);
             }
         }
         return supportingArmies;
-    }
-
-    /// Returns true if the position is occupied by this city and false otherwise
-    public bool OccupiesPosition(Position position) {
-        return occupiedPositions.Contains(position - this.position);
     }
 
     /// Serializes this city into a JObject
@@ -234,10 +219,9 @@ public class City : IPlayerMapObject
         cityJObject.Add("name", name);
         cityJObject.Add("description", description);
         cityJObject.Add("position", new JArray(position.x, position.y));
-        cityJObject.Add("occupiedPositions", new JArray(occupiedPositions.Select(position => new JArray(position.x, position.y))));
+        cityJObject.Add("occupiedPositions", new JArray(occupiedPositions.Select(occupiedPosition => new JArray(occupiedPosition.x - position.x, occupiedPosition.y - position.y))));
 
-        cityJObject.Add("moveCost", moveCost);
-        cityJObject.Add("pathfindingTypes", new JArray(pathfindingTypes));
+        cityJObject.Add("pathfinding", pathfinding.ToJObject());
 
         cityJObject.Add("income", income);
         cityJObject.Add("production", production);
@@ -276,7 +260,7 @@ public class City : IPlayerMapObject
 
         if (!newCity.razed) {
             if (attributes.ContainsKey("producedUnitIndex")) {
-                newCity.producedUnitIndex =(int)attributes.GetValue("producedUnitIndex");
+                newCity.producedUnitIndex = (int)attributes.GetValue("producedUnitIndex");
                 newCity.productionProgress = (int)attributes.GetValue("productionProgress");
             }
         }
@@ -294,17 +278,8 @@ public class City : IPlayerMapObject
             baseFile = (string)baseAttributes.GetValue("baseFile");
         }
 
-        occupiedPositions = new List<Position>();
-        foreach (JToken token in baseAttributes.GetValue("occupiedPositions")) {
-            occupiedPositions.Add(new Position((int)token[0], (int)token[1]));
-        }
-        moveCost = (int)baseAttributes.GetValue("moveCost");
-
-        pathfindingTypes = new HashSet<string>();
-        foreach (string pathfindingType in baseAttributes.GetValue("pathfindingTypes")) {
-            pathfindingTypes.Add(pathfindingType);
-        }
-
+        pathfinding = Pathfinding.FromJObject((JObject)baseAttributes.GetValue("pathfinding"));
+        
         income = (int)baseAttributes.GetValue("income");
         production = (int)baseAttributes.GetValue("production");
 
@@ -325,6 +300,18 @@ public class City : IPlayerMapObject
                 buyableUnits.Add(Unit.FromJObject(ResourceManager.LoadResource(unitPath)));
             }
         }
+    }
+
+    /// Returns a HashSet of occupied positions loaded from the attributes JObject.
+    /// Required for calling the base constructor (MultitileStructure)
+    private static HashSet<Position> LoadOccupiedPositions(JObject attributes)
+    {
+        ResourceManager.ExpandWithBaseFile(attributes);
+        HashSet<Position> occupiedPositions = new HashSet<Position>();
+        foreach (JToken token in attributes.GetValue("occupiedPositions")) {
+            occupiedPositions.Add(new Position((int)token[0], (int)token[1]));
+        }
+        return occupiedPositions;
     }
 
     public override string ToString()

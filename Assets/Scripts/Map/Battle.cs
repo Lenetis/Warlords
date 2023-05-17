@@ -8,7 +8,7 @@ public class Battle
 
     private static GameController gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
-    private IPlayerMapObject defender;
+    private IOwnableMapObject defender;
 
     public List<Unit> attackingUnits {get; private set;}
     public List<Unit> defendingUnits {get; private set;}
@@ -22,7 +22,7 @@ public class Battle
 
     public Player winner {get; private set;}
 
-    public Battle(Army attacker, IPlayerMapObject defender)
+    public Battle(Army attacker, IOwnableMapObject defender)
     {
         this.defender = defender;
 
@@ -82,7 +82,7 @@ public class Battle
         RemoveDeadUnits();
 
         if (winner == attackingPlayer) {
-            City attackedCity = gameController.tileMap.GetTile(defender.position).city;
+            City attackedCity = gameController.tileMap.GetTile(defender.position).structure as City;
             if (attackedCity != null) {
                 attackedCity.Capture(attackingPlayer);
             }

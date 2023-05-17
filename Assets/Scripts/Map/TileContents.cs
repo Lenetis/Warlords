@@ -4,20 +4,8 @@ using System.Collections.Generic;
 public class TileContents  // todo change to a struct and remove ALL methods
 {
     public List<Army> armies {get; private set;}
-    public City city {get; set;}
-    // todo maybe change this to a superclass (e.g. Structure) and make all cities/roads?/temples/ports inherit from it?
-    //  (because there cannot be more than one of these on the same tile)
-
-    // items
-    // road
-    // port
-    // temple/ruins
-    // maybe something else
-
-    public TileContents()
-    {
-        armies = null;
-    }
+    public Structure structure {get; set;}
+    // todo add items, maybe something else
 
     /// Adds army to tile contents
     public void AddArmy(Army army)
@@ -45,8 +33,8 @@ public class TileContents  // todo change to a struct and remove ALL methods
                 toReturn += $"Army: {army} ";
             }
         }
-        if (city != null) {
-            toReturn += $"City: {city}";
+        if (structure != null) {
+            toReturn += $"Structure: {structure}";
         }
         return toReturn;
     }
