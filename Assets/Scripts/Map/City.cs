@@ -79,23 +79,28 @@ public class City : MultitileStructure, IOwnableMapObject
     {
         mapSprite = new GameObject($"City({name})");
         mapSprite.transform.position = position;
-        mapSprite.AddComponent<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = mapSprite.AddComponent<SpriteRenderer>();
+        spriteRenderer.material = new Material(Shader.Find("Shader Graphs/ColorMaskShader"));
     }
 
     /// Updates the sprite of mapSprite GameObject. (E.g. when the owner changes or when the city is razed)
     public override void UpdateSprite()
     {
         Texture2D texture;
+        Texture2D maskTexture;
         if (!razed) {
             texture = _owner.cityTexture;
+            maskTexture = _owner.cityMaskTexture;
         } else {
             texture = _owner.razedCityTexture;
+            maskTexture = _owner.razedCityMaskTexture;
         }
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), 32);
         SpriteRenderer spriteRenderer = mapSprite.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
         spriteRenderer.sortingOrder = 10;
-        spriteRenderer.color = _owner.color;  // todo change the recoloring to something more fancy
+        spriteRenderer.color = _owner.color;
+        spriteRenderer.material.SetTexture("_MaskTexture", maskTexture);
     }
 
     /// Sets the city to an inactive state (unable to produce any units) and removes it from its owner cities

@@ -14,7 +14,10 @@ public class Player
     public Color color {get;}
 
     public Texture2D cityTexture {get;}
+    public Texture2D cityMaskTexture {get;}
+
     public Texture2D razedCityTexture {get;}
+    public Texture2D razedCityMaskTexture {get;}
 
     public List<Army> armies {get;}
     public List<City> cities {get;}
@@ -56,8 +59,8 @@ public class Player
         }
     }
 
-    // todo maybe change this constructor to use less arguments
-    public Player(string baseFile, string name, Color color, int gold, Texture2D cityTexture, Texture2D razedCityTexture)
+    // todo change this constructor to use less arguments
+    public Player(string baseFile, string name, Color color, int gold, Texture2D cityTexture, Texture2D razedCityTexture, Texture2D cityMaskTexture, Texture2D razedCityMaskTexture)
     {
         this.baseFile = baseFile;
 
@@ -67,7 +70,9 @@ public class Player
         this.gold = gold;
 
         this.cityTexture = cityTexture;
+        this.cityMaskTexture = cityMaskTexture;
         this.razedCityTexture = razedCityTexture;
+        this.razedCityMaskTexture = razedCityMaskTexture;
 
         armies = new List<Army>();
         cities = new List<City>();
@@ -162,9 +167,11 @@ public class Player
         int gold = (int)attributes.GetValue("gold");
 
         Texture2D cityTexture = ResourceManager.LoadTexture((string)attributes.GetValue("cityTexture"));
+        Texture2D cityMaskTexture = ResourceManager.LoadTexture((string)attributes.GetValue("cityMaskTexture"));
         Texture2D razedCityTexture = ResourceManager.LoadTexture((string)attributes.GetValue("razedCityTexture"));
+        Texture2D razedCityMaskTexture = ResourceManager.LoadTexture((string)attributes.GetValue("razedCityMaskTexture"));
 
-        return new Player(baseFile, name, color, gold, cityTexture, razedCityTexture);
+        return new Player(baseFile, name, color, gold, cityTexture, razedCityTexture, cityMaskTexture, razedCityMaskTexture);
     }
 
     public override string ToString()

@@ -1,7 +1,9 @@
 {
     "name": "Default Player",
     "cityTexture": "Assets/Resources/Cities/city.png",
+    "cityMaskTexture": "Assets/Resources/Cities/cityMask.png",
     "razedCityTexture": "Assets/Resources/Cities/razedCity.png",
+    "razedCityMaskTexture": "Assets/Resources/Cities/razedCityMask.png",
     "heroNames": ["Baron Bob", "Lord Larry", "Sir Steve"],
     "specialUnits": []
 }
