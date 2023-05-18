@@ -362,22 +362,23 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
             tileTypes.Add(new TileData(ResourceManager.LoadResource(tilePath)));
         }
 
-        for (int i = 0; i < mapString.Length / digitsPerTile; i += 1) {
+        if (mapString.Length / digitsPerTile != width * height) {
+            Debug.LogWarning("Warning: invalid mapString length.");
+
+            // the map will be loaded incorrectly, but fill it with tiles before loading so at least it won't throw a NullReferenceException later on
+            for (int x = 0; x < width; x += 1) {
+                for (int y = 0; y < height; y += 1) {
+                    tiles[x, y] = new Tile(tileTypes[0]);
+                }
+            }
+        }
+
+        for (int i = 0; i < Min(mapString.Length / digitsPerTile, width * height); i += 1) {
             int index = System.Convert.ToInt32(mapString.Substring(i * digitsPerTile, digitsPerTile), 16);
             int x = i / height;
             int y = i % height;
 
             tiles[x, y] = new Tile(tileTypes[index]);
-        }
-
-        for (int x = 0; x < width; x += 1) {
-            for (int y = 0; y < height; y += 1) {
-                Tile tile = tiles[x, y];
-                if (!tileTypes.Contains(tile.data)) {
-                    tileTypes.Add(tile.data);
-                }
-                mapString += tileTypes.IndexOf(tile.data).ToString($"X{digitsPerTile}");
-            }
         }
 
         GenerateMesh();
