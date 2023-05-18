@@ -72,11 +72,12 @@ public static class ResourceManager
         Debug.Log("Saving...");
         JObject save = new JObject();
 
-        // todo also save gameController's stuff (active player, turn number) and TileMap, ofc
+        // todo also save gameController's stuff (active player, turn number)
 
         save.Add("players", new JArray(gameController.players.Select(player => player.ToJObject())));
         save.Add("armies", new JArray(gameController.armies.Select(army => army.ToJObject())));
         save.Add("cities", new JArray(gameController.cities.Select(city => city.ToJObject())));
+        save.Add("roads", new JArray(gameController.roads.Select(road => road.ToJObject())));
         save.Add("tileMap", gameController.tileMap.ToJObject());
 
         File.WriteAllText(fileName, save.ToString());
@@ -104,6 +105,10 @@ public static class ResourceManager
         foreach (JObject cityJObject in loadJObject.GetValue("cities")) {
             City newCity = City.FromJObject(cityJObject);
             newCity.AddToGame();
+        }
+        foreach (JObject roadJObject in loadJObject.GetValue("roads")) {
+            Road newRoad = Road.FromJObject(roadJObject);
+            newRoad.AddToGame();
         }
         Debug.Log("Loaded!");
     }

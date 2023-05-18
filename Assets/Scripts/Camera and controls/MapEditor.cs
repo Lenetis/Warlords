@@ -52,6 +52,9 @@ public class MapEditor : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E)) {
             PlaceCities();
         }
+        if (Input.GetKey(KeyCode.Alpha4)) {
+            PlaceRoads();
+        }
         if (Input.GetKey(KeyCode.Delete)) {
             ClearTiles();
         }
@@ -134,6 +137,17 @@ public class MapEditor : MonoBehaviour
             unitList.Add(unit);
             Army newArmy = new Army(unitList, symmetryPosition, gameController.activePlayer);
             newArmy.AddToGame();
+        }
+    }
+
+    /// Places selected road on the tileMap. Works with symmetry
+    private void PlaceRoads()
+    {
+        foreach (Position symmetryPosition in GetSymmetryPositions(mouseSelection.highlightedPosition)) {
+            Road road = new Road(ResourceManager.LoadResource("Assets/Resources/Roads/road.json"), symmetryPosition);
+            if (road.CanAddToGame()) {
+                road.AddToGame();
+            }
         }
     }
 

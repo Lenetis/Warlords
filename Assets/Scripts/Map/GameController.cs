@@ -20,6 +20,8 @@ public class GameController : MonoBehaviour
     public List<Army> armies {get; private set;}
     public List<City> cities {get; private set;}
 
+    public List<Road> roads {get; private set;}
+
     private List<Army> movingArmies;
 
     private Battle activeBattle;
@@ -31,18 +33,28 @@ public class GameController : MonoBehaviour
     {
         EventManager.ArmyCreatedEvent += ArmyCreatedHandler;
         EventManager.ArmyDestroyedEvent += ArmyDestroyedHandler;
+
         EventManager.BattleStartedEvent += BattleStartedHandler;
+
         EventManager.CityCreatedEvent += CityCreatedHandler;
         EventManager.CityDestroyedEvent += CityDestroyedHandler;
+
+        EventManager.StructureCreatedEvent += StructureCreatedHandler;
+        EventManager.StructureDestroyedEvent += StructureDestroyedHandler;
     }
 
     void OnDestroy()
     {
         EventManager.ArmyCreatedEvent -= ArmyCreatedHandler;
         EventManager.ArmyDestroyedEvent -= ArmyDestroyedHandler;
+        
         EventManager.BattleStartedEvent -= BattleStartedHandler;
+
         EventManager.CityCreatedEvent -= CityCreatedHandler;
         EventManager.CityDestroyedEvent -= CityDestroyedHandler;
+
+        EventManager.StructureCreatedEvent -= StructureCreatedHandler;
+        EventManager.StructureDestroyedEvent -= StructureDestroyedHandler;
     }
 
     /// Start is called before the first frame update
@@ -53,6 +65,8 @@ public class GameController : MonoBehaviour
         players = new List<Player>();
         armies = new List<Army>();
         cities = new List<City>();
+        
+        roads = new List<Road>();
 
         movingArmies = new List<Army>();
 
@@ -166,6 +180,24 @@ public class GameController : MonoBehaviour
         cities.Remove((City)sender);
     }
 
+    /// Adds the newly created structure to the corresponding structure list
+    public void StructureCreatedHandler(object sender, System.EventArgs args)
+    {
+        // there will be a few such if statements, but I think that's better than having separate events and handlers for every kind of structure
+        if(sender as Road != null) {
+            roads.Add((Road)sender);
+        }
+    }
+
+    /// Removes the structure from the corresponding structure list
+    public void StructureDestroyedHandler(object sender, System.EventArgs args)
+    {
+        // there will be a few such if statements, but I think that's better than having separate events and handlers for every kind of structure
+        if(sender as Road != null) {
+            roads.Remove((Road)sender);
+        }
+    }
+
     /// Adds a new player to the list of players
     public void AddPlayer(Player newPlayer)
     {
@@ -212,7 +244,7 @@ public class GameController : MonoBehaviour
         EventManager.OnTurn(this);
     }
 
-    /// Removes all armies, cities and players from the game
+    /// Removes all armies, cities, players, and structures from the game
     public void Clear()
     {
         while (armies.Count > 0) {
@@ -220,6 +252,9 @@ public class GameController : MonoBehaviour
         }     
         while (cities.Count > 0) {
             cities[0].Destroy();
+        }
+        while (roads.Count > 0) {
+            roads[0].Destroy();
         }
         players.Clear();
     }

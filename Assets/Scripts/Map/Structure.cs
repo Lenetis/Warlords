@@ -26,11 +26,15 @@ public abstract class Structure : MapObject
         base.AddToGame();
 
         gameController.tileMap.GetTile(position).AddStructure(this);
+
+        EventManager.OnStructureCreated(this);
     }
 
     /// Destroys this Structure, removing it from the game and tilemap
     public override void Destroy()
     {
         gameController.tileMap.GetTile(position).RemoveStructure();
+
+        EventManager.OnStructureDestroyed(this);
     }
 }

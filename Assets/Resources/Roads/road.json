@@ -1,0 +1,7 @@
+{
+    "texture": "Assets/Resources/Roads/road.png",
+    "pathfinding": {
+        "moveCost": 1,
+        "pathfindingTypes": ["land", "air"]
+    }
+}

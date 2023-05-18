@@ -26,6 +26,8 @@ public static class EventManager
     public static event System.EventHandler CityCreatedEvent;
     public static event System.EventHandler CityDestroyedEvent;
     public static event System.EventHandler CityRazedEvent;
+    public static event System.EventHandler StructureCreatedEvent;
+    public static event System.EventHandler StructureDestroyedEvent;
     public static event System.EventHandler<TileMapResizedEventData> TileMapResizedEvent;
     public static event System.EventHandler TurnEvent;
 
@@ -60,6 +62,14 @@ public static class EventManager
 
     public static void OnCityRazed(object sender) {
         CityRazedEvent?.Invoke(sender, System.EventArgs.Empty);
+    }
+
+    public static void OnStructureCreated(object sender) {
+        StructureCreatedEvent?.Invoke(sender, System.EventArgs.Empty);
+    }
+
+    public static void OnStructureDestroyed(object sender) {
+        StructureDestroyedEvent?.Invoke(sender, System.EventArgs.Empty);
     }
 
     public static void OnTileMapResized(object sender, TileMapResizedEventData eventData) {
