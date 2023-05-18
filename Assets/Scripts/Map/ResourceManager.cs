@@ -77,7 +77,10 @@ public static class ResourceManager
         save.Add("players", new JArray(gameController.players.Select(player => player.ToJObject())));
         save.Add("armies", new JArray(gameController.armies.Select(army => army.ToJObject())));
         save.Add("cities", new JArray(gameController.cities.Select(city => city.ToJObject())));
+
         save.Add("roads", new JArray(gameController.roads.Select(road => road.ToJObject())));
+        save.Add("signposts", new JArray(gameController.signposts.Select(signpost => signpost.ToJObject())));
+
         save.Add("tileMap", gameController.tileMap.ToJObject());
 
         File.WriteAllText(fileName, save.ToString());
@@ -109,6 +112,10 @@ public static class ResourceManager
         foreach (JObject roadJObject in loadJObject.GetValue("roads")) {
             Road newRoad = Road.FromJObject(roadJObject);
             newRoad.AddToGame();
+        }
+        foreach (JObject signpostJObject in loadJObject.GetValue("signposts")) {
+            Signpost signpost = Signpost.FromJObject(signpostJObject);
+            signpost.AddToGame();
         }
         Debug.Log("Loaded!");
     }

@@ -42,7 +42,7 @@ public class Tile  // todo change to struct maybe?
     public int moveCost
     {
         get {
-            if (contents.structure != null) {
+            if (contents.structure != null && contents.structure.pathfinding != null) {
                 return contents.structure.pathfinding.moveCost;
             }
             return data.moveCost;
@@ -52,7 +52,7 @@ public class Tile  // todo change to struct maybe?
     public HashSet<string> pathfindingTypes
     {
         get {
-            if (contents.structure != null) {
+            if (contents.structure != null && contents.structure.pathfinding != null) {
                 return contents.structure.pathfinding.pathfindingTypes;
             }
             return data.pathfindingTypes; 

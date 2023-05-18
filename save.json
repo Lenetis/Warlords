@@ -507,7 +507,7 @@
   ],
   "roads": [
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         4,
         4
@@ -521,7 +521,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         75,
         45
@@ -535,7 +535,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         3,
         4
@@ -549,7 +549,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         76,
         45
@@ -563,7 +563,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         3,
         5
@@ -577,7 +577,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         76,
         44
@@ -591,7 +591,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         3,
         6
@@ -605,7 +605,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         76,
         43
@@ -619,7 +619,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         3,
         7
@@ -633,7 +633,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         76,
         42
@@ -647,7 +647,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         3,
         8
@@ -661,7 +661,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         76,
         41
@@ -675,7 +675,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         3,
         9
@@ -689,7 +689,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         76,
         40
@@ -703,7 +703,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         3,
         10
@@ -717,7 +717,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         76,
         39
@@ -731,7 +731,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         3,
         11
@@ -745,7 +745,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         76,
         38
@@ -759,7 +759,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         3,
         12
@@ -773,7 +773,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         76,
         37
@@ -787,7 +787,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         3,
         13
@@ -801,7 +801,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         76,
         36
@@ -815,7 +815,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         3,
         14
@@ -829,7 +829,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         76,
         35
@@ -843,7 +843,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         3,
         15
@@ -857,7 +857,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         76,
         34
@@ -871,7 +871,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         4,
         15
@@ -885,7 +885,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         75,
         34
@@ -899,7 +899,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         4,
         16
@@ -913,7 +913,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         75,
         33
@@ -927,7 +927,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         4,
         17
@@ -941,7 +941,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         75,
         32
@@ -955,7 +955,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         5,
         18
@@ -969,7 +969,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         74,
         31
@@ -983,7 +983,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         6,
         18
@@ -997,7 +997,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         73,
         31
@@ -1011,7 +1011,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         6,
         19
@@ -1025,7 +1025,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         73,
         30
@@ -1039,7 +1039,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         6,
         20
@@ -1053,7 +1053,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         73,
         29
@@ -1067,7 +1067,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         5,
         17
@@ -1081,7 +1081,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         74,
         32
@@ -1095,7 +1095,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         7,
         20
@@ -1109,7 +1109,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         72,
         29
@@ -1123,7 +1123,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         7,
         21
@@ -1137,7 +1137,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         72,
         28
@@ -1151,7 +1151,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         8,
         21
@@ -1165,7 +1165,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         71,
         28
@@ -1179,7 +1179,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         8,
         22
@@ -1193,7 +1193,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         71,
         27
@@ -1207,7 +1207,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         9,
         22
@@ -1221,7 +1221,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         70,
         27
@@ -1235,7 +1235,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         9,
         23
@@ -1249,7 +1249,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         70,
         26
@@ -1263,7 +1263,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         10,
         24
@@ -1277,7 +1277,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         69,
         25
@@ -1291,7 +1291,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         10,
         23
@@ -1305,7 +1305,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         69,
         26
@@ -1319,7 +1319,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         11,
         24
@@ -1333,7 +1333,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         68,
         25
@@ -1347,7 +1347,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         11,
         25
@@ -1361,7 +1361,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         68,
         24
@@ -1375,7 +1375,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         13,
         26
@@ -1389,7 +1389,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         66,
         23
@@ -1403,7 +1403,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         14,
         26
@@ -1417,7 +1417,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         65,
         23
@@ -1431,7 +1431,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         12,
         25
@@ -1445,7 +1445,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         67,
         24
@@ -1459,7 +1459,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         12,
         26
@@ -1473,7 +1473,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         67,
         23
@@ -1487,7 +1487,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         14,
         27
@@ -1501,7 +1501,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         65,
         22
@@ -1515,7 +1515,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         14,
         28
@@ -1529,7 +1529,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         65,
         21
@@ -1543,7 +1543,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         15,
         28
@@ -1557,7 +1557,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         64,
         21
@@ -1571,7 +1571,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         16,
         28
@@ -1585,7 +1585,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         63,
         21
@@ -1599,7 +1599,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         17,
         28
@@ -1613,7 +1613,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         62,
         21
@@ -1627,7 +1627,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         18,
         28
@@ -1641,7 +1641,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         61,
         21
@@ -1655,7 +1655,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         18,
         29
@@ -1669,7 +1669,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         61,
         20
@@ -1683,7 +1683,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         19,
         29
@@ -1697,7 +1697,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         60,
         20
@@ -1711,7 +1711,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         20,
         29
@@ -1725,7 +1725,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         59,
         20
@@ -1739,7 +1739,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         21,
         29
@@ -1753,7 +1753,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         58,
         20
@@ -1767,7 +1767,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         22,
         29
@@ -1781,7 +1781,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         57,
         20
@@ -1795,7 +1795,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         23,
         29
@@ -1809,7 +1809,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         56,
         20
@@ -1823,7 +1823,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         23,
         30
@@ -1837,7 +1837,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         56,
         19
@@ -1851,7 +1851,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         24,
         30
@@ -1865,7 +1865,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         55,
         19
@@ -1879,7 +1879,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         25,
         30
@@ -1893,7 +1893,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         54,
         19
@@ -1907,7 +1907,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         26,
         30
@@ -1921,7 +1921,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         53,
         19
@@ -1935,7 +1935,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         27,
         30
@@ -1949,7 +1949,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         52,
         19
@@ -1963,7 +1963,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         28,
         30
@@ -1977,7 +1977,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         51,
         19
@@ -1991,7 +1991,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         29,
         30
@@ -2005,7 +2005,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         50,
         19
@@ -2019,7 +2019,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         30,
         30
@@ -2033,7 +2033,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         49,
         19
@@ -2047,7 +2047,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         31,
         30
@@ -2061,7 +2061,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         48,
         19
@@ -2075,7 +2075,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         32,
         30
@@ -2089,7 +2089,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         47,
         19
@@ -2103,7 +2103,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         32,
         29
@@ -2117,7 +2117,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         47,
         20
@@ -2131,7 +2131,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         33,
         29
@@ -2145,7 +2145,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         46,
         20
@@ -2159,7 +2159,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         34,
         29
@@ -2173,7 +2173,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         45,
         20
@@ -2187,7 +2187,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         34,
         28
@@ -2201,7 +2201,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         45,
         21
@@ -2215,7 +2215,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         35,
         28
@@ -2229,7 +2229,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         44,
         21
@@ -2243,7 +2243,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         35,
         27
@@ -2257,7 +2257,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         44,
         22
@@ -2271,7 +2271,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         36,
         27
@@ -2285,7 +2285,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         43,
         22
@@ -2299,7 +2299,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         36,
         26
@@ -2313,7 +2313,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         43,
         23
@@ -2327,7 +2327,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         36,
         25
@@ -2341,7 +2341,7 @@
       }
     },
     {
-      "baseFile": "Assets/Resources/Roads/road.json",
+      "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         43,
         24
@@ -2353,6 +2353,26 @@
           "air"
         ]
       }
+    }
+  ],
+  "signposts": [
+    {
+      "baseFile": "Assets/Resources/Structures/signpost.json",
+      "position": [
+        7,
+        3
+      ],
+      "name": "Editor Signpost",
+      "description": "Position(7, 3)"
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/signpost.json",
+      "position": [
+        72,
+        46
+      ],
+      "name": "Editor Signpost",
+      "description": "Position(72, 46)"
     }
   ],
   "tileMap": {

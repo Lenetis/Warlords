@@ -55,6 +55,9 @@ public class MapEditor : MonoBehaviour
         if (Input.GetKey(KeyCode.Alpha4)) {
             PlaceRoads();
         }
+        if (Input.GetKeyDown(KeyCode.Alpha5)) {
+            PlaceSignposts();
+        }
         if (Input.GetKey(KeyCode.Delete)) {
             ClearTiles();
         }
@@ -144,9 +147,20 @@ public class MapEditor : MonoBehaviour
     private void PlaceRoads()
     {
         foreach (Position symmetryPosition in GetSymmetryPositions(mouseSelection.highlightedPosition)) {
-            Road road = new Road(ResourceManager.LoadResource("Assets/Resources/Roads/road.json"), symmetryPosition);
+            Road road = new Road(ResourceManager.LoadResource("Assets/Resources/Structures/road.json"), symmetryPosition);
             if (road.CanAddToGame()) {
                 road.AddToGame();
+            }
+        }
+    }
+
+    /// Places selected signpost on the tileMap. Works with symmetry
+    private void PlaceSignposts()
+    {
+        foreach (Position symmetryPosition in GetSymmetryPositions(mouseSelection.highlightedPosition)) {
+            Signpost signpost = new Signpost(ResourceManager.LoadResource("Assets/Resources/Structures/signpost.json"), symmetryPosition, "Editor Signpost", $"{symmetryPosition}");
+            if (signpost.CanAddToGame()) {
+                signpost.AddToGame();
             }
         }
     }

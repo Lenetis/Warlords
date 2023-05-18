@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
     public List<City> cities {get; private set;}
 
     public List<Road> roads {get; private set;}
+    public List<Signpost> signposts {get; private set;}
 
     private List<Army> movingArmies;
 
@@ -67,6 +68,7 @@ public class GameController : MonoBehaviour
         cities = new List<City>();
         
         roads = new List<Road>();
+        signposts = new List<Signpost>();
 
         movingArmies = new List<Army>();
 
@@ -184,8 +186,10 @@ public class GameController : MonoBehaviour
     public void StructureCreatedHandler(object sender, System.EventArgs args)
     {
         // there will be a few such if statements, but I think that's better than having separate events and handlers for every kind of structure
-        if(sender as Road != null) {
+        if (sender as Road != null) {
             roads.Add((Road)sender);
+        } else if (sender as Signpost != null) {
+            signposts.Add((Signpost)sender);
         }
     }
 
@@ -193,8 +197,10 @@ public class GameController : MonoBehaviour
     public void StructureDestroyedHandler(object sender, System.EventArgs args)
     {
         // there will be a few such if statements, but I think that's better than having separate events and handlers for every kind of structure
-        if(sender as Road != null) {
+        if (sender as Road != null) {
             roads.Remove((Road)sender);
+        } else if (sender as Signpost != null) {
+            signposts.Remove((Signpost)sender);
         }
     }
 
@@ -255,6 +261,9 @@ public class GameController : MonoBehaviour
         }
         while (roads.Count > 0) {
             roads[0].Destroy();
+        }
+        while (signposts.Count > 0) {
+            signposts[0].Destroy();
         }
         players.Clear();
     }
