@@ -43,13 +43,13 @@ public class MapEditor : MonoBehaviour
     /// Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Q)) {
+        if (Input.GetKey(KeyCode.Alpha1)) {
             Draw();
         }
-        if (Input.GetKeyDown(KeyCode.W)) {
+        if (Input.GetKeyDown(KeyCode.Alpha2)) {
             PlaceUnits();
         }
-        if (Input.GetKeyDown(KeyCode.E)) {
+        if (Input.GetKeyDown(KeyCode.Alpha3)) {
             PlaceCities();
         }
         if (Input.GetKey(KeyCode.Alpha4)) {
@@ -105,7 +105,7 @@ public class MapEditor : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.R)) {
-            tileMap.Resize(200, 200);  // todo - tmp, this should be moved elswhere and the size should be provided by user ofc
+            tileMap.Resize(200, 200);  // todo - tmp, this should be moved elsewhere and the size should be provided by user ofc
         }
     }
 
