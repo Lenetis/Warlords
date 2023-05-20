@@ -6,6 +6,8 @@ public class UIController : MonoBehaviour
 {
     public GameObject cityManagement;
     public GameObject gameMenu;
+    public GameObject battleScreen;
+    public GameObject turnInfo;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +23,7 @@ public class UIController : MonoBehaviour
 
     public bool controllsAvailable()
     {
-        if(!gameMenu.activeSelf && !cityManagement.activeSelf)
+        if(!gameMenu.activeSelf && !cityManagement.activeSelf && !battleScreen.activeSelf && !turnInfo.activeSelf)
         {
             return true;
         }

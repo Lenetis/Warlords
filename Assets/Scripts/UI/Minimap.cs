@@ -57,6 +57,16 @@ public class Minimap : MonoBehaviour
         gameController= GameObject.Find("GameController").GetComponent<GameController>();
     }
 
+    void Awake()
+    {
+        EventManager.CityCapturedEvent += DrawCities;
+    }
+
+    void OnDestroy()
+    {
+        EventManager.CityCapturedEvent -= DrawCities;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -171,11 +181,11 @@ public class Minimap : MonoBehaviour
         }
         if (tileMap.miniMapTexture != null && gameController.cities!=null && areCitiesLoaded == false)
         {
-            DrawCities();
+            DrawCities(this, System.EventArgs.Empty);
         }
     }
 
-    public void DrawCities()
+    public void DrawCities(object sender, System.EventArgs args)
     {
         for(int i=0; i<gameController.cities.Count; i++)
         {

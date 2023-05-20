@@ -24,9 +24,13 @@ public class UnitCityButton : MonoBehaviour, IPointerClickHandler
             {
                 cityManagement.SetUnitProduction(int.Parse(gameObject.name));
             }
-            else if (transform.parent.name == "BuyableUnitsPanel")
+            if (transform.parent.name == "BuyableUnitsPanel")
             {
                 cityManagement.BuyUnit(int.Parse(gameObject.name));
+            }
+            else if (transform.parent.name == "ReplaceUnitsPanel")
+            {
+                cityManagement.ReplaceUnit(int.Parse(gameObject.name));
             }
 
 
