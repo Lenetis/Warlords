@@ -79,6 +79,7 @@ public class MouseSelection : MonoBehaviour
             {
                 selectedArmy = null;
                 armyManagement.DeselectArmy();
+                DeselectArmy();
             }
         }
         if (Input.GetKeyDown(KeyCode.M) && uiController.controllsAvailable())
