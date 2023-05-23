@@ -16,13 +16,21 @@ public struct TileMapResizedEventData
     public int newHeight;
 }
 
+public struct BattleEndedEventData
+{
+    public City attackedCity;
+    public Player attackingPlayer;
+}
+
 public static class EventManager
 {
     public static event System.EventHandler<ArmyMovedEventData> ArmyMovedEvent;
     public static event System.EventHandler ArmyCreatedEvent;
     public static event System.EventHandler ArmyDestroyedEvent;
     public static event System.EventHandler BattleStartedEvent;
+    public static event System.EventHandler<BattleEndedEventData> BattleEndedEvent;
     public static event System.EventHandler CityCapturedEvent;
+    public static event System.EventHandler UnitBuiltEvent;
     public static event System.EventHandler CityCreatedEvent;
     public static event System.EventHandler CityDestroyedEvent;
     public static event System.EventHandler CityRazedEvent;
@@ -47,9 +55,17 @@ public static class EventManager
     public static void OnBattleStarted(object sender) {
         BattleStartedEvent?.Invoke(sender, System.EventArgs.Empty);
     }
+    public static void OnBattleEnded(object sender, BattleEndedEventData eventData)
+    {
+        BattleEndedEvent?.Invoke(sender, eventData);
+    }
 
     public static void OnCityCaptured(object sender) {
         CityCapturedEvent?.Invoke(sender, System.EventArgs.Empty);
+    }
+    public static void OnUnitBuilt(object sender)
+    {
+        UnitBuiltEvent?.Invoke(sender, System.EventArgs.Empty);
     }
 
     public static void OnCityCreated(object sender) {

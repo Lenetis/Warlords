@@ -197,3 +197,4 @@ public class ArmyManagement : MonoBehaviour
     }
 }
 //                Debug.Log(i + ":::" + mouseSelection.selectedArmy.units.Count + ":::" + movesAvailable.Length);
+//Debug.Log("Armies size: " + armiesSize + ", army count: " + selectedArmies.Count + ", position: " + selectedArmies[0].position);

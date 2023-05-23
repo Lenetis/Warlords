@@ -7,14 +7,18 @@ using TMPro;
 public class BattleScreen : MonoBehaviour
 {
     public GameObject battlePanel;
+    public GameObject animationPanel;
+    public GameObject actionPanel;
 
     private Battle _battle;
     public Battle battle
     {
-        private get {return _battle;}
-        set {
+        private get { return _battle; }
+        set
+        {
             _battle = value;
-            if (value != null) {
+            if (value != null)
+            {
                 currentTurnDelay = 0;
                 UpdateUnitImages(value.attackingUnits, attackerUnits, attackerPanel);
                 UpdateUnitImages(value.defendingUnits, defenderUnits, defenderPanel);
@@ -35,15 +39,20 @@ public class BattleScreen : MonoBehaviour
 
     public TextMeshProUGUI winInfo;
 
+    private City attackedCity;
+    private Player attackingPlayer;
+
 
     void Awake()
     {
         EventManager.BattleStartedEvent += BattleStartedHandler;
+        EventManager.BattleEndedEvent += GetActionInfoHandler;
     }
 
     void OnDestroy()
     {
         EventManager.BattleStartedEvent -= BattleStartedHandler;
+        EventManager.BattleEndedEvent -= GetActionInfoHandler;
     }
 
     // Start is called before the first frame update
@@ -58,9 +67,11 @@ public class BattleScreen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (battle != null) {
+        if (battle != null)
+        {
             currentTurnDelay += Time.deltaTime;
-            if (currentTurnDelay >= turnDelay*0.75 || battle.winner != null) {
+            if (currentTurnDelay >= turnDelay * 0.75 || battle.winner != null)
+            {
 
                 if (boool)
                 {
@@ -79,9 +90,9 @@ public class BattleScreen : MonoBehaviour
                     }
                     boool = false;
                 }
-                
 
-                if(currentTurnDelay >= turnDelay)
+
+                if (currentTurnDelay >= turnDelay)
                 {
                     UpdateAttacker(battle.attackingUnits);
                     UpdateDefender(battle.defendingUnits);
@@ -105,19 +116,17 @@ public class BattleScreen : MonoBehaviour
                         armyManagement.RefreshSelection();
                         Debug.Log($"Battle ended. Winner = {winner}");
                         winInfo.text = info;
-
-
+                        //EventManager.OnBattleEnded(this);
                     }
                     currentTurnDelay -= turnDelay;
                     boool = true;
-
                 }
             }
-        } else {
-            if (Input.GetMouseButtonUp(0))
+        }
+        else
+        {
+            if (Input.GetMouseButtonUp(1))
             {
-                battlePanel.SetActive(false);
-
                 for (int i = 0; i < attackerUnits.Count; i++)
                 {
                     Destroy(attackerUnits[i]);
@@ -126,6 +135,15 @@ public class BattleScreen : MonoBehaviour
                 for (int i = 0; i < defenderUnits.Count; i++)
                 {
                     Destroy(defenderUnits[i]);
+                }
+
+                if (attackedCity != null)
+                {
+                    animationPanel.SetActive(false);
+                    actionPanel.SetActive(true);
+                }
+                else {
+                    battlePanel.SetActive(false);
                 }
             }
         }
@@ -140,12 +158,14 @@ public class BattleScreen : MonoBehaviour
 
     private void UpdateUnitImages(List<Unit> units, List<GameObject> unitImages, GameObject unitPanel)
     {
-        for (int i = 0; i < unitImages.Count; i += 1) {
+        for (int i = 0; i < unitImages.Count; i += 1)
+        {
             Destroy(unitImages[i]);
         }
 
         unitImages.Clear();
-        for (int i = 0; i < units.Count; i += 1) {
+        for (int i = 0; i < units.Count; i += 1)
+        {
             GameObject newUnitImage = Instantiate(unitImage, unitPanel.transform);
             newUnitImage.transform.localPosition = new Vector3((i + 1) * ((unitPanel.GetComponent<RectTransform>().sizeDelta.x / ((units.Count) + 1))) - (unitPanel.GetComponent<RectTransform>().sizeDelta.x / 2), 0, 0);
             newUnitImage.transform.SetParent(unitPanel.transform);
@@ -165,5 +185,37 @@ public class BattleScreen : MonoBehaviour
     public void UpdateDefender(List<Unit> units)
     {
         UpdateUnitImages(units, defenderUnits, defenderPanel);
+    }
+
+    public void RazeCity()
+    {
+        attackedCity.Raze();
+        actionPanel.SetActive(false);
+        animationPanel.SetActive(true);
+        battlePanel.SetActive(false);
+    }
+
+    public void CaptureCity()
+    {
+        attackedCity.Capture(attackingPlayer);
+        actionPanel.SetActive(false);
+        animationPanel.SetActive(true);
+        battlePanel.SetActive(false);
+    }
+
+    public void OccupyCity()
+    {
+        //todo
+    }
+
+    public void PillageCity()
+    {
+        //todo
+    }
+
+    public void GetActionInfoHandler(object sender, BattleEndedEventData eventData)
+    {
+        attackingPlayer = eventData.attackingPlayer;
+        attackedCity = eventData.attackedCity;
     }
 }

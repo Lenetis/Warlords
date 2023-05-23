@@ -25,5 +25,6 @@ public class ResourcesDisplay : MonoBehaviour
         resources[1].text = "YT: " + gold.ToString();
         resources[2].text = "YI: " + income.ToString();
         resources[3].text = "YU: " + upkeep.ToString();
+        Debug.Log("Resources updated");
     }
 }

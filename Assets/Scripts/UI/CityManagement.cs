@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -110,15 +111,19 @@ public class CityManagement : MonoBehaviour
             cityDefence.text = "Defence: --";
             cityOwner.text = "Owner: " + selectedCity.owner.name.ToString();
 
+            for (int j = 0; j < buyableUnits.Length; j++)
+            {
+                Destroy(buyableUnits[j]);
+            }
+
             int buyableSize = selectedCity.buyableUnits.Count;
             //int armySize = mouseSelection.selectedArmy.units.Count;
 
-            if (buyableSize > buyableUnits.Length)
-            {
-                buyableUnits = new GameObject[buyableSize];
-                buyableUnitsImage = new Image[buyableSize];
-            }
+            //Debug.Log("Buyable");
 
+            buyableUnits = new GameObject[buyableSize];
+            buyableUnitsImage = new Image[buyableSize];
+            
             for (int i = 0; i < buyableSize; i++)
             {
                 if (buyableUnits[i] == null)
@@ -170,30 +175,35 @@ public class CityManagement : MonoBehaviour
         //Debug.Log("count: " + selectedCity.buyableUnits.Count);
         if (selectedCity.buildableUnits.Count >= 4)
         {
-            ShowCityPanel(8);
-
-            int replaceableSize = selectedCity.buildableUnits.Count;
-
-            replaceableUnits = new GameObject[replaceableSize];
-            replaceableUnitsImage = new Image[replaceableSize];
-
-            for (int i = 0; i < replaceableSize; i++)
+            if (!selectedCity.buildableUnits.Any(buildableUnit => buildableUnit.baseFile == selectedCity.buyableUnits[buyIndex].baseFile))
             {
-                if (replaceableUnits[i] == null)
-                {
-                    replaceableUnits[i] = Instantiate(unitCityButton, replaceableUnitsPanel.transform);
-                    replaceableUnits[i].transform.localPosition = new Vector3((i + 1) * ((replaceableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / ((replaceableSize) + 1))) - (replaceableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / 2), 0, 0);
-                    replaceableUnits[i].transform.SetParent(replaceableUnitsPanel.transform);
-                    replaceableUnits[i].name = i.ToString();
+                ShowCityPanel(8);
 
-                    replaceableUnitsImage[i] = replaceableUnits[i].transform.GetChild(0).gameObject.GetComponent<Image>();
-                    replaceableUnitsImage[i].sprite = Sprite.Create(selectedCity.buildableUnits[i].texture, new Rect(0.0f, 0.0f, selectedCity.buildableUnits[i].texture.width, selectedCity.buildableUnits[i].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+                int replaceableSize = selectedCity.buildableUnits.Count;
+
+                replaceableUnits = new GameObject[replaceableSize];
+                replaceableUnitsImage = new Image[replaceableSize];
+
+                for (int i = 0; i < replaceableSize; i++)
+                {
+                    if (replaceableUnits[i] == null)
+                    {
+                        replaceableUnits[i] = Instantiate(unitCityButton, replaceableUnitsPanel.transform);
+                        replaceableUnits[i].transform.localPosition = new Vector3((i + 1) * ((replaceableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / ((replaceableSize) + 1))) - (replaceableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / 2), 0, 0);
+                        replaceableUnits[i].transform.SetParent(replaceableUnitsPanel.transform);
+                        replaceableUnits[i].name = i.ToString();
+
+                        replaceableUnitsImage[i] = replaceableUnits[i].transform.GetChild(0).gameObject.GetComponent<Image>();
+                        replaceableUnitsImage[i].sprite = Sprite.Create(selectedCity.buildableUnits[i].texture, new Rect(0.0f, 0.0f, selectedCity.buildableUnits[i].texture.width, selectedCity.buildableUnits[i].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+                    }
                 }
             }
+            
         }
         else
         {
             selectedCity.BuyUnit(selectedCity.buyableUnits[index], 3);
+            EventManager.OnUnitBuilt(this);
             ShowCityPanel(2);
         }
         // also also todo, refresh the amount of gold in UI after the unit has been bought
@@ -202,6 +212,7 @@ public class CityManagement : MonoBehaviour
     public void ReplaceUnit(int index)
     {
         selectedCity.BuyUnit(selectedCity.buyableUnits[buyIndex], index);
+        EventManager.OnUnitBuilt(this);
 
         for (int i = 0; i < replaceableUnits.Length; i++)
         {
@@ -234,12 +245,7 @@ public class CityManagement : MonoBehaviour
 
             if(index == 2)
             {
-                for (int j = 0; j < buildableUnits.Length; j++)
-                {
-                    Destroy(buildableUnits[j]);
-                }
-
-                ShowBuildableUnits();
+                SelectCity(selectedCity);
             }
         }
     }
@@ -266,12 +272,17 @@ public class CityManagement : MonoBehaviour
 
     public void ShowBuildableUnits()
     {
+        for (int j = 0; j < buildableUnits.Length; j++)
+        {
+            Destroy(buildableUnits[j]);
+        }
+
         int buildableSize = selectedCity.buildableUnits.Count;
         //int armySize = mouseSelection.selectedArmy.units.Count;
 
         buildableUnits = new GameObject[buildableSize];
         buildableUnitsImage = new Image[buildableSize];
-        
+        //Debug.Log("Buldable");
         for (int i = 0; i < buildableSize; i++)
         {
             if (buildableUnits[i] == null)

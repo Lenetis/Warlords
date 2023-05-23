@@ -8,6 +8,7 @@ public class UIController : MonoBehaviour
     public GameObject gameMenu;
     public GameObject battleScreen;
     public GameObject turnInfo;
+    public bool isOverMinimap;
 
     // Start is called before the first frame update
     void Start()

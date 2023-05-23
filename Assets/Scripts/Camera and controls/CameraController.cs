@@ -17,11 +17,13 @@ public class CameraController : MonoBehaviour
     public int mapWidth;
 
     private MouseSelection mouseSelection;
+    private UIController uiController;
 
     void Start()
     {
         cameraPanButtonPressed = false;
         mouseSelection = GameObject.Find("Main Camera").GetComponent<MouseSelection>();
+        uiController = GameObject.Find("UIController").GetComponent<UIController>();
     }
 
     void Update()
@@ -53,7 +55,7 @@ public class CameraController : MonoBehaviour
         }
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll != 0 && mouseSelection.isOverDispArea)
+        if (scroll != 0 && mouseSelection.isOverDispArea || scroll != 0 && uiController.isOverMinimap)
         {
             float zPositionDiff = scroll * zoomSpeed * -transform.position.z;
             Vector3 targetPosition = camUI.transform.position + new Vector3(0, 0, zPositionDiff);

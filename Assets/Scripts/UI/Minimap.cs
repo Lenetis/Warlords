@@ -48,6 +48,9 @@ public class Minimap : MonoBehaviour
 
     public Image cityIcon;
 
+    public Image[] cityIcons;
+    public Image[] cityIconsInMenu;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,16 +58,22 @@ public class Minimap : MonoBehaviour
         cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
         uiController = GameObject.Find("UIController").GetComponent<UIController>();
         gameController= GameObject.Find("GameController").GetComponent<GameController>();
+        EventManager.CityCreatedEvent += DrawCities;
     }
 
     void Awake()
     {
         EventManager.CityCapturedEvent += DrawCities;
+        EventManager.CityRazedEvent += DrawCities;
+        EventManager.CityDestroyedEvent += DrawCities;
     }
 
     void OnDestroy()
     {
         EventManager.CityCapturedEvent -= DrawCities;
+        EventManager.CityRazedEvent -= DrawCities;
+        EventManager.CityCreatedEvent -= DrawCities;
+        EventManager.CityDestroyedEvent -= DrawCities;
     }
 
     // Update is called once per frame
@@ -89,15 +98,18 @@ public class Minimap : MonoBehaviour
             if (Input.mousePosition.y >= minimapAreaOriginY && Input.mousePosition.y <= minimapAreaEndY)
             {
                 isOverMinimap = true;
+                uiController.isOverMinimap = true;
             }
             else
             {
                 isOverMinimap = false;
+                uiController.isOverMinimap = false;
             }
         }
         else
         {
             isOverMinimap = false;
+            uiController.isOverMinimap = false;
         }
 
         if (Input.GetButton("Select") && isOverMinimap && uiController.controllsAvailable())
@@ -187,7 +199,27 @@ public class Minimap : MonoBehaviour
 
     public void DrawCities(object sender, System.EventArgs args)
     {
-        for(int i=0; i<gameController.cities.Count; i++)
+
+        for (int i = 0; i < cityIcons.Length; i++)
+        {
+            if (cityIcons[i] != null)
+            {
+                Destroy(cityIcons[i].gameObject);
+            }
+        }
+        
+        for (int i = 0; i < cityIconsInMenu.Length; i++)
+        {
+            if (cityIconsInMenu[i] != null)
+            {
+                Destroy(cityIconsInMenu[i].gameObject);
+            }
+        }
+        
+        cityIcons = new Image[gameController.cities.Count];
+        cityIconsInMenu = new Image[gameController.cities.Count];
+
+        for (int i=0; i<gameController.cities.Count; i++)
         {
             float normX = ((float)gameController.cities[i].position.x+1) / (float)tileMap.width;
             float normY = ((float)gameController.cities[i].position.y+1) / (float)tileMap.height;
@@ -195,19 +227,19 @@ public class Minimap : MonoBehaviour
             if (!gameController.cities[i].razed)
             {
                 //Debug.Log((miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x));
-                Image tmp = Instantiate(cityIcon, miniMapImage.transform.GetChild(0));
+                cityIcons[i] = Instantiate(cityIcon, miniMapImage.transform.GetChild(0));
                 //tmp.GetComponent<RectTransform>().localScale = new Vector2(100f,100f);
-                tmp.transform.localScale = new Vector3(0.2f,0.2f,0.3f);
+                cityIcons[i].transform.localScale = new Vector3(0.2f,0.2f,0.3f);
                 //tmp.GetComponent<RectTransform>().position = new Vector2(miniMapImage.GetComponent<RectTransform>().anchorMin.x + (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * normX, miniMapImage.GetComponent<RectTransform>().anchorMin.y + (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * normY);
-                tmp.GetComponent<RectTransform>().anchoredPosition = new Vector2(-miniMapImage.GetComponent<RectTransform>().sizeDelta.x/2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -miniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
-                tmp.color = gameController.cities[i].owner.color;
+                cityIcons[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-miniMapImage.GetComponent<RectTransform>().sizeDelta.x/2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -miniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
+                cityIcons[i].color = gameController.cities[i].owner.color;
 
-                tmp = Instantiate(cityIcon, cityMiniMapImage.transform.GetChild(0));
+                cityIconsInMenu[i] = Instantiate(cityIcon, cityMiniMapImage.transform.GetChild(0));
                 //tmp.GetComponent<RectTransform>().localScale = new Vector2(100f,100f);
-                tmp.transform.localScale = new Vector3(0.2f, 0.2f, 0.3f);
+                cityIconsInMenu[i].transform.localScale = new Vector3(0.2f, 0.2f, 0.3f);
                 //tmp.GetComponent<RectTransform>().position = new Vector2(miniMapImage.GetComponent<RectTransform>().anchorMin.x + (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * normX, miniMapImage.GetComponent<RectTransform>().anchorMin.y + (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * normY);
-                tmp.GetComponent<RectTransform>().anchoredPosition = new Vector2(-cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
-                tmp.color = gameController.cities[i].owner.color;
+                cityIconsInMenu[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
+                cityIconsInMenu[i].color = gameController.cities[i].owner.color;
             }
             else
             {

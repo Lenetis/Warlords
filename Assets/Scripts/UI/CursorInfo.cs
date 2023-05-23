@@ -135,6 +135,12 @@ public class CursorInfo : MonoBehaviour
                         objectName.text = city.name;
                         objectDescription.text = city.description;
                     }
+                    else if (mouseSelection.highlightedTile.structure as Signpost != null)
+                    {
+                        Signpost signpost = (Signpost)mouseSelection.highlightedTile.structure;
+                        objectName.text = signpost.name;
+                        objectDescription.text = signpost.description;
+                    }
                     else
                     {
                         objectName.text = mouseSelection.highlightedTile.data.name;
