@@ -1,11 +1,15 @@
 {
     "name": "Heavy Cavalry",
     "texture": "Assets/Resources/Units/HeavyCavalry.png",
-	"maskTexture": "Assets/Resources/Units/HeavyCavalryMask.png",
-    "pathfindingTypes": ["land"],
+    "maskTexture": "Assets/Resources/Units/HeavyCavalryMask.png",
     "strength": 4,
-    "move": 16,
     "upkeep": 4,
     "productionCost": 3,
-    "purchaseCost": 500
+    "purchaseCost": 500,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 16
+    }
 }

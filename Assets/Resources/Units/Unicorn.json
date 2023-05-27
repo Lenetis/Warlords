@@ -2,10 +2,14 @@
     "name": "Unicorn",
     "texture": "Assets/Resources/Units/Unicorn.png",
     "maskTexture": "Assets/Resources/Units/UnicornMask.png",
-    "pathfindingTypes": ["land"],
     "strength": 7,
-    "move": 16,
     "upkeep": 7,
     "productionCost": 4,
-    "purchaseCost": 1500
+    "purchaseCost": 1500,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 16
+    }
 }

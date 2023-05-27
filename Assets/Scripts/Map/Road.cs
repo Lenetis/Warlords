@@ -89,6 +89,6 @@ public class Road : Structure
         string texturePath = (string)baseAttributes.GetValue("texture");
         texture = ResourceManager.LoadTexture(texturePath);
 
-        pathfinding = Pathfinding.FromJObject((JObject)baseAttributes.GetValue("pathfinding"));
+        pathfinding = PathfindingData.FromJObject((JObject)baseAttributes.GetValue("pathfinding"));
     }
 }

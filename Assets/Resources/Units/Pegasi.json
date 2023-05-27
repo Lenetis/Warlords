@@ -2,10 +2,15 @@
     "name": "Pegasi",
     "texture": "Assets/Resources/Units/Pegasi.png",
     "maskTexture": "Assets/Resources/Units/PegasiMask.png",
-    "pathfindingTypes": ["land", "air"],
     "strength": 5,
-    "move": 20,
     "upkeep": 6,
     "productionCost": 3,
-    "purchaseCost": 1000
+    "purchaseCost": 1000,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land",
+            "air"
+        ],
+        "move": 20
+    }
 }

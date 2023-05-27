@@ -29,6 +29,18 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
 
     public Texture2D miniMapTexture;
 
+
+    private readonly struct PathfindingNode
+    {
+        public readonly Position position;
+        public readonly HashSet<string> pathfindingTypes;  // todo change to ImmutableHashSet maybe?
+        public PathfindingNode(Position position, HashSet<string> pathfindingTypes)
+        {
+            this.position = position;
+            this.pathfindingTypes = pathfindingTypes;
+        }
+    }
+
     /// Start is called before the first frame update
     void Start()
     {
@@ -187,21 +199,21 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
     }
 
     /// Returns path from the start position of pathfinding to currentPosition
-    private List<Position> ReconstructPath(Dictionary<Position, Position> cameFrom, Position currentPosition)
+    private List<Position> ReconstructPath(Dictionary<PathfindingNode, PathfindingNode> cameFrom, PathfindingNode currentNode)
     {
         List<Position> completePath = new List<Position>();
-        completePath.Add(currentPosition);
-        while (cameFrom.ContainsKey(currentPosition)) {
-            currentPosition = cameFrom[currentPosition];
-            completePath.Insert(0, currentPosition);
+        completePath.Add(currentNode.position);
+        while (cameFrom.ContainsKey(currentNode)) {
+            currentNode = cameFrom[currentNode];
+            completePath.Insert(0, currentNode.position);
         }
         completePath.RemoveAt(0);  // remove the first position because we don't need to move to where we already are
         return completePath;
     }
 
     /// Returns estimated cost of moving from currentPosition to goal
-    private int Heuristic(Position currentPosition, Position goal) {
-        return Max(Abs(currentPosition.x - goal.x), Abs(currentPosition.y - goal.y));
+    private int Heuristic(PathfindingNode currentNode, Position goal) {
+        return Max(Abs(currentNode.position.x - goal.x), Abs(currentNode.position.y - goal.y));
     }
 
     /// Returns a shortest path from start to goal for a given army. Returns null if no path exists
@@ -210,71 +222,110 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
         if (start == goal) {
             return null;
         }
-        if (!GetTile(start).pathfindingTypes.Overlaps(army.pathfindingTypes)) {
-            return null;
-        }
-        if (!GetTile(goal).pathfindingTypes.Overlaps(army.pathfindingTypes)) {
-            return null;
-        }
-        // todo maybe add checks if the goal is not on a very small unreachable island (BFS from goal position with max radius=3 for example)
+
+        PathfindingNode startNode = new PathfindingNode(start, army.pathfindingTypes);
 
         // A* Pathfinding
 
         // The set of discovered nodes that may need to be (re-)expanded.
         // Initially, only the start node is known.
         // This is usually implemented as a min-heap or priority queue rather than a hash-set.
-        List<Position> openList = new List<Position>();
-        List<Position> closedList = new List<Position>();  // todo change it to one of the above, lists are awful
-        openList.Add(start);
+        List<PathfindingNode> openList = new List<PathfindingNode>();
+        List<PathfindingNode> closedList = new List<PathfindingNode>();  // todo change it to one of the above, lists are awful
+        openList.Add(startNode);
 
         // For node n, cameFrom[n] is the node immediately preceding it on the cheapest path from start
         // to n currently known
-        Dictionary<Position, Position> cameFrom = new Dictionary<Position, Position>();
-        // todo would it be possible to reuse it when finding paths to different goals from the same start position?
+        Dictionary<PathfindingNode, PathfindingNode> cameFrom = new Dictionary<PathfindingNode, PathfindingNode>(); // todo would it be possible to reuse it when finding paths to different goals from the same start position?
 
         // For node n, gScore[n] is the cost of the cheapest path from start to n currently known.
-        Dictionary<Position, int> gScore = new Dictionary<Position, int>();
-        gScore[start] = 0;
+        Dictionary<PathfindingNode, int> gScore = new Dictionary<PathfindingNode, int>();
+        gScore[startNode] = 0;
 
         // For node n, fScore[n] := gScore[n] + h(n). fScore[n] represents our current best guess as to
         // how cheap a path could be from start to finish if it goes through n.
-        Dictionary<Position, int> fScore = new Dictionary<Position, int>();
-        fScore[start] = Heuristic(start, goal);
+        Dictionary<PathfindingNode, int> fScore = new Dictionary<PathfindingNode, int>();
+        fScore[startNode] = Heuristic(startNode, goal);
+
+        Tile startTile = GetTile(start);
+        if (army.isTransitioned) {
+            if (startTile.transitionReturn != null && army.pathfindingTypes.IsSupersetOf(startTile.transitionReturn.from)) {
+                PathfindingNode alternativeStartNode = new PathfindingNode(start, army.basePathfindingTypes);
+                openList.Add(alternativeStartNode);
+                gScore[alternativeStartNode] = 0;
+                fScore[alternativeStartNode] = Heuristic(alternativeStartNode, goal);
+            }
+        }
+        else {
+            if (startTile.transition != null && army.basePathfindingTypes.IsSupersetOf(startTile.transition.from)) {
+                PathfindingNode alternativeStartNode = new PathfindingNode(start, startTile.structure.pathfinding.transition.to);
+                openList.Add(alternativeStartNode);
+                gScore[alternativeStartNode] = 0;
+                fScore[alternativeStartNode] = Heuristic(alternativeStartNode, goal);
+            }            
+        }
 
         while (openList.Count != 0) {
             // This operation can occur in O(Log(N)) time if openSet is a min-heap or a priority queue -- todo            
             // choose position with the lowest fScore
             int minScore = int.MaxValue;
-            Position currentPosition = openList[0];
-            foreach (Position pos in openList) {
-                if (fScore[pos] < minScore) {
-                    minScore = fScore[pos];
-                    currentPosition = pos;
+            PathfindingNode currentNode = openList[0];
+            foreach (PathfindingNode node in openList) {
+                if (fScore[node] < minScore) {
+                    minScore = fScore[node];
+                    currentNode = node;
                 }
             }
             
-            if (currentPosition == goal) {
-                return ReconstructPath(cameFrom, currentPosition);
+            if (currentNode.position == goal) {
+                return ReconstructPath(cameFrom, currentNode);
             }
 
-            openList.Remove(currentPosition);
-            foreach (Position neighbourPosition in GetNeighbouringPositions(currentPosition)) {
-                if (neighbourPosition == goal) {
-                    cameFrom[neighbourPosition] = currentPosition;
-                    return ReconstructPath(cameFrom, neighbourPosition);
-                }
+            openList.Remove(currentNode);
+            foreach (Position neighbourPosition in GetNeighbouringPositions(currentNode.position)) {
                 Tile neighbourTile = GetTile(neighbourPosition);
-                if ((neighbourTile.owner == null || neighbourTile.owner == army.owner) && neighbourTile.pathfindingTypes.Overlaps(army.pathfindingTypes)) {
 
-                    // tentativeGScore is the distance from start to the neighbor through current
-                    int tentativeGScore = gScore[currentPosition] + neighbourTile.moveCost;
-                    if (!gScore.ContainsKey(neighbourPosition) || tentativeGScore < gScore[neighbourPosition]) {
-                        // This path to neighbor is better than any previous one. Record it!
-                        cameFrom[neighbourPosition] = currentPosition;
-                        gScore[neighbourPosition] = tentativeGScore;
-                        fScore[neighbourPosition] = tentativeGScore + Heuristic(neighbourPosition, goal);
-                        if (!openList.Contains(neighbourPosition)) {
-                            openList.Add(neighbourPosition);
+
+                HashSet<string>[] neighbourPathfindingTypes;
+                if (currentNode.pathfindingTypes == army.basePathfindingTypes) {
+                    // army is not transitioned
+                    if (neighbourTile.transition != null && currentNode.pathfindingTypes.IsSupersetOf(neighbourTile.transition.from)) {
+                        neighbourPathfindingTypes = new HashSet<string>[] {currentNode.pathfindingTypes, neighbourTile.transition.to};
+                    } else {
+                        neighbourPathfindingTypes = new HashSet<string>[] {currentNode.pathfindingTypes};
+                    }
+                }
+                else {
+                    // army is transitioned
+                    if (neighbourTile.transitionReturn != null && currentNode.pathfindingTypes.IsSupersetOf(neighbourTile.transitionReturn.from)) {
+                        neighbourPathfindingTypes = new HashSet<string>[] {currentNode.pathfindingTypes, army.basePathfindingTypes};
+                    } else {
+                        neighbourPathfindingTypes = new HashSet<string>[] {currentNode.pathfindingTypes};
+                    }
+                }
+
+                foreach (HashSet<string> pathfindingType in neighbourPathfindingTypes) {
+
+                    if (neighbourTile.pathfindingTypes.Overlaps(pathfindingType)) {
+                        PathfindingNode neighbourNode = new PathfindingNode(neighbourPosition, pathfindingType);
+
+                        if (neighbourPosition == goal) {
+                            cameFrom[neighbourNode] = currentNode;
+                            return ReconstructPath(cameFrom, neighbourNode);
+                        }
+                        else if ((neighbourTile.owner == null || neighbourTile.owner == army.owner)) {
+
+                            // tentativeGScore is the distance from start to the neighbor through current
+                            int tentativeGScore = gScore[currentNode] + neighbourTile.moveCost;
+                            if (!gScore.ContainsKey(neighbourNode) || tentativeGScore < gScore[neighbourNode]) {
+                                // This path to neighbor is better than any previous one. Record it!
+                                cameFrom[neighbourNode] = currentNode;
+                                gScore[neighbourNode] = tentativeGScore;
+                                fScore[neighbourNode] = tentativeGScore + Heuristic(neighbourNode, goal);
+                                if (!openList.Contains(neighbourNode)) {
+                                    openList.Add(neighbourNode);
+                                }
+                            }
                         }
                     }
                 }
@@ -299,13 +350,9 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
         return positions;
     }
 
-    /// Returns true if it is possible to move in one step from startPosition to endPosition with the given pathfindingTypes
-    public bool CanMoveInOneStep(Position startPosition, Position endPosition, HashSet<string> pathfindingTypes)
+    /// Returns true if startPosition is adjacent to endPosition
+    public bool Adjacent(Position startPosition, Position endPosition)
     {
-        Tile targetTile = GetTile(endPosition);
-        if (!targetTile.pathfindingTypes.Overlaps(pathfindingTypes)) {
-            return false;
-        }
         if (!GetNeighbouringPositions(startPosition).Contains(endPosition)) {
             return false;
         }

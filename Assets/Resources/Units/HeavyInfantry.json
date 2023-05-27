@@ -2,10 +2,14 @@
     "name": "Heavy Infantry",
     "texture": "Assets/Resources/Units/HeavyInfantry.png",
     "maskTexture": "Assets/Resources/Units/HeavyInfantryMask.png",
-    "pathfindingTypes": ["land"],
     "strength": 4,
-    "move": 8,
     "upkeep": 2,
     "productionCost": 2,
-    "purchaseCost": 300
+    "purchaseCost": 300,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 8
+    }
 }

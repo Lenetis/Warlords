@@ -2,10 +2,14 @@
     "name": "Ghost",
     "texture": "Assets/Resources/Units/Ghost.png",
     "maskTexture": "Assets/Resources/Units/GhostMask.png",
-    "pathfindingTypes": ["land"],
     "strength": 7,
-    "move": 16,
     "upkeep": 7,
     "productionCost": 4,
-    "purchaseCost": 1000
+    "purchaseCost": 1000,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 16
+    }
 }

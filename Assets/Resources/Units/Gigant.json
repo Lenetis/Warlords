@@ -1,11 +1,15 @@
 {
     "name": "Gigant",
     "texture": "Assets/Resources/Units/Gigant.png",
-	"maskTexture": "Assets/Resources/Units/GigantMask.png",
-    "pathfindingTypes": ["land"],
+    "maskTexture": "Assets/Resources/Units/GigantMask.png",
     "strength": 6,
-    "move": 16,
     "upkeep": 5,
     "productionCost": 2,
-    "purchaseCost": 800
+    "purchaseCost": 800,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 16
+    }
 }

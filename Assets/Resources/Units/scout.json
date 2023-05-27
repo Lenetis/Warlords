@@ -2,10 +2,14 @@
     "name": "Scout",
     "texture": "Assets/Resources/Units/scout.png",
     "maskTexture": "Assets/Resources/Units/scoutMask.png",
-    "pathfindingTypes": ["land"],
     "strength": 1,
-    "move": 16,
     "upkeep": 1,
     "productionCost": 1,
-    "purchaseCost": 10
+    "purchaseCost": 10,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 16
+    }
 }

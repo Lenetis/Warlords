@@ -295,7 +295,7 @@ public class City : MultitileStructure, IOwnableMapObject
             baseFile = (string)baseAttributes.GetValue("baseFile");
         }
 
-        pathfinding = Pathfinding.FromJObject((JObject)baseAttributes.GetValue("pathfinding"));
+        pathfinding = PathfindingData.FromJObject((JObject)baseAttributes.GetValue("pathfinding"));
         
         income = (int)baseAttributes.GetValue("income");
         production = (int)baseAttributes.GetValue("production");
@@ -333,6 +333,6 @@ public class City : MultitileStructure, IOwnableMapObject
 
     public override string ToString()
     {
-        return name;
+        return name + $"{pathfinding.ToJObject()}";
     }
 }

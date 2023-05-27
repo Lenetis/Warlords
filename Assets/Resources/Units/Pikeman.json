@@ -2,10 +2,14 @@
     "name": "Pikeman",
     "texture": "Assets/Resources/Units/Pikeman.png",
     "maskTexture": "Assets/Resources/Units/PikemanMask.png",
-    "pathfindingTypes": ["land"],
     "strength": 4,
-    "move": 8,
     "upkeep": 2,
     "productionCost": 3,
-    "purchaseCost": 400
+    "purchaseCost": 400,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 8
+    }
 }

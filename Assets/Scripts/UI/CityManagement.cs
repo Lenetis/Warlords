@@ -92,7 +92,7 @@ public class CityManagement : MonoBehaviour
                 unitCityStats[1].text = "Time: "+selectedCity.producedUnit.productionCost.ToString();
                 unitCityStats[2].text = "Cost: " + selectedCity.producedUnit.upkeep.ToString();
                 unitCityStats[3].text = "Strength: " + selectedCity.producedUnit.strength.ToString();
-                unitCityStats[4].text = "Move: " + selectedCity.producedUnit.move.ToString();
+                unitCityStats[4].text = "Move: " + selectedCity.producedUnit.pathfinder.move.ToString();
                 unitCityStatsPanel.SetActive(true);
 
             }

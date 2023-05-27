@@ -31,11 +31,12 @@
           "baseFile": "Assets/Resources/Units/scout.json",
           "name": "Scout",
           "strength": 3,
-          "move": 18,
-          "remainingMove": 18,
-          "pathfindingTypes": [
-            "land"
-          ],
+          "pathfinder": {
+            "move": 16,
+            "pathfindingTypes": [
+              "land"
+            ]
+          },
           "upkeep": 3,
           "productionCost": 10,
           "purchaseCost": 10
@@ -53,33 +54,12 @@
           "baseFile": "Assets/Resources/Units/scout.json",
           "name": "Scout",
           "strength": 3,
-          "move": 18,
-          "remainingMove": 18,
-          "pathfindingTypes": [
-            "land"
-          ],
-          "upkeep": 3,
-          "productionCost": 10,
-          "purchaseCost": 10
-        }
-      ]
-    },
-    {
-      "owner": "Summoners",
-      "position": [
-        4,
-        5
-      ],
-      "units": [
-        {
-          "baseFile": "Assets/Resources/Units/scout.json",
-          "name": "Scout",
-          "strength": 3,
-          "move": 18,
-          "remainingMove": 18,
-          "pathfindingTypes": [
-            "land"
-          ],
+          "pathfinder": {
+            "move": 16,
+            "pathfindingTypes": [
+              "land"
+            ]
+          },
           "upkeep": 3,
           "productionCost": 10,
           "purchaseCost": 10
@@ -97,11 +77,12 @@
           "baseFile": "Assets/Resources/Units/scout.json",
           "name": "Scout",
           "strength": 3,
-          "move": 18,
-          "remainingMove": 18,
-          "pathfindingTypes": [
-            "land"
-          ],
+          "pathfinder": {
+            "move": 16,
+            "pathfindingTypes": [
+              "land"
+            ]
+          },
           "upkeep": 3,
           "productionCost": 10,
           "purchaseCost": 10
@@ -119,11 +100,12 @@
           "baseFile": "Assets/Resources/Units/knight.json",
           "name": "Knight",
           "strength": 4,
-          "move": 14,
-          "remainingMove": 14,
-          "pathfindingTypes": [
-            "land"
-          ],
+          "pathfinder": {
+            "move": 14,
+            "pathfindingTypes": [
+              "land"
+            ]
+          },
           "upkeep": 4,
           "productionCost": 30,
           "purchaseCost": 100
@@ -141,14 +123,52 @@
           "baseFile": "Assets/Resources/Units/knight.json",
           "name": "Knight",
           "strength": 4,
-          "move": 14,
-          "remainingMove": 14,
-          "pathfindingTypes": [
-            "land"
-          ],
+          "pathfinder": {
+            "move": 14,
+            "pathfindingTypes": [
+              "land"
+            ]
+          },
           "upkeep": 4,
           "productionCost": 30,
           "purchaseCost": 100
+        }
+      ]
+    },
+    {
+      "owner": "Summoners",
+      "position": [
+        7,
+        4
+      ],
+      "path": [
+        [
+          8,
+          5
+        ]
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/scout.json",
+          "name": "Scout",
+          "strength": 1,
+          "pathfinder": {
+            "move": 16,
+            "remainingMove": 13,
+            "pathfindingTypes": [
+              "land"
+            ]
+          },
+          "transitionPathfinder": {
+            "move": 10,
+            "remainingMove": 0,
+            "pathfindingTypes": [
+              "sea"
+            ]
+          },
+          "upkeep": 1,
+          "productionCost": 1,
+          "purchaseCost": 10
         }
       ]
     }
@@ -187,7 +207,21 @@
           "land",
           "sea",
           "air"
-        ]
+        ],
+        "transition": {
+          "from": [
+            "land"
+          ],
+          "to": [
+            "sea"
+          ],
+          "move": 10
+        },
+        "transitionReturn": {
+          "from": [
+            "sea"
+          ]
+        }
       },
       "income": 10,
       "production": 10,
@@ -237,7 +271,21 @@
           "land",
           "sea",
           "air"
-        ]
+        ],
+        "transition": {
+          "from": [
+            "land"
+          ],
+          "to": [
+            "sea"
+          ],
+          "move": 10
+        },
+        "transitionReturn": {
+          "from": [
+            "sea"
+          ]
+        }
       },
       "income": 10,
       "production": 10,
@@ -287,7 +335,21 @@
           "land",
           "sea",
           "air"
-        ]
+        ],
+        "transition": {
+          "from": [
+            "land"
+          ],
+          "to": [
+            "sea"
+          ],
+          "move": 10
+        },
+        "transitionReturn": {
+          "from": [
+            "sea"
+          ]
+        }
       },
       "income": 10,
       "production": 10,
@@ -337,7 +399,21 @@
           "land",
           "sea",
           "air"
-        ]
+        ],
+        "transition": {
+          "from": [
+            "land"
+          ],
+          "to": [
+            "sea"
+          ],
+          "move": 10
+        },
+        "transitionReturn": {
+          "from": [
+            "sea"
+          ]
+        }
       },
       "income": 10,
       "production": 10,
@@ -387,7 +463,21 @@
           "land",
           "sea",
           "air"
-        ]
+        ],
+        "transition": {
+          "from": [
+            "land"
+          ],
+          "to": [
+            "sea"
+          ],
+          "move": 10
+        },
+        "transitionReturn": {
+          "from": [
+            "sea"
+          ]
+        }
       },
       "income": 10,
       "production": 10,
@@ -437,7 +527,21 @@
           "land",
           "sea",
           "air"
-        ]
+        ],
+        "transition": {
+          "from": [
+            "land"
+          ],
+          "to": [
+            "sea"
+          ],
+          "move": 10
+        },
+        "transitionReturn": {
+          "from": [
+            "sea"
+          ]
+        }
       },
       "income": 10,
       "production": 10,
@@ -487,7 +591,21 @@
           "land",
           "sea",
           "air"
-        ]
+        ],
+        "transition": {
+          "from": [
+            "land"
+          ],
+          "to": [
+            "sea"
+          ],
+          "move": 10
+        },
+        "transitionReturn": {
+          "from": [
+            "sea"
+          ]
+        }
       },
       "income": 10,
       "production": 10,

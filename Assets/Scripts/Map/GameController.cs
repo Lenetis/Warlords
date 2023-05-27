@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public TileMap tileMap { get; private set; }
+    public TileMap tileMap {get; private set;}
 
     public float armyMoveDelay = 0.15f;
     private float currentArmyMoveDelay = 0;
 
-    public int turn { get; private set; } = 0;
+    public int turn {get; private set;} = 0;
     private int activePlayerIndex = 0;
     public Player activePlayer
     {
-        get { return players[activePlayerIndex]; }
+        get {return players[activePlayerIndex];}
     }
 
-    public List<Player> players { get; private set; }
-    public List<Army> armies { get; private set; }
-    public List<City> cities { get; private set; }
+    public List<Player> players {get; private set;}
+    public List<Army> armies {get; private set;}
+    public List<City> cities {get; private set;}
 
-    public List<Road> roads { get; private set; }
-    public List<Signpost> signposts { get; private set; }
+    public List<Road> roads {get; private set;}
+    public List<Signpost> signposts {get; private set;}
 
     private List<Army> movingArmies;
 
@@ -91,35 +91,28 @@ public class GameController : MonoBehaviour
     /// Update is called once per frame
     void Update()
     {
-        if (activeBattle != null)
-        {
+        if (activeBattle != null) {
             // a not-so-pretty way to check if the active battle has ended, probably a //todo
-            if (activeBattle.winner != null)
-            {
+            if (activeBattle.winner != null) {
                 activeBattle = null;
             }
 
             // stop all moving armies if a battle is in progress
-            while (movingArmies.Count > 0)
-            {
+            while (movingArmies.Count > 0) {
                 StopArmyMove(movingArmies[0]);
             }
         }
 
-        if (movingArmies.Count > 0)
-        {
-            if (currentArmyMoveDelay <= 0)
-            {
+        if (movingArmies.Count > 0) {
+            if (currentArmyMoveDelay <= 0) {
                 currentArmyMoveDelay = armyMoveDelay;
                 MoveArmies();
             }
-            else
-            {
+            else {
                 currentArmyMoveDelay -= Time.deltaTime;
             }
         }
-        else
-        {
+        else {
             currentArmyMoveDelay = 0;
         }
     }
@@ -127,12 +120,10 @@ public class GameController : MonoBehaviour
     /// Starts the army's automatic movement along its path
     public void StartArmyMove(Army army)
     {
-        if (!armies.Contains(army))
-        {
+        if (!armies.Contains(army)) {
             throw new System.ArgumentException($"Army does not exist in the game: {army}");
         }
-        if (!movingArmies.Contains(army))
-        {
+        if (!movingArmies.Contains(army)) {
             movingArmies.Add(army);
         }
     }
@@ -140,8 +131,7 @@ public class GameController : MonoBehaviour
     /// Stops the army's automatic movement along its path
     public void StopArmyMove(Army army)
     {
-        if (movingArmies.Contains(army))
-        {
+        if (movingArmies.Contains(army)) {
             movingArmies.Remove(army);
         }
     }
@@ -149,16 +139,13 @@ public class GameController : MonoBehaviour
     /// Moves every army from the movingArmies list by one step, if possible
     private void MoveArmies()
     {
-        for (int i = 0; i < movingArmies.Count; i += 1)
-        {
+        for (int i = 0; i < movingArmies.Count; i += 1) {
             bool success = movingArmies[i].MoveOneStep();
-            if (!success)
-            {
+            if (!success) {
                 movingArmies.RemoveAt(i);
                 i -= 1;
             }
-            if (activeBattle != null)
-            {
+            if (activeBattle != null) {
                 return;
             }
         }
@@ -179,8 +166,7 @@ public class GameController : MonoBehaviour
     /// Stops automatic movement of all moving armies and starts a battle between attacker and defender
     private void BattleStartedHandler(object sender, System.EventArgs args)
     {
-        if (activeBattle != null)
-        {
+        if (activeBattle != null) {
             // this should never happen, but let's throw an exception just in case
             throw new System.ArgumentException("Cannot start a battle while another battle is in progress");
         }
@@ -206,12 +192,10 @@ public class GameController : MonoBehaviour
     public void StructureCreatedHandler(object sender, System.EventArgs args)
     {
         // there will be a few such if statements, but I think that's better than having separate events and handlers for every kind of structure
-        if (sender as Road != null)
-        {
+        if (sender as Road != null) {
             roads.Add((Road)sender);
         }
-        else if (sender as Signpost != null)
-        {
+        else if (sender as Signpost != null) {
             signposts.Add((Signpost)sender);
         }
     }
@@ -220,12 +204,10 @@ public class GameController : MonoBehaviour
     public void StructureDestroyedHandler(object sender, System.EventArgs args)
     {
         // there will be a few such if statements, but I think that's better than having separate events and handlers for every kind of structure
-        if (sender as Road != null)
-        {
+        if (sender as Road != null) {
             roads.Remove((Road)sender);
         }
-        else if (sender as Signpost != null)
-        {
+        else if (sender as Signpost != null) {
             signposts.Remove((Signpost)sender);
         }
     }
@@ -233,10 +215,8 @@ public class GameController : MonoBehaviour
     /// Adds a new player to the list of players
     public void AddPlayer(Player newPlayer)
     {
-        foreach (Player player in players)
-        {
-            if (player.name == newPlayer.name)
-            {
+        foreach (Player player in players) {
+            if (player.name == newPlayer.name) {
                 throw new KeyNotFoundException($"Cannot add player. Player with name {newPlayer.name} already exists.");
             }
         }
@@ -246,10 +226,8 @@ public class GameController : MonoBehaviour
     /// Returns a player with the provided name. Throws KeyNotFoundException if no such player exists
     public Player GetPlayerByName(string playerName)
     {
-        foreach (Player player in players)
-        {
-            if (player.name == playerName)
-            {
+        foreach (Player player in players) {
+            if (player.name == playerName) {
                 return player;
             }
         }
@@ -260,14 +238,12 @@ public class GameController : MonoBehaviour
     public void Turn()
     {
         // don't allow the turn end if a battle is in progress, or there are units still moving
-        if (activeBattle != null || movingArmies.Count > 0)
-        {
+        if (activeBattle != null || movingArmies.Count > 0) {
             return;
         }
 
         activePlayerIndex += 1;
-        if (activePlayerIndex == players.Count)
-        {
+        if (activePlayerIndex == players.Count) {
             turn += 1;
             activePlayerIndex = 0;
         }
@@ -285,20 +261,16 @@ public class GameController : MonoBehaviour
     /// Removes all armies, cities, players, and structures from the game
     public void Clear()
     {
-        while (armies.Count > 0)
-        {
+        while (armies.Count > 0) {
             armies[0].Destroy();
         }
-        while (cities.Count > 0)
-        {
+        while (cities.Count > 0) {
             cities[0].Destroy();
         }
-        while (roads.Count > 0)
-        {
+        while (roads.Count > 0) {
             roads[0].Destroy();
         }
-        while (signposts.Count > 0)
-        {
+        while (signposts.Count > 0) {
             signposts[0].Destroy();
         }
         players.Clear();

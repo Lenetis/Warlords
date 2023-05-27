@@ -84,7 +84,6 @@ public class Battle
         if (winner == attackingPlayer) {
             City attackedCity = gameController.tileMap.GetTile(defender.position).structure as City;
             if (attackedCity != null) {
-                //attackedCity.Capture(attackingPlayer);
                 BattleEndedEventData eventData;
                 eventData.attackedCity = attackedCity;
                 eventData.attackingPlayer = attackingPlayer;

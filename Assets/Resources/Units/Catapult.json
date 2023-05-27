@@ -2,10 +2,14 @@
     "name": "Catapult",
     "texture": "Assets/Resources/Units/Catapult.png",
     "maskTexture": "Assets/Resources/Units/CatapultMask.png",
-    "pathfindingTypes": ["land"],
     "strength": 2,
-    "move": 16,
     "upkeep": 8,
     "productionCost": 4,
-    "purchaseCost": 500
+    "purchaseCost": 500,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 16
+    }
 }

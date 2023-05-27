@@ -1,11 +1,15 @@
 {
     "name": "Archer",
     "texture": "Assets/Resources/Units/Archer.png",
-	"maskTexture": "Assets/Resources/Units/ArcherMask.png",
-    "pathfindingTypes": ["land"],
+    "maskTexture": "Assets/Resources/Units/ArcherMask.png",
     "strength": 3,
-    "move": 12,
     "upkeep": 3,
     "productionCost": 2,
-    "purchaseCost": 400
+    "purchaseCost": 400,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 12
+    }
 }

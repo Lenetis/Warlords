@@ -19,6 +19,14 @@
     "strengthBonus": 2,
     "pathfinding": {
         "moveCost": 1,
-        "pathfindingTypes": ["land", "sea", "air"]
+        "pathfindingTypes": ["land", "sea", "air"],
+        "transition": {
+            "from": ["land"],
+            "to": ["sea"],
+            "move": 10
+        },
+        "transitionReturn": {
+            "from": ["sea"]
+        }
     }
 }

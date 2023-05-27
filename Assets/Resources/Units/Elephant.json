@@ -2,10 +2,14 @@
     "name": "Elephant",
     "texture": "Assets/Resources/Units/Elephant.png",
     "maskTexture": "Assets/Resources/Units/ElephantMask.png",
-    "pathfindingTypes": ["land"],
     "strength": 8,
-    "move": 16,
     "upkeep": 7,
     "productionCost": 4,
-    "purchaseCost": 1500
+    "purchaseCost": 1500,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 16
+    }
 }

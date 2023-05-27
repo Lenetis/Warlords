@@ -1,11 +1,16 @@
 {
     "name": "Griffin",
     "texture": "Assets/Resources/Units/Griffin.png",
-	"maskTexture": "Assets/Resources/Units/GriffinMask.png",
-    "pathfindingTypes": ["land", "air"],
+    "maskTexture": "Assets/Resources/Units/GriffinMask.png",
     "strength": 6,
-    "move": 20,
     "upkeep": 9,
     "productionCost": 3,
-    "purchaseCost": 1500
+    "purchaseCost": 1500,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land",
+            "air"
+        ],
+        "move": 20
+    }
 }

@@ -58,9 +58,9 @@ public class ArmyManagement : MonoBehaviour
             {
                 // todo this throws an IndexOutOfRangeException during battles, because movesAvailable.Length is equal to 0, even though selected army has more than 0 units.
                 //      I haven't checked why this happens, but it's probably related to "int armiesSize = 0;" in SelectArmy()
-                if (movesAvailable[i].text != mouseSelection.selectedArmy.units[i].remainingMove.ToString())
+                if (movesAvailable[i].text != mouseSelection.selectedArmy.units[i].pathfinder.remainingMove.ToString())
                 {
-                    movesAvailable[i].text = mouseSelection.selectedArmy.units[i].remainingMove.ToString();
+                    movesAvailable[i].text = mouseSelection.selectedArmy.units[i].pathfinder.remainingMove.ToString();
                 }
             }
         }
@@ -108,7 +108,7 @@ public class ArmyManagement : MonoBehaviour
                 unitsImage[counter].sprite = Sprite.Create(selectedArmies[i].units[j].texture, new Rect(0.0f, 0.0f, selectedArmies[i].units[j].texture.width, selectedArmies[i].units[j].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
 
                 movesAvailable[counter] = units[counter].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-                movesAvailable[counter].text = selectedArmies[i].units[j].remainingMove.ToString();
+                movesAvailable[counter].text = selectedArmies[i].units[j].pathfinder.remainingMove.ToString();
 
                 /////unitsCheckBox[counter] = units[counter].transform.GetChild(2).gameObject.GetComponent<Image>();
                 /////unitsCheckBox[counter].color = new Color(176f / 255f, 255f / 255f, 145f / 255f);

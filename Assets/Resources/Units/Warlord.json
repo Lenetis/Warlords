@@ -2,10 +2,14 @@
     "name": "Warlord",
     "texture": "Assets/Resources/Units/Warlord.png",
     "maskTexture": "Assets/Resources/Units/WarlordMask.png",
-    "pathfindingTypes": ["land"],
     "strength": 5,
-    "move": 14,
     "upkeep": 0,
     "productionCost": 30,
-    "purchaseCost": 100
+    "purchaseCost": 100,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 14
+    }
 }

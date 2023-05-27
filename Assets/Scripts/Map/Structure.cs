@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class Structure : MapObject
 {
-    public Pathfinding pathfinding {get; protected set;}
+    public PathfindingData pathfinding {get; protected set;}
 
-    public Structure(Position position, Pathfinding pathfinding=null) : base(position)
+    public Structure(Position position, PathfindingData pathfinding=null) : base(position)
     {
         this.pathfinding = pathfinding;
     }

@@ -2,10 +2,14 @@
     "name": "Spider",
     "texture": "Assets/Resources/Units/Spider.png",
     "maskTexture": "Assets/Resources/Units/SpiderMask.png",
-    "pathfindingTypes": ["land"],
     "strength": 5,
-    "move": 12,
     "upkeep": 6,
     "productionCost": 2,
-    "purchaseCost": 1000
+    "purchaseCost": 1000,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 12
+    }
 }

@@ -21,7 +21,24 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
             return totalUpkeep;
         }
     }
-    public HashSet<string> pathfindingTypes {get; private set;}
+
+    public HashSet<string> pathfindingTypes
+    {
+        get {
+            if (transitionPathfindingTypes != null) {
+                return transitionPathfindingTypes;
+            }
+            return basePathfindingTypes;
+        }
+    }
+    public bool isTransitioned
+    {
+        get {
+            return transitionPathfindingTypes != null;
+        }
+    }
+    public HashSet<string> basePathfindingTypes {get; private set;}
+    public HashSet<string> transitionPathfindingTypes {get; private set;}
     
     public List<Position> path {get; private set;}
     private IOwnableMapObject attackTarget;
@@ -57,6 +74,27 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         spriteRenderer.sortingOrder = 20;
         spriteRenderer.color = owner.color;
         spriteRenderer.material.SetTexture("_MaskTexture", strongestUnit.maskTexture);
+
+        if (isTransitioned) {
+            if (mapSprite.transform.Find("Boat") == null) {
+                GameObject boatMapSprite = new GameObject("Boat");
+                boatMapSprite.transform.SetParent(mapSprite.transform);
+                boatMapSprite.transform.localPosition = Vector3.zero;
+                SpriteRenderer boatSpriteRenderer = boatMapSprite.AddComponent<SpriteRenderer>();
+                //boatSpriteRenderer.material = new Material(Shader.Find("Shader Graphs/ColorMaskShader"));
+                Texture2D boatTexture = ResourceManager.LoadTexture("Assets/Resources/Units/Boat.png");  // todo, this path probably shouldn't be hardcoded
+                Sprite boatSprite = Sprite.Create(boatTexture, new Rect(0, 0, boatTexture.width, boatTexture.height), new Vector2(0, 0), 32);
+                boatSpriteRenderer.sprite = boatSprite;
+                boatSpriteRenderer.sortingOrder = 30;
+                //boatSpriteRenderer.color = owner.color;
+                //boatSpriteRenderer.material.SetTexture("_MaskTexture", strongestUnit.maskTexture);
+            }
+        }
+        else {
+            if (mapSprite.transform.Find("Boat") != null) {
+                GameObject.Destroy(mapSprite.transform.Find("Boat").gameObject);
+            }
+        }
     }
 
     /// Sorts the unit list from weakest to strongest and alphabetically in case of the same strength (todo change this when implementing custom unit orders)
@@ -75,12 +113,21 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
     /// Throws ArgumentException if no common pathfinding type exists.
     private void UpdatePathfindingTypes()
     {
-        pathfindingTypes = new HashSet<string>(units[0].pathfindingTypes);
+        basePathfindingTypes = new HashSet<string>(units[0].basePathfinder.pathfindingTypes);
+
         foreach (Unit unit in units.Skip(1)) {
-            pathfindingTypes.IntersectWith(unit.pathfindingTypes);
+            basePathfindingTypes.IntersectWith(unit.basePathfinder.pathfindingTypes);
         }
-        if (pathfindingTypes.Count == 0) {
+        if (basePathfindingTypes.Count == 0) {
             throw new System.ArgumentException($"No common pathfinding type exists in army {string.Join(", ", units)}");
+        }
+
+        // assuming here that either all units are transitioned or none. This will not always be the case. todo
+        if (units[0].isTransitioned) {
+            transitionPathfindingTypes = units[0].transitionPathfinder.pathfindingTypes;
+        }
+        else {
+            transitionPathfindingTypes = null;
         }
     }
 
@@ -145,8 +192,12 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         gameController.tileMap.GetTile(position).RemoveArmy(this);
 
         // todo remove this!!
-        for (int i = 0; i < mapSprite.transform.childCount; i += 1) {
-            mapSprite.transform.GetChild(0).SetParent(null);  // todo this is awful, unit rendering should be moved to a separate script
+        while (mapSprite.transform.childCount > 0) {
+            if (mapSprite.transform.GetChild(0).name == "Boat") {
+                GameObject.Destroy(mapSprite.transform.GetChild(0).gameObject);
+            }
+            mapSprite.transform.GetChild(0).SetParent(null);
+            // todo this whole loop is awful
         }
         GameObject.Destroy(mapSprite);
 
@@ -194,8 +245,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
 
     /// Sets army path to a new value. If the last step of the new path is an enemy unit, that unit becomes the army's attackTarget
     public void SetPath(List<Position> path)  // todo shouldn't this be in the path setter instead of a new method?
-    {        
-        // a non-null path has to start from the army position
+    {
         if (path == null || path.Count == 0) {
             this.path = null;
         } else {
@@ -221,14 +271,35 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         }
 
         Position nextPosition = path[0];
-        if (!gameController.tileMap.CanMoveInOneStep(position, nextPosition, pathfindingTypes)) {
-            Debug.LogError($"Cannot move army from {position} to {nextPosition}. Either the positions are not adjacent, or there is no matching pathfinding type.");
+        if (!gameController.tileMap.Adjacent(position, nextPosition)) {
+            Debug.LogError($"Cannot move army from {position} to {nextPosition}. Positions are not adjacent.");
             return false;
         }
 
-        Tile nextTile = gameController.tileMap.GetTile(nextPosition);
+        Tile currentTile = gameController.tileMap.GetTile(position);
+        Tile nextTile = gameController.tileMap.GetTile(nextPosition);        
+
+        bool canTransition = false;
+        if (!nextTile.pathfindingTypes.Overlaps(pathfindingTypes)) {
+            if (!isTransitioned && currentTile.transition != null) {
+                if (currentTile.transition.from.IsSubsetOf(pathfindingTypes)) {
+                    canTransition = true;
+                }
+            }
+            else if (isTransitioned && currentTile.transitionReturn != null) {
+                if (currentTile.transitionReturn.from.IsSubsetOf(pathfindingTypes)) {
+                    canTransition = true;
+                }
+            }
+
+            if (!canTransition) {
+                Debug.LogError($"Cannot move army from {position} to {nextPosition}. There are no matching pathfindingTypes and no pathfinding transitions are possible.");
+                return false;
+            }
+        }
+
         foreach (Unit unit in units) {
-            if (unit.remainingMove - nextTile.moveCost < 0) {
+            if (unit.pathfinder.remainingMove - nextTile.moveCost < 0) {
                 return false;
             }
         }
@@ -245,8 +316,6 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
             if (nextTile.owner == null || nextTile.owner == owner) {
                 //todo check if there is room for more units on the target tile
 
-                Tile currentTile = gameController.tileMap.GetTile(position);
-
                 ArmyMovedEventData eventData;
                 eventData.startPosition = position;
                 eventData.endPosition = nextPosition;
@@ -255,10 +324,28 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
                 nextTile.AddArmy(this);
                 position = nextPosition;
 
-                mapSprite.transform.position = nextPosition;  // todo this probably shouldn't be here
-                foreach (Unit unit in units) {
-                    unit.remainingMove -= nextTile.moveCost;
+                mapSprite.transform.position = nextPosition;
+
+                if (canTransition) {
+                    if (!isTransitioned) {
+                        foreach (Unit unit in units) {
+                            unit.Transition(currentTile.transition);
+                        }
+                    }
+                    else {
+                        foreach (Unit unit in units) {
+                            unit.TransitionReturn();
+                        }
+                    }
+                    UpdatePathfindingTypes();
+                    UpdateSprite();
                 }
+                else {
+                    foreach (Unit unit in units) {
+                        unit.pathfinder.remainingMove -= nextTile.moveCost;
+                    }
+                }
+
                 path.RemoveAt(0);
 
                 EventManager.OnArmyMoved(this, eventData);
@@ -310,7 +397,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         armyJObject.Add("owner", owner?.name);
         armyJObject.Add("position", new JArray(position.x, position.y));
 
-        if (path != null) {
+        if (path != null && path.Count > 0) {
             armyJObject.Add("path", new JArray(path.Select(position => new JArray(position.x, position.y))));
         }
         
@@ -338,6 +425,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
 
     public override string ToString()
     {
-        return $"[{string.Join(", ", units)}], PathfindingTypes={string.Join(", ", pathfindingTypes)}";
+        return $"[{string.Join(", ", units)}], BasePathfindingTypes={string.Join(", ", basePathfindingTypes)},"
+             + $"TransitionPathfindingTypes={(isTransitioned == true ? string.Join(", ", transitionPathfindingTypes) : "null")}";
     }
 }

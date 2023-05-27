@@ -1,10 +1,14 @@
 {
     "name": "Okoń",
     "texture": "Assets/Resources/Units/okoń.png",
-    "pathfindingTypes": ["sea"],
     "strength": 300000,
-    "move": 180,
     "upkeep": 50,
     "productionCost": 20,
-    "purchaseCost": 100
+    "purchaseCost": 100,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "sea"
+        ],
+        "move": 180
+    }
 }

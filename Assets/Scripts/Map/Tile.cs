@@ -52,10 +52,24 @@ public class Tile  // todo change to struct maybe?
     public HashSet<string> pathfindingTypes
     {
         get {
-            if (contents.structure != null && contents.structure.pathfinding != null) {
+            if (contents.structure?.pathfinding != null) {
                 return contents.structure.pathfinding.pathfindingTypes;
             }
             return data.pathfindingTypes; 
+        }
+    }
+
+    public PathfindingTransition transition
+    {
+        get {
+            return contents.structure?.pathfinding?.transition;
+        }
+    }
+
+    public PathfindingTransition transitionReturn
+    {
+        get {
+            return contents.structure?.pathfinding?.transitionReturn;
         }
     }
 

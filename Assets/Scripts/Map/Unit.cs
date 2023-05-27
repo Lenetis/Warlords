@@ -13,15 +13,30 @@ public class Unit
     public Texture2D maskTexture {get;}
 
     public int strength {get;}
-    public int move {get;}
-    public int remainingMove {get; set;}
-    public HashSet<string> pathfindingTypes {get;}
     public int upkeep {get;}
-    public int productionCost{get;}
-    public int purchaseCost{get;}
+    public int productionCost {get;}
+    public int purchaseCost {get;}
+
+    public PathfinderData pathfinder
+    {
+        get {
+            if (transitionPathfinder != null) {
+                return transitionPathfinder;
+            }
+            return basePathfinder;
+        }
+    }
+    public bool isTransitioned
+    {
+        get {
+            return transitionPathfinder != null;
+        }
+    }
+    public PathfinderData basePathfinder {get; private set;}
+    public PathfinderData transitionPathfinder {get; private set;}
     
     // todo change this constructor to use fewer arguments
-    public Unit(string baseFile, string name, Texture2D texture, Texture2D maskTexture, int strength, int move, int remainingMove, HashSet<string> pathfindingTypes, int upkeep, int productionCost, int purchaseCost)
+    public Unit(string baseFile, string name, Texture2D texture, Texture2D maskTexture, int strength, int upkeep, int productionCost, int purchaseCost, PathfinderData basePathfinder, PathfinderData transitionPathfinder)
     {
         this.baseFile = baseFile;
 
@@ -29,18 +44,32 @@ public class Unit
         this.texture = texture;
         this.maskTexture = maskTexture;
         this.strength = strength;
-        this.move = move;
-        this.remainingMove = remainingMove;
-        this.pathfindingTypes = pathfindingTypes;
         this.upkeep = upkeep;
         this.productionCost = productionCost;
         this.purchaseCost = purchaseCost;
+        this.basePathfinder = basePathfinder;
+        this.transitionPathfinder = transitionPathfinder;
     }
 
     /// Resets remaining movement points of this unit
     public void StartTurn()
     {
-        remainingMove = move;
+        pathfinder.ResetMove();
+    }
+
+    /// Transitions this unit's pathfinder to another move type (e.g. when entering water from a port)
+    public void Transition(PathfindingTransition transition)
+    {
+        // todo check if the transition's "from" pathfindingTypes match with the unit's
+        int newMove = transition.move == null ? pathfinder.move : (int)transition.move;
+        transitionPathfinder = new PathfinderData(newMove, 0, transition.to);
+    }
+
+    /// Returns this unit's pathfinder from another move type back to the base pathfinder (e.g. when returning to land from water from water)
+    public void TransitionReturn()
+    {
+        transitionPathfinder = null;
+        pathfinder.remainingMove = 0;
     }
 
     /// Serializes this unit into a JObject
@@ -54,9 +83,12 @@ public class Unit
 
         unitJObject.Add("name", name);
         unitJObject.Add("strength", strength);
-        unitJObject.Add("move", move);
-        unitJObject.Add("remainingMove", remainingMove);
-        unitJObject.Add("pathfindingTypes", new JArray(pathfindingTypes));
+
+        unitJObject.Add("pathfinder", basePathfinder.ToJObject());
+        if (isTransitioned) {
+            unitJObject.Add("transitionPathfinder", transitionPathfinder.ToJObject());
+        }
+
         unitJObject.Add("upkeep", upkeep);
         unitJObject.Add("productionCost", productionCost);
         unitJObject.Add("purchaseCost", purchaseCost);
@@ -85,31 +117,23 @@ public class Unit
         } else {
             maskTexture = Texture2D.whiteTexture;
         }
-        
-
-        HashSet<string> pathfindingTypes = new HashSet<string>();
-        foreach (string pathfindingType in attributes.GetValue("pathfindingTypes")) {
-            pathfindingTypes.Add(pathfindingType);
-        }
 
         int strength = (int)attributes.GetValue("strength");
-        int move = (int)attributes.GetValue("move");
         int upkeep = (int)attributes.GetValue("upkeep");
         int productionCost = (int)attributes.GetValue("productionCost");
         int purchaseCost = (int)attributes.GetValue("purchaseCost");
 
-        int remainingMove;
-        if (attributes.ContainsKey("remainingMove")) {
-            remainingMove = (int)attributes.GetValue("remainingMove");
-        } else {
-            remainingMove = move;
+        PathfinderData basePathfinder = PathfinderData.FromJObject((JObject)attributes.GetValue("pathfinder"));
+        PathfinderData transitionPathfinder = null;
+        if (attributes.ContainsKey("transitionPathfinder")) {
+            transitionPathfinder = PathfinderData.FromJObject((JObject)attributes.GetValue("transitionPathfinder"));
         }
 
-        return new Unit(baseFile, name, texture, maskTexture, strength, move, remainingMove, pathfindingTypes, upkeep, productionCost, purchaseCost);
+        return new Unit(baseFile, name, texture, maskTexture, strength, upkeep, productionCost, purchaseCost, basePathfinder, transitionPathfinder);
     }
 
     public override string ToString()
     {
-        return $"Unit(name = {name}, pathfindingTypes = [{string.Join(", ", pathfindingTypes)}], strength = {strength}, move = {move}, upkeep = {upkeep})";
+        return $"Unit(name = {name}, strength = {strength}, upkeep = {upkeep}, pathfinderData = {pathfinder})";
     }
 }

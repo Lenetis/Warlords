@@ -1,11 +1,16 @@
 {
     "name": "Warlord",
     "texture": "Assets/Resources/Units/GigantBat.png",
-	"maskTexture": "Assets/Resources/Units/GigantBatMask.png",
-    "pathfindingTypes": ["land", "air"],
+    "maskTexture": "Assets/Resources/Units/GigantBatMask.png",
     "strength": 1,
-    "move": 16,
     "upkeep": 2,
     "productionCost": 1,
-    "purchaseCost": 30
+    "purchaseCost": 30,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land",
+            "air"
+        ],
+        "move": 16
+    }
 }

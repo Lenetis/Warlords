@@ -1,11 +1,15 @@
 {
     "name": "Light Cavalry",
     "texture": "Assets/Resources/Units/LightCavalry.png",
-	"maskTexture": "Assets/Resources/Units/LightCavalryMask.png",
-    "pathfindingTypes": ["land"],
+    "maskTexture": "Assets/Resources/Units/LightCavalryMask.png",
     "strength": 3,
-    "move": 20,
     "upkeep": 3,
     "productionCost": 2,
-    "purchaseCost": 300
+    "purchaseCost": 300,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 20
+    }
 }

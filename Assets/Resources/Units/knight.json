@@ -1,10 +1,14 @@
 {
     "name": "Knight",
     "texture": "Assets/Resources/Units/knight.png",
-    "pathfindingTypes": ["land"],
     "strength": 4,
-    "move": 14,
     "upkeep": 4,
     "productionCost": 30,
-    "purchaseCost": 100
+    "purchaseCost": 100,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 14
+    }
 }
