@@ -121,12 +121,12 @@ public class City : MultitileStructure, IOwnableMapObject
     public void Capture(Player newOwner)
     {
         producing = false;
-        owner = newOwner;
-
-        UpdateSprite();
 
         owner.RemoveCity(this);
+        owner = newOwner;
         newOwner.AddCity(this);
+
+        UpdateSprite();
 
         EventManager.OnCityCaptured(this);
     }
