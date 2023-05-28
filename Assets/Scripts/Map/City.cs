@@ -174,6 +174,7 @@ public class City : MultitileStructure, IOwnableMapObject
                         producing = false;
                     }
                 }
+                EventManager.OnUnitBought(this, unit);
             }
             else {
                 throw new System.ArgumentException("Cannot buy a unit that has already been bought");

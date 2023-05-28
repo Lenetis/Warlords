@@ -203,16 +203,13 @@ public class CityManagement : MonoBehaviour
         else
         {
             selectedCity.BuyUnit(selectedCity.buyableUnits[index], 3);
-            EventManager.OnUnitBuilt(this);
             ShowCityPanel(2);
         }
-        // also also todo, refresh the amount of gold in UI after the unit has been bought
     }
 
     public void ReplaceUnit(int index)
     {
         selectedCity.BuyUnit(selectedCity.buyableUnits[buyIndex], index);
-        EventManager.OnUnitBuilt(this);
 
         for (int i = 0; i < replaceableUnits.Length; i++)
         {

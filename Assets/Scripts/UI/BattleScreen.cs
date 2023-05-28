@@ -6,6 +6,8 @@ using TMPro;
 
 public class BattleScreen : MonoBehaviour
 {
+    private static GameController gameController;
+
     public GameObject battlePanel;
     public GameObject animationPanel;
     public GameObject actionPanel;
@@ -45,14 +47,14 @@ public class BattleScreen : MonoBehaviour
 
     void Awake()
     {
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+
         EventManager.BattleStartedEvent += BattleStartedHandler;
-        EventManager.BattleEndedEvent += GetActionInfoHandler;
     }
 
     void OnDestroy()
     {
         EventManager.BattleStartedEvent -= BattleStartedHandler;
-        EventManager.BattleEndedEvent -= GetActionInfoHandler;
     }
 
     // Start is called before the first frame update
@@ -116,7 +118,6 @@ public class BattleScreen : MonoBehaviour
                         armyManagement.RefreshSelection();
                         Debug.Log($"Battle ended. Winner = {winner}");
                         winInfo.text = info;
-                        //EventManager.OnBattleEnded(this);
                     }
                     currentTurnDelay -= turnDelay;
                     boool = true;
@@ -137,7 +138,7 @@ public class BattleScreen : MonoBehaviour
                     Destroy(defenderUnits[i]);
                 }
 
-                if (attackedCity != null)
+                if (attackedCity != null && winner == attackingPlayer)
                 {
                     animationPanel.SetActive(false);
                     actionPanel.SetActive(true);
@@ -151,9 +152,19 @@ public class BattleScreen : MonoBehaviour
 
     private void BattleStartedHandler(object sender, System.EventArgs args)
     {
+        boool = true;  // I have literally no idea what this does
+        attackerUnits.Clear();
+        defenderUnits.Clear();
+        
+        actionPanel.SetActive(false);
+        animationPanel.SetActive(true);
         battlePanel.SetActive(true);
+
         winInfo.text = "";
         battle = (Battle)sender;
+
+        attackingPlayer = battle.attackingPlayer;
+        attackedCity = (gameController.tileMap.GetTile(battle.defender.position).structure) as City;
     }
 
     private void UpdateUnitImages(List<Unit> units, List<GameObject> unitImages, GameObject unitPanel)
@@ -211,11 +222,5 @@ public class BattleScreen : MonoBehaviour
     public void PillageCity()
     {
         //todo
-    }
-
-    public void GetActionInfoHandler(object sender, BattleEndedEventData eventData)
-    {
-        attackingPlayer = eventData.attackingPlayer;
-        attackedCity = eventData.attackedCity;
     }
 }

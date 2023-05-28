@@ -8,7 +8,7 @@ public class Battle
 
     private static GameController gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
-    private IOwnableMapObject defender;
+    public IOwnableMapObject defender {get; private set;}
 
     public List<Unit> attackingUnits {get; private set;}
     public List<Unit> defendingUnits {get; private set;}
@@ -50,19 +50,17 @@ public class Battle
 
         deadUnits = new HashSet<Unit>();
 
-        if (defendingUnits.Count == 0) {
-            winner = attackingPlayer;
-        } else {
-            winner = null;
-        }
-
         EventManager.OnBattleStarted(this);
     }
 
     /// Calculates a single turn of the battle. Returns winner if battle is over and null if it is not.
     public Player Turn()
     {
-        if (winner == null) {
+        if (winner != null) {
+            throw new System.ArgumentException("Cannot make another turn in battle. The battle has already ended.");
+        }
+
+        if (defendingUnits.Count != 0 && attackingUnits.Count != 0) {
             if (Random.Range(0, attackingUnits[0].strength + defendingUnits[0].strength) < attackingUnits[0].strength) {
                 Debug.Log($"Defender {defendingUnits[0]} died");
                 deadUnits.Add(defendingUnits[0]);
@@ -81,14 +79,8 @@ public class Battle
         }
         RemoveDeadUnits();
 
-        if (winner == attackingPlayer) {
-            City attackedCity = gameController.tileMap.GetTile(defender.position).structure as City;
-            if (attackedCity != null) {
-                BattleEndedEventData eventData;
-                eventData.attackedCity = attackedCity;
-                eventData.attackingPlayer = attackingPlayer;
-                EventManager.OnBattleEnded(this, eventData);
-            }
+        if (winner != null) {
+            EventManager.OnBattleEnded(this);
         }
 
         Debug.Log($"{attackingUnits.Count} vs {defendingUnits.Count} --- {winner}");

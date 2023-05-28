@@ -16,21 +16,14 @@ public struct TileMapResizedEventData
     public int newHeight;
 }
 
-public struct BattleEndedEventData
-{
-    public City attackedCity;
-    public Player attackingPlayer;
-}
-
 public static class EventManager
 {
     public static event System.EventHandler<ArmyMovedEventData> ArmyMovedEvent;
     public static event System.EventHandler ArmyCreatedEvent;
     public static event System.EventHandler ArmyDestroyedEvent;
+    public static event System.EventHandler BattleEndedEvent;
     public static event System.EventHandler BattleStartedEvent;
-    public static event System.EventHandler<BattleEndedEventData> BattleEndedEvent;
     public static event System.EventHandler CityCapturedEvent;
-    public static event System.EventHandler UnitBuiltEvent;
     public static event System.EventHandler CityCreatedEvent;
     public static event System.EventHandler CityDestroyedEvent;
     public static event System.EventHandler CityRazedEvent;
@@ -38,6 +31,7 @@ public static class EventManager
     public static event System.EventHandler StructureDestroyedEvent;
     public static event System.EventHandler<TileMapResizedEventData> TileMapResizedEvent;
     public static event System.EventHandler TurnEvent;
+    public static event System.EventHandler<Unit> UnitBoughtEvent;
 
 
     public static void OnArmyMoved(object sender, ArmyMovedEventData eventData) {
@@ -52,20 +46,16 @@ public static class EventManager
         ArmyDestroyedEvent?.Invoke(sender, System.EventArgs.Empty);
     }
 
+    public static void OnBattleEnded(object sender) {
+        BattleEndedEvent?.Invoke(sender, System.EventArgs.Empty);
+    }
+
     public static void OnBattleStarted(object sender) {
         BattleStartedEvent?.Invoke(sender, System.EventArgs.Empty);
-    }
-    public static void OnBattleEnded(object sender, BattleEndedEventData eventData)
-    {
-        BattleEndedEvent?.Invoke(sender, eventData);
     }
 
     public static void OnCityCaptured(object sender) {
         CityCapturedEvent?.Invoke(sender, System.EventArgs.Empty);
-    }
-    public static void OnUnitBuilt(object sender)
-    {
-        UnitBuiltEvent?.Invoke(sender, System.EventArgs.Empty);
     }
 
     public static void OnCityCreated(object sender) {
@@ -94,5 +84,9 @@ public static class EventManager
 
     public static void OnTurn(object sender) {
         TurnEvent?.Invoke(sender, System.EventArgs.Empty);
+    }
+
+    public static void OnUnitBought(object sender, Unit unit) {
+        UnitBoughtEvent?.Invoke(sender, unit);
     }
 }

@@ -27,17 +27,12 @@ public class GameController : MonoBehaviour
 
     private Battle activeBattle;
 
-    private TurnInfoDisplay turnInfoDisplay;  // todo remove this, replace with a main UI Controller object
-    private ResourcesDisplay resourcesDisplay;  // todo remove this, replace with a main UI Controller object
-
     void Awake()
     {
         EventManager.ArmyCreatedEvent += ArmyCreatedHandler;
         EventManager.ArmyDestroyedEvent += ArmyDestroyedHandler;
 
         EventManager.BattleStartedEvent += BattleStartedHandler;
-        EventManager.BattleEndedEvent += UpdateResourcesHandler;
-        EventManager.UnitBuiltEvent += UpdateResourcesHandler;
 
         EventManager.CityCreatedEvent += CityCreatedHandler;
         EventManager.CityDestroyedEvent += CityDestroyedHandler;
@@ -52,8 +47,6 @@ public class GameController : MonoBehaviour
         EventManager.ArmyDestroyedEvent -= ArmyDestroyedHandler;
 
         EventManager.BattleStartedEvent -= BattleStartedHandler;
-        EventManager.BattleEndedEvent -= UpdateResourcesHandler;
-        EventManager.UnitBuiltEvent -= UpdateResourcesHandler;
 
         EventManager.CityCreatedEvent -= CityCreatedHandler;
         EventManager.CityDestroyedEvent -= CityDestroyedHandler;
@@ -80,12 +73,7 @@ public class GameController : MonoBehaviour
 
         ResourceManager.LoadGame("save.json");
 
-        turnInfoDisplay = GameObject.Find("Main").GetComponent<TurnInfoDisplay>();
-        resourcesDisplay = GameObject.Find("Main").GetComponent<ResourcesDisplay>();
-
-        resourcesDisplay.UpdateResources(activePlayer.cities.Count, activePlayer.gold, activePlayer.income, activePlayer.upkeep);
-
-        turnInfoDisplay.showTurnInfo(activePlayer.name, turn + 1);
+        EventManager.OnTurn(this);
     }
 
     /// Update is called once per frame
@@ -250,10 +238,7 @@ public class GameController : MonoBehaviour
 
         Debug.Log(activePlayer.name + " Turn " + (turn + 1));
 
-        // remove these lines when turnEvent handler is added
-        turnInfoDisplay.showTurnInfo(activePlayer.name, turn + 1);
         activePlayer.StartTurn();
-        resourcesDisplay.UpdateResources(activePlayer.cities.Count, activePlayer.gold, activePlayer.income, activePlayer.upkeep);
 
         EventManager.OnTurn(this);
     }
@@ -274,15 +259,5 @@ public class GameController : MonoBehaviour
             signposts[0].Destroy();
         }
         players.Clear();
-    }
-
-    public void UpdateResourcesHandler(object sender, System.EventArgs args)
-    {
-        resourcesDisplay.UpdateResources(activePlayer.cities.Count, activePlayer.gold, activePlayer.income, activePlayer.upkeep);
-    }
-
-    public void UpdateResourcesHandler(object sender, BattleEndedEventData args)
-    {
-        resourcesDisplay.UpdateResources(activePlayer.cities.Count, activePlayer.gold, activePlayer.income, activePlayer.upkeep);
     }
 }
