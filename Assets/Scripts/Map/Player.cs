@@ -143,6 +143,8 @@ public class Player
         playerJObject.Add("color", ColorUtility.ToHtmlStringRGB(color));
         playerJObject.Add("gold", gold);
 
+        ResourceManager.Minimize(playerJObject);
+
         return playerJObject;
     }
 

@@ -66,6 +66,8 @@ public class Signpost : Structure
         signpostJObject.Add("name", name);
         signpostJObject.Add("description", description);
 
+        ResourceManager.Minimize(signpostJObject);
+
         return signpostJObject;
     }
 

@@ -61,6 +61,8 @@ public class Road : Structure
 
         roadJObject.Add("pathfinding", pathfinding.ToJObject());
 
+        ResourceManager.Minimize(roadJObject);
+
         return roadJObject;
     }
 

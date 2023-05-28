@@ -256,6 +256,7 @@ public class City : MultitileStructure, IOwnableMapObject
                 cityJObject.Add("productionProgress", productionProgress);
             }
         }
+        ResourceManager.Minimize(cityJObject);
 
         return cityJObject;
     }

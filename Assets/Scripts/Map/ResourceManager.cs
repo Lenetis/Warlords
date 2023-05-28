@@ -66,6 +66,30 @@ public static class ResourceManager
         }
     }
 
+    /// Removes from the resource all fields that have the same content as in the base file
+    public static void Minimize(JObject resource)
+    {
+        if (resource.ContainsKey("baseFile")) {
+            string baseFilePath = (string)resource.GetValue("baseFile");
+            JObject baseResource = LoadResource(baseFilePath);
+            ExpandWithBaseFile(baseResource);
+
+            List<string> propertiesToRemove = new List<string>();
+
+            foreach (JProperty property in resource.Properties()) {
+                if (baseResource.ContainsKey(property.Name) && property.Name != "baseFile") {
+                    if (JToken.DeepEquals(baseResource.GetValue(property.Name), resource.GetValue(property.Name))) {
+                        propertiesToRemove.Add(property.Name);
+                    }
+                }
+            }
+
+            foreach (string propertyName in propertiesToRemove) {
+                resource.Remove(propertyName);
+            }
+        }
+    }
+
     /// Saves the game into a json file named fileName
     public static void SaveGame(string fileName)
     {

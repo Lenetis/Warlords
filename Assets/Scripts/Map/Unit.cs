@@ -93,6 +93,8 @@ public class Unit
         unitJObject.Add("productionCost", productionCost);
         unitJObject.Add("purchaseCost", purchaseCost);
 
+        ResourceManager.Minimize(unitJObject);
+
         return unitJObject;
     }
 
