@@ -1,0 +1,7 @@
+{
+    "texture": "Assets/Resources/Structures/bridge.png",
+    "pathfinding": {
+        "moveCost": 1,
+        "pathfindingTypes": ["land", "sea", "air"]
+    }
+}

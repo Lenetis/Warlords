@@ -104,6 +104,7 @@ public static class ResourceManager
 
         save.Add("roads", new JArray(gameController.roads.Select(road => road.ToJObject())));
         save.Add("signposts", new JArray(gameController.signposts.Select(signpost => signpost.ToJObject())));
+        save.Add("ports", new JArray(gameController.ports.Select(port => port.ToJObject())));
 
         save.Add("tileMap", gameController.tileMap.ToJObject());
 
@@ -140,6 +141,10 @@ public static class ResourceManager
         foreach (JObject signpostJObject in loadJObject.GetValue("signposts")) {
             Signpost signpost = Signpost.FromJObject(signpostJObject);
             signpost.AddToGame();
+        }
+        foreach (JObject portJObject in loadJObject.GetValue("ports")) {
+            Port port = Port.FromJObject(portJObject);
+            port.AddToGame();
         }
         Debug.Log("Loaded!");
     }

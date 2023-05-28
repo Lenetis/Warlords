@@ -22,6 +22,7 @@ public class GameController : MonoBehaviour
 
     public List<Road> roads {get; private set;}
     public List<Signpost> signposts {get; private set;}
+    public List<Port> ports {get; private set;}
 
     private List<Army> movingArmies;
 
@@ -66,6 +67,7 @@ public class GameController : MonoBehaviour
 
         roads = new List<Road>();
         signposts = new List<Signpost>();
+        ports = new List<Port>();
 
         movingArmies = new List<Army>();
 
@@ -186,6 +188,9 @@ public class GameController : MonoBehaviour
         else if (sender as Signpost != null) {
             signposts.Add((Signpost)sender);
         }
+        else if (sender as Port != null) {
+            ports.Add((Port)sender);
+        }
     }
 
     /// Removes the structure from the corresponding structure list
@@ -197,6 +202,9 @@ public class GameController : MonoBehaviour
         }
         else if (sender as Signpost != null) {
             signposts.Remove((Signpost)sender);
+        }
+        else if (sender as Port != null) {
+            ports.Remove((Port)sender);
         }
     }
 
@@ -257,6 +265,9 @@ public class GameController : MonoBehaviour
         }
         while (signposts.Count > 0) {
             signposts[0].Destroy();
+        }
+        while (ports.Count > 0) {
+            ports[0].Destroy();
         }
         players.Clear();
     }

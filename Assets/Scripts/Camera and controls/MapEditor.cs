@@ -58,6 +58,9 @@ public class MapEditor : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha5)) {
             PlaceSignposts();
         }
+        if (Input.GetKeyDown(KeyCode.Alpha6)) {
+            PlacePorts();
+        }
         if (Input.GetKey(KeyCode.Delete)) {
             ClearTiles();
         }
@@ -147,7 +150,13 @@ public class MapEditor : MonoBehaviour
     private void PlaceRoads()
     {
         foreach (Position symmetryPosition in GetSymmetryPositions(mouseSelection.highlightedPosition)) {
-            Road road = new Road(ResourceManager.LoadResource("Assets/Resources/Structures/road.json"), symmetryPosition);
+            Road road;
+            if (gameController.tileMap.GetTile(symmetryPosition).pathfindingTypes.Contains("sea")) {
+                road = new Road(ResourceManager.LoadResource("Assets/Resources/Structures/bridge.json"), symmetryPosition);
+            } else {
+                road = new Road(ResourceManager.LoadResource("Assets/Resources/Structures/road.json"), symmetryPosition);
+            }
+            
             if (road.CanAddToGame()) {
                 road.AddToGame();
             }
@@ -161,6 +170,17 @@ public class MapEditor : MonoBehaviour
             Signpost signpost = new Signpost(ResourceManager.LoadResource("Assets/Resources/Structures/signpost.json"), symmetryPosition, "Editor Signpost", $"{symmetryPosition}");
             if (signpost.CanAddToGame()) {
                 signpost.AddToGame();
+            }
+        }
+    }
+
+    /// Places selected port on the tileMap. Works with symmetry
+    private void PlacePorts()
+    {
+        foreach (Position symmetryPosition in GetSymmetryPositions(mouseSelection.highlightedPosition)) {
+            Port port = new Port(ResourceManager.LoadResource("Assets/Resources/Structures/port.json"), symmetryPosition);
+            if (port.CanAddToGame()) {
+                port.AddToGame();
             }
         }
     }

@@ -1152,6 +1152,286 @@
         43,
         24
       ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        29,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        50,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        29,
+        28
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        50,
+        21
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        29,
+        27
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        50,
+        22
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        29,
+        26
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        50,
+        23
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        29,
+        25
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        50,
+        24
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        29,
+        24
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        50,
+        25
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        29,
+        23
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        50,
+        26
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        28,
+        23
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        51,
+        26
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        27,
+        23
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        52,
+        26
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        27,
+        22
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        52,
+        27
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        26,
+        22
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        53,
+        27
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        25,
+        22
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        54,
+        27
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        25,
+        21
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        54,
+        28
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        24,
+        21
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        55,
+        28
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        24,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        55,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        19
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        18
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        31
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        17
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        32
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        24,
+        17
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        55,
+        32
+      ]
     }
   ],
   "signposts": [
@@ -1172,6 +1452,22 @@
       ],
       "name": "Editor Signpost",
       "description": "Position(72, 46)"
+    }
+  ],
+  "ports": [
+    {
+      "baseFile": "Assets/Resources/Structures/port.json",
+      "position": [
+        25,
+        17
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/port.json",
+      "position": [
+        54,
+        32
+      ]
     }
   ],
   "tileMap": {
