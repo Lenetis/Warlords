@@ -7,6 +7,7 @@ public class ButtonRightClick : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public CursorInfo cursorInfo;
     public string buttonName;
     public string buttonDescription;
+    public int mode=1;
 
     void Start()
     {
@@ -18,7 +19,7 @@ public class ButtonRightClick : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         if (eventData.button == PointerEventData.InputButton.Right)
         {
             //Debug.Log("Right click");
-            cursorInfo.mode = 1;
+            cursorInfo.mode = mode;
             cursorInfo.buttonName = buttonName;
             cursorInfo.buttonDescription = buttonDescription;
         }

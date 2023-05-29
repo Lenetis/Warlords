@@ -101,10 +101,10 @@ public class ResourcesDisplay : MonoBehaviour
 
     private void UpdateResources()
     {
-        resources[0].text = "Noc: "+ gameController.activePlayer.cities.Count.ToString();
-        resources[1].text = "YT: " + gameController.activePlayer.gold.ToString();
-        resources[2].text = "YI: " + gameController.activePlayer.income.ToString();
-        resources[3].text = "YU: " + gameController.activePlayer.upkeep.ToString();
+        resources[0].text = gameController.activePlayer.cities.Count.ToString();
+        resources[1].text = gameController.activePlayer.gold.ToString() + "gp";
+        resources[2].text = gameController.activePlayer.income.ToString() + "gp";
+        resources[3].text = gameController.activePlayer.upkeep.ToString() + "gp";
         Debug.Log("Resources updated");
     }
 }

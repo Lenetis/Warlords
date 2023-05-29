@@ -26,10 +26,15 @@ public class CursorInfo : MonoBehaviour
     public string buttonName;
     public string buttonDescription;
 
+    public GameObject cityStats;
+
     public GameObject unitImage;
     public GameObject[] selectedUnits;
     public GameController gameController;
     public UIController uiController;
+
+    public GameObject stone;
+    public GameObject wood;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +52,7 @@ public class CursorInfo : MonoBehaviour
     
         //Debug.Log(dispAreaOriginX+" "+Input.mousePosition.x);
 
-        if (Input.GetMouseButton(1) && mouseSelection.isOverDispArea && uiController.controllsAvailable() || mode==1)
+        if (Input.GetMouseButton(1) && mouseSelection.isOverDispArea && uiController.controllsAvailable() || mode==1 || mode==2)
         {
             Debug.Log(mouseSelection.highlightedTile);
             correctionY = 0;
@@ -93,6 +98,15 @@ public class CursorInfo : MonoBehaviour
                 {
                     if (mouseSelection.highlightedTile.armies != null && mouseSelection.highlightedTile.armies[0].owner==gameController.activePlayer)
                     {
+                        cityStats.SetActive(false);
+                        if (wood.activeSelf)
+                        {
+                            wood.SetActive(false);
+                        }
+                        if (!stone.activeSelf)
+                        {
+                            stone.SetActive(true);
+                        }
                         objectName.text = "";
                         objectDescription.text = "";
 
@@ -131,28 +145,83 @@ public class CursorInfo : MonoBehaviour
                     }
                     else if (mouseSelection.highlightedTile.structure as City != null)
                     {
+                        cityStats.SetActive(false);
+                        if (wood.activeSelf)
+                        {
+                            wood.SetActive(false);
+                        }
+                        if (!stone.activeSelf)
+                        {
+                            stone.SetActive(true);
+                        }
+
                         City city = (City)mouseSelection.highlightedTile.structure;
                         objectName.text = city.name;
                         objectDescription.text = city.description;
                     }
                     else if (mouseSelection.highlightedTile.structure as Signpost != null)
                     {
+                        cityStats.SetActive(false);
+                        if (stone.activeSelf)
+                        {
+                            stone.SetActive(false);
+                        }
+                        if (!wood.activeSelf)
+                        {
+                            wood.SetActive(true);
+                        }
+
                         Signpost signpost = (Signpost)mouseSelection.highlightedTile.structure;
                         objectName.text = signpost.name;
                         objectDescription.text = signpost.description;
                     }
                     else
                     {
+                        cityStats.SetActive(false);
+                        if (wood.activeSelf)
+                        {
+                            wood.SetActive(false);
+                        }
+                        if (!stone.activeSelf)
+                        {
+                            stone.SetActive(true);
+                        }
+
                         objectName.text = mouseSelection.highlightedTile.data.name;
                         objectDescription.text = mouseSelection.highlightedTile.data.description;
                     }
                 }
                 else if(mode==1)
                 {
+                    cityStats.SetActive(false);
+                    if (wood.activeSelf)
+                    {
+                        wood.SetActive(false);
+                    }
+                    if (!stone.activeSelf)
+                    {
+                        stone.SetActive(true);
+                    }
                     objectName.text = buttonName;
                     objectDescription.text = buttonDescription;
                 }
-                
+                else if (mode == 2)
+                {
+                    cityStats.SetActive(true);
+                    objectDescription.text = "";
+
+                    if (wood.activeSelf)
+                    {
+                        wood.SetActive(false);
+                    }
+                    if (!stone.activeSelf)
+                    {
+                        stone.SetActive(true);
+                    }
+                    objectName.text = buttonName;
+                    cityStats.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = buttonDescription;
+                }
+
 
                 //Debug.Log(gameObject.GetComponent<RectTransform>().anchoredPosition.x * gui.GetComponent<Canvas>().scaleFactor);
                 infoPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2((Input.mousePosition.x + correctionX) - Screen.width / 2, (Input.mousePosition.y + correctionY) - Screen.height / 2) / gui.GetComponent<Canvas>().scaleFactor;

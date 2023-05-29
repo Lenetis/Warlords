@@ -38,17 +38,21 @@ public class CityManagement : MonoBehaviour
     public Image[] replaceableUnitsImage;
     private int buyIndex;
 
+    public TextMeshProUGUI purchaseWarning;
+
     //CI
 
     public TMP_InputField cityNameInput;
     public TextMeshProUGUI cityDescripton;
 
     public UIController uiController;
+    public GameController gameController;
 
     // Start is called before the first frame update
     void Start()
     {
         uiController=GameObject.Find("UIController").GetComponent<UIController>();
+        gameController = FindObjectOfType<GameController>();
     }
 
     // Update is called once per frame
@@ -58,6 +62,7 @@ public class CityManagement : MonoBehaviour
     }
     public void SelectCity(City selectedCity)
     {
+        
         this.selectedCity = selectedCity;
         cityName.text = selectedCity.name;
         cityDescripton.text = selectedCity.description;
@@ -78,10 +83,23 @@ public class CityManagement : MonoBehaviour
         }
         else
         {
-            for (int i = 1; i < navButtons.Length; i++)
+            if (selectedCity.owner == gameController.activePlayer)
             {
-                navButtons[i].interactable = true;
+                for (int i = 1; i < navButtons.Length; i++)
+                {
+                    navButtons[i].interactable = true;
+                }
             }
+            else
+            {
+                for (int i = 1; i < navButtons.Length; i++)
+                {
+                    navButtons[i].interactable = false;
+                }
+
+                ShowCityPanel(0);
+            }
+            
 
             if (selectedCity.producing)
             {
@@ -175,7 +193,7 @@ public class CityManagement : MonoBehaviour
         //Debug.Log("count: " + selectedCity.buyableUnits.Count);
         if (selectedCity.buildableUnits.Count >= 4)
         {
-            if (!selectedCity.buildableUnits.Any(buildableUnit => buildableUnit.baseFile == selectedCity.buyableUnits[buyIndex].baseFile))
+            if (!selectedCity.buildableUnits.Any(buildableUnit => buildableUnit.baseFile == selectedCity.buyableUnits[buyIndex].baseFile) && selectedCity.owner.gold >= selectedCity.buyableUnits[buyIndex].purchaseCost)
             {
                 ShowCityPanel(8);
 
@@ -198,12 +216,43 @@ public class CityManagement : MonoBehaviour
                     }
                 }
             }
+            else
+            {
+                string warning="";
+
+                if (selectedCity.owner.gold < selectedCity.buyableUnits[buyIndex].purchaseCost)
+                {
+                    warning = "More gold required";
+                }
+                if (selectedCity.buildableUnits.Any(buildableUnit => buildableUnit.baseFile == selectedCity.buyableUnits[buyIndex].baseFile))
+                {
+                    warning = "Cannot buy a unit that has already been bought";
+                }
+                purchaseWarning.text = warning;
+            }
             
         }
         else
         {
-            selectedCity.BuyUnit(selectedCity.buyableUnits[index], 3);
-            ShowCityPanel(2);
+            if (!selectedCity.buildableUnits.Any(buildableUnit => buildableUnit.baseFile == selectedCity.buyableUnits[buyIndex].baseFile) && selectedCity.owner.gold >= selectedCity.buyableUnits[buyIndex].purchaseCost)
+            {
+                selectedCity.BuyUnit(selectedCity.buyableUnits[index], 3);
+                ShowCityPanel(2);
+            }
+            else
+            {
+                string warning = "";
+
+                if (selectedCity.owner.gold < selectedCity.buyableUnits[buyIndex].purchaseCost)
+                {
+                    warning = "More gold required";
+                }
+                if (selectedCity.buildableUnits.Any(buildableUnit => buildableUnit.baseFile == selectedCity.buyableUnits[buyIndex].baseFile))
+                {
+                    warning = "Cannot buy a unit that has already been bought";
+                }
+                purchaseWarning.text = warning;
+            }
         }
     }
 
@@ -243,6 +292,11 @@ public class CityManagement : MonoBehaviour
             if(index == 2)
             {
                 SelectCity(selectedCity);
+            }
+
+            if (index == 4)
+            {
+                purchaseWarning.text = "";
             }
         }
     }

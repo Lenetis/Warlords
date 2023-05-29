@@ -126,7 +126,7 @@ public class BattleScreen : MonoBehaviour
         }
         else
         {
-            if (Input.GetMouseButtonUp(1))
+            if (Input.GetMouseButtonUp(0))
             {
                 for (int i = 0; i < attackerUnits.Count; i++)
                 {

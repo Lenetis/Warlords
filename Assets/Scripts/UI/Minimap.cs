@@ -46,10 +46,19 @@ public class Minimap : MonoBehaviour
     private UIController uiController;
     private GameController gameController;
 
-    public Image cityIcon;
+    //public Image cityIcon;
 
-    public Image[] cityIcons;
-    public Image[] cityIconsInMenu;
+    //public Image[] cityIcons;
+    //public Image[] cityIconsInMenu;
+
+    public GameObject cityIcon;
+
+    public GameObject[] cityIcons;
+    public GameObject[] cityIconsInMenu;
+
+    public GameObject cityIconTransparent;
+
+    public GameObject[] cityIconsTransparent;
 
     // Start is called before the first frame update
     void Start()
@@ -215,9 +224,18 @@ public class Minimap : MonoBehaviour
                 Destroy(cityIconsInMenu[i].gameObject);
             }
         }
-        
-        cityIcons = new Image[gameController.cities.Count];
-        cityIconsInMenu = new Image[gameController.cities.Count];
+
+        for (int i = 0; i < cityIconsTransparent.Length; i++)
+        {
+            if (cityIconsTransparent[i] != null)
+            {
+                Destroy(cityIconsTransparent[i].gameObject);
+            }
+        }
+
+        cityIcons = new GameObject[gameController.cities.Count];
+        cityIconsInMenu = new GameObject[gameController.cities.Count];
+        cityIconsTransparent = new GameObject[gameController.cities.Count];
 
         for (int i=0; i<gameController.cities.Count; i++)
         {
@@ -229,17 +247,25 @@ public class Minimap : MonoBehaviour
                 //Debug.Log((miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x));
                 cityIcons[i] = Instantiate(cityIcon, miniMapImage.transform.GetChild(0));
                 //tmp.GetComponent<RectTransform>().localScale = new Vector2(100f,100f);
-                cityIcons[i].transform.localScale = new Vector3(0.2f,0.2f,0.3f);
+                //cityIcons[i].transform.localScale = new Vector3(0.2f,0.2f,0.3f);
                 //tmp.GetComponent<RectTransform>().position = new Vector2(miniMapImage.GetComponent<RectTransform>().anchorMin.x + (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * normX, miniMapImage.GetComponent<RectTransform>().anchorMin.y + (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * normY);
                 cityIcons[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-miniMapImage.GetComponent<RectTransform>().sizeDelta.x/2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -miniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
-                cityIcons[i].color = gameController.cities[i].owner.color;
+                cityIcons[i].GetComponent<Image>().color = gameController.cities[i].owner.color;
+
+                cityIconsTransparent[i] = Instantiate(cityIconTransparent, miniMapImage.transform.GetChild(2));
+                //tmp.GetComponent<RectTransform>().localScale = new Vector2(100f,100f);
+                //cityIcons[i].transform.localScale = new Vector3(0.2f,0.2f,0.3f);
+                //tmp.GetComponent<RectTransform>().position = new Vector2(miniMapImage.GetComponent<RectTransform>().anchorMin.x + (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * normX, miniMapImage.GetComponent<RectTransform>().anchorMin.y + (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * normY);
+                cityIconsTransparent[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-miniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -miniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
+                cityIconsTransparent[i].GetComponent<ButtonRightClick>().buttonName = gameController.cities[i].name;
+                cityIconsTransparent[i].GetComponent<ButtonRightClick>().buttonDescription = gameController.cities[i].income+"gp";
 
                 cityIconsInMenu[i] = Instantiate(cityIcon, cityMiniMapImage.transform.GetChild(0));
                 //tmp.GetComponent<RectTransform>().localScale = new Vector2(100f,100f);
-                cityIconsInMenu[i].transform.localScale = new Vector3(0.2f, 0.2f, 0.3f);
+                //cityIconsInMenu[i].transform.localScale = new Vector3(0.2f, 0.2f, 0.3f);
                 //tmp.GetComponent<RectTransform>().position = new Vector2(miniMapImage.GetComponent<RectTransform>().anchorMin.x + (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * normX, miniMapImage.GetComponent<RectTransform>().anchorMin.y + (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * normY);
                 cityIconsInMenu[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
-                cityIconsInMenu[i].color = gameController.cities[i].owner.color;
+                cityIconsInMenu[i].GetComponent<Image>().color = gameController.cities[i].owner.color;
             }
             else
             {
