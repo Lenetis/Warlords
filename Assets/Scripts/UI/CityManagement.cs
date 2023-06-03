@@ -47,12 +47,14 @@ public class CityManagement : MonoBehaviour
 
     public UIController uiController;
     public GameController gameController;
+    public Minimap minimap;
 
     // Start is called before the first frame update
     void Start()
     {
         uiController=GameObject.Find("UIController").GetComponent<UIController>();
         gameController = FindObjectOfType<GameController>();
+        minimap = GameObject.Find("Main").GetComponent<Minimap>();
     }
 
     // Update is called once per frame
@@ -161,6 +163,8 @@ public class CityManagement : MonoBehaviour
 
             cityPanels[5].transform.GetChild(1).GetChild(1).GetComponent<TextMeshProUGUI>().text = "Are you sure that you\nwant to\nraze " + selectedCity.name + "?\nYou won't be popular!";
         }
+        minimap.selectedCity = selectedCity;
+        minimap.DrawCities(this, System.EventArgs.Empty);
         cityManagementPanel.SetActive(true);
     }
 

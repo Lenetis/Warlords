@@ -27,6 +27,7 @@ public class CursorInfo : MonoBehaviour
     public string buttonDescription;
 
     public GameObject cityStats;
+    public GameObject goldImage;
 
     public GameObject unitImage;
     public GameObject[] selectedUnits;
@@ -96,7 +97,7 @@ public class CursorInfo : MonoBehaviour
             {
                 if (mode == 0)
                 {
-                    if (mouseSelection.highlightedTile.armies != null && mouseSelection.highlightedTile.armies[0].owner==gameController.activePlayer)
+                    if (mouseSelection.highlightedTile.armies != null)
                     {
                         cityStats.SetActive(false);
                         if (wood.activeSelf)
@@ -207,6 +208,14 @@ public class CursorInfo : MonoBehaviour
                 }
                 else if (mode == 2)
                 {
+                    if (buttonDescription == "Razed!")
+                    {
+                        goldImage.SetActive(false);
+                    }
+                    else
+                    {
+                        goldImage.SetActive(true);
+                    }
                     cityStats.SetActive(true);
                     objectDescription.text = "";
 

@@ -52,6 +52,7 @@ public class Minimap : MonoBehaviour
     //public Image[] cityIconsInMenu;
 
     public GameObject cityIcon;
+    public Sprite razedCityIcon;
 
     public GameObject[] cityIcons;
     public GameObject[] cityIconsInMenu;
@@ -59,6 +60,13 @@ public class Minimap : MonoBehaviour
     public GameObject cityIconTransparent;
 
     public GameObject[] cityIconsTransparent;
+
+    public GameObject[] cityIconsInMenuButtons;
+
+    public Sprite cityIconInMenuImage;
+    public Sprite cityIconInMenuSelectedImage;
+
+    public City selectedCity;
 
     // Start is called before the first frame update
     void Start()
@@ -68,6 +76,7 @@ public class Minimap : MonoBehaviour
         uiController = GameObject.Find("UIController").GetComponent<UIController>();
         gameController= GameObject.Find("GameController").GetComponent<GameController>();
         EventManager.CityCreatedEvent += DrawCities;
+        EventManager.TurnEvent += DrawCities;
     }
 
     void Awake()
@@ -75,6 +84,7 @@ public class Minimap : MonoBehaviour
         EventManager.CityCapturedEvent += DrawCities;
         EventManager.CityRazedEvent += DrawCities;
         EventManager.CityDestroyedEvent += DrawCities;
+        
     }
 
     void OnDestroy()
@@ -83,6 +93,7 @@ public class Minimap : MonoBehaviour
         EventManager.CityRazedEvent -= DrawCities;
         EventManager.CityCreatedEvent -= DrawCities;
         EventManager.CityDestroyedEvent -= DrawCities;
+        EventManager.TurnEvent -= DrawCities;
     }
 
     // Update is called once per frame
@@ -143,7 +154,6 @@ public class Minimap : MonoBehaviour
             viewportWorldPosY = cam.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.5f, 0.5f, Mathf.Abs(cam.transform.position.z))).y;
         }
         
-
         viewportNormalizedPosX = viewportWorldPosX / width;
         viewportNormalizedPosY = viewportWorldPosY / height;
 
@@ -184,7 +194,6 @@ public class Minimap : MonoBehaviour
             miniMapImage.GetComponent<RawImage>().texture = tileMapTexture;
             cityMiniMapImage.GetComponent<RawImage>().texture = tileMapTexture;
 
-
             if (width >= height)
             {
                 ratio = height / width;
@@ -197,8 +206,6 @@ public class Minimap : MonoBehaviour
                 miniMapImage.GetComponent<RectTransform>().sizeDelta = new Vector2(ratio * 200, 200);
                 cityMiniMapImage.GetComponent<RectTransform>().sizeDelta = new Vector2(ratio * 200, 200);
             }
-            
-            
         }
         if (tileMap.miniMapTexture != null && gameController.cities!=null && areCitiesLoaded == false)
         {
@@ -244,35 +251,54 @@ public class Minimap : MonoBehaviour
 
             if (!gameController.cities[i].razed)
             {
-                //Debug.Log((miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x));
                 cityIcons[i] = Instantiate(cityIcon, miniMapImage.transform.GetChild(0));
-                //tmp.GetComponent<RectTransform>().localScale = new Vector2(100f,100f);
-                //cityIcons[i].transform.localScale = new Vector3(0.2f,0.2f,0.3f);
-                //tmp.GetComponent<RectTransform>().position = new Vector2(miniMapImage.GetComponent<RectTransform>().anchorMin.x + (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * normX, miniMapImage.GetComponent<RectTransform>().anchorMin.y + (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * normY);
                 cityIcons[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-miniMapImage.GetComponent<RectTransform>().sizeDelta.x/2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -miniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
                 cityIcons[i].GetComponent<Image>().color = gameController.cities[i].owner.color;
 
                 cityIconsTransparent[i] = Instantiate(cityIconTransparent, miniMapImage.transform.GetChild(2));
-                //tmp.GetComponent<RectTransform>().localScale = new Vector2(100f,100f);
-                //cityIcons[i].transform.localScale = new Vector3(0.2f,0.2f,0.3f);
-                //tmp.GetComponent<RectTransform>().position = new Vector2(miniMapImage.GetComponent<RectTransform>().anchorMin.x + (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * normX, miniMapImage.GetComponent<RectTransform>().anchorMin.y + (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * normY);
                 cityIconsTransparent[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-miniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -miniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
                 cityIconsTransparent[i].GetComponent<ButtonRightClick>().buttonName = gameController.cities[i].name;
                 cityIconsTransparent[i].GetComponent<ButtonRightClick>().buttonDescription = gameController.cities[i].income+"gp";
 
-                cityIconsInMenu[i] = Instantiate(cityIcon, cityMiniMapImage.transform.GetChild(0));
-                //tmp.GetComponent<RectTransform>().localScale = new Vector2(100f,100f);
-                //cityIconsInMenu[i].transform.localScale = new Vector3(0.2f, 0.2f, 0.3f);
-                //tmp.GetComponent<RectTransform>().position = new Vector2(miniMapImage.GetComponent<RectTransform>().anchorMin.x + (miniMapImage.GetComponent<RectTransform>().anchorMax.x - miniMapImage.GetComponent<RectTransform>().anchorMin.x) * normX, miniMapImage.GetComponent<RectTransform>().anchorMin.y + (miniMapImage.GetComponent<RectTransform>().anchorMax.y - miniMapImage.GetComponent<RectTransform>().anchorMin.y) * normY);
-                cityIconsInMenu[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
-                cityIconsInMenu[i].GetComponent<Image>().color = gameController.cities[i].owner.color;
+                if (gameController.cities[i].owner == gameController.activePlayer)
+                {
+                    cityIconsInMenu[i] = Instantiate(cityIcon, cityMiniMapImage.transform.GetChild(0));
+                    cityIconsInMenu[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
+                    cityIconsInMenu[i].GetComponent<Image>().color = Color.white;
+                    
+                    if (selectedCity != null)
+                    {
+                        if (gameController.cities.IndexOf(selectedCity) == i)
+                        {
+                            cityIconsInMenu[i].GetComponent<Image>().sprite = cityIconInMenuSelectedImage;
+                        }
+                        else
+                        {
+                            cityIconsInMenu[i].GetComponent<Image>().sprite = cityIconInMenuImage;
+                        }
+                    }
+                    else
+                    {
+                        cityIconsInMenu[i].GetComponent<Image>().sprite = cityIconInMenuImage;
+                    }
+                    cityIconsInMenu[i].name = i.ToString();
+                    cityIconsInMenu[i].transform.GetChild(0).gameObject.SetActive(true);
+                }
             }
             else
             {
-                // todo, I'm not sure if there are supposed to be icons for razed cities, but if yes, add them here
+                cityIcons[i] = Instantiate(cityIcon, miniMapImage.transform.GetChild(0));
+                cityIcons[i].transform.localScale = new Vector3(0.75f,0.75f,1f);
+                cityIcons[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-miniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -miniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
+                cityIcons[i].GetComponent<Image>().color = Color.white;
+                cityIcons[i].GetComponent<Image>().sprite = razedCityIcon;
+
+                cityIconsTransparent[i] = Instantiate(cityIconTransparent, miniMapImage.transform.GetChild(2));
+                cityIconsTransparent[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-miniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -miniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
+                cityIconsTransparent[i].GetComponent<ButtonRightClick>().buttonName = gameController.cities[i].name;
+                cityIconsTransparent[i].GetComponent<ButtonRightClick>().buttonDescription ="Razed!";
             }
         }
-
         areCitiesLoaded = true;
     }
 }

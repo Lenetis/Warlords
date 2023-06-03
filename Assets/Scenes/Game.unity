@@ -16719,10 +16719,14 @@ MonoBehaviour:
   - {fileID: 1074668972}
   - {fileID: 1775352209}
   cityIcon: {fileID: 7811567360821015377, guid: cc0a60475e71fca4ea604c239d246693, type: 3}
+  razedCityIcon: {fileID: 21300000, guid: 9f504a5d1cf56da42af44538e281b0ac, type: 3}
   cityIcons: []
   cityIconsInMenu: []
   cityIconTransparent: {fileID: 7252967339055378051, guid: 5070364f9f602b447bb0c7e76a45c168, type: 3}
   cityIconsTransparent: []
+  cityIconsInMenuButtons: []
+  cityIconInMenuImage: {fileID: 21300000, guid: ac34dc17e4c0a9042b1ae9fc5508dd7e, type: 3}
+  cityIconInMenuSelectedImage: {fileID: 21300000, guid: c0074fe58e09c494c8bfd435dd3af6e3, type: 3}
 --- !u!114 &1454547764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16750,6 +16754,7 @@ MonoBehaviour:
   buttonName: 
   buttonDescription: 
   cityStats: {fileID: 1258661259}
+  goldImage: {fileID: 1830448246}
   unitImage: {fileID: 5101531966051815363, guid: f11964ea25d3eac44963949491d7c2a7, type: 3}
   selectedUnits: []
   gameController: {fileID: 0}
@@ -16848,6 +16853,7 @@ MonoBehaviour:
   cityDescripton: {fileID: 1928123889}
   uiController: {fileID: 0}
   gameController: {fileID: 0}
+  minimap: {fileID: 0}
 --- !u!114 &1454547768
 MonoBehaviour:
   m_ObjectHideFlags: 0
