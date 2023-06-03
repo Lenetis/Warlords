@@ -95,6 +95,18 @@ public class Tile  // todo change to struct maybe?
         contents.RemoveArmy(army);
     }
 
+    /// Adds item to this tile's contents
+    public void AddItem(Item item)
+    {
+        contents.AddItem(item);
+    }
+
+    /// Removes item from this tile's contents
+    public void RemoveItem(Item item)
+    {
+        contents.RemoveItem(item);
+    }
+
     /// Adds city to this tile's contents
     public void AddStructure(Structure structure)
     {
@@ -121,6 +133,9 @@ public class Tile  // todo change to struct maybe?
         }
         while (contents.armies != null) {
             contents.armies[0].Destroy();
+        }
+        while (contents.items != null) {
+            contents.items[0].Destroy();
         }
     }
 

@@ -100,6 +100,7 @@ public static class ResourceManager
 
         save.Add("players", new JArray(gameController.players.Select(player => player.ToJObject())));
         save.Add("armies", new JArray(gameController.armies.Select(army => army.ToJObject())));
+        save.Add("items", new JArray(gameController.items.Select(item => item.ToJObject())));
         save.Add("cities", new JArray(gameController.cities.Select(city => city.ToJObject())));
 
         save.Add("roads", new JArray(gameController.roads.Select(road => road.ToJObject())));
@@ -129,6 +130,10 @@ public static class ResourceManager
         foreach (JObject armyJObject in loadJObject.GetValue("armies")) {
             Army newArmy = Army.FromJObject(armyJObject);
             newArmy.AddToGame();
+        }
+        foreach (JObject itemJObject in loadJObject.GetValue("items")) {
+            Item newItem = Item.FromJObject(itemJObject);
+            newItem.AddToGame();
         }
         foreach (JObject cityJObject in loadJObject.GetValue("cities")) {
             City newCity = City.FromJObject(cityJObject);

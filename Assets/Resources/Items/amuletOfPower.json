@@ -1,0 +1,8 @@
+{
+    "texture": "Assets/Resources/Items/item.png",
+    "name": "Amulet of Power",
+    "description": "A heavy and pretty sharp amulet. You can hit people with it",
+    "battleStats": {
+        "strength": 10
+    }
+}

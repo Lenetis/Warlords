@@ -61,6 +61,12 @@ public class MapEditor : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha6)) {
             PlacePorts();
         }
+        if (Input.GetKeyDown(KeyCode.Alpha7)) {
+            // todo ruins/temples
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha8)) {
+            PlaceItems();
+        }
         if (Input.GetKey(KeyCode.Delete)) {
             ClearTiles();
         }
@@ -182,6 +188,15 @@ public class MapEditor : MonoBehaviour
             if (port.CanAddToGame()) {
                 port.AddToGame();
             }
+        }
+    }
+
+    /// Places selected item on the tileMap. Works with symmetry
+    private void PlaceItems()
+    {
+        foreach (Position symmetryPosition in GetSymmetryPositions(mouseSelection.highlightedPosition)) {
+            Item item = new Item(ResourceManager.LoadResource("Assets/Resources/Items/amuletOfNothing.json"), symmetryPosition);
+            item.AddToGame();
         }
     }
 

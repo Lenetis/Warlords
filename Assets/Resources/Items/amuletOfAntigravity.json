@@ -1,0 +1,9 @@
+{
+    "texture": "Assets/Resources/Items/item.png",
+    "name": "Amulet of Antigravity",
+    "description": "A small amulet filled with helium. For some reason it enables flight",
+    "pathfinder": {
+        "move": 10,
+        "pathfindingTypes": ["air"]
+    }
+}

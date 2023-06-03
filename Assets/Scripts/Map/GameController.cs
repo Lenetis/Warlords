@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
 
     public List<Player> players {get; private set;}
     public List<Army> armies {get; private set;}
+    public List<Item> items {get; private set;}
     public List<City> cities {get; private set;}
 
     public List<Road> roads {get; private set;}
@@ -28,8 +29,14 @@ public class GameController : MonoBehaviour
 
     private Battle activeBattle;
 
+    private System.EventHandler itemCreatedHandler;
+    private System.EventHandler itemDestroyedHandler;
+
     void Awake()
     {
+        itemCreatedHandler = (object sender, System.EventArgs args) => items.Add((Item)sender);
+        itemDestroyedHandler = (object sender, System.EventArgs args) => items.Remove((Item)sender);
+
         EventManager.ArmyCreatedEvent += ArmyCreatedHandler;
         EventManager.ArmyDestroyedEvent += ArmyDestroyedHandler;
 
@@ -37,6 +44,9 @@ public class GameController : MonoBehaviour
 
         EventManager.CityCreatedEvent += CityCreatedHandler;
         EventManager.CityDestroyedEvent += CityDestroyedHandler;
+
+        EventManager.ItemCreatedEvent += itemCreatedHandler;
+        EventManager.ItemDestroyedEvent += itemDestroyedHandler;
 
         EventManager.StructureCreatedEvent += StructureCreatedHandler;
         EventManager.StructureDestroyedEvent += StructureDestroyedHandler;
@@ -52,6 +62,9 @@ public class GameController : MonoBehaviour
         EventManager.CityCreatedEvent -= CityCreatedHandler;
         EventManager.CityDestroyedEvent -= CityDestroyedHandler;
 
+        EventManager.ItemCreatedEvent -= itemCreatedHandler;
+        EventManager.ItemDestroyedEvent -= itemDestroyedHandler;
+
         EventManager.StructureCreatedEvent -= StructureCreatedHandler;
         EventManager.StructureDestroyedEvent -= StructureDestroyedHandler;
     }
@@ -63,6 +76,7 @@ public class GameController : MonoBehaviour
 
         players = new List<Player>();
         armies = new List<Army>();
+        items = new List<Item>();
         cities = new List<City>();
 
         roads = new List<Road>();
@@ -256,6 +270,9 @@ public class GameController : MonoBehaviour
     {
         while (armies.Count > 0) {
             armies[0].Destroy();
+        }
+        while (items.Count > 0) {
+            items[0].Destroy();
         }
         while (cities.Count > 0) {
             cities[0].Destroy();
