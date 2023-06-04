@@ -32,7 +32,7 @@ public class EconomyData
             income = (int)attributes.GetValue("income");
         }
         if (attributes.ContainsKey("upkeep")) {
-            income = (int)attributes.GetValue("upkeep");
+            upkeep = (int)attributes.GetValue("upkeep");
         }
 
         return new EconomyData(income, upkeep);

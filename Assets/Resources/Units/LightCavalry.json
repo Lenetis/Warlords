@@ -2,8 +2,6 @@
     "name": "Light Cavalry",
     "texture": "Assets/Resources/Units/LightCavalry.png",
     "maskTexture": "Assets/Resources/Units/LightCavalryMask.png",
-    "strength": 3,
-    "upkeep": 3,
     "productionCost": 2,
     "purchaseCost": 300,
     "pathfinder": {
@@ -11,5 +9,11 @@
             "land"
         ],
         "move": 20
+    },
+    "economy": {
+        "upkeep": 3
+    },
+    "battleStats": {
+        "strength": 3
     }
 }

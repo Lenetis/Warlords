@@ -2,8 +2,6 @@
     "name": "Warlord",
     "texture": "Assets/Resources/Units/Warlord.png",
     "maskTexture": "Assets/Resources/Units/WarlordMask.png",
-    "strength": 5,
-    "upkeep": 0,
     "productionCost": 30,
     "purchaseCost": 100,
     "pathfinder": {
@@ -11,5 +9,11 @@
             "land"
         ],
         "move": 14
+    },
+    "economy": {
+        "upkeep": 0
+    },
+    "battleStats": {
+        "strength": 5
     }
 }

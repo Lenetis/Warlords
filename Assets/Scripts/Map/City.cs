@@ -32,7 +32,9 @@ public class City : MultitileStructure, IOwnableMapObject
 
     public List<Unit> buyableUnits {get; private set;}
 
-    public int income {get; private set;}
+    public EconomyData economy {get; private set;}
+    public BattleStatsData battleStats {get; private set;}
+
     public int production {get; private set;}
 
     public bool producing {get; set;}
@@ -241,7 +243,10 @@ public class City : MultitileStructure, IOwnableMapObject
 
         cityJObject.Add("pathfinding", pathfinding.ToJObject());
 
-        cityJObject.Add("income", income);
+        cityJObject.Add("economy", economy.ToJObject());
+
+        cityJObject.Add("battleStats", battleStats.ToJObject());
+
         cityJObject.Add("production", production);
 
         if (razed) {
@@ -299,7 +304,10 @@ public class City : MultitileStructure, IOwnableMapObject
 
         pathfinding = PathfindingData.FromJObject((JObject)baseAttributes.GetValue("pathfinding"));
         
-        income = (int)baseAttributes.GetValue("income");
+        economy = EconomyData.FromJObject((JObject)baseAttributes.GetValue("economy"));
+
+        battleStats = BattleStatsData.FromJObject((JObject)baseAttributes.GetValue("battleStats"));
+
         production = (int)baseAttributes.GetValue("production");
 
         razed = false;

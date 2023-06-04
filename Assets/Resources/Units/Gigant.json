@@ -2,8 +2,6 @@
     "name": "Gigant",
     "texture": "Assets/Resources/Units/Gigant.png",
     "maskTexture": "Assets/Resources/Units/GigantMask.png",
-    "strength": 6,
-    "upkeep": 5,
     "productionCost": 2,
     "purchaseCost": 800,
     "pathfinder": {
@@ -11,5 +9,11 @@
             "land"
         ],
         "move": 16
+    },
+    "economy": {
+        "upkeep": 5
+    },
+    "battleStats": {
+        "strength": 6
     }
 }

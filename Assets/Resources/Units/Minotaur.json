@@ -2,8 +2,6 @@
     "name": "Minotaur",
     "texture": "Assets/Resources/Units/Minotaur.png",
     "maskTexture": "Assets/Resources/Units/MinotaurMask.png",
-    "strength": 5,
-    "upkeep": 5,
     "productionCost": 2,
     "purchaseCost": 800,
     "pathfinder": {
@@ -11,5 +9,11 @@
             "land"
         ],
         "move": 12
+    },
+    "economy": {
+        "upkeep": 5
+    },
+    "battleStats": {
+        "strength": 5
     }
 }

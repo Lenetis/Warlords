@@ -1,8 +1,6 @@
 {
     "name": "Knight",
     "texture": "Assets/Resources/Units/knight.png",
-    "strength": 4,
-    "upkeep": 4,
     "productionCost": 30,
     "purchaseCost": 100,
     "pathfinder": {
@@ -10,5 +8,11 @@
             "land"
         ],
         "move": 14
+    },
+    "economy": {
+        "upkeep": 4
+    },
+    "battleStats": {
+        "strength": 4
     }
 }

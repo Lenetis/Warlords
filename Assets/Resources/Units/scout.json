@@ -2,8 +2,6 @@
     "name": "Scout",
     "texture": "Assets/Resources/Units/scout.png",
     "maskTexture": "Assets/Resources/Units/scoutMask.png",
-    "strength": 1,
-    "upkeep": 1,
     "productionCost": 1,
     "purchaseCost": 10,
     "pathfinder": {
@@ -11,5 +9,11 @@
             "land"
         ],
         "move": 16
+    },
+    "economy": {
+        "upkeep": 1
+    },
+    "battleStats": {
+        "strength": 1
     }
 }

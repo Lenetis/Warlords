@@ -2,8 +2,6 @@
     "name": "Elephant",
     "texture": "Assets/Resources/Units/Elephant.png",
     "maskTexture": "Assets/Resources/Units/ElephantMask.png",
-    "strength": 8,
-    "upkeep": 7,
     "productionCost": 4,
     "purchaseCost": 1500,
     "pathfinder": {
@@ -11,5 +9,11 @@
             "land"
         ],
         "move": 16
+    },
+    "economy": {
+        "upkeep": 7
+    },
+    "battleStats": {
+        "strength": 8
     }
 }

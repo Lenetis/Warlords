@@ -2,8 +2,6 @@
     "name": "Ghost",
     "texture": "Assets/Resources/Units/Ghost.png",
     "maskTexture": "Assets/Resources/Units/GhostMask.png",
-    "strength": 7,
-    "upkeep": 7,
     "productionCost": 4,
     "purchaseCost": 1000,
     "pathfinder": {
@@ -11,5 +9,11 @@
             "land"
         ],
         "move": 16
+    },
+    "economy": {
+        "upkeep": 7
+    },
+    "battleStats": {
+        "strength": 7
     }
 }

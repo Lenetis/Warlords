@@ -2,8 +2,6 @@
     "name": "Catapult",
     "texture": "Assets/Resources/Units/Catapult.png",
     "maskTexture": "Assets/Resources/Units/CatapultMask.png",
-    "strength": 2,
-    "upkeep": 8,
     "productionCost": 4,
     "purchaseCost": 500,
     "pathfinder": {
@@ -11,5 +9,11 @@
             "land"
         ],
         "move": 16
+    },
+    "economy": {
+        "upkeep": 8
+    },
+    "battleStats": {
+        "strength": 2
     }
 }

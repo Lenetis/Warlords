@@ -11,14 +11,16 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
 
     public Player owner {get;}
     
-    public int upkeep
+    public EconomyData economy
     {
         get {
             int totalUpkeep = 0;
+            int totalIncome = 0;
             foreach (Unit unit in units) {
-                totalUpkeep += unit.upkeep;
+                totalUpkeep += unit.economy.upkeep;
+                totalIncome += unit.economy.income;
             }
-            return totalUpkeep;
+            return new EconomyData(totalIncome, totalUpkeep);
         }
     }
 
@@ -101,7 +103,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
     private void SortUnits()
     {
         units.Sort((unit1, unit2) => {
-            int result = unit1.strength.CompareTo(unit2.strength);
+            int result = unit1.battleStats.strength.CompareTo(unit2.battleStats.strength);
             if (result == 0) {
                 result = unit1.name.CompareTo(unit2.name);
             }

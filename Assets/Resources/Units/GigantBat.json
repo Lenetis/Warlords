@@ -2,8 +2,6 @@
     "name": "Warlord",
     "texture": "Assets/Resources/Units/GigantBat.png",
     "maskTexture": "Assets/Resources/Units/GigantBatMask.png",
-    "strength": 1,
-    "upkeep": 2,
     "productionCost": 1,
     "purchaseCost": 30,
     "pathfinder": {
@@ -12,5 +10,11 @@
             "air"
         ],
         "move": 16
+    },
+    "economy": {
+        "upkeep": 2
+    },
+    "battleStats": {
+        "strength": 1
     }
 }

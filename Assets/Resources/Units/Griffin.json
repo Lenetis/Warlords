@@ -2,8 +2,6 @@
     "name": "Griffin",
     "texture": "Assets/Resources/Units/Griffin.png",
     "maskTexture": "Assets/Resources/Units/GriffinMask.png",
-    "strength": 6,
-    "upkeep": 9,
     "productionCost": 3,
     "purchaseCost": 1500,
     "pathfinder": {
@@ -12,5 +10,11 @@
             "air"
         ],
         "move": 20
+    },
+    "economy": {
+        "upkeep": 9
+    },
+    "battleStats": {
+        "strength": 6
     }
 }

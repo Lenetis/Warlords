@@ -2,8 +2,6 @@
     "name": "Unicorn",
     "texture": "Assets/Resources/Units/Unicorn.png",
     "maskTexture": "Assets/Resources/Units/UnicornMask.png",
-    "strength": 7,
-    "upkeep": 7,
     "productionCost": 4,
     "purchaseCost": 1500,
     "pathfinder": {
@@ -11,5 +9,11 @@
             "land"
         ],
         "move": 16
+    },
+    "economy": {
+        "upkeep": 7
+    },
+    "battleStats": {
+        "strength": 7
     }
 }

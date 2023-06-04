@@ -14,9 +14,13 @@
         "Assets/Resources/Units/scout.json",
         "Assets/Resources/Units/knight.json"
     ],
-    "income": 10,
+    "economy": {
+        "income": 10
+    },
+    "battleStats": {
+        "strength": 2
+    },
     "production": 10,
-    "strengthBonus": 2,
     "pathfinding": {
         "moveCost": 1,
         "pathfindingTypes": ["land", "sea", "air"],

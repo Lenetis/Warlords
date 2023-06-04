@@ -1,8 +1,6 @@
 {
     "name": "Okoń",
     "texture": "Assets/Resources/Units/okoń.png",
-    "strength": 300000,
-    "upkeep": 50,
     "productionCost": 20,
     "purchaseCost": 100,
     "pathfinder": {
@@ -10,5 +8,11 @@
             "sea"
         ],
         "move": 180
+    },
+    "economy": {
+        "upkeep": 50
+    },
+    "battleStats": {
+        "strength": 300000
     }
 }

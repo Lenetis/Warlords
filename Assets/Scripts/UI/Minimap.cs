@@ -258,7 +258,7 @@ public class Minimap : MonoBehaviour
                 cityIconsTransparent[i] = Instantiate(cityIconTransparent, miniMapImage.transform.GetChild(2));
                 cityIconsTransparent[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-miniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -miniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
                 cityIconsTransparent[i].GetComponent<ButtonRightClick>().buttonName = gameController.cities[i].name;
-                cityIconsTransparent[i].GetComponent<ButtonRightClick>().buttonDescription = gameController.cities[i].income+"gp";
+                cityIconsTransparent[i].GetComponent<ButtonRightClick>().buttonDescription = gameController.cities[i].economy.income + "gp";
 
                 if (gameController.cities[i].owner == gameController.activePlayer)
                 {

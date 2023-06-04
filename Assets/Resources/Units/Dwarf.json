@@ -2,8 +2,6 @@
     "name": "Dwarf",
     "texture": "Assets/Resources/Units/Dwarf.png",
     "maskTexture": "Assets/Resources/Units/DwarfMask.png",
-    "strength": 3,
-    "upkeep": 3,
     "productionCost": 2,
     "purchaseCost": 400,
     "pathfinder": {
@@ -11,5 +9,11 @@
             "land"
         ],
         "move": 8
+    },
+    "economy": {
+        "upkeep": 3
+    },
+    "battleStats": {
+        "strength": 3
     }
 }

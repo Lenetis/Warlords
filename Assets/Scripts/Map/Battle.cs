@@ -61,7 +61,7 @@ public class Battle
         }
 
         if (defendingUnits.Count != 0 && attackingUnits.Count != 0) {
-            if (Random.Range(0, attackingUnits[0].strength + defendingUnits[0].strength) < attackingUnits[0].strength) {
+            if (Random.Range(0, attackingUnits[0].battleStats.strength + defendingUnits[0].battleStats.strength) < attackingUnits[0].battleStats.strength) {
                 Debug.Log($"Defender {defendingUnits[0]} died");
                 deadUnits.Add(defendingUnits[0]);
                 defendingUnits.RemoveAt(0);

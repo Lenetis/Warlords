@@ -2,8 +2,6 @@
     "name": "Heavy Infantry",
     "texture": "Assets/Resources/Units/HeavyInfantry.png",
     "maskTexture": "Assets/Resources/Units/HeavyInfantryMask.png",
-    "strength": 4,
-    "upkeep": 2,
     "productionCost": 2,
     "purchaseCost": 300,
     "pathfinder": {
@@ -11,5 +9,11 @@
             "land"
         ],
         "move": 8
+    },
+    "economy": {
+        "upkeep": 2
+    },
+    "battleStats": {
+        "strength": 4
     }
 }

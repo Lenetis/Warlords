@@ -110,11 +110,10 @@ public class CityManagement : MonoBehaviour
                 currentUnitImage.SetActive(true);
                 unitCityStats[0].text = selectedCity.producedUnit.name;
                 unitCityStats[1].text = "Time: "+selectedCity.producedUnit.productionCost.ToString();
-                unitCityStats[2].text = "Cost: " + selectedCity.producedUnit.upkeep.ToString();
-                unitCityStats[3].text = "Strength: " + selectedCity.producedUnit.strength.ToString();
+                unitCityStats[2].text = "Cost: " + selectedCity.producedUnit.economy.upkeep.ToString();
+                unitCityStats[3].text = "Strength: " + selectedCity.producedUnit.battleStats.strength.ToString();
                 unitCityStats[4].text = "Move: " + selectedCity.producedUnit.pathfinder.move.ToString();
                 unitCityStatsPanel.SetActive(true);
-
             }
             else
             {
@@ -127,7 +126,7 @@ public class CityManagement : MonoBehaviour
 
             //CB
 
-            cityIncome.text = "Income: " + selectedCity.income.ToString() + " Gold";
+            cityIncome.text = "Income: " + selectedCity.economy.income.ToString() + " Gold";
             cityDefence.text = "Defence: --";
             cityOwner.text = "Owner: " + selectedCity.owner.name.ToString();
 

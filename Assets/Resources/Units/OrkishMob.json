@@ -1,8 +1,6 @@
 {
     "name": "Orkish Mob",
     "texture": "Assets/Resources/Units/OrkishMob.png",
-    "strength": 2,
-    "upkeep": 2,
     "productionCost": 2,
     "purchaseCost": 100,
     "pathfinder": {
@@ -10,5 +8,11 @@
             "land"
         ],
         "move": 14
+    },
+    "economy": {
+        "upkeep": 2
+    },
+    "battleStats": {
+        "strength": 2
     }
 }

@@ -37,25 +37,21 @@ public class Player
         }
     }
 
-    public int income 
+    public EconomyData economy
     {
         get {
-            int income = 0;
-            foreach (City city in cities) {
-               income += city.income;
-            }
-            return income;
-        }
-    }
-
-    public int upkeep 
-    {
-        get {
-            int upkeep = 0;
+            int totalUpkeep = 0;
+            int totalIncome = 0;
             foreach (Army army in armies) {
-                upkeep += army.upkeep;
+                totalUpkeep += army.economy.upkeep;
+                totalIncome += army.economy.income;
             }
-            return upkeep;
+            foreach (City city in cities) {
+                totalUpkeep += city.economy.upkeep;
+                totalIncome += city.economy.income;
+            }
+            return new EconomyData(totalIncome, totalUpkeep);
+            
         }
     }
 
@@ -105,8 +101,8 @@ public class Player
     /// Starts turn - starts turn of all armies and updates gold amount according to army upkeep and city income and, if it's >= 0, starts turn of all cities
     public void StartTurn()
     {
-        _gold -= upkeep;
-        _gold += income;
+        _gold -= economy.upkeep;
+        _gold += economy.income;
 
         foreach (Army army in armies) {
             army.StartTurn();

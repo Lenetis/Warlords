@@ -2,8 +2,6 @@
     "name": "Heavy Cavalry",
     "texture": "Assets/Resources/Units/HeavyCavalry.png",
     "maskTexture": "Assets/Resources/Units/HeavyCavalryMask.png",
-    "strength": 4,
-    "upkeep": 4,
     "productionCost": 3,
     "purchaseCost": 500,
     "pathfinder": {
@@ -11,5 +9,11 @@
             "land"
         ],
         "move": 16
+    },
+    "economy": {
+        "upkeep": 4
+    },
+    "battleStats": {
+        "strength": 4
     }
 }

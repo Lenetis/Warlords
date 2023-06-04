@@ -2,8 +2,6 @@
     "name": "Pikeman",
     "texture": "Assets/Resources/Units/Pikeman.png",
     "maskTexture": "Assets/Resources/Units/PikemanMask.png",
-    "strength": 4,
-    "upkeep": 2,
     "productionCost": 3,
     "purchaseCost": 400,
     "pathfinder": {
@@ -11,5 +9,11 @@
             "land"
         ],
         "move": 8
+    },
+    "economy": {
+        "upkeep": 2
+    },
+    "battleStats": {
+        "strength": 4
     }
 }

@@ -2,8 +2,6 @@
     "name": "Pegasi",
     "texture": "Assets/Resources/Units/Pegasi.png",
     "maskTexture": "Assets/Resources/Units/PegasiMask.png",
-    "strength": 5,
-    "upkeep": 6,
     "productionCost": 3,
     "purchaseCost": 1000,
     "pathfinder": {
@@ -12,5 +10,11 @@
             "air"
         ],
         "move": 20
+    },
+    "economy": {
+        "upkeep": 6
+    },
+    "battleStats": {
+        "strength": 5
     }
 }

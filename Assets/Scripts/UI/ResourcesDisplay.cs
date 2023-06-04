@@ -103,8 +103,8 @@ public class ResourcesDisplay : MonoBehaviour
     {
         resources[0].text = gameController.activePlayer.cities.Count.ToString();
         resources[1].text = gameController.activePlayer.gold.ToString() + "gp";
-        resources[2].text = gameController.activePlayer.income.ToString() + "gp";
-        resources[3].text = gameController.activePlayer.upkeep.ToString() + "gp";
+        resources[2].text = gameController.activePlayer.economy.income.ToString() + "gp";
+        resources[3].text = gameController.activePlayer.economy.upkeep.ToString() + "gp";
         Debug.Log("Resources updated");
     }
 }
