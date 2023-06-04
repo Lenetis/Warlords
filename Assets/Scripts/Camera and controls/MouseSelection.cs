@@ -272,11 +272,18 @@ public class MouseSelection : MonoBehaviour
     public void MergeTileUnits(Army selectedArmy)
     {
         Tile mergeTile = tileMap.GetTile(selectedArmy.position);
-        while (mergeTile.armies.Count > 1)
+
+        int i = 0;
+        while (i < mergeTile.armies.Count)
         {
-            mergeTile.armies[0].Merge(mergeTile.armies[1]);
+            if (mergeTile.armies[i] != selectedArmy) {
+                mergeTile.armies[i].Merge(selectedArmy);
+            }
+            else {
+                i += 1;
+            }
         }
-        selectedArmy = mergeTile.armies[0];
+        
         selectedArmies = mergeTile.armies;
         armyManagement.DeselectArmy();
         armyManagement.SelectArmy(selectedArmies);

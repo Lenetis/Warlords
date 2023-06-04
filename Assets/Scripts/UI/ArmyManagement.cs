@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class ArmyManagement : MonoBehaviour
 {
+    private static GameController gameController;
     public MouseSelection mouseSelection;
 
     public GameObject armyManagementPanel;
 
-    public Army selectedArmy;
     public List<Army> selectedArmies;
 
     //L2
@@ -27,43 +27,40 @@ public class ArmyManagement : MonoBehaviour
 
     public int counter;
 
+    void Awake()
+    {
+        EventManager.ArmyMovedEvent += ArmyMovedHandler;
+    }
+
+    void OnDestroy()
+    {
+        EventManager.ArmyMovedEvent -= ArmyMovedHandler;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        gameController = FindObjectOfType<GameController>();
         mouseSelection = GameObject.Find("Main Camera").GetComponent<MouseSelection>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {/*
-        if (mouseSelection.selectedArmies != null) {
-            
-            int counter = 0;
-            for (int i = 0; i < mouseSelection.selectedArmies.Count; i += 1) {
-                for (int j = 0; j < mouseSelection.selectedArmies[i].units.Count; j += 1)
-                {
-                    if (movesAvailable[counter].text != mouseSelection.selectedArmies[i].units[j].remainingMove.ToString())
-                    {
-                        movesAvailable[counter].text = mouseSelection.selectedArmies[i].units[j].remainingMove.ToString();
-                    }
-                    counter += 1;
-                }
-            }
-            Debug.Log(counter);
-        }*/
+    private void ArmyMovedHandler(object sender, ArmyMovedEventData eventData)
+    {
+        Army movedArmy = (Army)sender;
 
-        if (mouseSelection.selectedArmy != null)
+        if (movedArmy == mouseSelection.selectedArmy)
         {
-            for (int i = 0; i < mouseSelection.selectedArmy.units.Count; i += 1)
+            SelectArmy(gameController.tileMap.GetTile(movedArmy.position).armies);
+        }
+
+        for (int i = 0; i < mouseSelection.selectedArmy.units.Count; i += 1)
+        {
+            if (movesAvailable[i].text != mouseSelection.selectedArmy.units[i].pathfinder.remainingMove.ToString())
             {
-                // todo this throws an IndexOutOfRangeException during battles, because movesAvailable.Length is equal to 0, even though selected army has more than 0 units.
-                //      I haven't checked why this happens, but it's probably related to "int armiesSize = 0;" in SelectArmy()
-                if (movesAvailable[i].text != mouseSelection.selectedArmy.units[i].pathfinder.remainingMove.ToString())
-                {
-                    movesAvailable[i].text = mouseSelection.selectedArmy.units[i].pathfinder.remainingMove.ToString();
-                }
+                movesAvailable[i].text = mouseSelection.selectedArmy.units[i].pathfinder.remainingMove.ToString();
             }
         }
+
     }
 
     public void SelectArmy(List<Army> selectedArmies)
