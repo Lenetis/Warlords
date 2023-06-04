@@ -8,90 +8,42 @@ public class ResourcesDisplay : MonoBehaviour
     private static GameController gameController;
     public TextMeshProUGUI[] resources = new TextMeshProUGUI[4];
 
+    private System.EventHandler updateResourcesEventHandler;  // used to handle all events that cause updating resources
+
     void Awake()
     {
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
-        EventManager.ArmyCreatedEvent += ArmyCreatedHandler;
-        EventManager.ArmyDestroyedEvent += ArmyDestroyedHandler;
+        updateResourcesEventHandler = (object sender, System.EventArgs args) => UpdateResources();
 
-        EventManager.BattleEndedEvent += BattleEndedHandler;
+        EventManager.ArmyCreatedEvent += updateResourcesEventHandler;
+        EventManager.ArmyDestroyedEvent += updateResourcesEventHandler;
 
-        EventManager.CityCapturedEvent += CityCapturedHandler;
-        EventManager.CityCreatedEvent += CityCreatedHandler;
-        EventManager.CityDestroyedEvent += CityDestroyedHandler;
-        EventManager.CityRazedEvent += CityRazedHandler;
+        EventManager.BattleEndedEvent += updateResourcesEventHandler;
 
-        EventManager.TurnEvent += TurnHandler;
+        EventManager.CityCapturedEvent += updateResourcesEventHandler;
+        EventManager.CityCreatedEvent += updateResourcesEventHandler;
+        EventManager.CityDestroyedEvent += updateResourcesEventHandler;
+        EventManager.CityRazedEvent += updateResourcesEventHandler;
+
+        EventManager.TurnEvent += updateResourcesEventHandler;
         EventManager.UnitBoughtEvent += UnitBoughtHandler;
     }
 
     void OnDestroy()
     {
-        EventManager.ArmyCreatedEvent -= ArmyCreatedHandler;
-        EventManager.ArmyDestroyedEvent -= ArmyDestroyedHandler;
+        EventManager.ArmyCreatedEvent -= updateResourcesEventHandler;
+        EventManager.ArmyDestroyedEvent -= updateResourcesEventHandler;
 
-        EventManager.BattleEndedEvent -= BattleEndedHandler;
+        EventManager.BattleEndedEvent -= updateResourcesEventHandler;
 
-        EventManager.CityCapturedEvent -= CityCapturedHandler;
-        EventManager.CityCreatedEvent -= CityCreatedHandler;
-        EventManager.CityDestroyedEvent -= CityDestroyedHandler;
-        EventManager.CityRazedEvent -= CityRazedHandler;
+        EventManager.CityCapturedEvent -= updateResourcesEventHandler;
+        EventManager.CityCreatedEvent -= updateResourcesEventHandler;
+        EventManager.CityDestroyedEvent -= updateResourcesEventHandler;
+        EventManager.CityRazedEvent -= updateResourcesEventHandler;
 
-        EventManager.TurnEvent -= TurnHandler;
+        EventManager.TurnEvent -= updateResourcesEventHandler;
         EventManager.UnitBoughtEvent -= UnitBoughtHandler;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void ArmyCreatedHandler(object sender, System.EventArgs args)
-    {
-        UpdateResources();
-    }
-
-    private void ArmyDestroyedHandler(object sender, System.EventArgs args)
-    {
-        UpdateResources();
-    }
-
-    private void BattleEndedHandler(object sender, System.EventArgs args)
-    {
-        UpdateResources();
-    }
-
-    private void CityCapturedHandler(object sender, System.EventArgs args)
-    {
-        UpdateResources();
-    }
-
-    private void CityCreatedHandler(object sender, System.EventArgs args)
-    {
-        UpdateResources();
-    }
-
-    private void CityDestroyedHandler(object sender, System.EventArgs args)
-    {
-        UpdateResources();
-    }
-
-    private void CityRazedHandler(object sender, System.EventArgs args)
-    {
-        UpdateResources();
-    }
-
-    private void TurnHandler(object sender, System.EventArgs args)
-    {
-        UpdateResources();
     }
 
     private void UnitBoughtHandler(object sender, Unit unit)

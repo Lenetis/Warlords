@@ -31,19 +31,29 @@ public class GameController : MonoBehaviour
 
     private System.EventHandler itemCreatedHandler;
     private System.EventHandler itemDestroyedHandler;
+    private System.EventHandler armyCreatedHandler;
+    private System.EventHandler armyDestroyedHandler;
+    private System.EventHandler cityCreatedHandler;
+    private System.EventHandler cityDestroyedHandler;
 
     void Awake()
     {
         itemCreatedHandler = (object sender, System.EventArgs args) => items.Add((Item)sender);
         itemDestroyedHandler = (object sender, System.EventArgs args) => items.Remove((Item)sender);
 
-        EventManager.ArmyCreatedEvent += ArmyCreatedHandler;
-        EventManager.ArmyDestroyedEvent += ArmyDestroyedHandler;
+        armyCreatedHandler = (object sender, System.EventArgs args) => armies.Add((Army)sender);
+        armyDestroyedHandler = (object sender, System.EventArgs args) => armies.Remove((Army)sender);
+
+        cityCreatedHandler = (object sender, System.EventArgs args) => cities.Add((City)sender);
+        cityDestroyedHandler = (object sender, System.EventArgs args) => cities.Remove((City)sender);
+
+        EventManager.ArmyCreatedEvent += armyCreatedHandler;
+        EventManager.ArmyDestroyedEvent += armyDestroyedHandler;
 
         EventManager.BattleStartedEvent += BattleStartedHandler;
 
-        EventManager.CityCreatedEvent += CityCreatedHandler;
-        EventManager.CityDestroyedEvent += CityDestroyedHandler;
+        EventManager.CityCreatedEvent += cityCreatedHandler;
+        EventManager.CityDestroyedEvent += cityDestroyedHandler;
 
         EventManager.ItemCreatedEvent += itemCreatedHandler;
         EventManager.ItemDestroyedEvent += itemDestroyedHandler;
@@ -54,13 +64,13 @@ public class GameController : MonoBehaviour
 
     void OnDestroy()
     {
-        EventManager.ArmyCreatedEvent -= ArmyCreatedHandler;
-        EventManager.ArmyDestroyedEvent -= ArmyDestroyedHandler;
+        EventManager.ArmyCreatedEvent -= armyCreatedHandler;
+        EventManager.ArmyDestroyedEvent -= armyDestroyedHandler;
 
         EventManager.BattleStartedEvent -= BattleStartedHandler;
 
-        EventManager.CityCreatedEvent -= CityCreatedHandler;
-        EventManager.CityDestroyedEvent -= CityDestroyedHandler;
+        EventManager.CityCreatedEvent -= cityCreatedHandler;
+        EventManager.CityDestroyedEvent -= cityDestroyedHandler;
 
         EventManager.ItemCreatedEvent -= itemCreatedHandler;
         EventManager.ItemDestroyedEvent -= itemDestroyedHandler;
@@ -155,18 +165,6 @@ public class GameController : MonoBehaviour
         }
     }
 
-    /// Adds the newly created army to the list of all armies
-    private void ArmyCreatedHandler(object sender, System.EventArgs args)
-    {
-        armies.Add((Army)sender);
-    }
-
-    /// Removes the army from the list of all armies
-    private void ArmyDestroyedHandler(object sender, System.EventArgs args)
-    {
-        armies.Remove((Army)sender);
-    }
-
     /// Stops automatic movement of all moving armies and starts a battle between attacker and defender
     private void BattleStartedHandler(object sender, System.EventArgs args)
     {
@@ -178,18 +176,6 @@ public class GameController : MonoBehaviour
         // todo add a super cool camera animation centering on the attacker or something
 
         activeBattle = (Battle)sender;
-    }
-
-    /// Adds the newly created city to the list of all cities
-    public void CityCreatedHandler(object sender, System.EventArgs args)
-    {
-        cities.Add((City)sender);
-    }
-
-    /// Removes the city from the list of all cities
-    public void CityDestroyedHandler(object sender, System.EventArgs args)
-    {
-        cities.Remove((City)sender);
     }
 
     /// Adds the newly created structure to the corresponding structure list
