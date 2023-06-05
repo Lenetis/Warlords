@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 
 public class ItemData
 {
+    public string baseFile {get; private set;}
     public string name {get; private set;}
     public string description {get; private set;}
     public Texture2D texture {get; private set;}
@@ -14,8 +15,9 @@ public class ItemData
     public BattleStatsData battleStats {get; private set;}
     public EconomyData economy {get; private set;}
 
-    public ItemData(string name, string description, Texture2D texture, PathfinderData pathfinder, BattleStatsData battleStats, EconomyData economy)
+    public ItemData(string baseFile, string name, string description, Texture2D texture, PathfinderData pathfinder, BattleStatsData battleStats, EconomyData economy)
     {
+        this.baseFile = baseFile;
         this.name = name;
         this.description = description;
         this.texture = texture;
@@ -26,6 +28,13 @@ public class ItemData
 
     public static ItemData FromJObject(JObject attributes)
     {
+        ResourceManager.ExpandWithBaseFile(attributes);
+
+        string baseFile = null;
+        if (attributes.ContainsKey("baseFile")) {
+            baseFile = (string)attributes.GetValue("baseFile");
+        }
+
         string name = (string)attributes.GetValue("name");
 
         string description = (string)attributes.GetValue("description");
@@ -48,13 +57,16 @@ public class ItemData
             economy = EconomyData.FromJObject((JObject)attributes.GetValue("economy"));
         }
 
-        return new ItemData(name, description, texture, pathfinder, battleStats, economy);
+        return new ItemData(baseFile, name, description, texture, pathfinder, battleStats, economy);
     }
 
     public JObject ToJObject()
     {
         JObject itemJObject = new JObject();
 
+        if (baseFile != null) {
+            itemJObject.Add("baseFile", baseFile);
+        }
         if (pathfinder != null) {
             itemJObject.Add("pathfinder", pathfinder.ToJObject());
         }
@@ -64,6 +76,8 @@ public class ItemData
         if (economy != null) {
             itemJObject.Add("economy", economy.ToJObject());
         }
+
+        ResourceManager.Minimize(itemJObject);
         
         return itemJObject;
     }

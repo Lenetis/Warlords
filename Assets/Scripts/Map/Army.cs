@@ -103,7 +103,10 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
     private void SortUnits()
     {
         units.Sort((unit1, unit2) => {
-            int result = unit1.battleStats.strength.CompareTo(unit2.battleStats.strength);
+            int result = unit1.isHero.CompareTo(unit2.isHero);
+            if (result == 0) {
+                result = unit1.battleStats.strength.CompareTo(unit2.battleStats.strength);
+            }
             if (result == 0) {
                 result = unit1.name.CompareTo(unit2.name);
             }

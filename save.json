@@ -3,8 +3,8 @@
     {
       "baseFile": "Assets/Resources/Players/defaultPlayer.json",
       "name": "Summoners",
-      "color": "00FFFF",
-      "gold": 200
+      "color": "00AAFF",
+      "gold": 10000
     },
     {
       "baseFile": "Assets/Resources/Players/defaultPlayer.json",
@@ -15,7 +15,7 @@
     {
       "baseFile": "Assets/Resources/Players/defaultPlayer.json",
       "name": "Necromancers",
-      "color": "FF0000",
+      "color": "FF1111",
       "gold": 200
     }
   ],

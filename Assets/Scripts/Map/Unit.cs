@@ -17,6 +17,15 @@ public class Unit
     public int productionCost {get; private set;}
     public int purchaseCost {get; private set;}
 
+    public HeroData heroData {get; private set;}
+
+    public bool isHero
+    {
+        get {
+            return heroData != null;
+        }
+    }
+    
     public PathfinderData pathfinder
     {
         get {
@@ -80,6 +89,10 @@ public class Unit
             unitJObject.Add("transitionPathfinder", transitionPathfinder.ToJObject());
         }
 
+        if (isHero){
+            unitJObject.Add("heroData", heroData.ToJObject());
+        }
+
         unitJObject.Add("productionCost", productionCost);
         unitJObject.Add("purchaseCost", purchaseCost);
 
@@ -125,6 +138,11 @@ public class Unit
         transitionPathfinder = null;
         if (baseAttributes.ContainsKey("transitionPathfinder")) {
             transitionPathfinder = PathfinderData.FromJObject((JObject)baseAttributes.GetValue("transitionPathfinder"));
+        }
+
+        heroData = null;
+        if (baseAttributes.ContainsKey("heroData")) {
+            heroData = HeroData.FromJObject((JObject)baseAttributes.GetValue("heroData"));
         }
     }
 

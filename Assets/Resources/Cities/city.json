@@ -15,7 +15,7 @@
         "Assets/Resources/Units/knight.json"
     ],
     "economy": {
-        "income": 10
+        "income": 30
     },
     "battleStats": {
         "strength": 2

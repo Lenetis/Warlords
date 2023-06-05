@@ -9,13 +9,15 @@ public class EconomyData
     int? _income;
     public int income
     {
-        get {return _income.GetValueOrDefault(0);}
+        get { return _income.GetValueOrDefault(0); }
+        set { _income = value; }
     }
 
     int? _upkeep;
     public int upkeep
     {
-        get {return _upkeep.GetValueOrDefault(0);}
+        get { return _upkeep.GetValueOrDefault(0); }
+        set { _upkeep = value; }
     }
 
     public EconomyData(int? income, int? upkeep)

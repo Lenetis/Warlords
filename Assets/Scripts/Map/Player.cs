@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 public class Player
@@ -18,6 +19,10 @@ public class Player
 
     public Texture2D razedCityTexture {get;}
     public Texture2D razedCityMaskTexture {get;}
+
+    private List<string> heroNames;
+    private List<Unit> heroUnits;
+    private List<Unit> heroAllies;
 
     public List<Army> armies {get;}
     public List<City> cities {get;}
@@ -55,8 +60,8 @@ public class Player
         }
     }
 
-    // todo change this constructor to use less arguments
-    public Player(string baseFile, string name, Color color, int gold, Texture2D cityTexture, Texture2D razedCityTexture, Texture2D cityMaskTexture, Texture2D razedCityMaskTexture)
+    // todo change this constructor to use less arguments!
+    public Player(string baseFile, string name, Color color, int gold, Texture2D cityTexture, Texture2D razedCityTexture, Texture2D cityMaskTexture, Texture2D razedCityMaskTexture, List<string> heroNames, List<Unit> heroUnits, List<Unit> heroAllies)
     {
         this.baseFile = baseFile;
 
@@ -69,6 +74,10 @@ public class Player
         this.cityMaskTexture = cityMaskTexture;
         this.razedCityTexture = razedCityTexture;
         this.razedCityMaskTexture = razedCityMaskTexture;
+
+        this.heroNames = heroNames;
+        this.heroUnits = heroUnits;
+        this.heroAllies = heroAllies;
 
         armies = new List<Army>();
         cities = new List<City>();
@@ -116,6 +125,57 @@ public class Player
             _gold = 0;
             // todo add a variable to tell UI if this 0 means just exactly 0, or "city production stopped"
         }
+
+        if (gameController.turn % 3 == 0) {  // todo this 3 should be loaded from a file, or a constant, or something
+            TrySpawnHero();
+        }
+    }
+
+    /// Chooses a random city, hero and cost, and checks if the player can afford it. If yes - raises OnHeroSpawn event
+    private void TrySpawnHero()
+    {
+        City city = cities[Random.Range(0, cities.Count)];
+        int heroUnitIndex = Random.Range(0, heroUnits.Count);
+        Unit heroUnit = Unit.FromJObject(ResourceManager.LoadResource(heroUnits[heroUnitIndex].baseFile));
+
+        int heroCost = 0;
+        if (gameController.turn != 0) {
+            int additionalCost = Random.Range(-400, 400);  // todo this 400 should be loaded from a file, or a constant, or something
+            heroCost = heroUnit.purchaseCost + additionalCost;
+        }
+
+        if (heroCost <= _gold) {
+            heroUnit.name = heroNames[Random.Range(0, heroNames.Count)];
+
+            HeroSpawnEventData eventData;
+            eventData.heroCost = heroCost;
+            eventData.heroUnit = heroUnit;
+            eventData.city = city;
+
+            EventManager.OnHeroSpawn(this, eventData);
+        }
+    }
+
+    /// Spawns an army containing heroUnit and {alliesCount} randomly chosen allies in the specified city
+    public void SpawnHero(Unit heroUnit, City city, int alliesCount)
+    {
+        if (city.owner != this) {
+            throw new System.ArgumentException("Cannot spawn hero in someone else's city.");
+        }
+
+        List<Unit> heroArmyUnits = new List<Unit>();
+        heroArmyUnits.Add(heroUnit);
+
+        int allyUnitIndex = Random.Range(0, heroAllies.Count);
+        for(int i = 0; i < alliesCount; i += 1) {
+            Unit ally = Unit.FromJObject(ResourceManager.LoadResource(heroAllies[allyUnitIndex].baseFile));
+            ally.economy.upkeep = 0;
+            heroArmyUnits.Add(ally);
+        }
+
+        // todo get free tile of city, instead of city.position
+        Army heroArmy = new Army(heroArmyUnits, city.position, this);
+        heroArmy.AddToGame();
     }
 
     /// Orders all armies to move along their paths
@@ -138,6 +198,10 @@ public class Player
         playerJObject.Add("name", name);
         playerJObject.Add("color", ColorUtility.ToHtmlStringRGB(color));
         playerJObject.Add("gold", gold);
+
+        playerJObject.Add("heroNames", new JArray(heroNames));
+        playerJObject.Add("heroUnits", new JArray(heroUnits.Select(unit => unit.ToJObject().GetValue("baseFile"))));
+        playerJObject.Add("heroAllies", new JArray(heroAllies.Select(unit => unit.ToJObject().GetValue("baseFile"))));
 
         ResourceManager.Minimize(playerJObject);
 
@@ -168,8 +232,23 @@ public class Player
         Texture2D cityMaskTexture = ResourceManager.LoadTexture((string)attributes.GetValue("cityMaskTexture"));
         Texture2D razedCityTexture = ResourceManager.LoadTexture((string)attributes.GetValue("razedCityTexture"));
         Texture2D razedCityMaskTexture = ResourceManager.LoadTexture((string)attributes.GetValue("razedCityMaskTexture"));
+        
+        List<string> heroNames = new List<string>();
+        foreach (string heroName in attributes.GetValue("heroNames")) {
+            heroNames.Add(heroName);
+        }
 
-        return new Player(baseFile, name, color, gold, cityTexture, razedCityTexture, cityMaskTexture, razedCityMaskTexture);
+        List<Unit> heroUnits = new List<Unit>();
+        foreach (string unitPath in attributes.GetValue("heroUnits")) {
+            heroUnits.Add(Unit.FromJObject(ResourceManager.LoadResource(unitPath)));
+        }
+
+        List<Unit> heroAllies = new List<Unit>();
+        foreach (string unitPath in attributes.GetValue("heroAllies")) {
+            heroAllies.Add(Unit.FromJObject(ResourceManager.LoadResource(unitPath)));
+        }
+
+        return new Player(baseFile, name, color, gold, cityTexture, razedCityTexture, cityMaskTexture, razedCityMaskTexture, heroNames, heroUnits, heroAllies);
     }
 
     public override string ToString()

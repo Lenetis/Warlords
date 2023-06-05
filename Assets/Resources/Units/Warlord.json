@@ -2,8 +2,8 @@
     "name": "Warlord",
     "texture": "Assets/Resources/Units/Warlord.png",
     "maskTexture": "Assets/Resources/Units/WarlordMask.png",
-    "productionCost": 30,
-    "purchaseCost": 100,
+    "productionCost": 100000000,
+    "purchaseCost": 1100,
     "pathfinder": {
         "pathfindingTypes": [
             "land"
@@ -15,5 +15,14 @@
     },
     "battleStats": {
         "strength": 5
+    },
+    "heroData": {
+        "level": 1,
+        "experience": 0,
+        "items": [
+            {
+                "baseFile": "Assets/Resources/Items/amuletOfNothing.json"
+            }
+        ]
     }
 }

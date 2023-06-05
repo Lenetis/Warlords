@@ -60,6 +60,8 @@ public class GameController : MonoBehaviour
 
         EventManager.StructureCreatedEvent += StructureCreatedHandler;
         EventManager.StructureDestroyedEvent += StructureDestroyedHandler;
+
+        EventManager.HeroSpawnedEvent += HeroSpawnEventHandler; // todo move this to UI and remove from here
     }
 
     void OnDestroy()
@@ -77,6 +79,8 @@ public class GameController : MonoBehaviour
 
         EventManager.StructureCreatedEvent -= StructureCreatedHandler;
         EventManager.StructureDestroyedEvent -= StructureDestroyedHandler;
+
+        EventManager.HeroSpawnedEvent -= HeroSpawnEventHandler; // todo move this to UI and remove from here
     }
 
     /// Start is called before the first frame update
@@ -99,6 +103,7 @@ public class GameController : MonoBehaviour
 
         ResourceManager.LoadGame("save.json");
 
+        activePlayer.StartTurn();
         EventManager.OnTurn(this);
     }
 
@@ -179,7 +184,7 @@ public class GameController : MonoBehaviour
     }
 
     /// Adds the newly created structure to the corresponding structure list
-    public void StructureCreatedHandler(object sender, System.EventArgs args)
+    private void StructureCreatedHandler(object sender, System.EventArgs args)
     {
         // there will be a few such if statements, but I think that's better than having separate events and handlers for every kind of structure
         if (sender as Road != null) {
@@ -194,7 +199,7 @@ public class GameController : MonoBehaviour
     }
 
     /// Removes the structure from the corresponding structure list
-    public void StructureDestroyedHandler(object sender, System.EventArgs args)
+    private void StructureDestroyedHandler(object sender, System.EventArgs args)
     {
         // there will be a few such if statements, but I think that's better than having separate events and handlers for every kind of structure
         if (sender as Road != null) {
@@ -206,6 +211,34 @@ public class GameController : MonoBehaviour
         else if (sender as Port != null) {
             ports.Remove((Port)sender);
         }
+    }
+
+    /// TODO move this to UI object and remove from here
+    private void HeroSpawnEventHandler(object sender, HeroSpawnEventData eventData)
+    {
+        string heroName = eventData.heroUnit.name;
+        // todo add option to edit this name
+
+        int alliesCount = 0;
+        if (turn == 0) {
+            Debug.Log($"A Hero emerges in {eventData.city.name}");
+        }
+        else {
+            Debug.Log($"A Hero in {eventData.city.name} offers to join you for {eventData.heroCost} gold. You have {activePlayer.gold} gold to spend. Will you accept?");
+            // todo ok/cancel
+
+            alliesCount = Random.Range(0, 3 + 1);  // todo this should be loaded from a file/constant/something
+            if (alliesCount == 1) {
+                Debug.Log($"And the Hero brings 1 ally!");
+            }
+            else if (alliesCount > 1) {
+                Debug.Log($"And the Hero brings {alliesCount} allies!");
+            }
+        }
+        eventData.heroUnit.name = heroName;
+
+        activePlayer.gold -= eventData.heroCost;
+        activePlayer.SpawnHero(eventData.heroUnit, eventData.city, alliesCount);
     }
 
     /// Adds a new player to the list of players

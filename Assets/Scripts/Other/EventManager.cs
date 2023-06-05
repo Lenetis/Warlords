@@ -16,6 +16,13 @@ public struct TileMapResizedEventData
     public int newHeight;
 }
 
+public struct HeroSpawnEventData
+{
+    public int heroCost;
+    public Unit heroUnit;
+    public City city;
+}
+
 public static class EventManager
 {
     public static event System.EventHandler<ArmyMovedEventData> ArmyMovedEvent;
@@ -27,6 +34,7 @@ public static class EventManager
     public static event System.EventHandler CityCreatedEvent;
     public static event System.EventHandler CityDestroyedEvent;
     public static event System.EventHandler CityRazedEvent;
+    public static event System.EventHandler<HeroSpawnEventData> HeroSpawnedEvent;
     public static event System.EventHandler ItemCreatedEvent;
     public static event System.EventHandler ItemDestroyedEvent;
     public static event System.EventHandler StructureCreatedEvent;
@@ -70,6 +78,10 @@ public static class EventManager
 
     public static void OnCityRazed(object sender) {
         CityRazedEvent?.Invoke(sender, System.EventArgs.Empty);
+    }
+
+    public static void OnHeroSpawn(object sender, HeroSpawnEventData eventData) {
+        HeroSpawnedEvent?.Invoke(sender, eventData);
     }
 
     public static void OnItemCreated(object sender) {
