@@ -125,6 +125,7 @@ public class MapEditor : MonoBehaviour
         if (brushSize < 0) {
             brushSize = 0;
         }
+        Debug.Log($"Brush size = {brushSize}");
     }
 
     /// Draws on tileMap with the selected tile. Works with symmetry
@@ -229,9 +230,13 @@ public class MapEditor : MonoBehaviour
     /// Destroys the contents of tiles (armies and cities, in the future also roads, temples, etc). Works with symmetry
     private void ClearTiles()
     {
-        foreach (Position symmetryPosition in GetSymmetryPositions(mouseSelection.highlightedPosition)) {
-            Tile symmetryTile = tileMap.GetTile(symmetryPosition);
-            symmetryTile.Clear();
+        List<Position> positions = tileMap.GetNeighbouringPositions(mouseSelection.highlightedPosition, brushSize);
+        positions.Add(mouseSelection.highlightedPosition);
+        foreach (Position position in positions) {
+            foreach (Position symmetryPosition in GetSymmetryPositions(position)) {
+                Tile symmetryTile = tileMap.GetTile(symmetryPosition);
+                symmetryTile.Clear();
+            }
         }
     }
 
