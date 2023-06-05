@@ -51,16 +51,15 @@ public class ArmyManagement : MonoBehaviour
         if (movedArmy == mouseSelection.selectedArmy)
         {
             SelectArmy(gameController.tileMap.GetTile(movedArmy.position).armies);
-        }
 
-        for (int i = 0; i < mouseSelection.selectedArmy.units.Count; i += 1)
-        {
-            if (movesAvailable[i].text != mouseSelection.selectedArmy.units[i].pathfinder.remainingMove.ToString())
+            for (int i = 0; i < mouseSelection.selectedArmy.units.Count; i += 1)
             {
-                movesAvailable[i].text = mouseSelection.selectedArmy.units[i].pathfinder.remainingMove.ToString();
+                if (movesAvailable[i].text != mouseSelection.selectedArmy.units[i].pathfinder.remainingMove.ToString())
+                {
+                    movesAvailable[i].text = mouseSelection.selectedArmy.units[i].pathfinder.remainingMove.ToString();
+                }
             }
         }
-
     }
 
     public void SelectArmy(List<Army> selectedArmies)
