@@ -196,14 +196,6 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         owner.RemoveArmy(this);
         gameController.tileMap.GetTile(position).RemoveArmy(this);
 
-        // todo remove this!!
-        while (mapSprite.transform.childCount > 0) {
-            if (mapSprite.transform.GetChild(0).name == "Boat") {
-                GameObject.Destroy(mapSprite.transform.GetChild(0).gameObject);
-            }
-            mapSprite.transform.GetChild(0).SetParent(null);
-            // todo this whole loop is awful
-        }
         GameObject.Destroy(mapSprite);
 
         EventManager.OnArmyDestroyed(this);
@@ -259,7 +251,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
             attackTarget = null;
             Tile targetTile = gameController.tileMap.GetTile(path.Last());
             if (targetTile.owner != null && targetTile.owner != owner) {
-                if (targetTile.structure as IOwnableMapObject != null) {  // todo this looks a bit spaghetti, but I'm not sure what else to do
+                if (targetTile.structure as IOwnableMapObject != null) {
                     attackTarget = (IOwnableMapObject)targetTile.structure;
                 } else {
                     attackTarget = targetTile.armies[0];  // todo make sure that armies[0] is the one with a visible sprite
