@@ -93,7 +93,7 @@ public class CursorInfo : MonoBehaviour
                 isMoved = true;
             }
 
-            if (!isMoved && !mouseSelection.isSelected)
+            if (!isMoved && mouseSelection.selectedArmy == null)
             {
                 if (mode == 0)
                 {

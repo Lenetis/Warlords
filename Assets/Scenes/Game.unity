@@ -6731,7 +6731,6 @@ MonoBehaviour:
   displayArea: {fileID: 1959054281}
   gui: {fileID: 867103921}
   isOverDispArea: 0
-  isSelected: 0
   gameMenu: {fileID: 1987109858}
 --- !u!114 &539077154
 MonoBehaviour:
@@ -16200,8 +16199,6 @@ GameObject:
   - component: {fileID: 1448693733}
   - component: {fileID: 1448693732}
   - component: {fileID: 1448693731}
-  - component: {fileID: 1448693730}
-  - component: {fileID: 1448693729}
   m_Layer: 0
   m_Name: UICamera
   m_TagString: MainCamera
@@ -16209,45 +16206,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1448693729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448693728}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c2856f0fe68a3c40b8f8d4221a420c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectionMarker: {fileID: 1783239820}
-  selectedArmyMarker: {fileID: 0}
-  pathStepMarker: {fileID: 3356599469832199799, guid: 5a81f3478f50db1408856e9b74bd4bf0, type: 3}
-  cam: {fileID: 0}
-  displayArea: {fileID: 1959054281}
-  gui: {fileID: 867103921}
-  isOverDispArea: 0
-  isSelected: 0
-  gameMenu: {fileID: 0}
---- !u!114 &1448693730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1448693728}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 132c3cf2c91c2f0488937c6fe2f8b9fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panSpeed: 0.0013
-  sidePanSpeed: 1
-  zoomSpeed: 1
-  camUI: {fileID: 0}
-  mapHeight: 50
-  mapWidth: 80
 --- !u!81 &1448693731
 AudioListener:
   m_ObjectHideFlags: 0

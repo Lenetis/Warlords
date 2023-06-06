@@ -30,7 +30,7 @@ public class BattleScreen : MonoBehaviour
 
     public float turnDelay = 1;  // todo move this delay to game, use BattleScreen only for displaying the battle info, not for time-related stuff
     private float currentTurnDelay = 0;
-    private bool boool;
+    private bool waitingForUnitsUpdate;
     public Player winner;
 
     public GameObject unitImage;
@@ -60,8 +60,6 @@ public class BattleScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        boool = true;
-        battle = null;
         attackerUnits = new List<GameObject>();
         defenderUnits = new List<GameObject>();
     }
@@ -72,10 +70,9 @@ public class BattleScreen : MonoBehaviour
         if (battle != null)
         {
             currentTurnDelay += Time.deltaTime;
-            if (currentTurnDelay >= turnDelay * 0.75 || battle.winner != null)
+            if (currentTurnDelay >= turnDelay * 0.75)
             {
-
-                if (boool)
+                if (battle.winner == null && !waitingForUnitsUpdate)
                 {
                     winner = battle.Turn();
 
@@ -90,37 +87,38 @@ public class BattleScreen : MonoBehaviour
                         defenderUnits[0].transform.GetChild(0).gameObject.SetActive(true);
                         Debug.Log("BOOOOM");
                     }
-                    boool = false;
+
+                    waitingForUnitsUpdate = true;
                 }
 
-
-                if (currentTurnDelay >= turnDelay)
+                if (currentTurnDelay >= turnDelay && waitingForUnitsUpdate)
                 {
                     UpdateAttacker(battle.attackingUnits);
                     UpdateDefender(battle.defendingUnits);
 
+                    waitingForUnitsUpdate = false;
 
-                    if (winner != null)
+                    currentTurnDelay -= turnDelay;
+
+                    if (battle.winner != null)
                     {
                         string info;
-                        if (winner != battle.attackingPlayer)
+                        if (battle.winner != battle.attackingPlayer)
                         {
                             info = "You have lost!";
                         }
                         else
                         {
-                            info = winner.name + " have won\nthe battle!";
+                            info = battle.winner.name + " have won\nthe battle!";
                         }
-
-                        battle = null;
 
                         ArmyManagement armyManagement = GameObject.Find("Main").GetComponent<ArmyManagement>();
                         armyManagement.RefreshSelection();
-                        Debug.Log($"Battle ended. Winner = {winner}");
+                        Debug.Log($"Battle ended. Winner = {battle.winner}");
                         winInfo.text = info;
+
+                        battle = null;
                     }
-                    currentTurnDelay -= turnDelay;
-                    boool = true;
                 }
             }
         }
@@ -152,7 +150,6 @@ public class BattleScreen : MonoBehaviour
 
     private void BattleStartedHandler(object sender, System.EventArgs args)
     {
-        boool = true;  // I have literally no idea what this does
         attackerUnits.Clear();
         defenderUnits.Clear();
         
@@ -165,6 +162,9 @@ public class BattleScreen : MonoBehaviour
 
         attackingPlayer = battle.attackingPlayer;
         attackedCity = (gameController.tileMap.GetTile(battle.defender.position).structure) as City;
+
+        currentTurnDelay = 0;
+        waitingForUnitsUpdate = false;
     }
 
     private void UpdateUnitImages(List<Unit> units, List<GameObject> unitImages, GameObject unitPanel)

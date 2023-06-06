@@ -28,7 +28,6 @@ public class MouseSelection : MonoBehaviour
     private CityManagement cityManagement;
 
     public bool isOverDispArea;
-    public bool isSelected;
 
     public List<Army> selectedArmies;
     public GameObject gameMenu;
@@ -38,11 +37,15 @@ public class MouseSelection : MonoBehaviour
     void Awake()
     {
         EventManager.ArmyMovedEvent += ArmyMovedHandler;
+        EventManager.ArmyDestroyedEvent += ArmyDestroyedHandler;
+        EventManager.BattleStartedEvent += BattleStartedHandler;
     }
 
     void OnDestroy()
     {
         EventManager.ArmyMovedEvent -= ArmyMovedHandler;
+        EventManager.ArmyDestroyedEvent -= ArmyDestroyedHandler;
+        EventManager.BattleStartedEvent -= BattleStartedHandler;
     }
 
     void Start()
@@ -169,7 +172,6 @@ public class MouseSelection : MonoBehaviour
                             DrawPath();
 
                             armyManagement.SelectArmy(selectedArmies);
-                            isSelected = true;
                         }
                         else
                         {
@@ -179,7 +181,6 @@ public class MouseSelection : MonoBehaviour
                     else
                     {
                         DeselectArmy();
-                        isSelected = false;
 
                         if (highlightedTile.structure as City != null)
                         {
@@ -236,6 +237,18 @@ public class MouseSelection : MonoBehaviour
             DrawPath();
         }
     }
+
+    private void ArmyDestroyedHandler(object sender, System.EventArgs args)
+    {
+        if ((Army)sender == selectedArmy) {
+           DeselectArmy();
+        }
+    }
+
+    private void BattleStartedHandler(object sender, System.EventArgs args)
+    {
+        ClearPath();
+    }
     
     private void DeselectArmy()
     {
@@ -261,11 +274,13 @@ public class MouseSelection : MonoBehaviour
 
     private void ClearPath()
     {
-        foreach (GameObject go in pathMarkers)
-        {
-            Destroy(go);
+        if (pathMarkers != null) {
+            foreach (GameObject go in pathMarkers)
+            {
+                Destroy(go);
+            }
+            pathMarkers.Clear();
         }
-        pathMarkers.Clear();
         pathSteps = null;
     }
 

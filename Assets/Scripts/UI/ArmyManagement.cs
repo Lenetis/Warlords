@@ -125,9 +125,9 @@ public class ArmyManagement : MonoBehaviour
 
     public void RefreshSelection()
     {
-        if (selectedArmies != null)
+        if (selectedArmies?.Count > 0)
         {
-            SelectArmy(selectedArmies);
+            SelectArmy(gameController.tileMap.GetTile(selectedArmies[0].position).armies);
         }
     }
 
