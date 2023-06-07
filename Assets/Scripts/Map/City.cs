@@ -97,7 +97,7 @@ public class City : MultitileStructure, IOwnableMapObject
             texture = _owner.razedCityTexture;
             maskTexture = _owner.razedCityMaskTexture;
         }
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), 32);
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), TileMap.tileSize);
         SpriteRenderer spriteRenderer = mapSprite.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
         spriteRenderer.sortingOrder = 10;

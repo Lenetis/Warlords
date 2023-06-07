@@ -44,7 +44,7 @@ public class Item : MapObject
     /// Updates the sprite of mapSprite GameObject.
     public override void UpdateSprite()
     {
-        Sprite sprite = Sprite.Create(itemData.texture, new Rect(0, 0, itemData.texture.width, itemData.texture.height), new Vector2(0, 0), 32);
+        Sprite sprite = Sprite.Create(itemData.texture, new Rect(0, 0, itemData.texture.width, itemData.texture.height), new Vector2(0, 0), TileMap.tileSize);
         SpriteRenderer spriteRenderer = mapSprite.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
         spriteRenderer.sortingOrder = 15;

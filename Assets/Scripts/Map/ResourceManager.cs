@@ -43,6 +43,8 @@ public static class ResourceManager
             texture.filterMode = FilterMode.Point;
             texture.Apply();
 
+            texture = ImageResizer.ScaleTexture(texture, (int)(texture.width * TileMap.textureScale), (int)(texture.height * TileMap.textureScale));
+
             loadedTextures[texturePath] = texture;
         }
 

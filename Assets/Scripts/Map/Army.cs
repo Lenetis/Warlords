@@ -70,7 +70,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         // (assuming the list is already sorted and the stronged unit is always the last)
 
         Texture2D texture = strongestUnit.texture;
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), 32);
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), TileMap.tileSize);
         SpriteRenderer spriteRenderer = mapSprite.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
         spriteRenderer.sortingOrder = 20;
@@ -85,7 +85,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
                 SpriteRenderer boatSpriteRenderer = boatMapSprite.AddComponent<SpriteRenderer>();
                 //boatSpriteRenderer.material = new Material(Shader.Find("Shader Graphs/ColorMaskShader"));
                 Texture2D boatTexture = ResourceManager.LoadTexture("Assets/Resources/Units/Boat.png");  // todo, this path probably shouldn't be hardcoded
-                Sprite boatSprite = Sprite.Create(boatTexture, new Rect(0, 0, boatTexture.width, boatTexture.height), new Vector2(0, 0), 32);
+                Sprite boatSprite = Sprite.Create(boatTexture, new Rect(0, 0, boatTexture.width, boatTexture.height), new Vector2(0, 0), TileMap.tileSize);
                 boatSpriteRenderer.sprite = boatSprite;
                 boatSpriteRenderer.sortingOrder = 30;
                 //boatSpriteRenderer.color = owner.color;

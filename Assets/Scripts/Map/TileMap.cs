@@ -17,7 +17,8 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
     public int width;
     public int height;
     
-    public int tileSize;
+    public static double textureScale = 1;
+    public static int tileSize = (int)(32 * textureScale);
 
     public string[] jsons;
 
