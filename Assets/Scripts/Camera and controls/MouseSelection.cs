@@ -59,6 +59,9 @@ public class MouseSelection : MonoBehaviour
         armyManagement = GameObject.Find("Main").GetComponent<ArmyManagement>();
         cityManagement = GameObject.Find("Main").GetComponent<CityManagement>();
         uiController = GameObject.Find("UIController").GetComponent<UIController>();
+
+        previousPathGoal = new Position(-1, -1);
+        // kinda hacky, but this is to ensure the first path goal will always be calculated (otherwise path for (0,0) tile wouldn't be searched)
     }
 
     void Update()
@@ -194,10 +197,6 @@ public class MouseSelection : MonoBehaviour
             {
                 if (Input.GetButtonUp("Move") && uiController.controllsAvailable())
                 {
-                    if (pathSteps != null && pathSteps[0] != selectedArmy.position)
-                    {
-                        pathSteps = tileMap.FindPath(selectedArmy.position, highlightedPosition, selectedArmy);
-                    }
                     selectedArmy.SetPath(pathSteps);
                     gameController.StartArmyMove(selectedArmy);
 
@@ -206,7 +205,7 @@ public class MouseSelection : MonoBehaviour
                 }
                 else if (Input.GetButton("Move") && isOverDispArea && uiController.controllsAvailable())
                 {
-                    if (previousPathGoal != highlightedPosition || pathSteps != null && pathSteps[0] != selectedArmy.position)
+                    if (previousPathGoal != highlightedPosition)
                     {
                         ClearPath();
                         pathSteps = tileMap.FindPath(selectedArmy.position, highlightedPosition, selectedArmy);

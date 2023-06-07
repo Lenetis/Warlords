@@ -339,11 +339,49 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
     public List<Position> GetNeighbouringPositions(Position position, int distance = 1)
     {
         List<Position> positions = new List<Position>();
-        for (int x = Max(position.x - distance, 0); x <= Min(position.x + distance, width - 1); x += 1) {
-            for (int y = Max(position.y - distance, 0); y <= Min(position.y + distance, height - 1); y += 1) {
-                Position neighbour = new Position(x, y);
-                if (neighbour != position) {
-                    positions.Add(neighbour);
+        if (distance == 1) {
+            // if distance == 1, we probably want to use these positions for pathfinding.
+            //     It feels more natural to move only horizontally/vertically instead of diagonally (if the paths are otherwise equal), so we need to get the tiles in a specific order
+            int x = position.x;
+            int y = position.y;
+
+            if (x - 1 >= 0) {
+                positions.Add(new Position(x - 1, y));
+            }
+            if (x + 1 < width) {
+                positions.Add(new Position(x + 1, y));
+            }
+            if (y - 1 >= 0) {
+                positions.Add(new Position(x, y - 1));
+            }
+            if (y + 1 < height) {
+                positions.Add(new Position(x, y + 1));
+            }
+
+            if (x - 1 >= 0) {
+                if(y - 1 >= 0) {
+                    positions.Add(new Position(x - 1, y - 1));
+                }
+                if (y + 1 < height) {
+                   positions.Add(new Position(x - 1, y + 1));
+                }
+            }
+            if (x + 1 < width) {
+                if (y + 1 < height) {
+                    positions.Add(new Position(x + 1, y + 1));
+                }
+                if (y - 1 >= 0) {
+                   positions.Add(new Position(x + 1, y - 1));
+                }
+            }
+        }
+        else {
+            for (int x = Max(position.x - distance, 0); x <= Min(position.x + distance, width - 1); x += 1) {
+                for (int y = Max(position.y - distance, 0); y <= Min(position.y + distance, height - 1); y += 1) {
+                    Position neighbour = new Position(x, y);
+                    if (neighbour != position) {
+                        positions.Add(neighbour);
+                    }
                 }
             }
         }
