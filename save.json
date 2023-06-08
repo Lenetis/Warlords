@@ -1,4 +1,6 @@
 {
+  "turn": 0,
+  "activePlayer": "Summoners",
   "players": [
     {
       "baseFile": "Assets/Resources/Players/defaultPlayer.json",

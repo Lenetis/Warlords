@@ -98,8 +98,8 @@ public static class ResourceManager
         Debug.Log("Saving...");
         JObject save = new JObject();
 
-        // todo also save gameController's stuff (active player, turn number)
-
+        save.Add("turn", gameController.turn);
+        save.Add("activePlayer", gameController.activePlayer.name);
         save.Add("players", new JArray(gameController.players.Select(player => player.ToJObject())));
         save.Add("armies", new JArray(gameController.armies.Select(army => army.ToJObject())));
         save.Add("items", new JArray(gameController.items.Select(item => item.ToJObject())));
@@ -153,6 +153,11 @@ public static class ResourceManager
             Port port = Port.FromJObject(portJObject);
             port.AddToGame();
         }
+
+        int turnNumber = (int)loadJObject.GetValue("turn");
+        string activePlayerName = (string)loadJObject.GetValue("activePlayer");
         Debug.Log("Loaded!");
+
+        gameController.Initialize(turnNumber, activePlayerName);
     }
 }

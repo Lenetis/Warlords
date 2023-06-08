@@ -104,7 +104,6 @@ public class GameController : MonoBehaviour
         ResourceManager.LoadGame("save.json");
 
         activePlayer.StartTurn();
-        EventManager.OnTurn(this);
     }
 
     /// Update is called once per frame
@@ -134,6 +133,16 @@ public class GameController : MonoBehaviour
         else {
             currentArmyMoveDelay = 0;
         }
+    }
+
+    /// Initializes the game with current turnNumber and name of active player and raises the OnTurn event. Called to start the game after everything is loaded.
+    public void Initialize(int turnNumber, string activePlayerName)
+    {
+        activePlayerIndex = players.IndexOf(GetPlayerByName(activePlayerName));
+
+        turn = turnNumber;
+
+        EventManager.OnTurn(this);
     }
 
     /// Starts the army's automatic movement along its path
