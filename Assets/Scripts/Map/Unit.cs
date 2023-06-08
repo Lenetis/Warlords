@@ -8,6 +8,8 @@ public class Unit
 {
     public string baseFile {get; private set;}
 
+    public Army army {get; set;}
+
     public string name {get; set;}
     public Texture2D texture {get; private set;}
     public Texture2D maskTexture {get; private set;}
@@ -47,6 +49,20 @@ public class Unit
     public Unit(JObject baseAttributes)
     {
         LoadBaseAttributes(baseAttributes);
+    }
+
+    /// Destroys this unit - removes it from its army, and drops all items to the ground, if it was a hero
+    public void Destroy()
+    {
+        army.RemoveUnit(this);
+        
+        if (isHero) {
+            while (heroData.items.Count > 0) {
+                heroData.DropItem(heroData.items[0], army.position);
+            }
+        }
+
+        EventManager.OnUnitDestroyed(this);
     }
 
     /// Resets remaining movement points of this unit

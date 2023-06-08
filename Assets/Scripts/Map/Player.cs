@@ -26,6 +26,7 @@ public class Player
 
     public List<Army> armies {get;}
     public List<City> cities {get;}
+    public List<Unit> heroes {get;}
 
     private int _gold;
     public int gold
@@ -81,18 +82,27 @@ public class Player
 
         armies = new List<Army>();
         cities = new List<City>();
+        heroes = new List<Unit>();
     }
 
     /// Adds army to this player's army list
     public void AddArmy(Army army)
     {
         armies.Add(army);
+        foreach (Unit hero in army.heroes) {
+            if (!heroes.Contains(hero)) {
+                heroes.Add(hero);
+            }
+        }
     }
 
     /// Removes army from this player's army list
     public void RemoveArmy(Army army)
     {
         armies.Remove(army);
+        foreach (Unit hero in army.heroes) {
+            heroes.Remove(hero);
+        }
     }
 
     /// Adds city to this player's city list

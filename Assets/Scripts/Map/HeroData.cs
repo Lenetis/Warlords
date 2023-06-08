@@ -7,15 +7,31 @@ using Newtonsoft.Json.Linq;
 
 public class HeroData
 {
-    int level;
-    int experience;
-    List<ItemData> items;
+    public int level {get; set;}
+    public int experience {get; set;}
+    public List<ItemData> items {get; set;}
     
     public HeroData(int level, int experience, List<ItemData> items)
     {
         this.level = level;
         this.experience = experience;
         this.items = items;
+    }
+
+    /// Removes the item from the tilemap and adds it to the list of items
+    public void PickUpItem(Item item)
+    {
+        items.Add(item.itemData);
+        item.Destroy();
+    }
+
+    /// Removes the item from the list of items and spawns a new Item MapObject containing this item at the specified position
+    public void DropItem(ItemData itemData, Position position)
+    {
+        items.Remove(itemData);
+
+        Item newItem = new Item(itemData, position);
+        newItem.AddToGame();
     }
 
     public static HeroData FromJObject(JObject attributes)

@@ -90,15 +90,8 @@ public class Battle
     /// Removes all units that died in this battle from their respective armies
     private void RemoveDeadUnits()
     {
-        foreach (Army army in armies) {
-            int aliveUnitIndex = 0;
-            while (aliveUnitIndex < army.units.Count) {
-                if (deadUnits.Contains(army.units[aliveUnitIndex])) {
-                    army.RemoveUnit(army.units[aliveUnitIndex]);
-                } else {
-                    aliveUnitIndex += 1;
-                }
-            }
+        foreach (Unit unit in deadUnits) {
+            unit.Destroy();
         }
     }
 }

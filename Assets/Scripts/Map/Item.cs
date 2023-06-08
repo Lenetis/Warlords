@@ -14,6 +14,12 @@ public class Item : MapObject
         LoadBaseAttributes(baseAttributes);
     }
 
+    public Item(ItemData itemData, Position position) : base(position)
+    {
+        this.baseFile = itemData.baseFile;
+        this.itemData = itemData;
+    }
+
     /// Returns true (MapItems can always be added)  //todo - what about water or mountains?
     public override bool CanAddToGame()
     {

@@ -100,6 +100,21 @@ public class MouseSelection : MonoBehaviour
         {
             SplitTileUnits(selectedArmy);
         }
+        if (Input.GetKeyDown(KeyCode.P) && selectedArmy != null && selectedArmy.heroes.Count != 0 && uiController.controllsAvailable())
+        {
+            if (gameController.tileMap.GetTile(selectedArmy.position).items != null)
+            {
+                Item itemToPickUp = gameController.tileMap.GetTile(selectedArmy.position).items[0];
+                selectedArmy.heroes[0].heroData.PickUpItem(itemToPickUp);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.D) && selectedArmy != null && selectedArmy.heroes.Count != 0 && uiController.controllsAvailable())
+        {
+            if (selectedArmy.heroes[0].heroData.items.Count != 0)
+            {
+                selectedArmy.heroes[0].heroData.DropItem(selectedArmy.heroes[0].heroData.items[0], selectedArmy.position);
+            }
+        }
         if(Input.GetKeyDown(KeyCode.F5))
         {
             ResourceManager.SaveGame("save.json");

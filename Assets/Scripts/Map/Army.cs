@@ -45,8 +45,25 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
     public List<Position> path {get; private set;}
     private IOwnableMapObject attackTarget;
 
+    /// Returns a list of all hero units in this army (may be empty)
+    public List<Unit> heroes
+    {
+        get {
+            List<Unit> heroesList = new List<Unit>();
+            foreach (Unit unit in units) {
+                if (unit.isHero) {
+                    heroesList.Add(unit);
+                }
+            }
+            return heroesList;
+        }
+    }
+
     public Army(List<Unit> units, Position position, Player owner) : base(position)
-    {        
+    {
+        foreach (Unit unit in units) {
+            unit.army = this;
+        }
         this.units = units;
         this.owner = owner;
         
@@ -152,6 +169,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
     public void AddUnit(Unit unit)
     {
         units.Add(unit);
+        unit.army = this;
 
         UpdatePathfindingTypes();
         SortUnits();
@@ -163,6 +181,9 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
     public void AddUnits(List<Unit> units)
     {
         this.units.AddRange(units);
+        foreach (Unit unit in units) {
+            unit.army = this;
+        }
 
         UpdatePathfindingTypes();
         SortUnits();

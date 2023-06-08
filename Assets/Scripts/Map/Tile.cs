@@ -39,6 +39,13 @@ public class Tile  // todo change to struct maybe?
         }
     }
 
+    public List<Item> items
+    {
+        get {
+            return contents.items;
+        }
+    }
+
     public int moveCost
     {
         get {

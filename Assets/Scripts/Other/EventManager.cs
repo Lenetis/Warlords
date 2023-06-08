@@ -42,6 +42,7 @@ public static class EventManager
     public static event System.EventHandler<TileMapResizedEventData> TileMapResizedEvent;
     public static event System.EventHandler TurnEvent;
     public static event System.EventHandler<Unit> UnitBoughtEvent;
+    public static event System.EventHandler UnitDestroyedEvent;
 
 
     public static void OnArmyMoved(object sender, ArmyMovedEventData eventData) {
@@ -110,5 +111,9 @@ public static class EventManager
 
     public static void OnUnitBought(object sender, Unit unit) {
         UnitBoughtEvent?.Invoke(sender, unit);
+    }
+
+    public static void OnUnitDestroyed(object sender) {
+        UnitDestroyedEvent?.Invoke(sender, System.EventArgs.Empty);
     }
 }
