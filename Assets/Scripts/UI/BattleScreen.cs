@@ -7,6 +7,7 @@ using TMPro;
 public class BattleScreen : MonoBehaviour
 {
     private static GameController gameController;
+    private CityManagement cityManagement;
 
     public GameObject battlePanel;
     public GameObject animationPanel;
@@ -62,6 +63,7 @@ public class BattleScreen : MonoBehaviour
     {
         attackerUnits = new List<GameObject>();
         defenderUnits = new List<GameObject>();
+        cityManagement=GameObject.Find("Main").GetComponent<CityManagement>();
     }
 
     // Update is called once per frame
@@ -204,6 +206,7 @@ public class BattleScreen : MonoBehaviour
         actionPanel.SetActive(false);
         animationPanel.SetActive(true);
         battlePanel.SetActive(false);
+        cityManagement.SelectCity(attackedCity);
     }
 
     public void CaptureCity()
@@ -212,15 +215,18 @@ public class BattleScreen : MonoBehaviour
         actionPanel.SetActive(false);
         animationPanel.SetActive(true);
         battlePanel.SetActive(false);
+        cityManagement.SelectCity(attackedCity);
     }
 
     public void OccupyCity()
-    {
+    {        
         //todo
+        cityManagement.SelectCity(attackedCity);
     }
 
     public void PillageCity()
     {
         //todo
+        cityManagement.SelectCity(attackedCity);
     }
 }

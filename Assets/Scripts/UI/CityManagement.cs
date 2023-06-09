@@ -142,21 +142,41 @@ public class CityManagement : MonoBehaviour
 
             buyableUnits = new GameObject[buyableSize];
             buyableUnitsImage = new Image[buyableSize];
+
+            int row = 0;
+            int column = 0;
+            if (selectedCity.buyableUnits.Count > 15)
+            {
+                buyableUnitsPanel.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Ceil(selectedCity.buyableUnits.Count/5)*50);
+                row = 1;
+            }
             
             for (int i = 0; i < buyableSize; i++)
             {
+                if (column == 5)
+                {
+                    row++;
+                    column = 0;
+                }
+
                 if (buyableUnits[i] == null)
                 {
                     buyableUnits[i] = Instantiate(unitCityButton, buyableUnitsPanel.transform);
-                    buyableUnits[i].transform.localPosition = new Vector3((i + 1) * ((buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / ((buyableSize) + 1))) - (buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / 2), 0, 0);
+                    buyableUnits[i].transform.localPosition = new Vector3((column + 1) * ((buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / ((buyableSize) + 1))), (buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.y/2-100)-(row*50/ buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.y)* buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.y, 0);
                     buyableUnits[i].transform.SetParent(buyableUnitsPanel.transform);
                     buyableUnits[i].name = i.ToString();
+                    buyableUnits[i].GetComponent<ButtonRightClick>().buttonName = selectedCity.buyableUnits[i].name;
+                    buyableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[0] = selectedCity.buyableUnits[i].battleStats.strength.ToString();
+                    buyableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[1] = "mov";
+                    buyableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[2] = "tim";
+                    buyableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[3] = selectedCity.buyableUnits[i].productionCost.ToString();
 
                     buyableUnitsImage[i] = buyableUnits[i].transform.GetChild(0).gameObject.GetComponent<Image>();
                     buyableUnitsImage[i].sprite = Sprite.Create(selectedCity.buyableUnits[i].texture, new Rect(0.0f, 0.0f, selectedCity.buyableUnits[i].texture.width, selectedCity.buyableUnits[i].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
 
                     buyableUnits[i].transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = selectedCity.buyableUnits[i].purchaseCost.ToString() + "gp";
                 }
+                column++;
                 
             }
 
@@ -346,6 +366,11 @@ public class CityManagement : MonoBehaviour
                 buildableUnits[i].transform.localPosition = new Vector3((i + 1) * ((buildableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / ((buildableSize) + 1))) - (buildableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / 2), 0, 0);
                 buildableUnits[i].transform.SetParent(buildableUnitsPanel.transform);
                 buildableUnits[i].name = i.ToString();
+                buildableUnits[i].GetComponent<ButtonRightClick>().buttonName = selectedCity.buildableUnits[i].name;
+                buildableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[0] = selectedCity.buildableUnits[i].battleStats.strength.ToString();
+                buildableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[1] = "mov";
+                buildableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[2] = "tim";
+                buildableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[3] = selectedCity.buildableUnits[i].productionCost.ToString();
 
                 buildableUnitsImage[i] = buildableUnits[i].transform.GetChild(0).gameObject.GetComponent<Image>();
                 buildableUnitsImage[i].sprite = Sprite.Create(selectedCity.buildableUnits[i].texture, new Rect(0.0f, 0.0f, selectedCity.buildableUnits[i].texture.width, selectedCity.buildableUnits[i].texture.height), new Vector2(0.5f, 0.5f), 100.0f);

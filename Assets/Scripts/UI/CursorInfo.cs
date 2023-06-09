@@ -24,10 +24,12 @@ public class CursorInfo : MonoBehaviour
     public float correctionX, correctionY;
     public int mode;
     public string buttonName;
-    public string buttonDescription;
+    public string[] buttonDescription=new string[4];
 
     public GameObject cityStats;
+    public GameObject unitStats;
     public GameObject goldImage;
+    public GameObject swordsImage;
 
     public GameObject unitImage;
     public GameObject[] selectedUnits;
@@ -53,7 +55,7 @@ public class CursorInfo : MonoBehaviour
     
         //Debug.Log(dispAreaOriginX+" "+Input.mousePosition.x);
 
-        if (Input.GetMouseButton(1) && mouseSelection.isOverDispArea && uiController.controllsAvailable() || mode==1 || mode==2)
+        if (Input.GetMouseButton(1) && mouseSelection.isOverDispArea && uiController.controllsAvailable() || mode==1 || mode==2 || mode==3)
         {
             Debug.Log(mouseSelection.highlightedTile);
             correctionY = 0;
@@ -99,6 +101,7 @@ public class CursorInfo : MonoBehaviour
                 {
                     if (mouseSelection.highlightedTile.armies != null)
                     {
+                        unitStats.SetActive(false);
                         cityStats.SetActive(false);
                         if (wood.activeSelf)
                         {
@@ -146,6 +149,7 @@ public class CursorInfo : MonoBehaviour
                     }
                     else if (mouseSelection.highlightedTile.structure as City != null)
                     {
+                        unitStats.SetActive(false);
                         cityStats.SetActive(false);
                         if (wood.activeSelf)
                         {
@@ -162,6 +166,7 @@ public class CursorInfo : MonoBehaviour
                     }
                     else if (mouseSelection.highlightedTile.structure as Signpost != null)
                     {
+                        unitStats.SetActive(false);
                         cityStats.SetActive(false);
                         if (stone.activeSelf)
                         {
@@ -176,8 +181,26 @@ public class CursorInfo : MonoBehaviour
                         objectName.text = signpost.name;
                         objectDescription.text = signpost.description;
                     }
+                    else if (mouseSelection.highlightedTile.structure as Port != null)
+                    {
+                        unitStats.SetActive(false);
+                        cityStats.SetActive(false);
+                        if (stone.activeSelf)
+                        {
+                            stone.SetActive(true);
+                        }
+                        if (!wood.activeSelf)
+                        {
+                            wood.SetActive(false);
+                        }
+
+                        Port port = (Port)mouseSelection.highlightedTile.structure;
+                        objectName.text = "Port";
+                        objectDescription.text = port.position.ToString();
+                    }
                     else
                     {
+                        unitStats.SetActive(false);
                         cityStats.SetActive(false);
                         if (wood.activeSelf)
                         {
@@ -194,6 +217,7 @@ public class CursorInfo : MonoBehaviour
                 }
                 else if(mode==1)
                 {
+                    unitStats.SetActive(false);
                     cityStats.SetActive(false);
                     if (wood.activeSelf)
                     {
@@ -204,20 +228,29 @@ public class CursorInfo : MonoBehaviour
                         stone.SetActive(true);
                     }
                     objectName.text = buttonName;
-                    objectDescription.text = buttonDescription;
+                    objectDescription.text = buttonDescription[0];
                 }
                 else if (mode == 2)
                 {
-                    if (buttonDescription == "Razed!")
+                    unitStats.SetActive(false);
+                    if (buttonDescription[0] == "Razed!")
                     {
                         goldImage.SetActive(false);
+                        swordsImage.SetActive(false);
+                        objectDescription.text = buttonDescription[0];
+                        cityStats.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
+                        cityStats.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "";
                     }
                     else
                     {
                         goldImage.SetActive(true);
+                        swordsImage.SetActive(true);
+                        objectDescription.text = "";
+                        cityStats.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = buttonDescription[0];
+                        cityStats.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = buttonDescription[1];
                     }
                     cityStats.SetActive(true);
-                    objectDescription.text = "";
+                    
 
                     if (wood.activeSelf)
                     {
@@ -228,7 +261,27 @@ public class CursorInfo : MonoBehaviour
                         stone.SetActive(true);
                     }
                     objectName.text = buttonName;
-                    cityStats.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = buttonDescription;
+                }
+                else if (mode == 3)
+                {
+                    cityStats.SetActive(false);
+                    unitStats.SetActive(true);
+                    if (wood.activeSelf)
+                    {
+                        wood.SetActive(false);
+                    }
+                    if (!stone.activeSelf)
+                    {
+                        stone.SetActive(true);
+                    }
+
+                    objectDescription.text = "";
+                    objectName.text = buttonName;
+                    unitStats.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = buttonDescription[0];
+                    unitStats.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = buttonDescription[1];
+                    unitStats.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = buttonDescription[2];
+                    unitStats.transform.GetChild(7).GetComponent<TextMeshProUGUI>().text = buttonDescription[3];
+
                 }
 
 

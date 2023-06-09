@@ -91,5 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cursorInfo: {fileID: 0}
   buttonName: MapCITY
-  buttonDescription: MAPCity
+  buttonDescription:
+  - 
+  - 
   mode: 2
