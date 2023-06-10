@@ -8,6 +8,7 @@ public class UIController : MonoBehaviour
     public GameObject gameMenu;
     public GameObject battleScreen;
     public GameObject turnInfo;
+    public GameObject heroPanel;
     public bool isOverMinimap;
 
     // Start is called before the first frame update
@@ -24,7 +25,7 @@ public class UIController : MonoBehaviour
 
     public bool controllsAvailable()
     {
-        if(!gameMenu.activeSelf && !cityManagement.activeSelf && !battleScreen.activeSelf && !turnInfo.activeSelf)
+        if(!gameMenu.activeSelf && !cityManagement.activeSelf && !battleScreen.activeSelf && !turnInfo.activeSelf && !heroPanel.activeSelf)
         {
             return true;
         }

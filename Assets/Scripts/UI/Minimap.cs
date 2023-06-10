@@ -10,6 +10,7 @@ public class Minimap : MonoBehaviour
     public Texture2D tileMapTexture;
     public GameObject miniMapImage;
     public GameObject cityMiniMapImage;
+    public GameObject heroMiniMapImage;
     public bool isTileMapLoaded = false;
     public bool areCitiesLoaded = false;
     public float width;
@@ -56,6 +57,7 @@ public class Minimap : MonoBehaviour
 
     public GameObject[] cityIcons;
     public GameObject[] cityIconsInMenu;
+    public GameObject[] cityIconsInHeroMenu;
 
     public GameObject cityIconTransparent;
 
@@ -65,6 +67,9 @@ public class Minimap : MonoBehaviour
 
     public Sprite cityIconInMenuImage;
     public Sprite cityIconInMenuSelectedImage;
+    public Sprite heroImage;
+
+    public GameObject heroIcon;
 
     public City selectedCity;
 
@@ -187,25 +192,29 @@ public class Minimap : MonoBehaviour
             tileMapTexture = tileMap.miniMapTexture;
             height = tileMap.height;
             width = tileMap.width;
-            isTileMapLoaded = true;
+            
             cameraController.mapWidth = (int)width;
             cameraController.mapHeight = (int)height;
 
             miniMapImage.GetComponent<RawImage>().texture = tileMapTexture;
             cityMiniMapImage.GetComponent<RawImage>().texture = tileMapTexture;
+            heroMiniMapImage.GetComponent<RawImage>().texture = tileMapTexture;
 
             if (width >= height)
             {
                 ratio = height / width;
                 miniMapImage.GetComponent<RectTransform>().sizeDelta = new Vector2(200, ratio * 200);
                 cityMiniMapImage.GetComponent<RectTransform>().sizeDelta = new Vector2(200, ratio * 200);
+                heroMiniMapImage.GetComponent<RectTransform>().sizeDelta = new Vector2(200, ratio * 200);
             }
             else
             {
                 ratio = width / height;
                 miniMapImage.GetComponent<RectTransform>().sizeDelta = new Vector2(ratio * 200, 200);
                 cityMiniMapImage.GetComponent<RectTransform>().sizeDelta = new Vector2(ratio * 200, 200);
+                heroMiniMapImage.GetComponent<RectTransform>().sizeDelta = new Vector2(ratio * 200, 200);
             }
+            isTileMapLoaded = true;
         }
         if (tileMap.miniMapTexture != null && gameController.cities!=null && areCitiesLoaded == false)
         {
@@ -240,8 +249,17 @@ public class Minimap : MonoBehaviour
             }
         }
 
+        for (int i = 0; i < cityIconsInHeroMenu.Length; i++)
+        {
+            if (cityIconsInHeroMenu[i] != null)
+            {
+                Destroy(cityIconsInHeroMenu[i].gameObject);
+            }
+        }
+
         cityIcons = new GameObject[gameController.cities.Count];
         cityIconsInMenu = new GameObject[gameController.cities.Count];
+        cityIconsInHeroMenu = new GameObject[gameController.cities.Count];
         cityIconsTransparent = new GameObject[gameController.cities.Count];
 
         for (int i=0; i<gameController.cities.Count; i++)
@@ -251,6 +269,7 @@ public class Minimap : MonoBehaviour
 
             if (!gameController.cities[i].razed)
             {
+                //main map
                 cityIcons[i] = Instantiate(cityIcon, miniMapImage.transform.GetChild(0));
                 cityIcons[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-miniMapImage.GetComponent<RectTransform>().sizeDelta.x/2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -miniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + miniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
                 cityIcons[i].GetComponent<Image>().color = gameController.cities[i].owner.color;
@@ -261,12 +280,19 @@ public class Minimap : MonoBehaviour
                 cityIconsTransparent[i].GetComponent<ButtonRightClick>().buttonDescription[0] = gameController.cities[i].economy.income + "gp";
                 cityIconsTransparent[i].GetComponent<ButtonRightClick>().buttonDescription[1] = gameController.cities[i].battleStats.strength.ToString();
 
+                //hero menu
+                cityIconsInHeroMenu[i] = Instantiate(cityIcon, heroMiniMapImage.transform.GetChild(0));
+                cityIconsInHeroMenu[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-heroMiniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + heroMiniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -heroMiniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + heroMiniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
+                cityIconsInHeroMenu[i].GetComponent<Image>().color = gameController.cities[i].owner.color;
+                cityIconsInHeroMenu[i].name = i.ToString();
+
+                //city menu
                 if (gameController.cities[i].owner == gameController.activePlayer)
                 {
                     cityIconsInMenu[i] = Instantiate(cityIcon, cityMiniMapImage.transform.GetChild(0));
                     cityIconsInMenu[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + cityMiniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
                     cityIconsInMenu[i].GetComponent<Image>().color = Color.white;
-                    
+
                     if (selectedCity != null)
                     {
                         if (gameController.cities.IndexOf(selectedCity) == i)
@@ -302,5 +328,21 @@ public class Minimap : MonoBehaviour
             }
         }
         areCitiesLoaded = true;
+    }
+
+    public void DrawHero(HeroSpawnEventData eventData)
+    {
+        if (heroIcon != null)
+        {
+            Destroy(heroIcon);
+        }
+        float normX = ((float)eventData.city.position.x + 1) / (float)tileMap.width;
+        float normY = ((float)eventData.city.position.y + 1) / (float)tileMap.height;
+        heroIcon = Instantiate(cityIcon, heroMiniMapImage.transform.GetChild(2));
+        heroIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-heroMiniMapImage.GetComponent<RectTransform>().sizeDelta.x / 2 + heroMiniMapImage.GetComponent<RectTransform>().sizeDelta.x * normX, -heroMiniMapImage.GetComponent<RectTransform>().sizeDelta.y / 2 + heroMiniMapImage.GetComponent<RectTransform>().sizeDelta.y * normY);
+        heroIcon.GetComponent<Image>().sprite = heroImage;
+        heroIcon.transform.localScale = new Vector3(3f, 3f, 1f);
+        heroIcon.GetComponent<Image>().preserveAspect = true;
+        heroIcon.transform.name = "HeroImage";
     }
 }
