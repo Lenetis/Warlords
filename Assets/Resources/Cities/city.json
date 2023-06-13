@@ -6,13 +6,26 @@
         [1, 1]
     ],
     "buildableUnits": [
-        "Assets/Resources/Units/okoń.json",
-        "Assets/Resources/Units/scout.json",
-        "Assets/Resources/Units/knight.json"
+        "Assets/Resources/Units/Scout.json",
+        "Assets/Resources/Units/Pikeman.json"
     ],
     "buyableUnits": [
-        "Assets/Resources/Units/scout.json",
-        "Assets/Resources/Units/knight.json"
+        "Assets/Resources/Units/Scout.json",
+        "Assets/Resources/Units/GiantBat.json",
+        "Assets/Resources/Units/Pikeman.json",
+        "Assets/Resources/Units/HeavyInfantry.json",
+        "Assets/Resources/Units/Archer.json",
+        "Assets/Resources/Units/LightCavalry.json",
+        "Assets/Resources/Units/HeavyCavalry.json",
+        "Assets/Resources/Units/Wolfrider.json",
+        "Assets/Resources/Units/Giant.json",
+        "Assets/Resources/Units/Minotaur.json",
+        "Assets/Resources/Units/Spider.json",
+        "Assets/Resources/Units/Pegasi.json",
+        "Assets/Resources/Units/Unicorn.json",
+        "Assets/Resources/Units/Ghost.json",
+        "Assets/Resources/Units/Catapult.json",
+        "Assets/Resources/Units/Elephant.json"
     ],
     "economy": {
         "income": 30

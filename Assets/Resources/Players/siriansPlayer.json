@@ -1,0 +1,18 @@
+{
+    "name": "Sirians",
+    "cityTexture": "Assets/Resources/Cities/SiriansCity.png",
+    "cityMaskTexture": "Assets/Resources/Cities/SiriansCityMask.png",
+    "razedCityTexture": "Assets/Resources/Cities/SiriansCityRazed.png",
+    "razedCityMaskTexture": "Assets/Resources/Cities/cityRazedMask.png",
+    "heroNames": ["Baron Bob", "Lord Larry", "Sir Steve", "Duke Donald", "Prince Perry", "Count Carol"],
+    "heroUnits": [
+        "Assets/Resources/Units/Warlord.json"
+    ],
+    "heroAllies": [
+        "Assets/Resources/Units/Ghost.json",
+        "Assets/Resources/Units/GiantBat.json",
+        "Assets/Resources/Units/Unicorn.json",
+        "Assets/Resources/Units/Pegasi.json"
+    ],
+    "specialUnits": []
+}
