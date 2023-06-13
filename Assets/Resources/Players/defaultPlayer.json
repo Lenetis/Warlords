@@ -10,7 +10,7 @@
     ],
     "heroAllies": [
         "Assets/Resources/Units/Ghost.json",
-        "Assets/Resources/Units/GigantBat.json",
+        "Assets/Resources/Units/GiantBat.json",
         "Assets/Resources/Units/Unicorn.json",
         "Assets/Resources/Units/Pegasi.json"
     ],

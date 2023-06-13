@@ -1,7 +1,7 @@
 {
-    "name": "Warlord",
-    "texture": "Assets/Resources/Units/GigantBat.png",
-    "maskTexture": "Assets/Resources/Units/GigantBatMask.png",
+    "name": "Giant Bat",
+    "texture": "Assets/Resources/Units/GiantBat.png",
+    "maskTexture": "Assets/Resources/Units/GiantBatMask.png",
     "productionCost": 1,
     "purchaseCost": 30,
     "pathfinder": {

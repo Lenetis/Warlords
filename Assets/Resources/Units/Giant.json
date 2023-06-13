@@ -1,7 +1,7 @@
 {
-    "name": "Gigant",
-    "texture": "Assets/Resources/Units/Gigant.png",
-    "maskTexture": "Assets/Resources/Units/GigantMask.png",
+    "name": "Giant",
+    "texture": "Assets/Resources/Units/Giant.png",
+    "maskTexture": "Assets/Resources/Units/GiantMask.png",
     "productionCost": 2,
     "purchaseCost": 800,
     "pathfinder": {

@@ -8413,8 +8413,8 @@ MonoBehaviour:
   - Assets/Resources/Units/Catapult.json
   - Assets/Resources/Units/Elephant.json
   - Assets/Resources/Units/Ghost.json
-  - Assets/Resources/Units/Gigant.json
-  - Assets/Resources/Units/GigantBat.json
+  - Assets/Resources/Units/Giant.json
+  - Assets/Resources/Units/GiantBat.json
   - Assets/Resources/Units/Minotaur.json
   - Assets/Resources/Units/Pegasi.json
   - Assets/Resources/Units/Unicorn.json
