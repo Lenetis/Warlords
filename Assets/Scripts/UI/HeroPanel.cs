@@ -58,6 +58,7 @@ public class HeroPanel : MonoBehaviour
 
     private void HeroSpawnEventHandler(object sender, HeroSpawnEventData eventData)
     {
+        heroNameInput.text = "";
         if (firstTurn)
         {
             this.eventData = eventData;
@@ -109,13 +110,9 @@ public class HeroPanel : MonoBehaviour
 
     public void AcceptHero()
     {
-        if (heroNameInput.text == "")
+        if(heroNameInput.text != "")
         {
-            eventData.heroUnit.name = eventData.heroUnit.name;
-        }
-        else
-        {
-            heroName = heroNameInput.text;
+            eventData.heroUnit.name = heroNameInput.text;
         }
        
         gameController.activePlayer.gold -= eventData.heroCost;

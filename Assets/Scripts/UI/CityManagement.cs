@@ -147,8 +147,12 @@ public class CityManagement : MonoBehaviour
             int column = 0;
             if (selectedCity.buyableUnits.Count > 15)
             {
-                buyableUnitsPanel.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Ceil(selectedCity.buyableUnits.Count/5)*50);
-                row = 1;
+                int height = selectedCity.buyableUnits.Count / 5 * 50;
+
+                if (selectedCity.buyableUnits.Count % 5 > 0){
+                    height += 50;
+                }
+                buyableUnitsPanel.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
             }
             
             for (int i = 0; i < buyableSize; i++)
@@ -162,14 +166,14 @@ public class CityManagement : MonoBehaviour
                 if (buyableUnits[i] == null)
                 {
                     buyableUnits[i] = Instantiate(unitCityButton, buyableUnitsPanel.transform);
-                    buyableUnits[i].transform.localPosition = new Vector3((column + 1) * ((buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / ((buyableSize) + 1))), (buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.y/2-100)-(row*50/ buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.y)* buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.y, 0);
+                    buyableUnits[i].transform.localPosition = new Vector3((column + 1) * ((buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.x / ((5) + 1))), (150/2-100)-(row*50/ buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.y)* buyableUnitsPanel.GetComponent<RectTransform>().sizeDelta.y, 0);
                     buyableUnits[i].transform.SetParent(buyableUnitsPanel.transform);
                     buyableUnits[i].name = i.ToString();
                     buyableUnits[i].GetComponent<ButtonRightClick>().buttonName = selectedCity.buyableUnits[i].name;
                     buyableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[0] = selectedCity.buyableUnits[i].battleStats.strength.ToString();
-                    buyableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[1] = "mov";
-                    buyableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[2] = "tim";
-                    buyableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[3] = selectedCity.buyableUnits[i].productionCost.ToString();
+                    buyableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[1] = selectedCity.buyableUnits[i].pathfinder.move.ToString();
+                    buyableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[2] = selectedCity.buyableUnits[i].productionCost.ToString();
+                    buyableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[3] = selectedCity.buyableUnits[i].economy.upkeep.ToString();
 
                     buyableUnitsImage[i] = buyableUnits[i].transform.GetChild(0).gameObject.GetComponent<Image>();
                     buyableUnitsImage[i].sprite = Sprite.Create(selectedCity.buyableUnits[i].texture, new Rect(0.0f, 0.0f, selectedCity.buyableUnits[i].texture.width, selectedCity.buyableUnits[i].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
@@ -368,9 +372,9 @@ public class CityManagement : MonoBehaviour
                 buildableUnits[i].name = i.ToString();
                 buildableUnits[i].GetComponent<ButtonRightClick>().buttonName = selectedCity.buildableUnits[i].name;
                 buildableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[0] = selectedCity.buildableUnits[i].battleStats.strength.ToString();
-                buildableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[1] = "mov";
-                buildableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[2] = "tim";
-                buildableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[3] = selectedCity.buildableUnits[i].productionCost.ToString();
+                buildableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[1] = selectedCity.buildableUnits[i].pathfinder.move.ToString();
+                buildableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[2] = selectedCity.buildableUnits[i].productionCost.ToString();
+                buildableUnits[i].GetComponent<ButtonRightClick>().buttonDescription[3] = selectedCity.buildableUnits[i].economy.upkeep.ToString();
 
                 buildableUnitsImage[i] = buildableUnits[i].transform.GetChild(0).gameObject.GetComponent<Image>();
                 buildableUnitsImage[i].sprite = Sprite.Create(selectedCity.buildableUnits[i].texture, new Rect(0.0f, 0.0f, selectedCity.buildableUnits[i].texture.width, selectedCity.buildableUnits[i].texture.height), new Vector2(0.5f, 0.5f), 100.0f);

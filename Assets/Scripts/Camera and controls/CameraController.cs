@@ -28,7 +28,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Camera Pan") && mouseSelection.isOverDispArea) {
+        if (Input.GetButtonDown("Camera Pan") && mouseSelection.isOverDispArea && uiController.controllsAvailable()) {
             cameraPanButtonPressed = true;
             mousePosition = Input.mousePosition;
         }
@@ -55,7 +55,7 @@ public class CameraController : MonoBehaviour
         }
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll != 0 && mouseSelection.isOverDispArea || scroll != 0 && uiController.isOverMinimap)
+        if (scroll != 0 && mouseSelection.isOverDispArea || scroll != 0 && uiController.isOverMinimap && uiController.controllsAvailable())
         {
             float zPositionDiff = scroll * zoomSpeed * -transform.position.z;
             Vector3 targetPosition = camUI.transform.position + new Vector3(0, 0, zPositionDiff);
