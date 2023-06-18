@@ -1,0 +1,19 @@
+{
+    "name": "Light Infantry",
+    "texture": "Assets/Resources/Units/LightInfantry.png",
+    "maskTexture": "Assets/Resources/Units/LightInfantryMask.png",
+    "productionCost": 1,
+    "purchaseCost": 50,
+    "pathfinder": {
+        "pathfindingTypes": [
+            "land"
+        ],
+        "move": 12
+    },
+    "economy": {
+        "upkeep": 3
+    },
+    "battleStats": {
+        "strength": 2
+    }
+}

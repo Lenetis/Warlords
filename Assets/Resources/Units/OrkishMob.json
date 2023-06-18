@@ -1,6 +1,7 @@
 {
     "name": "Orkish Mob",
     "texture": "Assets/Resources/Units/OrkishMob.png",
+	"maskTexture": "Assets/Resources/Units/OrkishMobMask.png",
     "productionCost": 2,
     "purchaseCost": 100,
     "pathfinder": {
