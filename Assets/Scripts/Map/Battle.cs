@@ -93,5 +93,6 @@ public class Battle
         foreach (Unit unit in deadUnits) {
             unit.Destroy();
         }
+        deadUnits.Clear();
     }
 }

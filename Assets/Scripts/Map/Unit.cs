@@ -61,6 +61,8 @@ public class Unit
                 heroData.DropItem(heroData.items[0], army.position);
             }
         }
+        
+        army = null;
 
         EventManager.OnUnitDestroyed(this);
     }
