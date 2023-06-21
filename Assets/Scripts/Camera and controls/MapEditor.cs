@@ -62,7 +62,7 @@ public class MapEditor : MonoBehaviour
             PlacePorts();
         }
         if (Input.GetKeyDown(KeyCode.Alpha7)) {
-            // todo ruins/temples
+            PlaceRuins();
         }
         if (Input.GetKeyDown(KeyCode.Alpha8)) {
             PlaceItems();
@@ -188,6 +188,17 @@ public class MapEditor : MonoBehaviour
             Port port = new Port(ResourceManager.LoadResource("Assets/Resources/Structures/port.json"), symmetryPosition);
             if (port.CanAddToGame()) {
                 port.AddToGame();
+            }
+        }
+    }
+
+    /// Places selected ruins on the tileMap. Works with symmetry
+    private void PlaceRuins()
+    {
+        foreach (Position symmetryPosition in GetSymmetryPositions(mouseSelection.highlightedPosition)) {
+            Ruins ruins = new Ruins(ResourceManager.LoadResource("Assets/Resources/Structures/ruins.json"), symmetryPosition);
+            if (ruins.CanAddToGame()) {
+                ruins.AddToGame();
             }
         }
     }

@@ -115,6 +115,13 @@ public class MouseSelection : MonoBehaviour
                 selectedArmy.heroes[0].heroData.DropItem(selectedArmy.heroes[0].heroData.items[0], selectedArmy.position);
             }
         }
+        if (Input.GetKeyDown(KeyCode.Z) && selectedArmy != null && selectedArmy.heroes.Count != 0 && uiController.controllsAvailable())
+        {
+            Tile exploreTile = gameController.tileMap.GetTile(selectedArmy.position);
+            if (exploreTile.structure as IExplorable != null) {
+                ((IExplorable)exploreTile.structure).Explore(selectedArmy.heroes[0]);
+            }
+        }
         if(Input.GetKeyDown(KeyCode.F5))
         {
             ResourceManager.SaveGame("save.json");

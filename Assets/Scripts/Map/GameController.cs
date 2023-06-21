@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour
         get {return players[activePlayerIndex];}
     }
 
+    public List<ItemData> ruinsItems {get; private set;}
+
     public List<Player> players {get; private set;}
     public List<Army> armies {get; private set;}
     public List<Item> items {get; private set;}
@@ -24,6 +26,7 @@ public class GameController : MonoBehaviour
     public List<Road> roads {get; private set;}
     public List<Signpost> signposts {get; private set;}
     public List<Port> ports {get; private set;}
+    public List<Ruins> ruins {get; private set;}
 
     private List<Army> movingArmies;
 
@@ -85,6 +88,7 @@ public class GameController : MonoBehaviour
         tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();  // todo replace with new TileMap(...) and change TileMap to not be a MonoBehaviour
 
         players = new List<Player>();
+        ruinsItems = new List<ItemData>();
         armies = new List<Army>();
         items = new List<Item>();
         cities = new List<City>();
@@ -92,6 +96,7 @@ public class GameController : MonoBehaviour
         roads = new List<Road>();
         signposts = new List<Signpost>();
         ports = new List<Port>();
+        ruins = new List<Ruins>();
 
         movingArmies = new List<Army>();
 
@@ -201,6 +206,9 @@ public class GameController : MonoBehaviour
         else if (sender as Port != null) {
             ports.Add((Port)sender);
         }
+        else if (sender as Ruins != null) {
+            ruins.Add((Ruins)sender);
+        }
     }
 
     /// Removes the structure from the corresponding structure list
@@ -215,6 +223,9 @@ public class GameController : MonoBehaviour
         }
         else if (sender as Port != null) {
             ports.Remove((Port)sender);
+        }
+        else if (sender as Ruins != null) {
+            ruins.Remove((Ruins)sender);
         }
     }
 
@@ -282,6 +293,10 @@ public class GameController : MonoBehaviour
         while (ports.Count > 0) {
             ports[0].Destroy();
         }
+        while (ruins.Count > 0) {
+            ruins[0].Destroy();
+        }
         players.Clear();
+        ruinsItems.Clear();
     }
 }

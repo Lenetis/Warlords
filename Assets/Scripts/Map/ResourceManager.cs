@@ -101,6 +101,7 @@ public static class ResourceManager
         save.Add("turn", gameController.turn);
         save.Add("activePlayer", gameController.activePlayer.name);
         save.Add("players", new JArray(gameController.players.Select(player => player.ToJObject())));
+        save.Add("ruinsItems", new JArray(gameController.ruinsItems.Select(itemData => itemData.ToJObject())));
         save.Add("armies", new JArray(gameController.armies.Select(army => army.ToJObject())));
         save.Add("items", new JArray(gameController.items.Select(item => item.ToJObject())));
         save.Add("cities", new JArray(gameController.cities.Select(city => city.ToJObject())));
@@ -108,6 +109,7 @@ public static class ResourceManager
         save.Add("roads", new JArray(gameController.roads.Select(road => road.ToJObject())));
         save.Add("signposts", new JArray(gameController.signposts.Select(signpost => signpost.ToJObject())));
         save.Add("ports", new JArray(gameController.ports.Select(port => port.ToJObject())));
+        save.Add("ruins", new JArray(gameController.ruins.Select(ruins => ruins.ToJObject())));
 
         save.Add("tileMap", gameController.tileMap.ToJObject());
 
@@ -128,6 +130,9 @@ public static class ResourceManager
 
         foreach (JObject playerJObject in loadJObject.GetValue("players")) {
             gameController.AddPlayer(Player.FromJObject(playerJObject));
+        }
+        foreach (JObject itemDataJObject in loadJObject.GetValue("ruinsItems")) {
+            gameController.ruinsItems.Add(ItemData.FromJObject(itemDataJObject));
         }
         foreach (JObject armyJObject in loadJObject.GetValue("armies")) {
             Army newArmy = Army.FromJObject(armyJObject);
@@ -152,6 +157,10 @@ public static class ResourceManager
         foreach (JObject portJObject in loadJObject.GetValue("ports")) {
             Port port = Port.FromJObject(portJObject);
             port.AddToGame();
+        }
+        foreach (JObject ruinsJObject in loadJObject.GetValue("ruins")) {
+            Ruins ruins = Ruins.FromJObject(ruinsJObject);
+            ruins.AddToGame();
         }
 
         int turnNumber = (int)loadJObject.GetValue("turn");

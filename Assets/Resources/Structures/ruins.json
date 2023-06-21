@@ -1,0 +1,7 @@
+{
+    "texture": "Assets/Resources/Structures/ruins.png",
+    "pathfinding": {
+        "moveCost": 2,
+        "pathfindingTypes": ["land", "air"]
+    }
+}

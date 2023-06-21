@@ -1,0 +1,7 @@
+{
+    "texture": "Assets/Resources/Structures/stronghold.png",
+    "pathfinding": {
+        "moveCost": 2,
+        "pathfindingTypes": ["land", "air"]
+    }
+}

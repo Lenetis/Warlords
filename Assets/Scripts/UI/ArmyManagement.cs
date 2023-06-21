@@ -30,11 +30,13 @@ public class ArmyManagement : MonoBehaviour
     void Awake()
     {
         EventManager.ArmyMovedEvent += ArmyMovedHandler;
+        EventManager.ArmyCreatedEvent += ArmyCreatedHandler;
     }
 
     void OnDestroy()
     {
         EventManager.ArmyMovedEvent -= ArmyMovedHandler;
+        EventManager.ArmyCreatedEvent -= ArmyCreatedHandler;
     }
 
     // Start is called before the first frame update
@@ -59,6 +61,15 @@ public class ArmyManagement : MonoBehaviour
                     movesAvailable[i].text = mouseSelection.selectedArmy.units[i].pathfinder.remainingMove.ToString();
                 }
             }
+        }
+    }
+
+    private void ArmyCreatedHandler(object sender, System.EventArgs args)
+    {
+        Army createdArmy = (Army)sender;
+        if (createdArmy.position == mouseSelection?.selectedArmy?.position)
+        {
+            SelectArmy(gameController.tileMap.GetTile(createdArmy.position).armies);
         }
     }
 

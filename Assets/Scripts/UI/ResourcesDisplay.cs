@@ -26,8 +26,10 @@ public class ResourcesDisplay : MonoBehaviour
         EventManager.CityDestroyedEvent += updateResourcesEventHandler;
         EventManager.CityRazedEvent += updateResourcesEventHandler;
 
-        EventManager.TurnEvent += updateResourcesEventHandler;
+        EventManager.RuinsExploredEvent += updateResourcesEventHandler;
+
         EventManager.UnitBoughtEvent += UnitBoughtHandler;
+        EventManager.TurnEvent += updateResourcesEventHandler;
     }
 
     void OnDestroy()
@@ -42,8 +44,10 @@ public class ResourcesDisplay : MonoBehaviour
         EventManager.CityDestroyedEvent -= updateResourcesEventHandler;
         EventManager.CityRazedEvent -= updateResourcesEventHandler;
 
-        EventManager.TurnEvent -= updateResourcesEventHandler;
+        EventManager.RuinsExploredEvent -= updateResourcesEventHandler;
+
         EventManager.UnitBoughtEvent -= UnitBoughtHandler;
+        EventManager.TurnEvent -= updateResourcesEventHandler;
     }
 
     private void UnitBoughtHandler(object sender, Unit unit)

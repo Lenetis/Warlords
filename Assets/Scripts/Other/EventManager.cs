@@ -37,6 +37,7 @@ public static class EventManager
     public static event System.EventHandler<HeroSpawnEventData> HeroSpawnedEvent;
     public static event System.EventHandler ItemCreatedEvent;
     public static event System.EventHandler ItemDestroyedEvent;
+    public static event System.EventHandler RuinsExploredEvent;
     public static event System.EventHandler StructureCreatedEvent;
     public static event System.EventHandler StructureDestroyedEvent;
     public static event System.EventHandler<TileMapResizedEventData> TileMapResizedEvent;
@@ -91,6 +92,10 @@ public static class EventManager
 
     public static void OnItemDestroyed(object sender) {
         ItemDestroyedEvent?.Invoke(sender, System.EventArgs.Empty);
+    }
+
+    public static void OnRuinsExplored(object sender) {
+        RuinsExploredEvent?.Invoke(sender, System.EventArgs.Empty);
     }
 
     public static void OnStructureCreated(object sender) {
