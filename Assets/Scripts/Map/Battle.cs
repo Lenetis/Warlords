@@ -22,9 +22,12 @@ public class Battle
 
     public Player winner {get; private set;}
 
-    public Battle(Army attacker, IOwnableMapObject defender)
+    private bool simulated;  // simulated battles cannot destroy any units, capture cities, etc.
+
+    public Battle(Army attacker, IOwnableMapObject defender, bool simulated = false)
     {
         this.defender = defender;
+        this.simulated = simulated;
 
         attackingUnits = new List<Unit>();
         attackingUnits.AddRange(attacker.units);
@@ -50,7 +53,9 @@ public class Battle
 
         deadUnits = new HashSet<Unit>();
 
-        EventManager.OnBattleStarted(this);
+        if (!simulated) {
+            EventManager.OnBattleStarted(this);
+        }
     }
 
     /// Calculates a single turn of the battle. Returns winner if battle is over and null if it is not.
@@ -77,10 +82,13 @@ public class Battle
         } else if (defendingUnits.Count == 0) {
             winner = attackingPlayer;
         }
-        RemoveDeadUnits();
 
-        if (winner != null) {
-            EventManager.OnBattleEnded(this);
+        if (!simulated) {
+            RemoveDeadUnits();
+
+            if (winner != null) {
+                EventManager.OnBattleEnded(this);
+            }
         }
 
         Debug.Log($"{attackingUnits.Count} vs {defendingUnits.Count} --- {winner}");

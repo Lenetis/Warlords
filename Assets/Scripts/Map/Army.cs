@@ -323,7 +323,24 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         }
         
         if (attackTarget != null && ((MapObject)attackTarget).OccupiesPosition(nextPosition)) {
-            new Battle(this, attackTarget);  // this line looks super cursed, but everything communicates nicely through events, so it's fine. todo?
+            if (!Input.GetKey(KeyCode.LeftShift)) {
+                new Battle(this, attackTarget);  // this line looks super cursed, but everything communicates nicely through events, so it's fine. todo?
+            }
+            else {
+                // TMP advisor, should be moved elsewhere. todo
+                int victories = 0;
+                for (int i = 0; i < Constants.simulatedBattlesCount; i += 1) {
+                    Battle simulatedBattle = new Battle(this, attackTarget, true);
+                    Player winner = null;
+                    while (winner == null) {
+                        winner = simulatedBattle.Turn();
+                    }
+                    if (winner == owner) {
+                        victories += 1;
+                    }
+                }
+                Debug.Log($"O Great Warlord! Your Advisor says: {(double)victories/(double)Constants.simulatedBattlesCount} victory chance!");
+            }
 
             path = null;
             attackTarget = null;

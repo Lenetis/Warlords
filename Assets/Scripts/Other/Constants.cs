@@ -26,4 +26,6 @@ public static class Constants
     };
     public static readonly int ruinsMinGold = 750;
     public static readonly int ruinsMaxGold = 2500;
+
+    public static readonly int simulatedBattlesCount = 100;
 }
