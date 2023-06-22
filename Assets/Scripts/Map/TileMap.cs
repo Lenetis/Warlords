@@ -452,8 +452,8 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
             Debug.LogWarning("Warning: invalid mapString length.");
 
             // the map will be loaded incorrectly, but fill it with tiles before loading so at least it won't throw a NullReferenceException later on
-            for (int x = 0; x < width; x += 1) {
-                for (int y = 0; y < height; y += 1) {
+            for (int y = 0; y < height; y += 1) {
+                for (int x = 0; x < width; x += 1) {
                     tiles[x, y] = new Tile(tileTypes[0]);
                 }
             }
@@ -461,8 +461,8 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
 
         for (int i = 0; i < Min(mapString.Length / digitsPerTile, width * height); i += 1) {
             int index = System.Convert.ToInt32(mapString.Substring(i * digitsPerTile, digitsPerTile), 16);
-            int x = i / height;
-            int y = i % height;
+            int x = i % width;
+            int y = i / width;
 
             tiles[x, y] = new Tile(tileTypes[index]);
         }
@@ -489,8 +489,8 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
 
         // todo digitsPerTile could be calculated based on tileTypes.Count, but that would require iterating over all tiles two times
 
-        for (int x = 0; x < width; x += 1) {
-            for (int y = 0; y < height; y += 1) {
+        for (int y = 0; y < height; y += 1) {
+            for (int x = 0; x < width; x += 1) {
                 Tile tile = tiles[x, y];
                 if (!tileTypes.Contains(tile.data.baseFile)) {
                     tileTypes.Add(tile.data.baseFile);
