@@ -10,6 +10,8 @@ public class MapEditor : MonoBehaviour
     private TileMap tileMap;
     private MouseSelection mouseSelection;
 
+    private GameObject editorCursor;
+
     public string[] tilePaths;
     public string[] unitPaths;
     public string[] cityPaths;
@@ -31,6 +33,16 @@ public class MapEditor : MonoBehaviour
         gameController = FindObjectOfType<GameController>();
         tileMap = gameController.tileMap;
         mouseSelection = GetComponent<MouseSelection>();
+
+        editorCursor = mouseSelection.selectionMarker.transform.Find("EditorCursor")?.gameObject;
+        if (editorCursor == null) {
+            editorCursor = new GameObject("EditorCursor");
+            editorCursor.transform.SetParent(mouseSelection.selectionMarker.transform);
+            editorCursor.transform.localPosition = Vector3.zero;
+            SpriteRenderer editorCursorSpriteRenderer = editorCursor.AddComponent<SpriteRenderer>();
+            editorCursorSpriteRenderer.sprite = mouseSelection.selectionMarker.GetComponent<SpriteRenderer>().sprite;   
+            editorCursorSpriteRenderer.sortingOrder = 50;
+        }
 
         // todo remove code repetition
         availableTiles = new TileData[tilePaths.Length];
@@ -122,9 +134,20 @@ public class MapEditor : MonoBehaviour
     private void ChangeBrushSize(int delta)
     {
         brushSize += delta;
-        if (brushSize < 0) {
+        if (brushSize <= 0) {
             brushSize = 0;
+
+            mouseSelection.selectionMarker.GetComponent<SpriteRenderer>().enabled = true;
+            editorCursor.GetComponent<SpriteRenderer>().enabled = false;
         }
+        else {
+            mouseSelection.selectionMarker.GetComponent<SpriteRenderer>().enabled = false;
+            editorCursor.GetComponent<SpriteRenderer>().enabled = true;
+            
+            editorCursor.transform.localPosition = new Vector3(-brushSize, -brushSize, 0);
+            editorCursor.transform.localScale = new Vector3(brushSize * 2 + 1, brushSize * 2 + 1, 1);
+        }
+
         Debug.Log($"Brush size = {brushSize}");
     }
 
