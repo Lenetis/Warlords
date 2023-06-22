@@ -15,9 +15,7 @@ public class HeroPanel : MonoBehaviour
     public Button cancelButton;
     public Button acceptButton;
 
-    private int alliesCount;
     private HeroSpawnEventData eventData;
-    private string heroName;
 
     private int mode;
 
@@ -69,7 +67,6 @@ public class HeroPanel : MonoBehaviour
             this.eventData = eventData;
             minimap.DrawHero(eventData);
 
-            alliesCount = 0;
             if (gameController.turn == 0)
             {
                 //Debug.Log(eventData.heroUnit.name);
@@ -89,18 +86,17 @@ public class HeroPanel : MonoBehaviour
                 info[0].text = $"A Hero in {eventData.city.name}\noffers to join you for {eventData.heroCost} gold.\nYou have {gameController.activePlayer.gold} gold to spend.\nWill you accept?";
                 cancelButton.interactable = true;
                 acceptButton.interactable = false;
-
-                alliesCount = Random.Range(0, 3 + 1);  // todo this should be loaded from a file/constant/something
+                
                 info[1].text = "And the Hero brings no allies! XD";
-                if (alliesCount == 1)
+                if (eventData.alliesCount == 1)
                 {
                     Debug.Log($"And the Hero brings 1 ally!");
                     info[1].text = $"And the Hero brings 1 ally!";
                 }
-                else if (alliesCount > 1)
+                else if (eventData.alliesCount > 1)
                 {
-                    Debug.Log($"And the Hero brings {alliesCount} allies!");
-                    info[1].text = $"And the Hero brings {alliesCount} allies!";
+                    Debug.Log($"And the Hero brings {eventData.alliesCount} allies!");
+                    info[1].text = $"And the Hero brings {eventData.alliesCount} allies!";
                 }
 
                 heroPanel.SetActive(true);
@@ -116,7 +112,7 @@ public class HeroPanel : MonoBehaviour
         }
        
         gameController.activePlayer.gold -= eventData.heroCost;
-        gameController.activePlayer.SpawnHero(eventData.heroUnit, eventData.city, alliesCount);
+        gameController.activePlayer.SpawnHero(eventData.heroUnit, eventData.city, eventData.alliesCount);
         if (mode == 1)
         {
             infoPanel.SetActive(true);

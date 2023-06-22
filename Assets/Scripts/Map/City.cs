@@ -191,24 +191,38 @@ public class City : MultitileStructure, IOwnableMapObject
     public void StartTurn()
     {
         if (producing) {
-            productionProgress += production;
+            productionProgress = Mathf.Min(productionProgress + production, producedUnit.productionCost);
             Debug.Log($"{name} - progress: {productionProgress}/{producedUnit.productionCost}");
-            if (productionProgress >= producedUnit.productionCost) {
-                Debug.Log("created new Army");
+            if (productionProgress == producedUnit.productionCost) {
+                Position? freePosition = GetFreePosition(1);
 
-                // todo find a free tile within occupiedPositions
-                //      (what if there is none???)
-                Position freePosition = position;
+                if (freePosition == null) {
+                    Debug.LogWarning($"Could not find a free position for produced unit in {this}");
+                    // do nothing but keep the productionProgress, so the unit can be spawned on the next turn
+                }
+                else {
+                    Debug.Log("created new Army");
+                    Unit newUnit = Unit.FromJObject(ResourceManager.LoadResource(buildableUnits[producedUnitIndex].baseFile));
+                    List<Unit> unitList = new List<Unit>();
+                    unitList.Add(newUnit);
+                    Army producedArmy = new Army(unitList, freePosition.Value, owner);
+                    producedArmy.AddToGame();
 
-                Unit newUnit = Unit.FromJObject(ResourceManager.LoadResource(buildableUnits[producedUnitIndex].baseFile));
-                List<Unit> unitList = new List<Unit>();
-                unitList.Add(newUnit);
-                Army producedArmy = new Army(unitList, position, owner);
-                producedArmy.AddToGame();
-
-                productionProgress = 0;
+                    productionProgress = 0;
+                }
             }
         }
+    }
+
+    /// Returns the first found position in occupiedPositions of tile that has room for unitCount units, or null if no such position exists
+    public Position? GetFreePosition(int unitCount)
+    {
+        foreach (Position occupiedPosition in occupiedPositions) {
+            if (gameController.tileMap.GetTile(occupiedPosition).unitCount + unitCount <= Constants.maxUnitsPerTile) {
+                return occupiedPosition;
+            }
+        }
+        return null;
     }
 
     /// Returns a list of all armies that will support this city if it is attacked (all armies within the city's occupied positions)
@@ -343,6 +357,6 @@ public class City : MultitileStructure, IOwnableMapObject
 
     public override string ToString()
     {
-        return name + $"{pathfinding.ToJObject()}";
+        return name + $" at {position} {pathfinding.ToJObject()}";
     }
 }

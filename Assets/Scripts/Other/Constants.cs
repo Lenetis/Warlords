@@ -4,6 +4,8 @@ using UnityEngine;
 
 public static class Constants
 {
+    public static readonly int maxUnitsPerTile = 8;
+
     public static readonly float ruinsUnitJoinChance = 0.333f;
     public static readonly float ruinsItemFindChance = 0.25f;
     public static readonly float ruinsBattleVictoryChance = 0.8f;

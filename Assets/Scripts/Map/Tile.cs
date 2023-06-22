@@ -32,6 +32,22 @@ public class Tile  // todo change to struct maybe?
         }
     }
 
+    public int unitCount
+    {
+        get {
+            if (contents.armies == null) {
+                return 0;
+            }
+            else {
+                int totalCount = 0;
+                foreach (Army army in contents.armies) {
+                    totalCount += army.units.Count;
+                }
+                return totalCount;
+            }            
+        }
+    }
+
     public Structure structure
     {
         get {

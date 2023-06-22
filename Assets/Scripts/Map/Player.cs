@@ -145,22 +145,35 @@ public class Player
     private void TrySpawnHero()
     {
         City city = cities[Random.Range(0, cities.Count)];
+        if (city.GetFreePosition(1) == null) {
+            return;
+        }
+
         int heroUnitIndex = Random.Range(0, heroUnits.Count);
         Unit heroUnit = Unit.FromJObject(ResourceManager.LoadResource(heroUnits[heroUnitIndex].baseFile));
 
         int heroCost = 0;
+        int alliesCount = 0;
         if (gameController.turn != 0) {
             int additionalCost = Random.Range(-400, 400);  // todo this 400 should be loaded from a file, or a constant, or something
             heroCost = heroUnit.purchaseCost + additionalCost;
+
+            alliesCount = Random.Range(0, 3 + 1);  // todo this should be loaded from a file/constant/something
         }
 
         if (heroCost <= _gold) {
             heroUnit.name = heroNames[Random.Range(0, heroNames.Count)];
+            
+            while (city.GetFreePosition(alliesCount + 1) == null) {
+                // if there is no free tile that could fit hero and all the allies, try again, with one less ally
+                alliesCount -= 1;
+            }
 
             HeroSpawnEventData eventData;
             eventData.heroCost = heroCost;
             eventData.heroUnit = heroUnit;
             eventData.city = city;
+            eventData.alliesCount = alliesCount;
 
             EventManager.OnHeroSpawn(this, eventData);
         }
@@ -183,8 +196,8 @@ public class Player
             heroArmyUnits.Add(ally);
         }
 
-        // todo get free tile of city, instead of city.position
-        Army heroArmy = new Army(heroArmyUnits, city.position, this);
+        Position? freePosition = city.GetFreePosition(heroArmyUnits.Count);
+        Army heroArmy = new Army(heroArmyUnits, freePosition.Value, this);
         heroArmy.AddToGame();
     }
 

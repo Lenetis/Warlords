@@ -61,10 +61,10 @@ public class Unit
                 heroData.DropItem(heroData.items[0], army.position);
             }
         }
-        
-        army = null;
 
         EventManager.OnUnitDestroyed(this);
+        
+        army = null;  // we set army to null only AFTER raising the event, because some event handlers may need it for determining the unit's position
     }
 
     /// Resets remaining movement points of this unit

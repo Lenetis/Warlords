@@ -191,10 +191,10 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         UpdateSprite();
     }
 
-    /// Should check if there is still place for (units.Count) units on the occupied tile. Currently always returns true. TODO
+    /// Returns true if there is enough space on this tile for all units in this army, otherwise returns false
     public override bool CanAddToGame()
     {
-        return true;  // todo check if there is space for this army on this position
+        return gameController.tileMap.GetTile(position).unitCount + units.Count <= Constants.maxUnitsPerTile;
     }
 
     /// Adds this army to the tileMap and to its owner armies, and creates the army sprite
@@ -348,8 +348,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
             return false;
         }
         else {
-            if (nextTile.owner == null || nextTile.owner == owner) {
-                //todo check if there is room for more units on the target tile
+            if ((nextTile.owner == null || nextTile.owner == owner) && nextTile.unitCount + units.Count <= Constants.maxUnitsPerTile) {
 
                 ArmyMovedEventData eventData;
                 eventData.startPosition = position;

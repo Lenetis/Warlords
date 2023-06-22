@@ -31,12 +31,14 @@ public class ArmyManagement : MonoBehaviour
     {
         EventManager.ArmyMovedEvent += ArmyMovedHandler;
         EventManager.ArmyCreatedEvent += ArmyCreatedHandler;
+        EventManager.UnitDestroyedEvent += UnitDestroyedHandler;
     }
 
     void OnDestroy()
     {
         EventManager.ArmyMovedEvent -= ArmyMovedHandler;
         EventManager.ArmyCreatedEvent -= ArmyCreatedHandler;
+        EventManager.UnitDestroyedEvent -= UnitDestroyedHandler;
     }
 
     // Start is called before the first frame update
@@ -70,6 +72,15 @@ public class ArmyManagement : MonoBehaviour
         if (createdArmy.position == mouseSelection?.selectedArmy?.position)
         {
             SelectArmy(gameController.tileMap.GetTile(createdArmy.position).armies);
+        }
+    }
+
+    private void UnitDestroyedHandler(object sender, System.EventArgs args)
+    {
+        Unit destroyedUnit = (Unit)sender;
+        if (destroyedUnit.army.position == mouseSelection?.selectedArmy?.position)
+        {
+            SelectArmy(gameController.tileMap.GetTile(destroyedUnit.army.position).armies);
         }
     }
 

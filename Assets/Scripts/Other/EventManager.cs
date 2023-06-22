@@ -21,6 +21,7 @@ public struct HeroSpawnEventData
     public int heroCost;
     public Unit heroUnit;
     public City city;
+    public int alliesCount;
 }
 
 public static class EventManager

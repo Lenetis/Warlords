@@ -58,9 +58,10 @@ public class Ruins : Structure, IExplorable
         }
 
         explorer.heroData.experience += Constants.ruinsExploreExperience;
-        if (Random.Range(0f, 1f) < Constants.ruinsUnitJoinChance) {
+
+        int unitsCount = Random.Range(1, 4 + 1);
+        if (Random.Range(0f, 1f) < Constants.ruinsUnitJoinChance && gameController.tileMap.GetTile(position).unitCount + unitsCount <= Constants.maxUnitsPerTile) {
             List<Unit> ruinsUnitList = new List<Unit>();
-            int unitsCount = Random.Range(1, 4);
             int allyUnitIndex = Random.Range(0, Constants.ruinsUnits.Length);
             for(int i = 0; i < unitsCount; i += 1) {
                 Unit ally = Unit.FromJObject(ResourceManager.LoadResource(Constants.ruinsUnits[allyUnitIndex]));
