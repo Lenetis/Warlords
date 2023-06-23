@@ -264,6 +264,13 @@ public class GameController : MonoBehaviour
             turn += 1;
             activePlayerIndex = 0;
         }
+        while (!players[activePlayerIndex].active) {
+            activePlayerIndex += 1;
+            if (activePlayerIndex == players.Count) {
+                turn += 1;
+                activePlayerIndex = 0;
+            }            
+        }
 
         Debug.Log(activePlayer.name + " Turn " + (turn + 1));
 

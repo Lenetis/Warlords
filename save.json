@@ -19,6 +19,13 @@
       "name": "Necromancers",
       "color": "FF1111",
       "gold": 200
+    },
+    {
+      "baseFile": "Assets/Resources/Players/defaultPlayer.json",
+      "name": "Neutral City",
+      "color": "AAAAAA",
+      "active": false,
+      "gold": 0
     }
   ],
   "ruinsItems": [
@@ -37,87 +44,266 @@
   ],
   "armies": [
     {
-      "owner": "Magicians",
+      "owner": "Neutral City",
       "position": [
-        56,
-        43
+        2,
+        9
       ],
       "units": [
         {
-          "baseFile": "Assets/Resources/Units/scout.json"
+          "baseFile": "Assets/Resources/Units/Scout.json"
         }
       ]
     },
     {
-      "owner": "Magicians",
+      "owner": "Neutral City",
       "position": [
-        75,
-        44
+        16,
+        28
       ],
       "units": [
         {
-          "baseFile": "Assets/Resources/Units/scout.json"
+          "baseFile": "Assets/Resources/Units/Scout.json"
         }
       ]
     },
     {
-      "owner": "Summoners",
+      "owner": "Neutral City",
       "position": [
-        23,
-        6
+        13,
+        41
       ],
       "units": [
         {
-          "baseFile": "Assets/Resources/Units/scout.json"
+          "baseFile": "Assets/Resources/Units/Scout.json"
         }
       ]
     },
     {
-      "owner": "Necromancers",
+      "owner": "Neutral City",
+      "position": [
+        19,
+        13
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        24,
+        4
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        36,
+        12
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        34,
+        21
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
       "position": [
         44,
         27
       ],
       "units": [
         {
-          "baseFile": "Assets/Resources/Units/knight.json"
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        42,
+        36
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        36,
+        39
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        65,
+        7
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        62,
+        20
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        76,
+        39
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        73,
+        45
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        59,
+        35
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        39,
+        24
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Pegasi.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        39,
+        24
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Pegasi.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        40,
+        24
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Unicorn.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        40,
+        24
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Unicorn.json"
         }
       ]
     },
     {
       "owner": "Necromancers",
       "position": [
-        35,
-        22
+        54,
+        44
       ],
       "units": [
         {
-          "baseFile": "Assets/Resources/Units/knight.json"
+          "baseFile": "Assets/Resources/Units/Scout.json"
         }
       ]
     },
     {
       "owner": "Summoners",
       "position": [
-        7,
-        4
+        5,
+        3
       ],
       "units": [
         {
-          "baseFile": "Assets/Resources/Units/scout.json",
-          "pathfinder": {
-            "move": 16,
-            "remainingMove": 13,
-            "pathfindingTypes": [
-              "land"
-            ]
-          },
-          "transitionPathfinder": {
-            "move": 10,
-            "pathfindingTypes": [
-              "sea"
-            ]
-          }
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Magicians",
+      "position": [
+        42,
+        9
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
         }
       ]
     }
@@ -155,36 +341,6 @@
   "cities": [
     {
       "baseFile": "Assets/Resources/Cities/city.json",
-      "owner": "Necromancers",
-      "name": "Editor City",
-      "description": "No description",
-      "position": [
-        13,
-        41
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Cities/city.json",
-      "owner": "Necromancers",
-      "name": "Editor City",
-      "description": "No description",
-      "position": [
-        65,
-        7
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Cities/city.json",
-      "owner": "Necromancers",
-      "name": "Editor City",
-      "description": "No description",
-      "position": [
-        39,
-        24
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Cities/city.json",
       "owner": "Summoners",
       "name": "Editor City",
       "description": "No description",
@@ -194,8 +350,8 @@
       ]
     },
     {
-      "baseFile": "Assets/Resources/Cities/city.json",
-      "owner": "Summoners",
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
       "name": "Editor City",
       "description": "No description",
       "position": [
@@ -204,8 +360,68 @@
       ]
     },
     {
-      "baseFile": "Assets/Resources/Cities/city.json",
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        36,
+        39
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        65,
+        7
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        13,
+        41
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        39,
+        24
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Magicians",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        42,
+        9
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Necromancers",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        54,
+        44
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
       "name": "Editor City",
       "description": "No description",
       "position": [
@@ -214,13 +430,103 @@
       ]
     },
     {
-      "baseFile": "Assets/Resources/Cities/city.json",
-      "owner": "Magicians",
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
       "name": "Editor City",
       "description": "No description",
       "position": [
-        54,
-        44
+        76,
+        39
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        16,
+        28
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        62,
+        20
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        36,
+        12
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        42,
+        36
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        34,
+        21
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        44,
+        27
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        59,
+        35
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        19,
+        13
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        2,
+        9
       ]
     }
   ],
@@ -313,34 +619,6 @@
       "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         3,
-        9
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/road.json",
-      "position": [
-        76,
-        40
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/road.json",
-      "position": [
-        3,
-        10
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/road.json",
-      "position": [
-        76,
-        39
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/road.json",
-      "position": [
-        3,
         11
       ]
     },
@@ -424,34 +702,6 @@
     {
       "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
-        4,
-        16
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/road.json",
-      "position": [
-        75,
-        33
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/road.json",
-      "position": [
-        4,
-        17
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/road.json",
-      "position": [
-        75,
-        32
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/road.json",
-      "position": [
         5,
         18
       ]
@@ -503,20 +753,6 @@
       "position": [
         73,
         29
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/road.json",
-      "position": [
-        5,
-        17
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/road.json",
-      "position": [
-        74,
-        32
       ]
     },
     {
@@ -754,34 +990,6 @@
       "baseFile": "Assets/Resources/Structures/road.json",
       "position": [
         64,
-        21
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/road.json",
-      "position": [
-        16,
-        28
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/road.json",
-      "position": [
-        63,
-        21
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/road.json",
-      "position": [
-        17,
-        28
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/road.json",
-      "position": [
-        62,
         21
       ]
     },
@@ -1428,6 +1636,482 @@
         55,
         32
       ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        39,
+        8
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        40,
+        41
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        38,
+        8
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        41,
+        41
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        37,
+        8
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        42,
+        41
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        37,
+        9
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        42,
+        40
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        36,
+        9
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        43,
+        40
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        36,
+        10
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        43,
+        39
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        14
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        35
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        15
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        34
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        16
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        33
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        17
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        32
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        18
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        31
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        19
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        34,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        45,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        21,
+        8
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        58,
+        41
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        21,
+        9
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        58,
+        40
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        21,
+        10
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        58,
+        39
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        10
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        39
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        11
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        38
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        12
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        37
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        13
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        36
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        8
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        41
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        7
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        42
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        6
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        43
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        5
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        44
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        5
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        44
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        13
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        36
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        14
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        35
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        15
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        34
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        16
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        33
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        4,
+        16
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        75,
+        33
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        4,
+        17
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        75,
+        32
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        5,
+        17
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        74,
+        32
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        36,
+        11
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        43,
+        38
+      ]
     }
   ],
   "signposts": [
@@ -1448,6 +2132,24 @@
       ],
       "name": "Editor Signpost",
       "description": "Position(72, 46)"
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/signpost.json",
+      "position": [
+        38,
+        10
+      ],
+      "name": "Editor Signpost",
+      "description": "Position(38, 10)"
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/signpost.json",
+      "position": [
+        41,
+        39
+      ],
+      "name": "Editor Signpost",
+      "description": "Position(41, 39)"
     }
   ],
   "ports": [
@@ -1482,20 +2184,6 @@
   ],
   "ruins": [
     {
-      "baseFile": "Assets/Resources/Structures/ruins.json",
-      "position": [
-        2,
-        9
-      ]
-    },
-    {
-      "baseFile": "Assets/Resources/Structures/ruins.json",
-      "position": [
-        77,
-        40
-      ]
-    },
-    {
       "baseFile": "Assets/Resources/Structures/stronghold.json",
       "position": [
         24,
@@ -1507,6 +2195,34 @@
       "position": [
         55,
         7
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/ruins.json",
+      "position": [
+        39,
+        10
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/ruins.json",
+      "position": [
+        40,
+        39
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/ruins.json",
+      "position": [
+        2,
+        7
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/ruins.json",
+      "position": [
+        77,
+        42
       ]
     }
   ],

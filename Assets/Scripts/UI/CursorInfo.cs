@@ -57,7 +57,6 @@ public class CursorInfo : MonoBehaviour
 
         if (Input.GetMouseButton(1) && mouseSelection.isOverDispArea && uiController.controllsAvailable() || mode==1 || mode==2 || mode==3)
         {
-            Debug.Log(mouseSelection.highlightedTile);
             correctionY = 0;
             correctionX = 0;
 

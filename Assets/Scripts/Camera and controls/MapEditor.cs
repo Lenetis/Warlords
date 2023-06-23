@@ -20,6 +20,14 @@ public class MapEditor : MonoBehaviour
     private int activeTileIndex = 0;
     private int activeUnitIndex = 0;
     private int activeCityIndex = 0;
+    private int activePlayerIndex = 0;
+
+    private Player activePlayer
+    {
+        get {
+            return gameController.players[activePlayerIndex];
+        }
+    }
     
     private int brushSize = 0;
 
@@ -125,6 +133,13 @@ public class MapEditor : MonoBehaviour
             ChangeBrushSize(-1);
         }
 
+        if (Input.GetKeyDown(KeyCode.Quote)) {
+            ChangeActivePlayer(1);
+        }
+        if (Input.GetKeyDown(KeyCode.Semicolon)) {
+            ChangeActivePlayer(-1);
+        }
+
         if (Input.GetKeyDown(KeyCode.R)) {
             tileMap.Resize(200, 200);  // todo - tmp, this should be moved elsewhere and the size should be provided by user ofc
         }
@@ -151,6 +166,20 @@ public class MapEditor : MonoBehaviour
         Debug.Log($"Brush size = {brushSize}");
     }
 
+    /// Changes the active player index by the specified delta (active player index corresponds to specific player in the gameController.players list)
+    private void ChangeActivePlayer(int delta)
+    {
+        activePlayerIndex += delta;
+        if (activePlayerIndex < 0) {
+            activePlayerIndex = gameController.players.Count - 1;
+        }
+        else if (activePlayerIndex >= gameController.players.Count) {
+            activePlayerIndex = 0;
+        }
+
+        Debug.Log($"Active Player = {activePlayer.name}");
+    }
+
     /// Draws on tileMap with the selected tile. Works with symmetry
     private void Draw()
     {
@@ -171,7 +200,7 @@ public class MapEditor : MonoBehaviour
             Unit unit = Unit.FromJObject(ResourceManager.LoadResource(unitPaths[activeUnitIndex]));
             List<Unit> unitList = new List<Unit>();
             unitList.Add(unit);
-            Army newArmy = new Army(unitList, symmetryPosition, gameController.activePlayer);
+            Army newArmy = new Army(unitList, symmetryPosition, activePlayer);
             newArmy.AddToGame();
         }
     }
@@ -254,7 +283,7 @@ public class MapEditor : MonoBehaviour
         // probably a //todo
 
         foreach (Position symmetryPosition in positions) {
-            City city = new City(ResourceManager.LoadResource(cityPaths[activeCityIndex]), gameController.activePlayer, "Editor City", "No description", symmetryPosition);
+            City city = new City(ResourceManager.LoadResource(cityPaths[activeCityIndex]), activePlayer, "Editor City", "No description", symmetryPosition);
             if (city.CanAddToGame()) {
                 city.AddToGame();
             }

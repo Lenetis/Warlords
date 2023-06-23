@@ -14,6 +14,8 @@ public class Player
     public string name {get;}
     public Color color {get;}
 
+    public bool active {get; private set;}
+
     public Texture2D cityTexture {get;}
     public Texture2D cityMaskTexture {get;}
 
@@ -57,17 +59,18 @@ public class Player
                 totalIncome += city.economy.income;
             }
             return new EconomyData(totalIncome, totalUpkeep);
-            
         }
     }
 
     // todo change this constructor to use less arguments!
-    public Player(string baseFile, string name, Color color, int gold, Texture2D cityTexture, Texture2D razedCityTexture, Texture2D cityMaskTexture, Texture2D razedCityMaskTexture, List<string> heroNames, List<Unit> heroUnits, List<Unit> heroAllies)
+    public Player(string baseFile, string name, Color color, bool active, int gold, Texture2D cityTexture, Texture2D razedCityTexture, Texture2D cityMaskTexture, Texture2D razedCityMaskTexture, List<string> heroNames, List<Unit> heroUnits, List<Unit> heroAllies)
     {
         this.baseFile = baseFile;
 
         this.name = name;
         this.color = color;
+
+        this.active = active;
 
         this.gold = gold;
 
@@ -120,6 +123,10 @@ public class Player
     /// Starts turn - starts turn of all armies and updates gold amount according to army upkeep and city income and, if it's >= 0, starts turn of all cities
     public void StartTurn()
     {
+        if (!active) {
+            return;
+        }
+
         _gold -= economy.upkeep;
         _gold += economy.income;
 
@@ -220,6 +227,11 @@ public class Player
 
         playerJObject.Add("name", name);
         playerJObject.Add("color", ColorUtility.ToHtmlStringRGB(color));
+
+        if (!active) {
+            playerJObject.Add("active", active);
+        }
+
         playerJObject.Add("gold", gold);
 
         playerJObject.Add("heroNames", new JArray(heroNames));
@@ -249,6 +261,11 @@ public class Player
         Color color;
         ColorUtility.TryParseHtmlString(colorCode, out color);
 
+        bool active = true;
+        if (attributes.ContainsKey("active")) {
+            active = (bool)attributes.GetValue("active");
+        }
+
         int gold = (int)attributes.GetValue("gold");
 
         Texture2D cityTexture = ResourceManager.LoadTexture((string)attributes.GetValue("cityTexture"));
@@ -271,7 +288,7 @@ public class Player
             heroAllies.Add(Unit.FromJObject(ResourceManager.LoadResource(unitPath)));
         }
 
-        return new Player(baseFile, name, color, gold, cityTexture, razedCityTexture, cityMaskTexture, razedCityMaskTexture, heroNames, heroUnits, heroAllies);
+        return new Player(baseFile, name, color, active, gold, cityTexture, razedCityTexture, cityMaskTexture, razedCityMaskTexture, heroNames, heroUnits, heroAllies);
     }
 
     public override string ToString()
