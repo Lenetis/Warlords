@@ -30,18 +30,6 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
 
     public Texture2D miniMapTexture;
 
-
-    private readonly struct PathfindingNode
-    {
-        public readonly Position position;
-        public readonly HashSet<string> pathfindingTypes;  // todo change to ImmutableHashSet maybe?
-        public PathfindingNode(Position position, HashSet<string> pathfindingTypes)
-        {
-            this.position = position;
-            this.pathfindingTypes = pathfindingTypes;
-        }
-    }
-
     /// Start is called before the first frame update
     void Start()
     {
@@ -224,107 +212,86 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
             return null;
         }
 
-        PathfindingNode startNode = new PathfindingNode(start, army.pathfindingTypes);
+        PathfindingNode startNode = PathfindingNode.Get(start, army.pathfindingTypes);
 
-        // A* Pathfinding
+        Heap<PathfindingNode> openSet = new Heap<PathfindingNode>(width * height * (Constants.pathfindingMaxDistinctTransitions + 1));
+        HashSet<PathfindingNode> closedSet = new HashSet<PathfindingNode>();
+        openSet.Add(startNode);
 
-        // The set of discovered nodes that may need to be (re-)expanded.
-        // Initially, only the start node is known.
-        // This is usually implemented as a min-heap or priority queue rather than a hash-set.
-        List<PathfindingNode> openList = new List<PathfindingNode>();
-        List<PathfindingNode> closedList = new List<PathfindingNode>();  // todo change it to one of the above, lists are awful
-        openList.Add(startNode);
+        Dictionary<PathfindingNode, PathfindingNode> cameFrom = new Dictionary<PathfindingNode, PathfindingNode>();
+        // todo would it be possible to reuse it when finding paths to different goals from the same start position?
 
-        // For node n, cameFrom[n] is the node immediately preceding it on the cheapest path from start
-        // to n currently known
-        Dictionary<PathfindingNode, PathfindingNode> cameFrom = new Dictionary<PathfindingNode, PathfindingNode>(); // todo would it be possible to reuse it when finding paths to different goals from the same start position?
-
-        // For node n, gScore[n] is the cost of the cheapest path from start to n currently known.
         Dictionary<PathfindingNode, int> gScore = new Dictionary<PathfindingNode, int>();
-        gScore[startNode] = 0;
-
-        // For node n, fScore[n] := gScore[n] + h(n). fScore[n] represents our current best guess as to
-        // how cheap a path could be from start to finish if it goes through n.
         Dictionary<PathfindingNode, int> fScore = new Dictionary<PathfindingNode, int>();
+        gScore[startNode] = 0;
         fScore[startNode] = Heuristic(startNode, goal);
 
-        Tile startTile = GetTile(start);
-        if (army.isTransitioned) {
-            if (startTile.transitionReturn != null && army.pathfindingTypes.IsSupersetOf(startTile.transitionReturn.from)) {
-                PathfindingNode alternativeStartNode = new PathfindingNode(start, army.basePathfindingTypes);
-                openList.Add(alternativeStartNode);
-                gScore[alternativeStartNode] = 0;
-                fScore[alternativeStartNode] = Heuristic(alternativeStartNode, goal);
-            }
-        }
-        else {
-            if (startTile.transition != null && army.basePathfindingTypes.IsSupersetOf(startTile.transition.from)) {
-                PathfindingNode alternativeStartNode = new PathfindingNode(start, startTile.structure.pathfinding.transition.to);
-                openList.Add(alternativeStartNode);
-                gScore[alternativeStartNode] = 0;
-                fScore[alternativeStartNode] = Heuristic(alternativeStartNode, goal);
-            }            
-        }
+        while (openSet.Count > 0) {
+            PathfindingNode currentNode = openSet.RemoveFirst();
+            closedSet.Add(currentNode);
 
-        while (openList.Count != 0) {
-            // This operation can occur in O(Log(N)) time if openSet is a min-heap or a priority queue -- todo            
-            // choose position with the lowest fScore
-            int minScore = int.MaxValue;
-            PathfindingNode currentNode = openList[0];
-            foreach (PathfindingNode node in openList) {
-                if (fScore[node] < minScore) {
-                    minScore = fScore[node];
-                    currentNode = node;
-                }
-            }
-            
             if (currentNode.position == goal) {
                 return ReconstructPath(cameFrom, currentNode);
             }
 
-            openList.Remove(currentNode);
+            Tile currentTile = GetTile(currentNode.position);
+
             foreach (Position neighbourPosition in GetNeighbouringPositions(currentNode.position)) {
                 Tile neighbourTile = GetTile(neighbourPosition);
 
+                if (neighbourPosition == goal && neighbourTile.owner != null && neighbourTile.owner != army.owner) {
+                    // attacking tiles owned by other players
+                    PathfindingNode goalNode = PathfindingNode.Get(neighbourPosition, currentNode.pathfindingTypes);
+                    cameFrom[goalNode] = currentNode;
+                    return ReconstructPath(cameFrom, goalNode);
+                }
 
                 HashSet<string>[] neighbourPathfindingTypes;
                 if (currentNode.pathfindingTypes == army.basePathfindingTypes) {
                     // army is not transitioned
-                    if (neighbourTile.transition != null && currentNode.pathfindingTypes.IsSupersetOf(neighbourTile.transition.from)) {
-                        neighbourPathfindingTypes = new HashSet<string>[] {currentNode.pathfindingTypes, neighbourTile.transition.to};
-                    } else {
-                        neighbourPathfindingTypes = new HashSet<string>[] {currentNode.pathfindingTypes};
+                    if (currentTile.transition != null && currentNode.pathfindingTypes.IsSupersetOf(currentTile.transition.from)) {
+                        neighbourPathfindingTypes = new HashSet<string>[] {
+                            currentNode.pathfindingTypes,
+                            currentTile.transition.to
+                        };
+                    }
+                    else {
+                        neighbourPathfindingTypes = new HashSet<string>[] {
+                            currentNode.pathfindingTypes
+                        };
                     }
                 }
                 else {
                     // army is transitioned
                     if (neighbourTile.transitionReturn != null && currentNode.pathfindingTypes.IsSupersetOf(neighbourTile.transitionReturn.from)) {
-                        neighbourPathfindingTypes = new HashSet<string>[] {currentNode.pathfindingTypes, army.basePathfindingTypes};
+                        neighbourPathfindingTypes = new HashSet<string>[] {
+                            currentNode.pathfindingTypes,
+                            army.basePathfindingTypes
+                        };
                     } else {
-                        neighbourPathfindingTypes = new HashSet<string>[] {currentNode.pathfindingTypes};
+                        neighbourPathfindingTypes = new HashSet<string>[] {
+                            currentNode.pathfindingTypes
+                        };
                     }
                 }
 
                 foreach (HashSet<string> pathfindingType in neighbourPathfindingTypes) {
-
                     if (neighbourTile.pathfindingTypes.Overlaps(pathfindingType)) {
-                        PathfindingNode neighbourNode = new PathfindingNode(neighbourPosition, pathfindingType);
+                        PathfindingNode neighbourNode = PathfindingNode.Get(neighbourPosition, pathfindingType);
+                    
+                        if (!closedSet.Contains(neighbourNode) && (neighbourTile.owner == null || neighbourTile.owner == army.owner)) {
+                            int tentativeGScore = currentNode.gCost + neighbourTile.moveCost;
+                            if (neighbourNode.pathfindingTypes != currentNode.pathfindingTypes) {
+                                tentativeGScore += Constants.pathfindingTransitionCost;
+                            }
+                            if (tentativeGScore < neighbourNode.gCost || !openSet.Contains(neighbourNode)) {
+                                neighbourNode.gCost = tentativeGScore;
+                                neighbourNode.hCost = Heuristic(neighbourNode, goal);
 
-                        if (neighbourPosition == goal) {
-                            cameFrom[neighbourNode] = currentNode;
-                            return ReconstructPath(cameFrom, neighbourNode);
-                        }
-                        else if ((neighbourTile.owner == null || neighbourTile.owner == army.owner)) {
-
-                            // tentativeGScore is the distance from start to the neighbor through current
-                            int tentativeGScore = gScore[currentNode] + neighbourTile.moveCost;
-                            if (!gScore.ContainsKey(neighbourNode) || tentativeGScore < gScore[neighbourNode]) {
-                                // This path to neighbor is better than any previous one. Record it!
                                 cameFrom[neighbourNode] = currentNode;
-                                gScore[neighbourNode] = tentativeGScore;
-                                fScore[neighbourNode] = tentativeGScore + Heuristic(neighbourNode, goal);
-                                if (!openList.Contains(neighbourNode)) {
-                                    openList.Add(neighbourNode);
+
+                                if (!openSet.Contains(neighbourNode)) {
+                                    openSet.Add(neighbourNode);
                                 }
                             }
                         }

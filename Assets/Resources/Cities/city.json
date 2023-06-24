@@ -36,7 +36,7 @@
     "production": 10,
     "pathfinding": {
         "moveCost": 1,
-        "pathfindingTypes": ["land", "sea", "air"],
+        "pathfindingTypes": ["land", "air"],
         "transition": {
             "from": ["land"],
             "to": ["sea"],

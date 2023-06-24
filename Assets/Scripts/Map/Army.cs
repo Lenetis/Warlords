@@ -304,8 +304,8 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
                     canTransition = true;
                 }
             }
-            else if (isTransitioned && currentTile.transitionReturn != null) {
-                if (currentTile.transitionReturn.from.IsSubsetOf(pathfindingTypes)) {
+            else if (isTransitioned && nextTile.transitionReturn != null) {
+                if (nextTile.transitionReturn.from.IsSubsetOf(pathfindingTypes)) {
                     canTransition = true;
                 }
             }
