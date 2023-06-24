@@ -8,6 +8,13 @@ public struct ArmyMovedEventData
     public Position endPosition;
 }
 
+public struct CityCapturedEventData
+{
+    public int lootedGold;
+    public List<Unit> destroyedUnits;
+    public int unitGold;
+}
+
 public struct TileMapResizedEventData
 {
     public int oldWidth;
@@ -31,7 +38,7 @@ public static class EventManager
     public static event System.EventHandler ArmyDestroyedEvent;
     public static event System.EventHandler BattleEndedEvent;
     public static event System.EventHandler BattleStartedEvent;
-    public static event System.EventHandler CityCapturedEvent;
+    public static event System.EventHandler<CityCapturedEventData> CityCapturedEvent;
     public static event System.EventHandler CityCreatedEvent;
     public static event System.EventHandler CityDestroyedEvent;
     public static event System.EventHandler CityRazedEvent;
@@ -67,8 +74,8 @@ public static class EventManager
         BattleStartedEvent?.Invoke(sender, System.EventArgs.Empty);
     }
 
-    public static void OnCityCaptured(object sender) {
-        CityCapturedEvent?.Invoke(sender, System.EventArgs.Empty);
+    public static void OnCityCaptured(object sender, CityCapturedEventData eventData) {
+        CityCapturedEvent?.Invoke(sender, eventData);
     }
 
     public static void OnCityCreated(object sender) {

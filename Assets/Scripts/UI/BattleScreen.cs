@@ -200,16 +200,7 @@ public class BattleScreen : MonoBehaviour
         UpdateUnitImages(units, defenderUnits, defenderPanel);
     }
 
-    public void RazeCity()
-    {
-        attackedCity.Raze();
-        actionPanel.SetActive(false);
-        animationPanel.SetActive(true);
-        battlePanel.SetActive(false);
-        cityManagement.SelectCity(attackedCity);
-    }
-
-    public void CaptureCity()
+    public void OccupyCity()
     {
         attackedCity.Capture(attackingPlayer);
         actionPanel.SetActive(false);
@@ -218,15 +209,30 @@ public class BattleScreen : MonoBehaviour
         cityManagement.SelectCity(attackedCity);
     }
 
-    public void OccupyCity()
-    {        
-        //todo
+    public void PillageCity()
+    {
+        attackedCity.Capture(attackingPlayer, 1);
+        actionPanel.SetActive(false);
+        animationPanel.SetActive(true);
+        battlePanel.SetActive(false);
+        cityManagement.SelectCity(attackedCity);
+    }
+    
+    public void SackCity()
+    {
+        attackedCity.Capture(attackingPlayer, 4);
+        actionPanel.SetActive(false);
+        animationPanel.SetActive(true);
+        battlePanel.SetActive(false);
         cityManagement.SelectCity(attackedCity);
     }
 
-    public void PillageCity()
+    public void RazeCity()
     {
-        //todo
+        attackedCity.Raze();
+        actionPanel.SetActive(false);
+        animationPanel.SetActive(true);
+        battlePanel.SetActive(false);
         cityManagement.SelectCity(attackedCity);
     }
 }

@@ -21,7 +21,7 @@ public class ResourcesDisplay : MonoBehaviour
 
         EventManager.BattleEndedEvent += updateResourcesEventHandler;
 
-        EventManager.CityCapturedEvent += updateResourcesEventHandler;
+        EventManager.CityCapturedEvent += CityCapturedHandler;
         EventManager.CityCreatedEvent += updateResourcesEventHandler;
         EventManager.CityDestroyedEvent += updateResourcesEventHandler;
         EventManager.CityRazedEvent += updateResourcesEventHandler;
@@ -39,7 +39,7 @@ public class ResourcesDisplay : MonoBehaviour
 
         EventManager.BattleEndedEvent -= updateResourcesEventHandler;
 
-        EventManager.CityCapturedEvent -= updateResourcesEventHandler;
+        EventManager.CityCapturedEvent -= CityCapturedHandler;
         EventManager.CityCreatedEvent -= updateResourcesEventHandler;
         EventManager.CityDestroyedEvent -= updateResourcesEventHandler;
         EventManager.CityRazedEvent -= updateResourcesEventHandler;
@@ -51,6 +51,11 @@ public class ResourcesDisplay : MonoBehaviour
     }
 
     private void UnitBoughtHandler(object sender, Unit unit)
+    {
+        UpdateResources();
+    }
+
+    private void CityCapturedHandler(object sender, CityCapturedEventData eventData)
     {
         UpdateResources();
     }

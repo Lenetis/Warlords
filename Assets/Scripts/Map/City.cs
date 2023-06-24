@@ -119,8 +119,9 @@ public class City : MultitileStructure, IOwnableMapObject
         EventManager.OnCityRazed(this);
     }
 
-    /// Changes the owner of this city to newOwner
-    public void Capture(Player newOwner)
+    /// Changes the owner of this city to newOwner and gives newOwner a random amount of gold
+    /// Removes {destroyedUnitsNumber} units from buildable units and gives newOwner half their purchase cost in gold
+    public void Capture(Player newOwner, int destroyedUnitsNumber = 0)
     {
         producing = false;
 
@@ -130,7 +131,48 @@ public class City : MultitileStructure, IOwnableMapObject
 
         UpdateSprite();
 
-        EventManager.OnCityCaptured(this);
+        List<Unit> destroyedUnits = new List<Unit>();
+        int unitGold = 0;
+
+        if (buildableUnits.Count > 1) {
+            for (int i = 0; i < destroyedUnitsNumber; i += 1) {
+                int destroyedUnitIndex = Random.Range(0, buildableUnits.Count);
+                destroyedUnits.Add(buildableUnits[destroyedUnitIndex]);
+
+                unitGold += buildableUnits[destroyedUnitIndex].purchaseCost / 2;
+
+                buildableUnits.Remove(buildableUnits[destroyedUnitIndex]);
+
+                if (buildableUnits.Count == 1) {
+                    break;
+                }
+            }
+        }
+        else if (buildableUnits.Count == 1 && destroyedUnitsNumber > 0) {
+            destroyedUnits.Add(buildableUnits[0]);
+
+            unitGold += buildableUnits[0].purchaseCost / 2;
+
+            buildableUnits.Remove(buildableUnits[0]);
+        }
+        CityCapturedEventData eventData;
+        eventData.lootedGold = Random.Range(Constants.cityCaptureMinGold, Constants.cityCaptureMaxGold + 1);
+        eventData.unitGold = unitGold;
+        eventData.destroyedUnits = destroyedUnits;
+
+        newOwner.gold += eventData.lootedGold;
+        newOwner.gold += eventData.unitGold;
+
+        Debug.Log($"Your armies loot {eventData.lootedGold} gold!");
+        if (destroyedUnits.Count > 0) {
+            if (destroyedUnitsNumber == 1) {  // todo this isn't pretty
+                Debug.Log($"The city of {name} is pillaged for {unitGold}. Ability to produce {destroyedUnits.Count} has been lost and only {buildableUnits.Count} units remain!");
+            } else if (destroyedUnitsNumber == 4) {
+                Debug.Log($"The city of {name} is sacked for {unitGold}. Ability to produce {destroyedUnits.Count} has been lost and only {buildableUnits.Count} units remain!");
+            }
+        }
+
+        EventManager.OnCityCaptured(this, eventData);
     }
 
     /// Adds this city to the tileMap and to its owner cities, and creates the city sprite

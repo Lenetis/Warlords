@@ -10,6 +10,9 @@ public static class Constants
     public static readonly int pathfindingMaxDistinctTransitions = 1;
     // maximum number of transitions to distinct set of pathfindingTypes (currently 1, because only transition to ["sea"] exists)
 
+    public static readonly int cityCaptureMinGold = 100;
+    public static readonly int cityCaptureMaxGold = 300;
+
     public static readonly float ruinsUnitJoinChance = 0.333f;
     public static readonly float ruinsItemFindChance = 0.25f;
     public static readonly float ruinsBattleVictoryChance = 0.8f;

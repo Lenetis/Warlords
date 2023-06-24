@@ -73,6 +73,8 @@ public class Minimap : MonoBehaviour
 
     public City selectedCity;
 
+    private System.EventHandler<CityCapturedEventData> cityCapturedEventHandler;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -86,15 +88,16 @@ public class Minimap : MonoBehaviour
 
     void Awake()
     {
-        EventManager.CityCapturedEvent += DrawCities;
+        cityCapturedEventHandler = (object sender, CityCapturedEventData eventData) => DrawCities(sender, System.EventArgs.Empty);
+
+        EventManager.CityCapturedEvent += cityCapturedEventHandler;
         EventManager.CityRazedEvent += DrawCities;
         EventManager.CityDestroyedEvent += DrawCities;
-        
     }
 
     void OnDestroy()
     {
-        EventManager.CityCapturedEvent -= DrawCities;
+        EventManager.CityCapturedEvent -= cityCapturedEventHandler;
         EventManager.CityRazedEvent -= DrawCities;
         EventManager.CityCreatedEvent -= DrawCities;
         EventManager.CityDestroyedEvent -= DrawCities;
