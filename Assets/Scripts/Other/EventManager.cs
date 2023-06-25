@@ -31,6 +31,11 @@ public struct HeroSpawnEventData
     public int alliesCount;
 }
 
+public struct RuinsInfoData
+{
+    public List<string> explorationInfo;
+}
+
 public static class EventManager
 {
     public static event System.EventHandler<ArmyMovedEventData> ArmyMovedEvent;
@@ -46,6 +51,7 @@ public static class EventManager
     public static event System.EventHandler ItemCreatedEvent;
     public static event System.EventHandler ItemDestroyedEvent;
     public static event System.EventHandler RuinsExploredEvent;
+    public static event System.EventHandler<RuinsInfoData> RuinsInfoEvent;
     public static event System.EventHandler StructureCreatedEvent;
     public static event System.EventHandler StructureDestroyedEvent;
     public static event System.EventHandler<TileMapResizedEventData> TileMapResizedEvent;
@@ -104,6 +110,11 @@ public static class EventManager
 
     public static void OnRuinsExplored(object sender) {
         RuinsExploredEvent?.Invoke(sender, System.EventArgs.Empty);
+    }
+
+    public static void OnRuinsInfo(object sender, RuinsInfoData eventData)
+    {
+        RuinsInfoEvent?.Invoke(sender, eventData);
     }
 
     public static void OnStructureCreated(object sender) {

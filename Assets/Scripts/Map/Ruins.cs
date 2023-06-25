@@ -59,6 +59,9 @@ public class Ruins : Structure, IExplorable
 
         explorer.heroData.experience += Constants.ruinsExploreExperience;
 
+        RuinsInfoData eventData;
+        eventData.explorationInfo = new List<string>();
+
         int unitsCount = Random.Range(1, 4 + 1);
         if (Random.Range(0f, 1f) < Constants.ruinsUnitJoinChance && gameController.tileMap.GetTile(position).unitCount + unitsCount <= Constants.maxUnitsPerTile) {
             List<Unit> ruinsUnitList = new List<Unit>();
@@ -71,12 +74,16 @@ public class Ruins : Structure, IExplorable
 
             Army ruinsArmy = new Army(ruinsUnitList, position, explorer.army.owner);
             ruinsArmy.AddToGame();
+            eventData.explorationInfo.Add($"{unitsCount} {(unitsCount == 1 ? "unit" : "units")} of {ruinsUnitList[0].name} offer to join {explorer.name}!");
             Debug.Log($"{unitsCount} {(unitsCount == 1 ? "unit" : "units")} of {ruinsUnitList[0].name} offer to join {explorer.name}!");
             explored = true;
         }
         else {
-            Debug.Log($"{explorer.name} encounters {Constants.ruinsEnemies[Random.Range(0, Constants.ruinsEnemies.Length)]}...");
+            string enemy = Constants.ruinsEnemies[Random.Range(0, Constants.ruinsEnemies.Length)];
+            eventData.explorationInfo.Add($"{explorer.name} encounters {enemy}...");
+            Debug.Log($"{explorer.name} encounters {enemy}...");
             if (Random.Range(0f, 1f) < Constants.ruinsBattleVictoryChance) {
+                eventData.explorationInfo.Add("And is victorious!");
                 Debug.Log("And is victorious!");
                 if (gameController.ruinsItems.Count > 0 && Random.Range(0f, 1f) < Constants.ruinsItemFindChance) {
                     ItemData ruinsItemData = gameController.ruinsItems[Random.Range(0, gameController.ruinsItems.Count)];
@@ -84,23 +91,25 @@ public class Ruins : Structure, IExplorable
 
                     Item ruinsItem = new Item(ruinsItemData, position);
                     ruinsItem.AddToGame();
-
+                    eventData.explorationInfo.Add($"{explorer.name} has found the {ruinsItemData.name}!");
                     Debug.Log($"{explorer.name} has found the {ruinsItemData.name}!");
                 }
                 else {
                     int ruinsGold = Random.Range(Constants.ruinsMinGold, Constants.ruinsMaxGold);
 
                     explorer.army.owner.gold += ruinsGold;
-
+                    eventData.explorationInfo.Add($"{explorer.name} has found {ruinsGold} gold!");
                     Debug.Log($"{explorer.name} has found {ruinsGold} gold!");
                 }
                 explored = true;
             }
             else {
+                eventData.explorationInfo.Add("And is slain by it!");
                 Debug.Log("And is slain by it!");
                 explorer.Destroy();
             }
         }
+        EventManager.OnRuinsInfo(this, eventData);
         EventManager.OnRuinsExplored(this);
     }
 
