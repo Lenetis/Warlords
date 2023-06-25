@@ -60,6 +60,8 @@ public class Unit
             while (heroData.items.Count > 0) {
                 heroData.DropItem(heroData.items[0], army.position);
             }
+
+            army.owner.heroes.Remove(this);  // I don't like this solution too much, doing this via events would be better probably //todo
         }
 
         EventManager.OnUnitDestroyed(this);
