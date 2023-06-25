@@ -2,6 +2,168 @@
     "name": "Shore",
     "description": "Only for flying armies and boats",
     "textures": ["Assets/Resources/Tiles/shore.png"],
+    "relativeTextures": [
+        {
+            "neighbourTiles": {
+                "left": "land",
+                "right": "land",
+                "top": "shore",
+                "bottom": "shore"
+            },
+            "texture": "Assets/Resources/Tiles/shore_LR.png"
+        },
+        {
+            "neighbourTiles": {
+                "left": "shore",
+                "right": "shore",
+                "top": "land",
+                "bottom": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_TB.png"
+        },
+
+        {
+            "neighbourTiles": {
+                "left": "land",
+                "top": "shore",
+                "bottom": "shore"
+            },
+            "texture": "Assets/Resources/Tiles/shore_L.png"
+        },
+        {
+            "neighbourTiles": {
+                "right": "land",
+                "top": "shore",
+                "bottom": "shore"
+            },
+            "texture": "Assets/Resources/Tiles/shore_R.png"
+        },
+        {
+            "neighbourTiles": {
+                "left": "shore",
+                "right": "shore",
+                "top": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_T.png"
+        },
+        {
+            "neighbourTiles": {
+                "left": "shore",
+                "right": "shore",
+                "bottom": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_B.png"
+        },
+
+        {
+            "neighbourTiles": {
+                "left": "shore",
+                "top": "shore",
+                "topLeft": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_cLT.png"
+        },
+        {
+            "neighbourTiles": {
+                "left": "shore",
+                "bottom": "shore",
+                "bottomLeft": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_cLB.png"
+        },
+        {
+            "neighbourTiles": {
+                "right": "shore",
+                "bottom": "shore",
+                "bottomRight": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_cRB.png"
+        },
+        {
+            "neighbourTiles": {
+                "right": "shore",
+                "top": "shore",
+                "topRight": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_cRT.png"
+        },
+
+        {
+            "neighbourTiles": {
+                "left": "land",
+                "top": "land",
+                "right": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_uB.png"
+        },
+        {
+            "neighbourTiles": {
+                "left": "land",
+                "bottom": "land",
+                "right": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_uT.png"
+        },
+        {
+            "neighbourTiles": {
+                "bottom": "land",
+                "top": "land",
+                "right": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_uL.png"
+        },
+        {
+            "neighbourTiles": {
+                "bottom": "land",
+                "top": "land",
+                "left": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_uR.png"
+        },
+
+        {
+            "neighbourTiles": {
+                "right": "land",
+                "bottom": "land",
+                "bottomRiaght": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_RB.png"
+        },
+        {
+            "neighbourTiles": {
+                "right": "land",
+                "top": "land",
+                "topRiaght": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_RT.png"
+        },
+        {
+            "neighbourTiles": {
+                "left": "land",
+                "bottom": "land",
+                "bottomLeaft": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_LB.png"
+        },
+        {
+            "neighbourTiles": {
+                "left": "land",
+                "top": "land",
+                "topLeaft": "land"
+            },
+            "texture": "Assets/Resources/Tiles/shore_LT.png"
+        },
+
+        {
+            "neighbourTiles": {
+                "left": "sea",
+                "right": "sea",
+                "top": "sea",
+                "bottom": "sea"
+            },
+            "texture": "Assets/Resources/Tiles/shore_O.png"
+        }
+    ],
     "moveCost": 2,
     "pathfindingTypes": ["sea", "air"],
     "tileTypes": ["shore"]

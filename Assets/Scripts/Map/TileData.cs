@@ -34,12 +34,7 @@ public class TileData
         description = (string)attributes.GetValue("description");
 
         textures = new List<Texture2D>();
-        if (attributes.ContainsKey("textures")) {
-            foreach (string texturePath in attributes.GetValue("textures")) {
-                textures.Add(ResourceManager.LoadTexture(texturePath));
-            }
-        } else {
-            string texturePath = (string)attributes.GetValue("texture");
+        foreach (string texturePath in attributes.GetValue("textures")) {
             textures.Add(ResourceManager.LoadTexture(texturePath));
         }
 
