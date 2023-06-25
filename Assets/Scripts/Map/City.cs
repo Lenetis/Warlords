@@ -305,6 +305,8 @@ public class City : MultitileStructure, IOwnableMapObject
 
         cityJObject.Add("production", production);
 
+        cityJObject.Add("tileTypes", new JArray(tileTypes));
+
         if (razed) {
             // cities are by default not razed, so no need to save it in that case
             cityJObject.Add("razed", true);
@@ -373,6 +375,12 @@ public class City : MultitileStructure, IOwnableMapObject
         
         buildableUnits = new List<Unit>();
         buyableUnits = new List<Unit>();
+
+        if (baseAttributes.ContainsKey("tileTypes")) {
+            foreach (string tileType in baseAttributes.GetValue("tileTypes")) {
+                tileTypes.Add(tileType);
+            }
+        }
 
         if (!razed) {
             foreach (string unitPath in baseAttributes.GetValue("buildableUnits")) {

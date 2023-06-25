@@ -1,7 +1,67 @@
 {
-    "texture": "Assets/Resources/Structures/bridge.png",
+    "texture": "Assets/Resources/Structures/bridge_O.png",
+    "relativeTextures": [
+        {
+            "neighbourTiles": {
+                "left": "road",
+                "right": "road",
+                "top": "road",
+                "bottom": "road"
+            },
+            "texture": "Assets/Resources/Structures/bridge_O.png"
+        },
+
+        {
+            "neighbourTiles": {
+                "right": "road",
+                "top": "road",
+                "bottom": "road"
+            },
+            "texture": "Assets/Resources/Structures/bridge_iR.png"
+        },
+        {
+            "neighbourTiles": {
+                "left": "road",
+                "top": "road",
+                "bottom": "road"
+            },
+            "texture": "Assets/Resources/Structures/bridge_iL.png"
+        },
+        {
+            "neighbourTiles": {
+                "left": "road",
+                "right": "road",
+                "bottom": "road"
+            },
+            "texture": "Assets/Resources/Structures/bridge_iB.png"
+        },
+        {
+            "neighbourTiles": {
+                "left": "road",
+                "right": "road",
+                "top": "road"
+            },
+            "texture": "Assets/Resources/Structures/bridge_iT.png"
+        },
+
+        {
+            "neighbourTiles": {
+                "left": "road",
+                "right": "road"
+            },
+            "texture": "Assets/Resources/Structures/bridge_LR.png"
+        },
+        {
+            "neighbourTiles": {
+                "top": "road",
+                "bottom": "road"
+            },
+            "texture": "Assets/Resources/Structures/bridge_TB.png"
+        }
+    ],
     "pathfinding": {
         "moveCost": 1,
         "pathfindingTypes": ["land", "sea", "air"]
-    }
+    },
+    "tileTypes": ["road"]
 }

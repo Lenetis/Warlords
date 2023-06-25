@@ -125,7 +125,8 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
 
         for (int x = 0; x < width; x += 1) {
             for (int y = 0; y < height; y += 1) {
-                Color[] pixels = tiles[x, y].texture.GetPixels(0, 0, tileSize, tileSize);
+                Texture2D tileTexture = tiles[x, y].GetRelativeTexture(GetNeighbouringTiles(new Position(x, y)));
+                Color[] pixels = tileTexture.GetPixels(0, 0, tileSize, tileSize);
                 texture.SetPixels(x * tileSize, y * tileSize, tileSize, tileSize, pixels);
             }
         }
@@ -303,6 +304,43 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
         return null;
     }
 
+    /// Returns a Neighbours<Tile> struct with all tiles around the given position
+    public Neighbours<Tile> GetNeighbouringTiles(Position position)
+    {
+        Neighbours<Tile> neighbours = new Neighbours<Tile>();
+        int x = position.x;
+        int y = position.y;
+
+        if (x - 1 >= 0) {
+            neighbours.left = GetTile(new Position(x - 1, y));
+            if (y - 1 >= 0) {
+                neighbours.bottomLeft = GetTile(new Position(x - 1, y - 1));
+            }
+            if (y + 1 < height) {
+                neighbours.topLeft = GetTile(new Position(x - 1, y + 1));
+            }
+        }
+
+        if (x + 1 < width) {
+            neighbours.right = GetTile(new Position(x + 1, y));
+            if (y - 1 >= 0) {
+                neighbours.bottomRight = GetTile(new Position(x + 1, y - 1));
+            }
+            if (y + 1 < height) {
+                neighbours.topRight = GetTile(new Position(x + 1, y + 1));
+            }
+        }
+
+        if (y - 1 >= 0) {
+            neighbours.bottom = GetTile(new Position(x, y - 1));
+        }
+        if (y + 1 < height) {
+            neighbours.top = GetTile(new Position(x, y + 1));
+        }
+
+        return neighbours;
+    }
+
     /// Returns a list of positions around the given position within the specified distance
     public List<Position> GetNeighbouringPositions(Position position, int distance = 1)
     {
@@ -371,28 +409,22 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
         return tiles[position.x, position.y];
     }
 
-    /// Sets the tile at the given position to the provided tile
-    /// If applyTexture is set to true, automatically updates the texture. If not, you need to call ApplyTexture() afterwards
-    public void SetTile(Tile tile, Position position, bool applyTexture = false)
-    {
-        tiles[position.x, position.y] = tile;
-        Color[] pixels = tile.texture.GetPixels(0, 0, tileSize, tileSize);
-        Texture2D texture = (Texture2D)meshRenderer.material.mainTexture;
-        texture.SetPixels(position.x * tileSize, position.y * tileSize, tileSize, tileSize, pixels);
-
-        if (applyTexture) {
-            texture.Apply();
-        }
-    }
-
     /// Sets the tile data (not its contents) at the given position to the provided tile
     /// If applyTexture is set to true, automatically updates the texture. If not, you need to call ApplyTexture() afterwards
     public void SetTileData(TileData tileData, Position position, bool applyTexture = false)
     {
         tiles[position.x, position.y].data = tileData;
-        Color[] pixels = tileData.texture.GetPixels(0, 0, tileSize, tileSize);
+
+        List<Position> updateTexturesPositions = GetNeighbouringPositions(position);
+        updateTexturesPositions.Add(position);
+
         Texture2D texture = (Texture2D)meshRenderer.material.mainTexture;
-        texture.SetPixels(position.x * tileSize, position.y * tileSize, tileSize, tileSize, pixels);
+
+        foreach (Position pos in updateTexturesPositions) {
+            Texture2D tileTexture = tiles[pos.x, pos.y].GetRelativeTexture(GetNeighbouringTiles(pos));
+            Color[] pixels = tileTexture.GetPixels(0, 0, tileSize, tileSize);
+            texture.SetPixels(pos.x * tileSize, pos.y * tileSize, tileSize, tileSize, pixels);
+        }
 
         if (applyTexture) {
             texture.Apply();

@@ -8,6 +8,7 @@ public class Road : Structure
 {
     public string baseFile {get; private set;}
     public Texture2D texture {get; private set;}
+    private List<(Neighbours<string>, string)> relativeTextures;
 
     public Road(JObject baseAttributes, Position position) : base(position)
     {    
@@ -25,6 +26,11 @@ public class Road : Structure
     /// Updates the sprite of mapSprite GameObject. (E.g. when a road is added/removed from neighbouring tile  -- TODO not yet implemented)
     public override void UpdateSprite()
     {
+        Texture2D newTexture = TextureUtilities.GetRelativeTexture(relativeTextures, gameController.tileMap.GetNeighbouringTiles(position));
+        if (newTexture != null) {
+            texture = newTexture;
+        }
+
         Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0, 0), TileMap.tileSize);
         SpriteRenderer spriteRenderer = mapSprite.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
@@ -61,6 +67,8 @@ public class Road : Structure
 
         roadJObject.Add("pathfinding", pathfinding.ToJObject());
 
+        roadJObject.Add("tileTypes", new JArray(tileTypes));
+
         ResourceManager.Minimize(roadJObject);
 
         return roadJObject;
@@ -91,6 +99,32 @@ public class Road : Structure
         string texturePath = (string)baseAttributes.GetValue("texture");
         texture = ResourceManager.LoadTexture(texturePath);
 
+        relativeTextures = new List<(Neighbours<string>, string)>();
+        if (baseAttributes.ContainsKey("relativeTextures")) {
+            foreach (JObject relativeTexture in baseAttributes.GetValue("relativeTextures")) {
+                Neighbours<string> neighboursCondition;
+                neighboursCondition.left = (string)((JObject)relativeTexture.GetValue("neighbourTiles")).GetValue("left");
+                neighboursCondition.right = (string)((JObject)relativeTexture.GetValue("neighbourTiles")).GetValue("right");
+                neighboursCondition.top = (string)((JObject)relativeTexture.GetValue("neighbourTiles")).GetValue("top");
+                neighboursCondition.bottom = (string)((JObject)relativeTexture.GetValue("neighbourTiles")).GetValue("bottom");
+
+                neighboursCondition.topLeft = (string)((JObject)relativeTexture.GetValue("neighbourTiles")).GetValue("topLeft");
+                neighboursCondition.topRight = (string)((JObject)relativeTexture.GetValue("neighbourTiles")).GetValue("topRight");
+                neighboursCondition.bottomLeft = (string)((JObject)relativeTexture.GetValue("neighbourTiles")).GetValue("bottomLeft");
+                neighboursCondition.bottomRight = (string)((JObject)relativeTexture.GetValue("neighbourTiles")).GetValue("bottomRight");
+                
+                string neighboursTexturePath = (string)relativeTexture.GetValue("texture");
+
+                relativeTextures.Add((neighboursCondition, neighboursTexturePath));
+            }
+        }
+
         pathfinding = PathfindingData.FromJObject((JObject)baseAttributes.GetValue("pathfinding"));
+
+        if (baseAttributes.ContainsKey("tileTypes")) {
+            foreach (string tileType in baseAttributes.GetValue("tileTypes")) {
+                tileTypes.Add(tileType);
+            }
+        }
     }
 }

@@ -7,5 +7,6 @@
         "Assets/Resources/Tiles/grass2.png"
     ],
     "moveCost": 2,
-    "pathfindingTypes": ["land", "air"]
+    "pathfindingTypes": ["land", "air"],
+    "tileTypes": ["land"]
 }

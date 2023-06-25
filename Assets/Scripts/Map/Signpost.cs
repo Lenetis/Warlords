@@ -66,6 +66,8 @@ public class Signpost : Structure
         signpostJObject.Add("name", name);
         signpostJObject.Add("description", description);
 
+        signpostJObject.Add("tileTypes", new JArray(tileTypes));
+
         ResourceManager.Minimize(signpostJObject);
 
         return signpostJObject;
@@ -98,6 +100,12 @@ public class Signpost : Structure
 
         string texturePath = (string)baseAttributes.GetValue("texture");
         texture = ResourceManager.LoadTexture(texturePath);
+
+        if (baseAttributes.ContainsKey("tileTypes")) {
+            foreach (string tileType in baseAttributes.GetValue("tileTypes")) {
+                tileTypes.Add(tileType);
+            }
+        }
     }
 
     public override string ToString()

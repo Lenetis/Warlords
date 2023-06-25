@@ -117,6 +117,8 @@ public class Ruins : Structure, IExplorable
 
         ruinsJObject.Add("pathfinding", pathfinding.ToJObject());
 
+        ruinsJObject.Add("tileTypes", new JArray(tileTypes));
+
         ResourceManager.Minimize(ruinsJObject);
 
         return ruinsJObject;
@@ -153,6 +155,12 @@ public class Ruins : Structure, IExplorable
             explored = (bool)baseAttributes.GetValue("explored");
         } else {
             explored = false;
+        }
+
+        if (baseAttributes.ContainsKey("tileTypes")) {
+            foreach (string tileType in baseAttributes.GetValue("tileTypes")) {
+                tileTypes.Add(tileType);
+            }
         }
     }
 }

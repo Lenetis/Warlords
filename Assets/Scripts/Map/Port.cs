@@ -61,6 +61,8 @@ public class Port : Structure
 
         portJObject.Add("pathfinding", pathfinding.ToJObject());
 
+        portJObject.Add("tileTypes", new JArray(tileTypes));
+
         ResourceManager.Minimize(portJObject);
 
         return portJObject;
@@ -92,5 +94,11 @@ public class Port : Structure
         texture = ResourceManager.LoadTexture(texturePath);
 
         pathfinding = PathfindingData.FromJObject((JObject)baseAttributes.GetValue("pathfinding"));
+
+        if (baseAttributes.ContainsKey("tileTypes")) {
+            foreach (string tileType in baseAttributes.GetValue("tileTypes")) {
+                tileTypes.Add(tileType);
+            }
+        }
     }
 }

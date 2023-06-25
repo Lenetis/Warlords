@@ -78,7 +78,20 @@ public class Tile  // todo change to struct maybe?
             if (contents.structure?.pathfinding != null) {
                 return contents.structure.pathfinding.pathfindingTypes;
             }
-            return data.pathfindingTypes; 
+            return data.pathfindingTypes;
+        }
+    }
+
+    public HashSet<string> tileTypes
+    {
+        get {
+            if (contents.structure?.tileTypes != null) {
+                HashSet<string> mergedTileTypes = new HashSet<string>();
+                mergedTileTypes.UnionWith(data.tileTypes);
+                mergedTileTypes.UnionWith(contents.structure.tileTypes);
+                return mergedTileTypes;
+            }
+            return data.tileTypes;
         }
     }
 
@@ -104,6 +117,12 @@ public class Tile  // todo change to struct maybe?
 
         this.data = tileData;
         this.contents = new TileContents();
+    }
+
+    /// Returns texture depending on the neighbouring tiles. If no neighbour condition has been matched, returns default texture
+    public Texture2D GetRelativeTexture(Neighbours<Tile> neighbouringTiles)
+    {
+        return data.GetRelativeTexture(neighbouringTiles);
     }
 
     /// Adds army to this tile's contents

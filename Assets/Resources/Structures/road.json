@@ -1,7 +1,121 @@
 {
-    "texture": "Assets/Resources/Structures/road.png",
+    "texture": "Assets/Resources/Structures/road_O.png",
+    "relativeTextures": [
+        {
+            "neighbourTiles": {
+                "left": "road",
+                "right": "road",
+                "top": "road",
+                "bottom": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_O.png"
+        },
+
+        {
+            "neighbourTiles": {
+                "right": "road",
+                "top": "road",
+                "bottom": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_iR.png"
+        },
+        {
+            "neighbourTiles": {
+                "left": "road",
+                "top": "road",
+                "bottom": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_iL.png"
+        },
+        {
+            "neighbourTiles": {
+                "left": "road",
+                "right": "road",
+                "bottom": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_iB.png"
+        },
+        {
+            "neighbourTiles": {
+                "left": "road",
+                "right": "road",
+                "top": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_iT.png"
+        },
+
+        {
+            "neighbourTiles": {
+                "left": "road",
+                "right": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_LR.png"
+        },
+        {
+            "neighbourTiles": {
+                "top": "road",
+                "bottom": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_TB.png"
+        },
+
+        {
+            "neighbourTiles": {
+                "left": "road",
+                "top": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_LT.png"
+        },
+        {
+            "neighbourTiles": {
+                "left": "road",
+                "bottom": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_LB.png"
+        },
+        {
+            "neighbourTiles": {
+                "right": "road",
+                "top": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_RT.png"
+        },
+        {
+            "neighbourTiles": {
+                "right": "road",
+                "bottom": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_RB.png"
+        },
+
+        {
+            "neighbourTiles": {
+                "left": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_eL.png"
+        },
+        {
+            "neighbourTiles": {
+                "bottom": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_eB.png"
+        },
+        {
+            "neighbourTiles": {
+                "right": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_eR.png"
+        },
+        {
+            "neighbourTiles": {
+                "top": "road"
+            },
+            "texture": "Assets/Resources/Structures/road_eT.png"
+        }
+    ],
     "pathfinding": {
         "moveCost": 1,
         "pathfindingTypes": ["land", "air"]
-    }
+    },
+    "tileTypes": ["road"]
 }

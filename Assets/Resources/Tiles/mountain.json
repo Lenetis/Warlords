@@ -1,7 +1,8 @@
 {
     "name": "Mountain",
     "description": "Only for flying armies",
-    "texture": "Assets/Resources/Tiles/mountain.png",
+    "textures": ["Assets/Resources/Tiles/mountain.png"],
     "moveCost": 10,
-    "pathfindingTypes": ["air"]
+    "pathfindingTypes": ["air"],
+    "tileTypes": ["land"]
 }
