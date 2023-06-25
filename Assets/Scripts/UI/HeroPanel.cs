@@ -57,6 +57,7 @@ public class HeroPanel : MonoBehaviour
     private void HeroSpawnEventHandler(object sender, HeroSpawnEventData eventData)
     {
         heroNameInput.text = "";
+        acceptButton.interactable = true;
         if (firstTurn)
         {
             this.eventData = eventData;
@@ -79,7 +80,7 @@ public class HeroPanel : MonoBehaviour
             }
             else
             {
-                heroNameInputPlaceholder.GetComponent<TextMeshProUGUI>().text = "Enter name";
+                heroNameInputPlaceholder.GetComponent<TextMeshProUGUI>().text = eventData.heroUnit.name;
                 mode = 1;
                 cancelButton.interactable = true;
                 Debug.Log($"A Hero in {eventData.city.name} offers to join you for {eventData.heroCost} gold. You have {gameController.activePlayer.gold} gold to spend. Will you accept?");
@@ -138,13 +139,13 @@ public class HeroPanel : MonoBehaviour
 
     public void OnInputValueChanged()
     {
-        if (heroNameInput.text == "" && mode == 1)
+        if (heroNameInput.text.Length>=3 || heroNameInput.text=="")
         {
-            acceptButton.interactable = false;
+            acceptButton.interactable = true;
         }
         else
         {
-            acceptButton.interactable = true;
+            acceptButton.interactable = false;
         }
     }
 }
