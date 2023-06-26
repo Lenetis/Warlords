@@ -231,6 +231,5 @@ public class BattleScreen : MonoBehaviour
         actionPanel.SetActive(false);
         animationPanel.SetActive(true);
         battlePanel.SetActive(false);
-        cityManagement.SelectCity(attackedCity);
     }
 }

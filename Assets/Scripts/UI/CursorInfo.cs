@@ -39,12 +39,15 @@ public class CursorInfo : MonoBehaviour
     public GameObject stone;
     public GameObject wood;
 
+    public int dispMode;
+
     // Start is called before the first frame update
     void Start()
     {
         mouseSelection = GameObject.Find("Main Camera").GetComponent<MouseSelection>();
         gameController = GameObject.Find("GameController").GetComponent<GameController>();
         uiController = GameObject.Find("UIController").GetComponent<UIController>();
+        dispMode = 0;
     }
 
     // Update is called once per frame
@@ -94,8 +97,9 @@ public class CursorInfo : MonoBehaviour
                 isMoved = true;
             }
 
-            if (!isMoved && mouseSelection.selectedArmy == null)
+            if (!isMoved)
             {
+                objectName.GetComponent<RectTransform>().anchoredPosition = new Vector2(objectName.GetComponent<RectTransform>().anchoredPosition.x, 15);
                 if (mode == 0)
                 {
                     if (mouseSelection.highlightedTile.armies != null)
@@ -228,6 +232,10 @@ public class CursorInfo : MonoBehaviour
                     }
                     objectName.text = buttonName;
                     objectDescription.text = buttonDescription[0];
+                    if (dispMode == 1)
+                    {
+                        objectName.GetComponent<RectTransform>().anchoredPosition = new Vector2(objectName.GetComponent<RectTransform>().anchoredPosition.x, 0);
+                    }
                 }
                 else if (mode == 2)
                 {

@@ -127,7 +127,7 @@ public class CityManagement : MonoBehaviour
             //CB
 
             cityIncome.text = "Income: " + selectedCity.economy.income.ToString() + " Gold";
-            cityDefence.text = "Defence: --";
+            cityDefence.text = "Defence: " + selectedCity.battleStats.strength;
             cityOwner.text = "Owner: " + selectedCity.owner.name.ToString();
 
             for (int j = 0; j < buyableUnits.Length; j++)

@@ -115,10 +115,7 @@ public class MouseSelection : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Z) && selectedArmy != null && selectedArmy.heroes.Count != 0 && uiController.controllsAvailable())
         {
-            Tile exploreTile = gameController.tileMap.GetTile(selectedArmy.position);
-            if (exploreTile.structure as IExplorable != null) {
-                ((IExplorable)exploreTile.structure).Explore(selectedArmy.heroes[0]);
-            }
+            Inspect();
         }
         if(Input.GetKeyDown(KeyCode.F5))
         {
@@ -347,6 +344,35 @@ public class MouseSelection : MonoBehaviour
         {
             moveMode = 1;
         }
+    }
+
+    public void Inspect()
+    {
+        if(selectedArmy != null && selectedArmy.heroes.Count != 0 && uiController.controllsAvailable())
+        {
+            Tile exploreTile = gameController.tileMap.GetTile(selectedArmy.position);
+            if (exploreTile.structure as IExplorable != null)
+            {
+                ((IExplorable)exploreTile.structure).Explore(selectedArmy.heroes[0]);
+            }
+        }
+        
+    }
+
+    public void QuitNNext()
+    {
+        /*
+        if (gameController.activePlayer.armies.Count == 0)
+        {
+            return;
+        }
+        
+        if (selectedArmy == null)
+        {
+            selectedArmy = gameController.activePlayer.armies[0];
+        }
+        selectedArmy.isIdle = false;
+        NextUnits();*/
     }
 
     public void NextUnits()
