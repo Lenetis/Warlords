@@ -1,6 +1,6 @@
 {
     "name": "Hills",
-    "description": "Slows down movemet",
+    "description": "Slows down movement",
     "textures": ["Assets/Resources/Tiles/hills.png"],
     "moveCost": 6,
     "pathfindingTypes": ["land", "air"],

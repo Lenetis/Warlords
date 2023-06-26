@@ -1,6 +1,6 @@
 {
-    "name": "Grass",
-    "description": "The next best thing after roads",
+    "name": "Plain",
+    "description": "The next best thing to roads",
     "textures": [
         "Assets/Resources/Tiles/grass.png",
         "Assets/Resources/Tiles/grass1.png",

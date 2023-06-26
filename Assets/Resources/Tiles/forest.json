@@ -1,6 +1,6 @@
 {
     "name": "Forest",
-    "description": "Difficult to move through",
+    "description": "Slows down movement",
     "textures": ["Assets/Resources/Tiles/forest.png"],
     "moveCost": 4,
     "pathfindingTypes": ["land", "air"],

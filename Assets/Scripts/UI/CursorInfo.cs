@@ -97,7 +97,7 @@ public class CursorInfo : MonoBehaviour
                 isMoved = true;
             }
 
-            if (!isMoved)
+            if (!isMoved && mouseSelection.selectedArmy == null)
             {
                 objectName.GetComponent<RectTransform>().anchoredPosition = new Vector2(objectName.GetComponent<RectTransform>().anchoredPosition.x, 15);
                 if (mode == 0)
@@ -153,19 +153,32 @@ public class CursorInfo : MonoBehaviour
                     else if (mouseSelection.highlightedTile.structure as City != null)
                     {
                         unitStats.SetActive(false);
-                        cityStats.SetActive(false);
-                        if (wood.activeSelf)
-                        {
-                            wood.SetActive(false);
-                        }
-                        if (!stone.activeSelf)
+                        if (stone.activeSelf)
                         {
                             stone.SetActive(true);
+                        }
+                        if (!wood.activeSelf)
+                        {
+                            wood.SetActive(false);
                         }
 
                         City city = (City)mouseSelection.highlightedTile.structure;
                         objectName.text = city.name;
-                        objectDescription.text = city.description;
+                        if (city.razed) {
+                            goldImage.SetActive(false);
+                            swordsImage.SetActive(false);
+                            objectDescription.text = "Razed!";
+                            cityStats.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
+                            cityStats.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "";
+                        }
+                        else {
+                            goldImage.SetActive(true);
+                            swordsImage.SetActive(true);
+                            objectDescription.text = "";
+                            cityStats.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = city.economy.income.ToString();
+                            cityStats.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = city.battleStats.strength.ToString();
+                        }
+                        cityStats.SetActive(true);
                     }
                     else if (mouseSelection.highlightedTile.structure as Signpost != null)
                     {
@@ -197,9 +210,47 @@ public class CursorInfo : MonoBehaviour
                             wood.SetActive(false);
                         }
 
-                        Port port = (Port)mouseSelection.highlightedTile.structure;
                         objectName.text = "Port";
-                        objectDescription.text = port.position.ToString();
+                        objectDescription.text = "A way for armies to put to sea";
+                    }
+                    else if (mouseSelection.highlightedTile.structure as Road != null)
+                    {
+                        unitStats.SetActive(false);
+                        cityStats.SetActive(false);
+                        if (stone.activeSelf)
+                        {
+                            stone.SetActive(true);
+                        }
+                        if (!wood.activeSelf)
+                        {
+                            wood.SetActive(false);
+                        }
+
+                        Road road = (Road)mouseSelection.highlightedTile.structure;
+                        if (mouseSelection.highlightedTile.pathfindingTypes.Contains("sea")) {
+                            objectName.text = "Bridge";
+                            objectDescription.text = "For land armies to cross water";
+                        } else {
+                            objectName.text = "Road";
+                            objectDescription.text = "The fastest way to travel";
+                        }
+                    }
+                    else if (mouseSelection.highlightedTile.structure as Ruins != null)
+                    {
+                        unitStats.SetActive(false);
+                        cityStats.SetActive(false);
+                        if (stone.activeSelf)
+                        {
+                            stone.SetActive(true);
+                        }
+                        if (!wood.activeSelf)
+                        {
+                            wood.SetActive(false);
+                        }
+
+                        Ruins ruins = (Ruins)mouseSelection.highlightedTile.structure;
+                        objectName.text = "Ruins";
+                        objectDescription.text = ruins.explored ? "Explored!" : "Unexplored!";
                     }
                     else
                     {
