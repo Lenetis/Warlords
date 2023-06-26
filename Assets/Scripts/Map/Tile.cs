@@ -126,9 +126,9 @@ public class Tile  // todo change to struct maybe?
     }
 
     /// Adds army to this tile's contents
-    public void AddArmy(Army army)
+    public void AddArmy(Army army, int index = 0)
     {
-        contents.AddArmy(army);
+        contents.AddArmy(army, index);
     }
 
     /// Removes army from this tile's contents

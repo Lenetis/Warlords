@@ -29,7 +29,6 @@ public class MouseSelection : MonoBehaviour
 
     public bool isOverDispArea;
 
-    public List<Army> selectedArmies;
     public GameObject gameMenu;
 
     private UIController uiController;
@@ -184,7 +183,6 @@ public class MouseSelection : MonoBehaviour
                     if (highlightedTile.armies != null && (selectedArmy == null || selectedArmy.position != highlightedPosition))
                     {
                         selectedArmy = highlightedTile.armies[0];
-                        selectedArmies = highlightedTile.armies;
 
                         if (selectedArmy.owner == gameController.activePlayer)
                         {
@@ -196,7 +194,7 @@ public class MouseSelection : MonoBehaviour
                             pathSteps = selectedArmy.path;
                             DrawPath();
 
-                            armyManagement.SelectArmy(selectedArmies);
+                            armyManagement.SelectArmy(selectedArmy);
                         }
                         else
                         {
@@ -320,17 +318,14 @@ public class MouseSelection : MonoBehaviour
             }
         }
         
-        selectedArmies = mergeTile.armies;
         armyManagement.DeselectArmy();
-        armyManagement.SelectArmy(selectedArmies);
+        armyManagement.SelectArmy(selectedArmy);
     }
 
     public void SplitTileUnits(Army selectedArmy)
     {
         selectedArmy.Split();
         Tile splitTile = tileMap.GetTile(selectedArmy.position);
-        selectedArmies = splitTile.armies;
-        armyManagement.SelectArmy(selectedArmies);
-        //armyManagement.RefreshSelection();
+        armyManagement.SelectArmy(selectedArmy);
     }
 }

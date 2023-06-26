@@ -114,8 +114,6 @@ public class BattleScreen : MonoBehaviour
                             info = battle.winner.name + " have won\nthe battle!";
                         }
 
-                        ArmyManagement armyManagement = GameObject.Find("Main").GetComponent<ArmyManagement>();
-                        armyManagement.RefreshSelection();
                         Debug.Log($"Battle ended. Winner = {battle.winner}");
                         winInfo.text = info;
 

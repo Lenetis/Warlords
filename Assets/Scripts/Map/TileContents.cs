@@ -6,15 +6,26 @@ public class TileContents  // todo change to a struct and remove ALL methods
     public List<Army> armies {get; private set;}
     public List<Item> items {get; private set;}
     public Structure structure {get; set;}
-    // todo add items, maybe something else
+    
+
+    /// Deactivates all armies' mapSprites and activates mapSprite of the first army
+    private void UpdateArmySprites ()
+    {
+        foreach(Army army in armies) {
+            army.mapSprite.SetActive(false);
+        }
+        armies[0].mapSprite.SetActive(true);
+    }
 
     /// Adds army to tile contents
-    public void AddArmy(Army army)
+    public void AddArmy(Army army, int index = 0)
     {
         if (armies == null) {
             armies = new List<Army>();
         }
-        armies.Add(army);
+
+        armies.Insert(index, army);
+        UpdateArmySprites();
     }
 
     /// Removes army from tile contents
@@ -23,6 +34,9 @@ public class TileContents  // todo change to a struct and remove ALL methods
         armies.Remove(army);
         if (armies.Count == 0) {
             armies = null;
+        }
+        else {
+            UpdateArmySprites();
         }
     }
 

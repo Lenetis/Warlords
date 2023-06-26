@@ -74,6 +74,7 @@ public class Ruins : Structure, IExplorable
 
             Army ruinsArmy = new Army(ruinsUnitList, position, explorer.army.owner);
             ruinsArmy.AddToGame();
+            ruinsArmy.MoveToBack();
             eventData.explorationInfo.Add($"{unitsCount} {(unitsCount == 1 ? "unit" : "units")} of {ruinsUnitList[0].name} offer to join {explorer.name}!");
             Debug.Log($"{unitsCount} {(unitsCount == 1 ? "unit" : "units")} of {ruinsUnitList[0].name} offer to join {explorer.name}!");
             explored = true;

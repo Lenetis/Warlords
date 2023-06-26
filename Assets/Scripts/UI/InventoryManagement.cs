@@ -248,16 +248,14 @@ public class InventoryManagement : MonoBehaviour
         if (gameController.activePlayer.heroes.Count > 0)
         {
             int index = 0;
-            if (mouseSelection.selectedArmies != null)
+            if (mouseSelection.selectedArmy != null)
             {
-                if (mouseSelection.selectedArmies.Count > 0)
+                Tile selectedArmyTile = gameController.tileMap.GetTile(mouseSelection.selectedArmy.position);
+                for (int i = 0; i < selectedArmyTile.armies.Count; i++)
                 {
-                    for (int i = 0; i < mouseSelection.selectedArmies.Count; i++)
+                    if (selectedArmyTile.armies[i].heroes.Count > 0)
                     {
-                        if (mouseSelection.selectedArmies[i].heroes.Count > 0)
-                        {
-                            index = gameController.activePlayer.heroes.FindIndex(x => x == mouseSelection.selectedArmies[i].heroes[0]);
-                        }
+                        index = gameController.activePlayer.heroes.FindIndex(x => x == selectedArmyTile.armies[i].heroes[0]);
                     }
                 }
             }
@@ -265,7 +263,6 @@ public class InventoryManagement : MonoBehaviour
             LoadData(index);
             inventoryPanel.SetActive(true);
         }
-        
     }
 
     public void HidePanel()

@@ -116,19 +116,20 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         }
     }
 
+    /// Moves this army to the last index of the tile's armies list
+    public void MoveToBack()
+    {
+        Tile currentTile = gameController.tileMap.GetTile(position);
+        currentTile.RemoveArmy(this);
+        currentTile.AddArmy(this, currentTile.armies.Count);
+
+        EventManager.OnArmyReordered(this);
+    }
+
     /// Sorts the unit list from weakest to strongest and alphabetically in case of the same strength (todo change this when implementing custom unit orders)
     private void SortUnits()
     {
-        units.Sort((unit1, unit2) => {
-            int result = unit1.isHero.CompareTo(unit2.isHero);
-            if (result == 0) {
-                result = unit1.battleStats.strength.CompareTo(unit2.battleStats.strength);
-            }
-            if (result == 0) {
-                result = unit1.name.CompareTo(unit2.name);
-            }
-            return result;
-        });
+        ArmyUtilities.SortUnits(units);
     }
 
     /// Updates the pathfindingTypes HashSet to include only the common pathfinding types from the unit list.
@@ -202,13 +203,13 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
     {
         base.AddToGame();
 
+        CreateSprite();
+        UpdateSprite();
+
         gameController.tileMap.GetTile(position).AddArmy(this);
         owner.AddArmy(this);
 
         EventManager.OnArmyCreated(this);
-
-        CreateSprite();
-        UpdateSprite();
     }
 
     /// Destroys the army - removes this army (and all its units) from the game
@@ -235,14 +236,21 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
     /// Turns every unit in this army into a separate army
     public void Split()
     {
+        int splitIndex = units.Count - 2;
+        // starting with the pre-last unit, because we want to keep the last (strongest) unit as the first and selected army
+        //     and have all other units sorted by strength in reverse order (so the stronger units are displayed first in army preview)
+
         while (units.Count > 1) {
-            Unit lastUnit = units.Last();
-            units.RemoveAt(units.Count - 1);
+            Unit splitUnit = units[splitIndex];
+            units.RemoveAt(splitIndex);
+            splitIndex -= 1;
 
             List<Unit> newUnitList = new List<Unit>();
-            newUnitList.Add(lastUnit);
+            newUnitList.Add(splitUnit);
             Army newArmy = new Army(newUnitList, position, owner);
             newArmy.AddToGame();
+
+            newArmy.MoveToBack();
         }
         UpdatePathfindingTypes();
         SortUnits();
@@ -259,6 +267,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         newUnitList.Add(unit);
         Army newArmy = new Army(newUnitList, position, owner);
         newArmy.AddToGame();
+        newArmy.MoveToBack();
     }
 
     /// Sets army path to a new value. If the last step of the new path is an enemy unit, that unit becomes the army's attackTarget

@@ -11,8 +11,6 @@ public class ArmyManagement : MonoBehaviour
 
     public GameObject armyManagementPanel;
 
-    public List<Army> selectedArmies;
-
     //L2
     public GameObject unitButton;
     public GameObject[] units;
@@ -31,6 +29,7 @@ public class ArmyManagement : MonoBehaviour
     {
         EventManager.ArmyMovedEvent += ArmyMovedHandler;
         EventManager.ArmyCreatedEvent += ArmyCreatedHandler;
+        EventManager.ArmyReorderedEvent += ArmyReorderedHandler;
         EventManager.UnitDestroyedEvent += UnitDestroyedHandler;
     }
 
@@ -38,6 +37,7 @@ public class ArmyManagement : MonoBehaviour
     {
         EventManager.ArmyMovedEvent -= ArmyMovedHandler;
         EventManager.ArmyCreatedEvent -= ArmyCreatedHandler;
+        EventManager.ArmyReorderedEvent -= ArmyReorderedHandler;
         EventManager.UnitDestroyedEvent -= UnitDestroyedHandler;
     }
 
@@ -54,7 +54,7 @@ public class ArmyManagement : MonoBehaviour
 
         if (movedArmy == mouseSelection.selectedArmy)
         {
-            SelectArmy(gameController.tileMap.GetTile(movedArmy.position).armies);
+            SelectArmy(movedArmy);
 
             for (int i = 0; i < mouseSelection.selectedArmy.units.Count; i += 1)
             {
@@ -71,7 +71,16 @@ public class ArmyManagement : MonoBehaviour
         Army createdArmy = (Army)sender;
         if (createdArmy.position == mouseSelection?.selectedArmy?.position)
         {
-            SelectArmy(gameController.tileMap.GetTile(createdArmy.position).armies);
+            SelectArmy(mouseSelection.selectedArmy);
+        }
+    }
+
+    private void ArmyReorderedHandler(object sender, System.EventArgs args)
+    {
+        Army reorderedArmy = (Army)sender;
+        if (reorderedArmy.position == mouseSelection?.selectedArmy?.position)
+        {
+            SelectArmy(mouseSelection.selectedArmy);
         }
     }
 
@@ -80,23 +89,22 @@ public class ArmyManagement : MonoBehaviour
         Unit destroyedUnit = (Unit)sender;
         if (destroyedUnit.army.position == mouseSelection?.selectedArmy?.position)
         {
-            SelectArmy(gameController.tileMap.GetTile(destroyedUnit.army.position).armies);
+            SelectArmy(mouseSelection.selectedArmy);
         }
     }
 
-    public void SelectArmy(List<Army> selectedArmies)
+    public void SelectArmy(Army army)
     {
-        this.selectedArmies = selectedArmies;
         if (armyManagementPanel.activeSelf)
         {
             DeselectArmy();
         }
         int armiesSize = 0;
-        //int armySize = mouseSelection.selectedArmy.units.Count;
-
-        for (int i = 0; i < selectedArmies.Count; i++)
+        Tile armyTile = gameController.tileMap.GetTile(army.position);
+        
+        foreach (Army tileArmy in armyTile.armies)
         {
-            armiesSize += selectedArmies[i].units.Count;
+            armiesSize += tileArmy.units.Count;
         }
 
         units = new GameObject[armiesSize];
@@ -110,9 +118,9 @@ public class ArmyManagement : MonoBehaviour
         armyManagementPanel.SetActive(true);
 
         int colorIndex=0;
-        for (int i = 0; i < selectedArmies.Count; i++)
+        for (int i = 0; i < armyTile.armies.Count; i++)
         {
-            for (int j = 0; j < selectedArmies[i].units.Count; j++)
+            for (int j = 0; j < armyTile.armies[i].units.Count; j++)
             {
 
                 units[counter] = Instantiate(unitButton, armyManagementPanel.transform.GetChild(0).gameObject.transform);
@@ -123,10 +131,10 @@ public class ArmyManagement : MonoBehaviour
                 units[counter].GetComponent<UnitButton>().unit = j;
 
                 unitsImage[counter] = units[counter].transform.GetChild(1).gameObject.GetComponent<Image>();
-                unitsImage[counter].sprite = Sprite.Create(selectedArmies[i].units[j].texture, new Rect(0.0f, 0.0f, selectedArmies[i].units[j].texture.width, selectedArmies[i].units[j].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+                unitsImage[counter].sprite = Sprite.Create(armyTile.armies[i].units[j].texture, new Rect(0.0f, 0.0f, armyTile.armies[i].units[j].texture.width, armyTile.armies[i].units[j].texture.height), new Vector2(0.5f, 0.5f), 100.0f);
 
                 movesAvailable[counter] = units[counter].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-                movesAvailable[counter].text = selectedArmies[i].units[j].pathfinder.remainingMove.ToString();
+                movesAvailable[counter].text = armyTile.armies[i].units[j].pathfinder.remainingMove.ToString();
 
                 /////unitsCheckBox[counter] = units[counter].transform.GetChild(2).gameObject.GetComponent<Image>();
                 /////unitsCheckBox[counter].color = new Color(176f / 255f, 255f / 255f, 145f / 255f);
@@ -142,14 +150,6 @@ public class ArmyManagement : MonoBehaviour
                 counter++;
             }
             colorIndex++;
-        }
-    }
-
-    public void RefreshSelection()
-    {
-        if (selectedArmies?.Count > 0)
-        {
-            SelectArmy(gameController.tileMap.GetTile(selectedArmies[0].position).armies);
         }
     }
 
@@ -169,6 +169,7 @@ public class ArmyManagement : MonoBehaviour
 
     public void SetUnitActivity(int index)
     {
+        Tile armyTile = gameController.tileMap.GetTile(mouseSelection.selectedArmy.position);
         if (counter != 1)
         {
             Debug.Log("Button index: " + index);
@@ -176,16 +177,16 @@ public class ArmyManagement : MonoBehaviour
 
             if (MSMode == -1)
             {
-                if(selectedArmies[0].units.Count!=1)
-                selectedArmies[units[index].GetComponent<UnitButton>().army].SplitUnit(selectedArmies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
+                if(armyTile.armies[0].units.Count!=1)
+                armyTile.armies[units[index].GetComponent<UnitButton>().army].SplitUnit(armyTile.armies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
             }
             else
             {
-                selectedArmies[0].AddUnit(selectedArmies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
-                selectedArmies[units[index].GetComponent<UnitButton>().army].RemoveUnit(selectedArmies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
+                armyTile.armies[0].AddUnit(armyTile.armies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
+                armyTile.armies[units[index].GetComponent<UnitButton>().army].RemoveUnit(armyTile.armies[units[index].GetComponent<UnitButton>().army].units[units[index].GetComponent<UnitButton>().unit]);
             }
 
-            SelectArmy(selectedArmies);
+            SelectArmy(mouseSelection.selectedArmy);
             /*
             if (activeUnits[index] == true)
             {

@@ -41,6 +41,7 @@ public static class EventManager
     public static event System.EventHandler<ArmyMovedEventData> ArmyMovedEvent;
     public static event System.EventHandler ArmyCreatedEvent;
     public static event System.EventHandler ArmyDestroyedEvent;
+    public static event System.EventHandler ArmyReorderedEvent;
     public static event System.EventHandler BattleEndedEvent;
     public static event System.EventHandler BattleStartedEvent;
     public static event System.EventHandler<CityCapturedEventData> CityCapturedEvent;
@@ -70,6 +71,10 @@ public static class EventManager
 
     public static void OnArmyDestroyed(object sender) {
         ArmyDestroyedEvent?.Invoke(sender, System.EventArgs.Empty);
+    }
+
+    public static void OnArmyReordered(object sender) {
+        ArmyReorderedEvent?.Invoke(sender, System.EventArgs.Empty);
     }
 
     public static void OnBattleEnded(object sender) {
