@@ -967,7 +967,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 248877948}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 413868008}
+        m_TargetAssemblyTypeName: UltimateMainMenu, Assembly-CSharp
+        m_MethodName: LaunchEditor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &248877948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1231,6 +1243,8 @@ MonoBehaviour:
   savedGameButtons: []
   deleteGameButton: {fileID: 6346861084756557147, guid: 2a12815f121e0e04dae9624c96829270, type: 3}
   deleteGameButtons: []
+  width: {fileID: 1693225641}
+  height: {fileID: 1463005028}
 --- !u!1 &415370786
 GameObject:
   m_ObjectHideFlags: 0
@@ -2423,7 +2437,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 1
+  m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1032373759
@@ -3541,7 +3555,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: width
+  m_text: width (0-200)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d29e4527d98b09d4ca2d22e9c1ad8bc7, type: 2}
   m_sharedMaterial: {fileID: 409550311134395199, guid: d29e4527d98b09d4ca2d22e9c1ad8bc7, type: 2}
@@ -4143,7 +4157,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: height
+  m_text: height (0-200)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d29e4527d98b09d4ca2d22e9c1ad8bc7, type: 2}
   m_sharedMaterial: {fileID: 409550311134395199, guid: d29e4527d98b09d4ca2d22e9c1ad8bc7, type: 2}

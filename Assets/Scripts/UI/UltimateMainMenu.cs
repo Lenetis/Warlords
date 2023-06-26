@@ -28,6 +28,10 @@ public class UltimateMainMenu : MonoBehaviour
     public GameObject deleteGameButton;
     public GameObject[] deleteGameButtons;
 
+    //editor
+    public TMP_InputField width;
+    public TMP_InputField height;
+
     public void ShowPanel(int index)
     {
         for(int i = 0; i < panels.Length; i++)
@@ -51,7 +55,7 @@ public class UltimateMainMenu : MonoBehaviour
                 Destroy(savedScenariosButtons[i]);
                 Destroy(deleteScenariosButtons[i]);
             }
-            savedGames = Directory.GetFiles($"./scenarios", "*.json");
+            savedGames = Directory.GetFiles($"./Scenarios", "*.json");
             scenariosButtonsLabel.GetComponent<RectTransform>().sizeDelta = new Vector2(scenariosButtonsLabel.GetComponent<RectTransform>().sizeDelta.x, savedGames.Length * 20 + 20 + (10 * (savedGames.Length - 1)));
             savedScenariosButtons = new GameObject[savedGames.Length];
             deleteScenariosButtons = new GameObject[savedGames.Length];
@@ -75,7 +79,7 @@ public class UltimateMainMenu : MonoBehaviour
                 Destroy(savedGameButtons[i]);
                 Destroy(deleteGameButtons[i]);
             }
-            savedGames = Directory.GetFiles($"./saves", "*.json");
+            savedGames = Directory.GetFiles($"./Saves", "*.json");
             buttonsLabel.GetComponent<RectTransform>().sizeDelta = new Vector2(buttonsLabel.GetComponent<RectTransform>().sizeDelta.x, savedGames.Length * 20 + 20 + (10 * (savedGames.Length - 1)));
             savedGameButtons = new GameObject[savedGames.Length];
             deleteGameButtons = new GameObject[savedGames.Length];
@@ -99,10 +103,61 @@ public class UltimateMainMenu : MonoBehaviour
         buttons[index].interactable = true;
     }
 
-    public void SendData(int index)
+    public void SendData(int index, string mode)
     {
-        PlayerPrefs.SetString("saveFile", savedGames[index]);
+        if (mode == "scenarioMode")
+        {
+            PlayerPrefs.SetString("saveFileDirectory", "Saves/");
+            PlayerPrefs.SetString("startFilePath", savedGames[index]);
+            PlayerPrefs.SetString("saveFilePath", "");
+        }
+        else if (mode == "gameMode")
+        {
+            PlayerPrefs.SetString("saveFileDirectory", "Saves/");
+            PlayerPrefs.SetString("startFilePath", "");
+            PlayerPrefs.SetString("saveFilePath", savedGames[index]);
+        }
+        
+        PlayerPrefs.SetString("mode", mode);
+        SceneManager.LoadScene("Game");
+
         Debug.Log(savedGames[index]);
+        Debug.Log(mode);
     }
 
+    public void LaunchEditor()
+    {
+        if(width.text!=""&& height.text != "")
+        {
+            if (int.TryParse(width.text, out _))
+            {
+                if (int.TryParse(height.text, out _))
+                {
+                    //XD it works
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+
+            if (int.Parse(width.text) > 0 && int.Parse(height.text) > 0 && int.Parse(width.text) < 200 && int.Parse(height.text) < 200)
+            {
+                PlayerPrefs.SetString("saveFileDirectory", "Scenarios/");
+                PlayerPrefs.SetString("startFilePath", "");
+                PlayerPrefs.SetString("saveFilePath", "");
+
+                PlayerPrefs.SetInt("width", int.Parse(width.text));
+                PlayerPrefs.SetInt("height", int.Parse(height.text));
+
+                PlayerPrefs.SetString("mode", "editorMode");
+
+                SceneManager.LoadScene("Game");
+            }
+        }
+    }
 }

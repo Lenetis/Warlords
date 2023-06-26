@@ -23,7 +23,15 @@ public class LoadGameButton : MonoBehaviour
         }
         else
         {
-            ultimateMainMenu.SendData(int.Parse(gameObject.name));
+            if (transform.parent.parent.parent.parent.name == "Scenarios")
+            {
+                ultimateMainMenu.SendData(int.Parse(gameObject.name), "scenarioMode");
+            }
+            else if(transform.parent.parent.parent.parent.name =="LoadGamePanel")
+            {
+                ultimateMainMenu.SendData(int.Parse(gameObject.name), "gameMode");
+            }
+            
         }
     }
 }

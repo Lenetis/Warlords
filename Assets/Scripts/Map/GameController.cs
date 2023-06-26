@@ -47,6 +47,18 @@ public class GameController : MonoBehaviour
 
     void Awake()
     {
+        tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();  // todo replace with new TileMap(...) and change TileMap to not be a MonoBehaviour
+
+        saveFileDirectory =PlayerPrefs.GetString("saveFileDirectory", "");
+        startFilePath=PlayerPrefs.GetString("startFilePath", "");
+        saveFilePath=PlayerPrefs.GetString("saveFilePath", "");
+
+        if(PlayerPrefs.GetString("mode", "") == "editorMode")
+        {
+            tileMap.width= PlayerPrefs.GetInt("width", 0);
+            tileMap.height = PlayerPrefs.GetInt("height", 0);
+        }
+
         itemCreatedHandler = (object sender, System.EventArgs args) => items.Add((Item)sender);
         itemDestroyedHandler = (object sender, System.EventArgs args) => items.Remove((Item)sender);
 
@@ -91,7 +103,7 @@ public class GameController : MonoBehaviour
     /// Start is called before the first frame update
     void Start()
     {
-        tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();  // todo replace with new TileMap(...) and change TileMap to not be a MonoBehaviour
+        
 
         players = new List<Player>();
         ruinsItems = new List<ItemData>();
