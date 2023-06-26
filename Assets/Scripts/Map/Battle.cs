@@ -48,7 +48,8 @@ public class Battle
             }
         }
 
-        // todo sort attackingUnits and defendingUnits
+        ArmyUtilities.SortUnits(attackingUnits);
+        ArmyUtilities.SortUnits(defendingUnits);
 
         Debug.Log("Battle!");
         Debug.Log($"Attackers: {string.Join(", ", attackingUnits)}");
