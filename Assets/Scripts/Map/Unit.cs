@@ -14,8 +14,51 @@ public class Unit
     public Texture2D texture {get; private set;}
     public Texture2D maskTexture {get; private set;}
 
-    public BattleStatsData battleStats {get; private set;}
-    public EconomyData economy {get; private set;}
+    private BattleStatsData _battleStats;
+    public BattleStatsData battleStats
+    {
+        get {
+            if (isHero) {
+                int combinedStrength = _battleStats.strength;
+                int combinedCommand = _battleStats.command;
+                int combinedBonus = _battleStats.bonus;
+                foreach (ItemData itemData in heroData.items) {
+                    if (itemData.battleStats != null) {
+                        combinedStrength += itemData.battleStats.strength;
+                        combinedCommand += itemData.battleStats.command;
+                        combinedBonus += itemData.battleStats.bonus;
+                    }
+                }
+                BattleStatsData battleStatsWithItems = new BattleStatsData(combinedStrength, combinedCommand, combinedBonus);
+                return battleStatsWithItems;
+            }
+            return _battleStats;
+        }
+        private set {
+            _battleStats = value;
+        }
+    }
+
+    private EconomyData _economy;
+    public EconomyData economy
+    {
+        get {
+            if (isHero) {
+                EconomyData economyWithItems = new EconomyData(_economy.income, _economy.upkeep);
+                foreach (ItemData itemData in heroData.items) {
+                    if (itemData.economy != null) {
+                        economyWithItems.income += itemData.economy.income;
+                        economyWithItems.upkeep += itemData.economy.upkeep;
+                    }
+                }
+                return economyWithItems;
+            }
+            return _economy;
+        }
+        private set {
+            _economy = value;
+        }
+    }
     public int productionCost {get; private set;}
     public int purchaseCost {get; private set;}
 
@@ -80,14 +123,14 @@ public class Unit
     {
         // todo check if the transition's "from" pathfindingTypes match with the unit's
         int newMove = transition.move == null ? pathfinder.move : (int)transition.move;
-        transitionPathfinder = new PathfinderData(newMove, 0, transition.to);
+        transitionPathfinder = new PathfinderData(newMove, newMove, transition.to);
     }
 
     /// Returns this unit's pathfinder from another move type back to the base pathfinder (e.g. when returning to land from water from water)
     public void TransitionReturn()
     {
         transitionPathfinder = null;
-        pathfinder.remainingMove = 0;
+        pathfinder.usedMove = pathfinder.move;
     }
 
     /// Serializes this unit into a JObject
@@ -163,6 +206,7 @@ public class Unit
         heroData = null;
         if (baseAttributes.ContainsKey("heroData")) {
             heroData = HeroData.FromJObject((JObject)baseAttributes.GetValue("heroData"));
+            heroData.unit = this;
         }
     }
 

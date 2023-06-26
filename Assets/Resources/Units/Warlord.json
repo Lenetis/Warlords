@@ -14,15 +14,12 @@
         "upkeep": 0
     },
     "battleStats": {
-        "strength": 5
+        "strength": 5,
+        "command": 1
     },
     "heroData": {
         "level": 1,
         "experience": 0,
-        "items": [
-            {
-                "baseFile": "Assets/Resources/Items/amuletOfNothing.json"
-            }
-        ]
+        "items": []
     }
 }

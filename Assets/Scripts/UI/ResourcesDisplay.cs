@@ -26,6 +26,9 @@ public class ResourcesDisplay : MonoBehaviour
         EventManager.CityDestroyedEvent += updateResourcesEventHandler;
         EventManager.CityRazedEvent += updateResourcesEventHandler;
 
+        EventManager.ItemCreatedEvent += updateResourcesEventHandler;
+        EventManager.ItemDestroyedEvent += updateResourcesEventHandler;
+
         EventManager.RuinsExploredEvent += updateResourcesEventHandler;
 
         EventManager.UnitBoughtEvent += UnitBoughtHandler;
@@ -43,6 +46,9 @@ public class ResourcesDisplay : MonoBehaviour
         EventManager.CityCreatedEvent -= updateResourcesEventHandler;
         EventManager.CityDestroyedEvent -= updateResourcesEventHandler;
         EventManager.CityRazedEvent -= updateResourcesEventHandler;
+
+        EventManager.ItemCreatedEvent -= updateResourcesEventHandler;
+        EventManager.ItemDestroyedEvent -= updateResourcesEventHandler;
 
         EventManager.RuinsExploredEvent -= updateResourcesEventHandler;
 

@@ -184,10 +184,10 @@ public class InventoryManagement : MonoBehaviour
                 actionButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Take It";
             }
         }
-        heroStats[0].text = "BAT";
-        heroStats[1].text = gameController.activePlayer.heroes[0].heroData.level.ToString();
-        heroStats[2].text = "COM";
-        heroStats[3].text = gameController.activePlayer.heroes[0].heroData.experience.ToString();
+        heroStats[0].text = gameController.activePlayer.heroes[index].battleStats.strength.ToString();
+        heroStats[1].text = gameController.activePlayer.heroes[index].heroData.level.ToString();
+        heroStats[2].text = gameController.activePlayer.heroes[index].battleStats.command.ToString();
+        heroStats[3].text = gameController.activePlayer.heroes[index].heroData.experience.ToString();
 
         heroIndexInfo.text = currentHeroIndex + 1 + " of " + gameController.activePlayer.heroes.Count;
         if (isCarried.Count == 1)

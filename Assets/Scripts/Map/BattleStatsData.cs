@@ -11,14 +11,27 @@ public class BattleStatsData
     {
         get {return _strength.GetValueOrDefault(0);}
     }
+
+    private int? _command;
+    public int command
+    {
+        get {return _command.GetValueOrDefault(0);}
+    }
+
+    private int? _bonus;
+    public int bonus
+    {
+        get {return _bonus.GetValueOrDefault(0);}
+    }
     
     // todo:
-    // command
     // strength bonuses in certain situations
 
-    public BattleStatsData(int? strength)
+    public BattleStatsData(int? strength, int? command, int? bonus)
     {
         _strength = strength;
+        _command = command;
+        _bonus = bonus;
     }
 
     public static BattleStatsData FromJObject(JObject attributes)
@@ -28,7 +41,17 @@ public class BattleStatsData
             strength = (int)attributes.GetValue("strength");
         }
 
-        return new BattleStatsData(strength);
+        int? command = null;
+        if (attributes.ContainsKey("command")) {
+            command = (int)attributes.GetValue("command");
+        }
+
+        int? bonus = null;
+        if (attributes.ContainsKey("bonus")) {
+            bonus = (int)attributes.GetValue("bonus");
+        }
+
+        return new BattleStatsData(strength, command, bonus);
     }
 
     public JObject ToJObject()
@@ -37,6 +60,14 @@ public class BattleStatsData
         
         if (_strength != null) {
             battleStatsJObject.Add("strength", _strength);
+        }
+
+        if (_command != null) {
+            battleStatsJObject.Add("command", _command);
+        }
+
+        if (_bonus != null) {
+            battleStatsJObject.Add("bonus", _bonus);
         }
         
         return battleStatsJObject;

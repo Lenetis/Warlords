@@ -1,0 +1,9 @@
+{
+    "texture": "Assets/Resources/Items/item.png",
+    "name": "Running Shoes",
+    "description": "An ancient artifact that allows you to move at unimaginable speeds. (Move +10)",
+    "pathfinder": {
+        "move": 10,
+        "pathfindingTypes": []
+    }
+}

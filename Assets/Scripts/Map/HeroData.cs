@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 
 public class HeroData
 {
+    public Unit unit {get; set;}
     public int level {get; set;}
     public int experience {get; set;}
     public List<ItemData> items {get; set;}
@@ -16,12 +17,17 @@ public class HeroData
         this.level = level;
         this.experience = experience;
         this.items = items;
+        this.unit = unit;
     }
 
     /// Removes the item from the tilemap and adds it to the list of items
     public void PickUpItem(Item item)
     {
         items.Add(item.itemData);
+        if (item.itemData.pathfinder != null) {  // todo do this also for battleStats and economy (and remove the getters from Unit)
+            unit.basePathfinder.AddPathfinder(item.itemData.pathfinder);
+            unit.army.UpdatePathfindingTypes();
+        }
         item.Destroy();
     }
 
@@ -29,6 +35,10 @@ public class HeroData
     public void DropItem(ItemData itemData, Position position)
     {
         items.Remove(itemData);
+        if (itemData.pathfinder != null) {
+            unit.basePathfinder.RemovePathfinder(itemData.pathfinder);
+            unit.army.UpdatePathfindingTypes();
+        }
 
         Item newItem = new Item(itemData, position);
         newItem.AddToGame();

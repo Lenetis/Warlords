@@ -317,6 +317,13 @@
       ]
     },
     {
+      "baseFile": "Assets/Resources/Items/runningShoes.json",
+      "position": [
+        27,
+        34
+      ]
+    },
+    {
       "baseFile": "Assets/Resources/Items/amuletOfAntigravity.json",
       "position": [
         28,

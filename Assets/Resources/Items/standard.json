@@ -1,0 +1,8 @@
+{
+    "texture": "Assets/Resources/Items/item.png",
+    "name": "Standard",
+    "description": "A glorious standard bearing the emblems of thy Empire. (Command +1)",
+    "battleStats": {
+        "command": 1
+    }
+}

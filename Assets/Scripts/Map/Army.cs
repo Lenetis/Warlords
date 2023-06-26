@@ -138,7 +138,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
 
     /// Updates the pathfindingTypes HashSet to include only the common pathfinding types from the unit list.
     /// Throws ArgumentException if no common pathfinding type exists.
-    private void UpdatePathfindingTypes()
+    public void UpdatePathfindingTypes()
     {
         basePathfindingTypes = new HashSet<string>(units[0].basePathfinder.pathfindingTypes);
 
@@ -392,7 +392,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
                 }
                 else {
                     foreach (Unit unit in units) {
-                        unit.pathfinder.remainingMove -= nextTile.moveCost;
+                        unit.pathfinder.usedMove += nextTile.moveCost;
                     }
                 }
 

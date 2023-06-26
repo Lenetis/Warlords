@@ -13,6 +13,8 @@ public static class Constants
     public static readonly int cityCaptureMinGold = 100;
     public static readonly int cityCaptureMaxGold = 300;
 
+    public static readonly string firstHeroItem = "Assets/Resources/Items/standard.json";
+
     public static readonly float ruinsUnitJoinChance = 0.333f;
     public static readonly float ruinsItemFindChance = 0.25f;
     public static readonly float ruinsBattleVictoryChance = 0.8f;

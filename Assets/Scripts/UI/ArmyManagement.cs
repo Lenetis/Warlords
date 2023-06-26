@@ -25,12 +25,19 @@ public class ArmyManagement : MonoBehaviour
 
     public int counter;
 
+    System.EventHandler refreshArmyHandler;
+
     void Awake()
     {
+        refreshArmyHandler = (object sender, System.EventArgs args) => RefreshArmy();
+
         EventManager.ArmyMovedEvent += ArmyMovedHandler;
         EventManager.ArmyCreatedEvent += ArmyCreatedHandler;
         EventManager.ArmyReorderedEvent += ArmyReorderedHandler;
         EventManager.UnitDestroyedEvent += UnitDestroyedHandler;
+
+        EventManager.ItemCreatedEvent += refreshArmyHandler;
+        EventManager.ItemDestroyedEvent += refreshArmyHandler;
     }
 
     void OnDestroy()
@@ -39,6 +46,9 @@ public class ArmyManagement : MonoBehaviour
         EventManager.ArmyCreatedEvent -= ArmyCreatedHandler;
         EventManager.ArmyReorderedEvent -= ArmyReorderedHandler;
         EventManager.UnitDestroyedEvent -= UnitDestroyedHandler;
+
+        EventManager.ItemCreatedEvent -= refreshArmyHandler;
+        EventManager.ItemDestroyedEvent -= refreshArmyHandler;
     }
 
     // Start is called before the first frame update
@@ -63,6 +73,13 @@ public class ArmyManagement : MonoBehaviour
                     movesAvailable[i].text = mouseSelection.selectedArmy.units[i].pathfinder.remainingMove.ToString();
                 }
             }
+        }
+    }
+
+    private void RefreshArmy()
+    {
+        if (mouseSelection != null && mouseSelection.selectedArmy != null) {
+            SelectArmy(mouseSelection.selectedArmy);
         }
     }
 

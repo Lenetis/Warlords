@@ -1,8 +1,8 @@
 {
     "texture": "Assets/Resources/Items/item.png",
     "name": "Amulet of Wealth",
-    "description": "A pretty amulet. You can show it to people and they will give you money",
+    "description": "A pretty amulet. People will pay you just to look at it. (Income +15)",
     "economy": {
-        "income": 5
+        "income": 15
     }
 }

@@ -181,6 +181,11 @@ public class Player
 
             alliesCount = Random.Range(0, 3 + 1);  // todo this should be loaded from a file/constant/something
         }
+        else {
+            ItemData standard = ItemData.FromJObject(ResourceManager.LoadResource(Constants.firstHeroItem));
+            standard.name = $"{name} Standard";
+            heroUnit.heroData.items.Add(standard);
+        }
 
         if (heroCost <= _gold) {
             heroUnit.name = heroNames[Random.Range(0, heroNames.Count)];

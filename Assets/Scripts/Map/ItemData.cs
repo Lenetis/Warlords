@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 public class ItemData
 {
     public string baseFile {get; private set;}
-    public string name {get; private set;}
+    public string name {get; set;}
     public string description {get; private set;}
     public Texture2D texture {get; private set;}
 
