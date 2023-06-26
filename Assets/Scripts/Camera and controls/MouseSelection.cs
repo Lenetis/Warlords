@@ -203,6 +203,11 @@ public class MouseSelection : MonoBehaviour
                     else
                     {
                         DeselectArmy();
+                        
+                        if (highlightedTile.structure as City != null)
+                        {
+                            cityManagement.SelectCity((City)highlightedTile.structure);
+                        }
                     }
                 }
             }
