@@ -19,11 +19,28 @@ public class CameraController : MonoBehaviour
     private MouseSelection mouseSelection;
     private UIController uiController;
 
+    void Awake()
+    {
+        EventManager.TileMapResizedEvent += TileMapResizedEventHandler;
+    }
+
+    void OnDestroy()
+    {
+        EventManager.TileMapResizedEvent -= TileMapResizedEventHandler;
+    }
+
     void Start()
     {
         cameraPanButtonPressed = false;
         mouseSelection = GameObject.Find("Main Camera").GetComponent<MouseSelection>();
         uiController = GameObject.Find("UIController").GetComponent<UIController>();
+    }
+
+    private void TileMapResizedEventHandler(object sender, TileMapResizedEventData eventData)
+    {
+        TileMap tilemap = (TileMap)sender;
+        mapWidth = tilemap.width;
+        mapHeight = tilemap.height;
     }
 
     void Update()

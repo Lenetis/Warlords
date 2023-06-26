@@ -175,16 +175,7 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
         meshCollider.sharedMesh = meshFilter.mesh;
 
         GenerateTexture();
-
-        // todo remove this when handling of TileMapResizedEvent is added
-        Minimap minimapUI = GameObject.Find("Main").GetComponent<Minimap>();
-        minimapUI.width = newWidth;
-        minimapUI.height = newHeight;
-        minimapUI.isTileMapLoaded = false;
-        CameraController controller = Camera.main.GetComponent<CameraController>();
-        controller.mapWidth = newWidth;
-        controller.mapHeight = newHeight;
-
+        
         EventManager.OnTileMapResized(this, eventData);
     }
 
@@ -436,8 +427,15 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
     {
         ResourceManager.ExpandWithBaseFile(attributes);
 
+        TileMapResizedEventData eventData;
+        eventData.oldWidth = width;
+        eventData.oldHeight = height;
+
         width = (int)attributes.GetValue("width");
         height = (int)attributes.GetValue("height");
+        
+        eventData.newWidth = width;
+        eventData.newHeight = height;
 
         tiles = new Tile[width, height];
 
@@ -471,6 +469,8 @@ public class TileMap : MonoBehaviour  // todo remove MonoBehaviour maybe? change
         meshCollider.sharedMesh = meshFilter.mesh;
 
         GenerateTexture();
+
+        EventManager.OnTileMapResized(this, eventData);
     }
 
     /// Serializes the TileMap into a JObject

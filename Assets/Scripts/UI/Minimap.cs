@@ -84,6 +84,8 @@ public class Minimap : MonoBehaviour
         gameController= GameObject.Find("GameController").GetComponent<GameController>();
         EventManager.CityCreatedEvent += DrawCities;
         EventManager.TurnEvent += DrawCities;
+
+        EventManager.TileMapResizedEvent += TileMapResizedEventHandler;
     }
 
     void Awake()
@@ -102,6 +104,18 @@ public class Minimap : MonoBehaviour
         EventManager.CityCreatedEvent -= DrawCities;
         EventManager.CityDestroyedEvent -= DrawCities;
         EventManager.TurnEvent -= DrawCities;
+
+        EventManager.TileMapResizedEvent -= TileMapResizedEventHandler;
+    }
+
+    void TileMapResizedEventHandler(object sender, TileMapResizedEventData eventData)
+    {
+        TileMap tileMap = (TileMap)sender;
+        width = tileMap.width;
+        height = tileMap.height;
+        isTileMapLoaded = false;
+
+        DrawCities(sender, System.EventArgs.Empty);
     }
 
     // Update is called once per frame
