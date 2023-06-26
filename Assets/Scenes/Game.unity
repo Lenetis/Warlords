@@ -9039,9 +9039,6 @@ MonoBehaviour:
   height: 50
   jsons:
   - Assets/Resources/Tiles/sea.json
-  - Assets/Resources/Tiles/grass.json
-  - Assets/Resources/Tiles/sea.json
-  - Assets/Resources/Tiles/forest.json
   miniMapTexture: {fileID: 0}
 --- !u!64 &503963334
 MeshCollider:
@@ -25861,6 +25858,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b4a35fed77d5864c81578c6e74f3bdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveFileDirectory: Saves/
+  startFilePath: Scenarios/The Spiral.json
+  saveFilePath: Saves/quicksave.json
   armyMoveDelay: 0.15
 --- !u!4 &1407414942
 Transform:
@@ -35511,6 +35511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7339a6bd2304f24cad201ab28b07a4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameController: {fileID: 0}
   cityManagementPanel: {fileID: 1067426496}
   armyManagementPanel: {fileID: 2066927264}
   mainUI: {fileID: 1454547759}

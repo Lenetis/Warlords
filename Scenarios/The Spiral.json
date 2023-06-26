@@ -1,0 +1,2257 @@
+{
+  "turn": 0,
+  "activePlayer": "Summoners",
+  "players": [
+    {
+      "baseFile": "Assets/Resources/Players/kingdomsPlayer.json",
+      "name": "Summoners",
+      "color": "00AAFF",
+      "gold": 10000
+    },
+    {
+      "baseFile": "Assets/Resources/Players/siriansPlayer.json",
+      "name": "Magicians",
+      "color": "FFFFFF",
+      "gold": 200
+    },
+    {
+      "baseFile": "Assets/Resources/Players/defaultPlayer.json",
+      "name": "Necromancers",
+      "color": "FF1111",
+      "gold": 200
+    },
+    {
+      "baseFile": "Assets/Resources/Players/defaultPlayer.json",
+      "name": "Neutral City",
+      "color": "AAAAAA",
+      "active": false,
+      "gold": 0
+    }
+  ],
+  "ruinsItems": [
+    {
+      "baseFile": "Assets/Resources/Items/amuletOfNothing.json"
+    },
+    {
+      "baseFile": "Assets/Resources/Items/amuletOfAntigravity.json"
+    },
+    {
+      "baseFile": "Assets/Resources/Items/amuletOfPower.json"
+    },
+    {
+      "baseFile": "Assets/Resources/Items/amuletOfWealth.json"
+    }
+  ],
+  "armies": [
+    {
+      "owner": "Neutral City",
+      "position": [
+        2,
+        9
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        16,
+        28
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        13,
+        41
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        19,
+        13
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        24,
+        4
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        36,
+        12
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        34,
+        21
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        44,
+        27
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        42,
+        36
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        36,
+        39
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        65,
+        7
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        62,
+        20
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        76,
+        39
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        73,
+        45
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        59,
+        35
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        39,
+        24
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Pegasi.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        39,
+        24
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Pegasi.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        40,
+        24
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Unicorn.json"
+        }
+      ]
+    },
+    {
+      "owner": "Neutral City",
+      "position": [
+        40,
+        24
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Unicorn.json"
+        }
+      ]
+    },
+    {
+      "owner": "Necromancers",
+      "position": [
+        54,
+        44
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Magicians",
+      "position": [
+        42,
+        9
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    },
+    {
+      "owner": "Summoners",
+      "position": [
+        5,
+        3
+      ],
+      "units": [
+        {
+          "baseFile": "Assets/Resources/Units/Scout.json"
+        }
+      ]
+    }
+  ],
+  "items": [
+    {
+      "baseFile": "Assets/Resources/Items/amuletOfWealth.json",
+      "position": [
+        27,
+        33
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Items/amuletOfAntigravity.json",
+      "position": [
+        28,
+        33
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Items/amuletOfPower.json",
+      "position": [
+        51,
+        16
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Items/amuletOfNothing.json",
+      "position": [
+        52,
+        16
+      ]
+    }
+  ],
+  "cities": [
+    {
+      "baseFile": "Assets/Resources/Cities/city.json",
+      "owner": "Summoners",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        5,
+        3
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        24,
+        4
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        36,
+        39
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        65,
+        7
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        13,
+        41
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        39,
+        24
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Magicians",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        42,
+        9
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Necromancers",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        54,
+        44
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        73,
+        45
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        76,
+        39
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        16,
+        28
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        62,
+        20
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        36,
+        12
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        42,
+        36
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        34,
+        21
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        44,
+        27
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        59,
+        35
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        19,
+        13
+      ]
+    },
+    {
+      "baseFile": "./Assets/Resources/Cities/city.json",
+      "owner": "Neutral City",
+      "name": "Editor City",
+      "description": "No description",
+      "position": [
+        2,
+        9
+      ]
+    }
+  ],
+  "roads": [
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        4,
+        4
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        75,
+        45
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        3,
+        4
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        76,
+        45
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        3,
+        5
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        76,
+        44
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        3,
+        6
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        76,
+        43
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        3,
+        7
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        76,
+        42
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        3,
+        8
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        76,
+        41
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        3,
+        11
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        76,
+        38
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        3,
+        12
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        76,
+        37
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        3,
+        13
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        76,
+        36
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        3,
+        14
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        76,
+        35
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        3,
+        15
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        76,
+        34
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        4,
+        15
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        75,
+        34
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        5,
+        18
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        74,
+        31
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        6,
+        18
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        73,
+        31
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        6,
+        19
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        73,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        6,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        73,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        7,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        72,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        7,
+        21
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        72,
+        28
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        8,
+        21
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        71,
+        28
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        8,
+        22
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        71,
+        27
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        9,
+        22
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        70,
+        27
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        9,
+        23
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        70,
+        26
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        10,
+        24
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        69,
+        25
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        10,
+        23
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        69,
+        26
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        11,
+        24
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        68,
+        25
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        11,
+        25
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        68,
+        24
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        13,
+        26
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        66,
+        23
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        14,
+        26
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        65,
+        23
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        12,
+        25
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        67,
+        24
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        12,
+        26
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        67,
+        23
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        14,
+        27
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        65,
+        22
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        14,
+        28
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        65,
+        21
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        15,
+        28
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        64,
+        21
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        18,
+        28
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        61,
+        21
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        18,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        61,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        19,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        60,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        20,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        59,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        21,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        58,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        19
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        24,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        55,
+        19
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        25,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        54,
+        19
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        26,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        53,
+        19
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        28,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        51,
+        19
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        29,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        50,
+        19
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        30,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        49,
+        19
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        31,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        48,
+        19
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        32,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        47,
+        19
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        32,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        47,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        34,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        45,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        34,
+        28
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        45,
+        21
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        35,
+        28
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        44,
+        21
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        35,
+        27
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        44,
+        22
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        36,
+        27
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        43,
+        22
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        36,
+        26
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        43,
+        23
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        36,
+        25
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        43,
+        24
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        29,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        50,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        29,
+        28
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        50,
+        21
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        29,
+        27
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        50,
+        22
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        29,
+        26
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        50,
+        23
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        29,
+        25
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        50,
+        24
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        29,
+        24
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        50,
+        25
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        29,
+        23
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        50,
+        26
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        28,
+        23
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        51,
+        26
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        27,
+        23
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        52,
+        26
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        27,
+        22
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        52,
+        27
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        26,
+        22
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        53,
+        27
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        25,
+        22
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        54,
+        27
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        25,
+        21
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        54,
+        28
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        24,
+        21
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        55,
+        28
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        24,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        55,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        19
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        18
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        31
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        17
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        32
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        24,
+        17
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        55,
+        32
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        39,
+        8
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        40,
+        41
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        38,
+        8
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        41,
+        41
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        37,
+        8
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        42,
+        41
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        37,
+        9
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        42,
+        40
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        36,
+        9
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        43,
+        40
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        36,
+        10
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        43,
+        39
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        14
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        35
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        15
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        34
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        16
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        33
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        17
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        32
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        18
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        31
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        19
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        34,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        45,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        33,
+        20
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        46,
+        29
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        21,
+        8
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        58,
+        41
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        21,
+        9
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        58,
+        40
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        21,
+        10
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        58,
+        39
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        10
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        39
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        11
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        38
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        12
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        37
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        13
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        36
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        8
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        41
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        7
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        42
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        6
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        43
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        22,
+        5
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        57,
+        44
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        5
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        44
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        13
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        36
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        14
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        35
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        15
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        34
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        23,
+        16
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        56,
+        33
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        4,
+        16
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        75,
+        33
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        4,
+        17
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        75,
+        32
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        5,
+        17
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        74,
+        32
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        36,
+        11
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/road.json",
+      "position": [
+        43,
+        38
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        27,
+        30
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/bridge.json",
+      "position": [
+        52,
+        19
+      ]
+    }
+  ],
+  "signposts": [
+    {
+      "baseFile": "Assets/Resources/Structures/signpost.json",
+      "position": [
+        7,
+        3
+      ],
+      "name": "Editor Signpost",
+      "description": "Position(7, 3)"
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/signpost.json",
+      "position": [
+        72,
+        46
+      ],
+      "name": "Editor Signpost",
+      "description": "Position(72, 46)"
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/signpost.json",
+      "position": [
+        38,
+        10
+      ],
+      "name": "Editor Signpost",
+      "description": "Position(38, 10)"
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/signpost.json",
+      "position": [
+        41,
+        39
+      ],
+      "name": "Editor Signpost",
+      "description": "Position(41, 39)"
+    }
+  ],
+  "ports": [
+    {
+      "baseFile": "Assets/Resources/Structures/port.json",
+      "position": [
+        25,
+        17
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/port.json",
+      "position": [
+        54,
+        32
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/port.json",
+      "position": [
+        22,
+        42
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/port.json",
+      "position": [
+        57,
+        7
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/port.json",
+      "position": [
+        29,
+        32
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/port.json",
+      "position": [
+        50,
+        17
+      ]
+    }
+  ],
+  "ruins": [
+    {
+      "baseFile": "Assets/Resources/Structures/stronghold.json",
+      "position": [
+        24,
+        42
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/stronghold.json",
+      "position": [
+        55,
+        7
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/ruins.json",
+      "position": [
+        39,
+        10
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/ruins.json",
+      "position": [
+        40,
+        39
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/ruins.json",
+      "position": [
+        2,
+        7
+      ]
+    },
+    {
+      "baseFile": "Assets/Resources/Structures/ruins.json",
+      "position": [
+        77,
+        42
+      ]
+    }
+  ],
+  "tileMap": {
+    "width": 80,
+    "height": 50,
+    "tileTypes": [
+      "Assets/Resources/Tiles/sea.json",
+      "Assets/Resources/Tiles/shore.json",
+      "Assets/Resources/Tiles/grass.json",
+      "Assets/Resources/Tiles/forest.json",
+      "Assets/Resources/Tiles/hills.json",
+      "Assets/Resources/Tiles/mountain.json",
+      "Assets/Resources/Tiles/march.json"
+    ],
+    "mapString": "00000000010101010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101020202010101000000000000000000010101010101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001010202020202020101000000000000000101020202020101010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010102020202020202020100000000000001010202020202020201010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001020202020201010202010000000000000102020202020202020201010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010102020202010101010201000000000001010202020202020202020201000000000000000000000000000000000000000000000101010101000000000000010101010100000000000000000000000001020202020101000001010100000000000102020203020201010202020100000000000000000101010101000000000000000001010404040101010000000101050505010101000000000000000000000102020202010000000000000000000000010202030302010101010202010000000000000101010202020101010000000000000104040502020201010000010505020202020101000000000000000000010202020201000000000000000000000001020203020201000001020101000000000001010202020606020201010000000000010104040404020201000001050202020202020101000000000000000001020202020100000000000000000000000102020302020101000102010000000000010102020606060202020201000000000000010104040101010100000105050303030606060101000000000000000102020202010000000000000000000000010202030202020100010101000000000101020202020201010202020100000000000000010101010000000000010105050503030606060100000000000000010202020201000000000000000000000001010203030202010000000000000001010202020202010101010202010000000000000000000000000000000000010101050505050606010100000000000001010202020100000000000000000000000001020303020201000000000000000102020602020101000101020201000000000000000000000000000000000000000101010105050606010000000000000001020202010100000000000000000000000102020302020101000000000001010202060202010000010202010100000000000000000000000000000000000000000000010105030601000000000000000102020202010000000000000000000000010202030302020100000000000102020606020101000001010101000000000101010101010000000000000000000000000000010103030100000000000000010102020201010000000000000000000001010202030202010100000000010202060602010000000000000000010101010202020201010101010000000000000000000000010303010000000000000000010202020201000000000000000000000001020202020202010000000001020206060201000000000001010101020202020202020202020201010101000000000000000001010301000000000000000001020202020101000000000000000000000101020202020201010000000102020606020100000001010102020202020202010102040404020202020101010000000000000001010100000000000000000101020202020101000000000000000000000102020202020201010000010202060602010101010102020204040404040401010202040404040202020201010100000000000000000000000000000000000102020202020101000000000000000000010102020302020201010101010206060202010102020204040404020202020201020202020404040202020202010101000000000000000000000000000000010102020202020101000000000000000000010102020303020202010101020206060202020202040404020202020101010101010202020202020202020202020101000000000000000000000000000000010202020202020101000000000000000000010102020303030202010101020206060606040404040202010101010000000001010101010202020202020202020101000000000000000000000000000001010202020202020101000000000000000000010102020203030302020202020303050505050402020101000000000000000000000001010102020202020202020101000000000000000000000000000001010202020202020101000000000000000000010101020202030303030303030505040405050201010101010100000000000000000000010101020202020202020101000000000000000000000000000001010202020202020101000000000000000000000101010202020303030303050402020405020202020202010101000000000000000000000101010202020202020101000000000000000000000000000001010202020202020101010000000000000000000001010102020202020205040202040503030303030202020101010000000000000000000001010202020202020101000000000000000000000000000001010202020202020201010100000000000000000000010101010101020505040405050303030303030302020201010100000000000000000001010202020202020101000000000000000000000000000001010202020202020202010101000000000000000000000001010202040505050503030202020202030303020202010100000000000000000001010202020202020101000000000000000000000000000001010202020202020202020101010101000000000101010102020404040406060606020201010102020303030202010100000000000000000001010202020202020100000000000000000000000000000001010202020202020202020202020101010101010202020204040402020202020606020201010102020203030202010100000000000000000001010202020202010100000000000000000000000000000001010102020202020404040202020201020202020204040404020202010102020606020101010101020202030202010100000000000000000001010202020202010000000000000000000000000000000000010101020202020404040402020101040404040404020202010101010102060602020100000101020202020202010000000000000000000001010202020201010000000000000000010101000000000000000101010202020204040402010102020202020202010101000000010206060202010000000101020202020201010000000000000000000001010202020201000000000000000001030101000000000000000001010101020202020202020202020201010101000000000001020606020201000000000102020202020201000000000000000000000001020202020100000000000000000103030100000000000000000000000101010101020202020101010100000000000000000102060602020100000000010102020302020101000000000000000000000101020202010100000000000000010303010100000000000000000000000000000101010101010000000001010101000001010206060202010000000000010202030302020100000000000000000000000102020202010000000000000001060305010100000000000000000000000000000000000000000000010102020100000102020602020101000000000001010202030202010000000000000000000000010102020201000000000000000106060505010101010000000000000000000000000000000000000001020201010001010202060202010000000000000001020203030201000000000000000000000000010202020101000000000000010106060505050501010100000000000000000000000000000000000102020101010102020202020101000000000000000102020303020101000000000000000000000001020202020100000000000000010606060303050505010100000000000101010100000000000000010202020101020202020201010000000001010100010202020302020100000000000000000000000102020202010000000000000001010606060303030505010000010101010404010100000000000001020202020606060202010100000000000102010001010202030202010000000000000000000000010202020201000000000000000001010202020202020501000001020204040404010100000000000101020206060202020101000000000001010201000001020203020201000000000000000000000001020202020100000000000000000001010202020205050100000101020202050404010000000000000101010202020101010000000000000102020101010102030302020100000000000000000000000102020202010000000000000000000001010105050501010000000101010404040101000000000000000001010101010000000000000000010202020101020203020202010000000000010101000001010202020201000000000000000000000000010101010100000000000001010101010000000000000000000000000000000000000000000001020202020202020202020101000000000001020101010102020202010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101020202020202020202010000000000000102020101020202020201000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101020202020202020101000000000000010202020202020202010100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101010202020201010000000000000001010202020202020101000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001010101010100000000000000000001010102020201010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010101010100000000"
+  }
+}

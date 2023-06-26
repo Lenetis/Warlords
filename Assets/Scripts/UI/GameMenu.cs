@@ -6,6 +6,7 @@ using TMPro;
 
 public class GameMenu : MonoBehaviour
 {
+    public GameController gameController;
     public GameObject cityManagementPanel;
     public GameObject armyManagementPanel;
     public GameObject mainUI;
@@ -24,6 +25,7 @@ public class GameMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameController = FindObjectOfType<GameController>();
         uiController = GameObject.Find("UIController").GetComponent<UIController>();
     }
 
@@ -51,7 +53,7 @@ public class GameMenu : MonoBehaviour
     {
         if (CheckForDuplicate(saveNameInput.text))
         {
-            ResourceManager.SaveGame(saveNameInput.text + ".json");
+            ResourceManager.SaveGame(gameController.saveFileDirectory + saveNameInput.text + ".json");
             HidePanel(1);
             gameObject.SetActive(false);
             //Debug.Log("File saved");
@@ -60,10 +62,10 @@ public class GameMenu : MonoBehaviour
 
     public bool CheckForDuplicate(string name)
     {
-        savedGames = Directory.GetFiles(@".\", "*.json");
+        savedGames = Directory.GetFiles($"./{gameController.saveFileDirectory}", "*.json");
         for(int i = 0; i < savedGames.Length; i++)
         {
-            if (savedGames[i].Substring(2, savedGames[i].Length - 7) == name)
+            if (savedGames[i].Substring((2 + gameController.saveFileDirectory.Length), savedGames[i].Length-7 - gameController.saveFileDirectory.Length) == name)
             {
                 //Debug.Log("File exists");
                 saveNameInput.text = "FILE ALREADY EXISTS";
@@ -94,7 +96,7 @@ public class GameMenu : MonoBehaviour
             Destroy(savedGameButtons[i]);
             Destroy(deleteGameButtons[i]);
         }
-        savedGames = Directory.GetFiles(@".\", "*.json");
+        savedGames = Directory.GetFiles($"./{gameController.saveFileDirectory}", "*.json");
         buttonsLabel.GetComponent<RectTransform>().sizeDelta = new Vector2(buttonsLabel.GetComponent<RectTransform>().sizeDelta.x, savedGames.Length*20+20+(10*(savedGames.Length-1)));
         savedGameButtons = new GameObject[savedGames.Length];
         deleteGameButtons = new GameObject[savedGames.Length];
@@ -103,7 +105,7 @@ public class GameMenu : MonoBehaviour
             savedGameButtons[i] = Instantiate(loadGameButton, buttonsLabel.transform);
             savedGameButtons[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(-15, buttonsLabel.GetComponent<RectTransform>().sizeDelta.y/2-((i+1) * 25));
             savedGameButtons[i].name = i.ToString();
-            savedGameButtons[i].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text= savedGames[i].Substring(2, savedGames[i].Length-7);
+            savedGameButtons[i].transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text= savedGames[i].Substring((2 + gameController.saveFileDirectory.Length), savedGames[i].Length-7 - gameController.saveFileDirectory.Length);
 
             deleteGameButtons[i] = Instantiate(deleteGameButton, buttonsLabel.transform);
             deleteGameButtons[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(60, buttonsLabel.GetComponent<RectTransform>().sizeDelta.y / 2 - ((i + 1) * 25));
@@ -113,7 +115,6 @@ public class GameMenu : MonoBehaviour
 
     public void DeleteGame(int index)
     {
-
         Debug.Log(savedGames[index]);
         File.Delete(savedGames[index]);
         ShowLoadPanel();

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    public string saveFileDirectory = "Saves/";
+    public string startFilePath = "Scenarios/The Spiral.json";
+    public string saveFilePath = "Saves/quicksave.json";
+
     public TileMap tileMap {get; private set;}
 
     public float armyMoveDelay = 0.15f;
@@ -104,9 +108,13 @@ public class GameController : MonoBehaviour
 
         tileMap.Initialize();
 
-        ResourceManager.LoadGame("save.json");
+        if (startFilePath != null && startFilePath.Length != 0) {
+            ResourceManager.LoadGame(startFilePath);
 
-        activePlayer.StartTurn();
+            activePlayer.StartTurn();
+        } else if (saveFilePath != null && saveFilePath.Length != 0) {
+            ResourceManager.LoadGame(saveFilePath);
+        }
     }
 
     /// Update is called once per frame

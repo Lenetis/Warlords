@@ -122,11 +122,11 @@ public class MouseSelection : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.F5))
         {
-            ResourceManager.SaveGame("save.json");
+            ResourceManager.SaveGame($"{gameController.saveFileDirectory}quicksave.json");
         }
         if(Input.GetKeyDown(KeyCode.F9))
         {
-            ResourceManager.LoadGame("save.json");
+            ResourceManager.LoadGame($"{gameController.saveFileDirectory}quicksave.json");
         }
 
         float dispAreaWidth = (displayArea.GetComponent<RectTransform>().anchorMax.x - displayArea.GetComponent<RectTransform>().anchorMin.x) * Screen.width + displayArea.GetComponent<RectTransform>().sizeDelta.x * gui.GetComponent<Canvas>().scaleFactor;
