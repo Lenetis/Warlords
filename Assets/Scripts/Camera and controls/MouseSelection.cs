@@ -346,9 +346,19 @@ public class MouseSelection : MonoBehaviour
 
     public void NextUnits()
     {
-        int currentIndex = gameController.activePlayer.armies.FindIndex(x => x == selectedArmy);
+        int currentIndex = 0;
+
+        if (selectedArmy != null)
+        {
+            currentIndex = gameController.activePlayer.armies.FindIndex(x => x == selectedArmy);
+        }
+
         int index=currentIndex;
 
+        highlightedTile = tileMap.GetTile(gameController.activePlayer.armies[index].position);
+        selectedArmy = highlightedTile.armies[0];
+
+        Vector2 unitsPosition = selectedArmy.position;
         for(int i= 0; i < gameController.activePlayer.armies.Count; i++)
         {
             if (selectedArmy.position == gameController.activePlayer.armies[index].position)
@@ -361,42 +371,49 @@ public class MouseSelection : MonoBehaviour
             }
             else
             {
-                cameraController.CheckNSetPosition(new Vector3(gameController.activePlayer.armies[index].position.x, gameController.activePlayer.armies[index].position.y, cam.transform.parent.gameObject.transform.position.z));
-                //gameController.tileMap.GetTile(gameController.activePlayer.armies[index].position);
+                ShowUnits(index)
+;           }
 
-                highlightedTile = tileMap.GetTile(gameController.activePlayer.armies[index].position);
+            if (unitsPosition == gameController.activePlayer.armies[index].position && i == gameController.activePlayer.armies.Count - 1)
+            {
+                ShowUnits(index);
+            }
+        }
+    }
 
-                if (highlightedTile != null)
+    public void ShowUnits(int index)
+    {
+        cameraController.CheckNSetPosition(new Vector3(gameController.activePlayer.armies[index].position.x, gameController.activePlayer.armies[index].position.y, cam.transform.parent.gameObject.transform.position.z));
+
+        highlightedTile = tileMap.GetTile(gameController.activePlayer.armies[index].position);
+
+        if (highlightedTile != null)
+        {
+            if (highlightedTile.armies != null && (selectedArmy == null || selectedArmy.position != highlightedPosition))
+            {
+                selectedArmy = highlightedTile.armies[0];
+
+                if (selectedArmy.owner == gameController.activePlayer)
                 {
-                    if (highlightedTile.armies != null && (selectedArmy == null || selectedArmy.position != highlightedPosition))
-                    {
-                        selectedArmy = highlightedTile.armies[0];
+                    selectedArmyMarker.transform.SetParent(selectedArmy.mapSprite.transform);
+                    selectedArmyMarker.transform.localPosition = Vector3.zero;
+                    selectedArmyMarker.SetActive(true);
 
-                        if (selectedArmy.owner == gameController.activePlayer)
-                        {
-                            selectedArmyMarker.transform.SetParent(selectedArmy.mapSprite.transform);
-                            selectedArmyMarker.transform.localPosition = Vector3.zero;
-                            selectedArmyMarker.SetActive(true);
+                    ClearPath();
+                    pathSteps = selectedArmy.path;
+                    DrawPath();
 
-                            ClearPath();
-                            pathSteps = selectedArmy.path;
-                            DrawPath();
-
-                            armyManagement.SelectArmy(selectedArmy);
-                        }
-                        else
-                        {
-                            DeselectArmy();
-                        }
-                    }
-                    else
-                    {
-                        DeselectArmy();
-                    }
+                    armyManagement.SelectArmy(selectedArmy);
+                }
+                else
+                {
+                    DeselectArmy();
                 }
             }
-
-            
+            else
+            {
+                DeselectArmy();
+            }
         }
     }
 }
