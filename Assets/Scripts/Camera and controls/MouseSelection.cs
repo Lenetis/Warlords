@@ -342,7 +342,7 @@ public class MouseSelection : MonoBehaviour
     {
         if (selectedArmy != null)
         {
-            moveMode = 1;
+            gameController.StartArmyMove(selectedArmy);
         }
     }
 
@@ -391,9 +391,6 @@ public class MouseSelection : MonoBehaviour
         {
             currentIndex = gameController.activePlayer.armies.FindIndex(x => x == selectedArmy);
         }
-
-        //Tile armyTile = tileMap.GetTile(gameController.activePlayer.armies[currentIndex].position);
-        
 
         bool armyIsCorrect = false;
         int checkedArmiesNumber = 0;
