@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameMenu : MonoBehaviour
 {
@@ -118,5 +119,10 @@ public class GameMenu : MonoBehaviour
         Debug.Log(savedGames[index]);
         File.Delete(savedGames[index]);
         ShowLoadPanel();
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu"); 
     }
 }
