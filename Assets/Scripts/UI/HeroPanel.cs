@@ -86,9 +86,9 @@ public class HeroPanel : MonoBehaviour
                 Debug.Log($"A Hero in {eventData.city.name} offers to join you for {eventData.heroCost} gold. You have {gameController.activePlayer.gold} gold to spend. Will you accept?");
                 info[0].text = $"A Hero in {eventData.city.name}\noffers to join you for {eventData.heroCost} gold.\nYou have {gameController.activePlayer.gold} gold to spend.\nWill you accept?";
                 cancelButton.interactable = true;
-                acceptButton.interactable = false;
+                acceptButton.interactable = true;
                 
-                info[1].text = "And the Hero brings no allies! XD";
+                info[1].text = "And the Hero brings no allies...";
                 if (eventData.alliesCount == 1)
                 {
                     Debug.Log($"And the Hero brings 1 ally!");
