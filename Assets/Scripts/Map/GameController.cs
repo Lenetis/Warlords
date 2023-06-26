@@ -16,6 +16,8 @@ public class GameController : MonoBehaviour
         get {return players[activePlayerIndex];}
     }
 
+    public bool gameOver {get; private set;} = false;
+
     public List<ItemData> ruinsItems {get; private set;}
 
     public List<Player> players {get; private set;}
@@ -254,9 +256,20 @@ public class GameController : MonoBehaviour
     /// Ends the active player's turn and starts the next player's turn
     public void Turn()
     {
+        if (gameOver) {
+            return;
+        }
+
         // don't allow the turn end if a battle is in progress, or there are units still moving
         if (activeBattle != null || movingArmies.Count > 0) {
             return;
+        }
+
+        int activePlayers = 0;
+        foreach (Player player in players) {
+            if (player.active) {
+                activePlayers += 1;
+            }
         }
 
         activePlayerIndex += 1;
@@ -264,7 +277,7 @@ public class GameController : MonoBehaviour
             turn += 1;
             activePlayerIndex = 0;
         }
-        while (!players[activePlayerIndex].active) {
+        while (!players[activePlayerIndex].active && activePlayers != 0) {
             activePlayerIndex += 1;
             if (activePlayerIndex == players.Count) {
                 turn += 1;
@@ -276,7 +289,13 @@ public class GameController : MonoBehaviour
 
         activePlayer.StartTurn();
 
-        EventManager.OnTurn(this);
+        if (activePlayers == 1) {
+            Debug.Log("Congratulations! You have conquered the world!");
+            gameOver = true;
+            EventManager.OnGameWon(this);
+        } else {
+            EventManager.OnTurn(this);
+        }
     }
 
     /// Removes all armies, cities, players, and structures from the game

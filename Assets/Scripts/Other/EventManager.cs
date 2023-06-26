@@ -48,9 +48,11 @@ public static class EventManager
     public static event System.EventHandler CityCreatedEvent;
     public static event System.EventHandler CityDestroyedEvent;
     public static event System.EventHandler CityRazedEvent;
+    public static event System.EventHandler GameWonEvent;
     public static event System.EventHandler<HeroSpawnEventData> HeroSpawnedEvent;
     public static event System.EventHandler ItemCreatedEvent;
     public static event System.EventHandler ItemDestroyedEvent;
+    public static event System.EventHandler PlayerDefeatedEvent;
     public static event System.EventHandler RuinsExploredEvent;
     public static event System.EventHandler<RuinsInfoData> RuinsInfoEvent;
     public static event System.EventHandler StructureCreatedEvent;
@@ -101,6 +103,10 @@ public static class EventManager
         CityRazedEvent?.Invoke(sender, System.EventArgs.Empty);
     }
 
+    public static void OnGameWon(object sender) {
+        GameWonEvent?.Invoke(sender, System.EventArgs.Empty);
+    }
+
     public static void OnHeroSpawn(object sender, HeroSpawnEventData eventData) {
         HeroSpawnedEvent?.Invoke(sender, eventData);
     }
@@ -111,6 +117,10 @@ public static class EventManager
 
     public static void OnItemDestroyed(object sender) {
         ItemDestroyedEvent?.Invoke(sender, System.EventArgs.Empty);
+    }
+
+    public static void OnPlayerDefeated(object sender) {
+        PlayerDefeatedEvent?.Invoke(sender, System.EventArgs.Empty);
     }
 
     public static void OnRuinsExplored(object sender) {

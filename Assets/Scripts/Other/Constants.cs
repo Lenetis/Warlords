@@ -37,4 +37,11 @@ public static class Constants
     public static readonly int ruinsMaxGold = 2500;
 
     public static readonly int simulatedBattlesCount = 100;
+
+    public static readonly string[] defeatText = {
+        "thy cities are as dust!",
+        "thou art no more!",
+        "thou art vanquished!",
+        "for thee the war is over!"
+    };
 }

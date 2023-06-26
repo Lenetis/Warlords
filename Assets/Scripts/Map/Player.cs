@@ -127,6 +127,20 @@ public class Player
             return;
         }
 
+        if (cities.Count == 0) {
+            active = false;
+
+            while (armies.Count > 0) {
+                armies[0].Destroy();
+            }
+
+            Debug.Log($"{name}, {Constants.defeatText[Random.Range(0, Constants.defeatText.Length)]}");
+
+            EventManager.OnPlayerDefeated(this);
+
+            return;
+        }
+
         _gold -= economy.upkeep;
         _gold += economy.income;
 
