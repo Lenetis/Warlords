@@ -351,6 +351,11 @@ public class MouseSelection : MonoBehaviour
 
     public void NextUnits()
     {
+        if (gameController.activePlayer.armies.Count == 0)
+        {
+            return;
+        }
+
         int currentIndex = 0;
 
         if (selectedArmy != null)
@@ -358,32 +363,27 @@ public class MouseSelection : MonoBehaviour
             currentIndex = gameController.activePlayer.armies.FindIndex(x => x == selectedArmy);
         }
 
-        int index=currentIndex;
+        Tile armyTile = tileMap.GetTile(gameController.activePlayer.armies[currentIndex].position);
+        selectedArmy = armyTile.armies[0];
 
-        highlightedTile = tileMap.GetTile(gameController.activePlayer.armies[index].position);
-        selectedArmy = highlightedTile.armies[0];
+        bool armyIsCorrect = false;
 
-        Vector2 unitsPosition = selectedArmy.position;
-        for(int i= 0; i < gameController.activePlayer.armies.Count; i++)
-        {
-            if (selectedArmy.position == gameController.activePlayer.armies[index].position)
+        while (!armyIsCorrect) {
+            currentIndex += 1;
+            if(currentIndex>= gameController.activePlayer.armies.Count)
             {
-                index++;
-                if(index>= gameController.activePlayer.armies.Count)
-                {
-                    index = 0;
-                }
+                currentIndex = 0;
             }
-            else
-            {
-                ShowUnits(index)
-;           }
 
-            if (unitsPosition == gameController.activePlayer.armies[index].position && i == gameController.activePlayer.armies.Count - 1)
-            {
-                ShowUnits(index);
+            Army consideredArmy = gameController.activePlayer.armies[currentIndex];
+            Tile consideredArmyTile = tileMap.GetTile(consideredArmy.position);
+
+            if (consideredArmyTile.armies.FindIndex(x => x == consideredArmy) == 0 && consideredArmy.isIdle) {
+                armyIsCorrect = true;
             }
         }
+
+        ShowUnits(currentIndex);
     }
 
     public void ShowUnits(int index)
