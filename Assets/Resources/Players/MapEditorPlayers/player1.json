@@ -1,0 +1,20 @@
+{
+    "name": "Kingdoms",
+    "color": "0066FF",
+    "gold": 0,
+    "cityTexture": "Assets/Resources/Cities/KingdomsCity.png",
+    "cityMaskTexture": "Assets/Resources/Cities/KingdomsCityMask.png",
+    "razedCityTexture": "Assets/Resources/Cities/KingdomsCityRazed.png",
+    "razedCityMaskTexture": "Assets/Resources/Cities/KingdomsCityRazedMask.png",
+    "heroNames": ["Baron Bob", "Lord Larry", "Sir Steve", "Duke Donald", "Prince Perry", "Count Carol"],
+    "heroUnits": [
+        "Assets/Resources/Units/Warlord.json"
+    ],
+    "heroAllies": [
+        "Assets/Resources/Units/Ghost.json",
+        "Assets/Resources/Units/GiantBat.json",
+        "Assets/Resources/Units/Unicorn.json",
+        "Assets/Resources/Units/Pegasi.json"
+    ],
+    "specialUnits": []
+}

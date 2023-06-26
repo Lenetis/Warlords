@@ -103,8 +103,6 @@ public class GameController : MonoBehaviour
     /// Start is called before the first frame update
     void Start()
     {
-        
-
         players = new List<Player>();
         ruinsItems = new List<ItemData>();
         armies = new List<Army>();
@@ -126,6 +124,10 @@ public class GameController : MonoBehaviour
             activePlayer.StartTurn();
         } else if (saveFilePath != null && saveFilePath.Length != 0) {
             ResourceManager.LoadGame(saveFilePath);
+        } else {
+            foreach(Player player in Constants.defaultEditorPlayers) {
+                AddPlayer(player);
+            }
         }
     }
 

@@ -48,4 +48,16 @@ public static class Constants
         "thou art vanquished!",
         "for thee the war is over!"
     };
+
+    public static readonly Player[] defaultEditorPlayers = {
+        Player.FromJObject(ResourceManager.LoadResource("Assets/Resources/Players/MapEditorPlayers/player1.json")),
+        Player.FromJObject(ResourceManager.LoadResource("Assets/Resources/Players/MapEditorPlayers/player2.json")),
+        Player.FromJObject(ResourceManager.LoadResource("Assets/Resources/Players/MapEditorPlayers/player3.json")),
+        Player.FromJObject(ResourceManager.LoadResource("Assets/Resources/Players/MapEditorPlayers/player4.json")),
+        Player.FromJObject(ResourceManager.LoadResource("Assets/Resources/Players/MapEditorPlayers/player5.json")),
+        Player.FromJObject(ResourceManager.LoadResource("Assets/Resources/Players/MapEditorPlayers/player6.json")),
+        Player.FromJObject(ResourceManager.LoadResource("Assets/Resources/Players/MapEditorPlayers/player7.json")),
+        Player.FromJObject(ResourceManager.LoadResource("Assets/Resources/Players/MapEditorPlayers/player8.json")),
+        Player.FromJObject(ResourceManager.LoadResource("Assets/Resources/Players/MapEditorPlayers/neutralPlayer.json"))
+    };
 }

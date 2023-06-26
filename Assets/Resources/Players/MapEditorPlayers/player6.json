@@ -1,0 +1,20 @@
+{
+    "name": "Lich King",
+    "color": "6600CC",
+    "gold": 0,
+    "cityTexture": "Assets/Resources/Cities/city.png",
+    "cityMaskTexture": "Assets/Resources/Cities/cityMask.png",
+    "razedCityTexture": "Assets/Resources/Cities/cityRazed.png",
+    "razedCityMaskTexture": "Assets/Resources/Cities/cityRazedMask.png",
+    "heroNames": ["Baron Bob", "Lord Larry", "Sir Steve", "Duke Donald", "Prince Perry", "Count Carol"],
+    "heroUnits": [
+        "Assets/Resources/Units/Warlord.json"
+    ],
+    "heroAllies": [
+        "Assets/Resources/Units/Ghost.json",
+        "Assets/Resources/Units/GiantBat.json",
+        "Assets/Resources/Units/Unicorn.json",
+        "Assets/Resources/Units/Pegasi.json"
+    ],
+    "specialUnits": []
+}
