@@ -366,18 +366,16 @@ public class MouseSelection : MonoBehaviour
 
     public void QuitNNext()
     {
-        /*
         if (gameController.activePlayer.armies.Count == 0)
         {
             return;
         }
         
-        if (selectedArmy == null)
+        if (selectedArmy != null)
         {
-            selectedArmy = gameController.activePlayer.armies[0];
+            selectedArmy.isIdle = false;
         }
-        selectedArmy.isIdle = false;
-        NextUnits();*/
+        NextUnits();
     }
 
     public void NextUnits()
@@ -394,14 +392,16 @@ public class MouseSelection : MonoBehaviour
             currentIndex = gameController.activePlayer.armies.FindIndex(x => x == selectedArmy);
         }
 
-        Tile armyTile = tileMap.GetTile(gameController.activePlayer.armies[currentIndex].position);
-        selectedArmy = armyTile.armies[0];
+        //Tile armyTile = tileMap.GetTile(gameController.activePlayer.armies[currentIndex].position);
+        
 
         bool armyIsCorrect = false;
+        int checkedArmiesNumber = 0;
 
-        while (!armyIsCorrect) {
+        while (!armyIsCorrect && checkedArmiesNumber <= gameController.activePlayer.armies.Count) {
             currentIndex += 1;
-            if(currentIndex>= gameController.activePlayer.armies.Count)
+            checkedArmiesNumber += 1;
+            if(currentIndex >= gameController.activePlayer.armies.Count)
             {
                 currentIndex = 0;
             }
@@ -411,10 +411,15 @@ public class MouseSelection : MonoBehaviour
 
             if (consideredArmyTile.armies.FindIndex(x => x == consideredArmy) == 0 && consideredArmy.isIdle) {
                 armyIsCorrect = true;
+                selectedArmy = consideredArmyTile.armies[0];
             }
         }
 
-        ShowUnits(currentIndex);
+        if (armyIsCorrect) {
+            ShowUnits(currentIndex);
+        } else {
+            DeselectArmy();
+        }
     }
 
     public void ShowUnits(int index)
