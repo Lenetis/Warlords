@@ -22,6 +22,8 @@ public class Battle
 
     public Player winner {get; private set;}
 
+    private int cityBonus;
+
     private bool simulated;  // simulated battles cannot destroy any units, capture cities, etc.
 
     public Battle(Army attacker, IOwnableMapObject defender, bool simulated = false)
@@ -36,6 +38,14 @@ public class Battle
         defendingUnits = new List<Unit>();
         foreach (Army defendingArmy in defendingArmies) {
             defendingUnits.AddRange(defendingArmy.units);
+        }
+
+        cityBonus = 0;
+        City city = gameController.tileMap.GetTile(defender.position).structure as City;
+        if (city != null) {
+            if (city.battleStats?.strength != 0) {
+                cityBonus = city.battleStats.strength;
+            }
         }
 
         // todo sort attackingUnits and defendingUnits
@@ -66,7 +76,9 @@ public class Battle
         }
 
         if (defendingUnits.Count != 0 && attackingUnits.Count != 0) {
-            if (Random.Range(0, attackingUnits[0].battleStats.strength + defendingUnits[0].battleStats.strength) < attackingUnits[0].battleStats.strength) {
+            int attackerStrength = CalculateStrength(attackingUnits[0], attackingUnits, 0);
+            int defenderStrength = CalculateStrength(defendingUnits[0], defendingUnits, cityBonus);
+            if (Random.Range(0f, attackerStrength + defenderStrength) < attackerStrength) {
                 Debug.Log($"Defender {defendingUnits[0]} died");
                 deadUnits.Add(defendingUnits[0]);
                 defendingUnits.RemoveAt(0);
@@ -102,5 +114,17 @@ public class Battle
             unit.Destroy();
         }
         deadUnits.Clear();
+    }
+
+    /// Returns the total strength of a unit including all bonuses of itself and its allies. The supportingUnits list MUST also include the unit itself.
+    private int CalculateStrength(Unit unit, List<Unit> supportingUnits, int cityBonus)
+    {
+        int totalCommand = 0;
+        int maxBonus = 0;
+        foreach (Unit supportingUnit in supportingUnits) {
+            totalCommand += supportingUnit.battleStats.command;
+            maxBonus = Mathf.Max(supportingUnit.battleStats.bonus, maxBonus);
+        }
+        return unit.battleStats.strength + cityBonus + Mathf.Min(Constants.battleMaxUnitBonus, maxBonus + totalCommand);
     }
 }

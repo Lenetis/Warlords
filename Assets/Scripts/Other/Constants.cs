@@ -40,6 +40,8 @@ public static class Constants
 
     public static readonly int simulatedBattlesCount = 100;
 
+    public static readonly int battleMaxUnitBonus = 5;
+
     public static readonly string[] defeatText = {
         "thy cities are as dust!",
         "thou art no more!",

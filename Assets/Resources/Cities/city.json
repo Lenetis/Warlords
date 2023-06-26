@@ -31,7 +31,7 @@
         "income": 30
     },
     "battleStats": {
-        "strength": 2
+        "strength": 1
     },
     "production": 10,
     "pathfinding": {

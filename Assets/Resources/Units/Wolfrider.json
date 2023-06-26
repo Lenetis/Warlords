@@ -14,6 +14,7 @@
         "upkeep": 4
     },
     "battleStats": {
-        "strength": 4
+        "strength": 4,
+        "bonus": 1
     }
 }
