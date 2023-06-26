@@ -32,6 +32,10 @@ public class MouseSelection : MonoBehaviour
     public GameObject gameMenu;
 
     private UIController uiController;
+    private CameraController cameraController;
+
+    [SerializeField]
+    private int moveMode = 0;
 
     void Awake()
     {
@@ -58,6 +62,7 @@ public class MouseSelection : MonoBehaviour
         armyManagement = GameObject.Find("Main").GetComponent<ArmyManagement>();
         cityManagement = GameObject.Find("Main").GetComponent<CityManagement>();
         uiController = GameObject.Find("UIController").GetComponent<UIController>();
+        cameraController = GameObject.Find("Main Camera").GetComponent<CameraController>();
 
         previousPathGoal = new Position(-1, -1);
         // kinda hacky, but this is to ensure the first path goal will always be calculated (otherwise path for (0,0) tile wouldn't be searched)
@@ -79,13 +84,7 @@ public class MouseSelection : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.T) && uiController.controllsAvailable())
         {
-            gameController.Turn();
-            if (selectedArmy != null && selectedArmy.owner != gameController.activePlayer)
-            {
-                selectedArmy = null;
-                armyManagement.DeselectArmy();
-                DeselectArmy();
-            }
+            EndTurn();
         }
         if (Input.GetKeyDown(KeyCode.M) && uiController.controllsAvailable())
         {
@@ -176,7 +175,7 @@ public class MouseSelection : MonoBehaviour
 
             highlightedTile = tileMap.GetTile(highlightedPosition);
 
-            if (Input.GetButtonDown("Select") && isOverDispArea && uiController.controllsAvailable())
+            if (Input.GetButtonDown("Select") && isOverDispArea && uiController.controllsAvailable() && moveMode!=1)
             {
                 if (highlightedTile != null)
                 {
@@ -197,33 +196,29 @@ public class MouseSelection : MonoBehaviour
                             armyManagement.SelectArmy(selectedArmy);
                         }
                         else
-                        {
+                        {  
                             DeselectArmy();
                         }
                     }
                     else
                     {
                         DeselectArmy();
-
-                        if (highlightedTile.structure as City != null)
-                        {
-                            cityManagement.SelectCity((City)highlightedTile.structure);
-                        }
                     }
                 }
             }
 
             if (selectedArmy != null)
             {
-                if (Input.GetButtonUp("Move") && uiController.controllsAvailable())
+                if (Input.GetButtonUp("Move") && uiController.controllsAvailable() && moveMode==0 || Input.GetButton("Select") && uiController.controllsAvailable() && isOverDispArea && moveMode==1)
                 {
+                    moveMode = 0;
                     selectedArmy.SetPath(pathSteps);
                     gameController.StartArmyMove(selectedArmy);
 
                     previousPathGoal = new Position(-1, -1);
                     // kinda hacky, but this is to ensure the next path after move will always be calculated, no matter if the position is the same or not
                 }
-                else if (Input.GetButton("Move") && isOverDispArea && uiController.controllsAvailable())
+                else if (Input.GetButton("Move") && isOverDispArea && uiController.controllsAvailable() && moveMode==0 || moveMode == 1 && isOverDispArea && uiController.controllsAvailable())
                 {
                     if (previousPathGoal != highlightedPosition)
                     {
@@ -278,6 +273,7 @@ public class MouseSelection : MonoBehaviour
         selectedArmyMarker.transform.SetParent(null);
 
         armyManagement.DeselectArmy();
+        moveMode = 0;
     }
 
     private void DrawPath()
@@ -327,5 +323,80 @@ public class MouseSelection : MonoBehaviour
         selectedArmy.Split();
         Tile splitTile = tileMap.GetTile(selectedArmy.position);
         armyManagement.SelectArmy(selectedArmy);
+    }
+
+    public void EndTurn()
+    {
+        gameController.Turn();
+        if (selectedArmy != null && selectedArmy.owner != gameController.activePlayer)
+        {
+            selectedArmy = null;
+            armyManagement.DeselectArmy();
+            DeselectArmy();
+        }
+    }
+
+    public void ButtonMove()
+    {
+        if (selectedArmy != null)
+        {
+            moveMode = 1;
+        }
+    }
+
+    public void NextUnits()
+    {
+        int currentIndex = gameController.activePlayer.armies.FindIndex(x => x == selectedArmy);
+        int index=currentIndex;
+
+        for(int i= 0; i < gameController.activePlayer.armies.Count; i++)
+        {
+            if (selectedArmy.position == gameController.activePlayer.armies[index].position)
+            {
+                index++;
+                if(index>= gameController.activePlayer.armies.Count)
+                {
+                    index = 0;
+                }
+            }
+            else
+            {
+                cameraController.CheckNSetPosition(new Vector3(gameController.activePlayer.armies[index].position.x, gameController.activePlayer.armies[index].position.y, cam.transform.parent.gameObject.transform.position.z));
+                //gameController.tileMap.GetTile(gameController.activePlayer.armies[index].position);
+
+                highlightedTile = tileMap.GetTile(gameController.activePlayer.armies[index].position);
+
+                if (highlightedTile != null)
+                {
+                    if (highlightedTile.armies != null && (selectedArmy == null || selectedArmy.position != highlightedPosition))
+                    {
+                        selectedArmy = highlightedTile.armies[0];
+
+                        if (selectedArmy.owner == gameController.activePlayer)
+                        {
+                            selectedArmyMarker.transform.SetParent(selectedArmy.mapSprite.transform);
+                            selectedArmyMarker.transform.localPosition = Vector3.zero;
+                            selectedArmyMarker.SetActive(true);
+
+                            ClearPath();
+                            pathSteps = selectedArmy.path;
+                            DrawPath();
+
+                            armyManagement.SelectArmy(selectedArmy);
+                        }
+                        else
+                        {
+                            DeselectArmy();
+                        }
+                    }
+                    else
+                    {
+                        DeselectArmy();
+                    }
+                }
+            }
+
+            
+        }
     }
 }
