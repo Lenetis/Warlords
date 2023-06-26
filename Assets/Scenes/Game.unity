@@ -31613,7 +31613,7 @@ MonoBehaviour:
   heroPanel: {fileID: 1945289400}
   inventoryPanel: {fileID: 1198464391}
   ruinsPanel: {fileID: 1042274949}
-  gameOverPanel: {fileID: 0}
+  gameOverPanel: {fileID: 1427100169}
   isOverMinimap: 0
 --- !u!4 &1756712181
 Transform:
@@ -36048,9 +36048,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 539077148}
-        m_TargetAssemblyTypeName: InventoryManagement, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 539077153}
+        m_TargetAssemblyTypeName: MouseSelection, Assembly-CSharp
+        m_MethodName: MoveAll
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

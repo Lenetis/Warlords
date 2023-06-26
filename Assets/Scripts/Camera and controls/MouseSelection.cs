@@ -359,6 +359,11 @@ public class MouseSelection : MonoBehaviour
         
     }
 
+    public void MoveAll()
+    {
+        gameController.activePlayer.MoveAll();
+    }
+
     public void QuitNNext()
     {
         /*
