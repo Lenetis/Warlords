@@ -59,6 +59,8 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         }
     }
 
+    public bool isIdle {get; set;}
+
     public Army(List<Unit> units, Position position, Player owner) : base(position)
     {
         foreach (Unit unit in units) {
@@ -66,6 +68,8 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         }
         this.units = units;
         this.owner = owner;
+
+        isIdle = true;
         
         UpdatePathfindingTypes();
         SortUnits();
@@ -293,6 +297,8 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
     /// Moves army by one step on its path. Returns true if the move succeeded and false otherwise (e.g. if there is no path or army doesn't have enough move points)
     public bool MoveOneStep()
     {
+        isIdle = true;
+        
         if (path == null || path.Count == 0) {
             return false;
         }
@@ -327,6 +333,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
 
         foreach (Unit unit in units) {
             if (unit.pathfinder.remainingMove - nextTile.moveCost < 0) {
+                isIdle = false;
                 return false;
             }
         }
@@ -409,6 +416,8 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         foreach (Unit unit in units) {
             unit.StartTurn();
         }
+
+        isIdle = true;
 
         if (attackTarget != null && path != null && !((MapObject)attackTarget).OccupiesPosition(path.Last())) {
             // todo if fog of war is added, we need to check if attackTarget is visible
