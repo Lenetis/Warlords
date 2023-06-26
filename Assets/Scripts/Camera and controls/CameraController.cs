@@ -76,6 +76,11 @@ public class CameraController : MonoBehaviour
         {
             float zPositionDiff = scroll * zoomSpeed * -transform.position.z;
             Vector3 targetPosition = camUI.transform.position + new Vector3(0, 0, zPositionDiff);
+
+            if (targetPosition.z - zPositionDiff > -2)
+            {
+                targetPosition = new Vector3(camUI.transform.position.x, camUI.transform.position.y, -2);
+            }
             CheckNSetPosition(targetPosition);
         }
     }

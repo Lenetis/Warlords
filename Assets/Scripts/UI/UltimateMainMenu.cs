@@ -117,12 +117,12 @@ public class UltimateMainMenu : MonoBehaviour
             PlayerPrefs.SetString("startFilePath", "");
             PlayerPrefs.SetString("saveFilePath", savedGames[index]);
         }
-        
+        Debug.Log(savedGames[index]);
+        Debug.Log(mode);
         PlayerPrefs.SetString("mode", mode);
         SceneManager.LoadScene("Game");
 
-        Debug.Log(savedGames[index]);
-        Debug.Log(mode);
+        
     }
 
     public void LaunchEditor()
@@ -155,7 +155,7 @@ public class UltimateMainMenu : MonoBehaviour
                 PlayerPrefs.SetInt("height", int.Parse(height.text));
 
                 PlayerPrefs.SetString("mode", "editorMode");
-
+                Debug.Log("EditorMode");
                 SceneManager.LoadScene("Game");
             }
         }
