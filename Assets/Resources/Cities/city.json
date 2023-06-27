@@ -33,7 +33,7 @@
     "battleStats": {
         "strength": 1
     },
-    "production": 10,
+    "production": 1,
     "pathfinding": {
         "moveCost": 1,
         "pathfindingTypes": ["land", "air"],
