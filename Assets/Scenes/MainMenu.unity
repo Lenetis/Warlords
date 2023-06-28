@@ -488,7 +488,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Scenrios
+  m_text: Scenarios
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d29e4527d98b09d4ca2d22e9c1ad8bc7, type: 2}
   m_sharedMaterial: {fileID: 409550311134395199, guid: d29e4527d98b09d4ca2d22e9c1ad8bc7, type: 2}
@@ -1245,6 +1245,7 @@ MonoBehaviour:
   deleteGameButtons: []
   width: {fileID: 1693225641}
   height: {fileID: 1463005028}
+  currentPanelIndex: 0
 --- !u!1 &415370786
 GameObject:
   m_ObjectHideFlags: 0
