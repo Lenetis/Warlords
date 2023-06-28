@@ -364,6 +364,14 @@ public class MouseSelection : MonoBehaviour
         gameController.activePlayer.MoveAll();
     }
 
+    public void AssignToDefence()
+    {
+        if (selectedArmy != null) {
+            selectedArmy.isDefending = true;
+            DeselectArmy();
+        }
+    }
+
     public void QuitNNext()
     {
         if (gameController.activePlayer.armies.Count == 0)

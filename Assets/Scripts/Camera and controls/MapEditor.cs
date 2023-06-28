@@ -139,10 +139,6 @@ public class MapEditor : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Semicolon)) {
             ChangeActivePlayer(-1);
         }
-
-        if (Input.GetKeyDown(KeyCode.R)) {
-            tileMap.Resize(200, 200);  // todo - tmp, this should be moved elsewhere and the size should be provided by user ofc
-        }
     }
 
     /// Changes the brush size by the specified delta. Sets brushSize to 0 if lower or equal than 0

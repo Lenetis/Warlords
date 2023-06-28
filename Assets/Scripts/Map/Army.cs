@@ -59,7 +59,21 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         }
     }
 
-    public bool isIdle {get; set;}
+    public bool isDefending {get; set;}
+
+    private bool _isIdle;
+    public bool isIdle
+    {
+        get {
+            if (isDefending) {
+                return false;
+            }
+            return _isIdle;
+        }
+        set {
+            _isIdle = value;
+        }
+    }
 
     public Army(List<Unit> units, Position position, Player owner) : base(position)
     {
@@ -70,6 +84,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
         this.owner = owner;
 
         isIdle = true;
+        isDefending = false;
         
         UpdatePathfindingTypes();
         SortUnits();
@@ -298,6 +313,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
     public bool MoveOneStep()
     {
         isIdle = true;
+        isDefending = false;
         
         if (path == null || path.Count == 0) {
             return false;
