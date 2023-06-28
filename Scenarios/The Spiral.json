@@ -349,8 +349,8 @@
     {
       "baseFile": "Assets/Resources/Cities/city.json",
       "owner": "Summoners",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Summoneria",
+      "description": "Summoneria is the creatively named capital city of Summoners.",
       "position": [
         5,
         3
@@ -359,8 +359,8 @@
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Golden Shore",
+      "description": "Despite the name, the shore near this city is not made of gold.",
       "position": [
         24,
         4
@@ -369,8 +369,8 @@
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Swampburg",
+      "description": "Swampburg is a rundown city near a large swamp and old ruins.",
       "position": [
         36,
         39
@@ -379,8 +379,8 @@
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Raindrop",
+      "description": "Raindrop is a mysterious town on a faraway island",
       "position": [
         65,
         7
@@ -389,8 +389,8 @@
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Tear",
+      "description": "Tear is a quiet town located on a distant isle.",
       "position": [
         13,
         41
@@ -399,18 +399,26 @@
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "The Eye",
+      "description": "The Eye is said to be the home to dangerous magical creatures. It is accessible only by flight.",
       "position": [
         39,
         24
-      ]
+      ],
+      "buildableUnits": [
+        "Assets/Resources/Units/GiantBat.json",
+        "Assets/Resources/Units/Pegasi.json",
+        "Assets/Resources/Units/Griffin.json"
+      ],
+      "economy": {
+        "income": 50
+      }
     },
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Magicians",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Magicburg",
+      "description": "Despite being surrounded by swamps and ruins, Magicburg is a thriving capital city of the Magicians.",
       "position": [
         42,
         9
@@ -419,8 +427,8 @@
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Necromancers",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "The Unnamed City",
+      "description": "The capital city of the Necromancers. No one ever came back to tell the world what its name is.",
       "position": [
         54,
         44
@@ -429,8 +437,8 @@
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "New Asdfghia",
+      "description": "New Asdfghia is a city named in ancient language, located at the very end of The Spiral's arm.",
       "position": [
         73,
         45
@@ -439,18 +447,21 @@
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Grasston",
+      "description": "Grasston is a small town surrounded by large fields of pretty green grass.",
       "position": [
         76,
         39
-      ]
+      ],
+      "economy": {
+        "income": 20
+      }
     },
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Hillside Stop",
+      "description": "Hillside Stop is a city with beautiful views of the nearby hills.",
       "position": [
         16,
         28
@@ -459,8 +470,8 @@
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Bratislava",
+      "description": "Bratislava is the capital city of Slovakia. No one knows how it ended up on The Spiral.",
       "position": [
         62,
         20
@@ -469,72 +480,93 @@
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Marchway",
+      "description": "Marchway is a small town surrounded by marches.",
       "position": [
         36,
         12
-      ]
+      ],
+      "economy": {
+        "income": 20
+      }
     },
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Bogport",
+      "description": "Bogport is an old fishing town surrounded by swamps and marches.",
       "position": [
         42,
         36
-      ]
+      ],
+      "economy": {
+        "income": 20
+      }
     },
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Fibo",
+      "description": "Fibo is a strategic city located near the centre of The Spiral.",
       "position": [
         34,
         21
-      ]
+      ],
+      "economy": {
+        "income": 40
+      }
     },
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Nacci",
+      "description": "Naci is an important city near the centre of The Spiral.",
       "position": [
         44,
         27
-      ]
+      ],
+      "economy": {
+        "income": 40
+      }
     },
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Running Forest",
+      "description": "Running Forest is a mysterious city surrounded by ancient woods.",
       "position": [
         59,
         35
-      ]
+      ],
+      "economy": {
+        "income": 20
+      }
     },
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Las Las",
+      "description": "Las Las is a large port city located near an old forest.",
       "position": [
         19,
         13
-      ]
+      ],
+      "economy": {
+        "income": 20
+      }
     },
     {
       "baseFile": "./Assets/Resources/Cities/city.json",
       "owner": "Neutral City",
-      "name": "Editor City",
-      "description": "No description",
+      "name": "Chev",
+      "description": "Chev is a small town on the route from the end of the arm to the centre of The Spiral.",
       "position": [
         2,
         9
-      ]
+      ],
+      "economy": {
+        "income": 20
+      }
     }
   ],
   "roads": [
@@ -2125,20 +2157,20 @@
     {
       "baseFile": "Assets/Resources/Structures/signpost.json",
       "position": [
-        7,
-        3
+        10,
+        5
       ],
-      "name": "Editor Signpost",
-      "description": "Position(7, 3)"
+      "name": "Beware!",
+      "description": "The water is very cold."
     },
     {
       "baseFile": "Assets/Resources/Structures/signpost.json",
       "position": [
-        72,
-        46
+        69,
+        44
       ],
-      "name": "Editor Signpost",
-      "description": "Position(72, 46)"
+      "name": "End of the arm",
+      "description": "Only one way from here"
     },
     {
       "baseFile": "Assets/Resources/Structures/signpost.json",
@@ -2146,8 +2178,8 @@
         38,
         10
       ],
-      "name": "Editor Signpost",
-      "description": "Position(38, 10)"
+      "name": "Ancient Ruins",
+      "description": "Keep out!"
     },
     {
       "baseFile": "Assets/Resources/Structures/signpost.json",
@@ -2155,8 +2187,8 @@
         41,
         39
       ],
-      "name": "Editor Signpost",
-      "description": "Position(41, 39)"
+      "name": "Ruined Ruins",
+      "description": "Danger awaits!"
     }
   ],
   "ports": [
