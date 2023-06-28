@@ -125,4 +125,9 @@ public class GameMenu : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu"); 
     }
+
+    public void CloseApp()
+    {
+        Application.Quit();
+    }
 }

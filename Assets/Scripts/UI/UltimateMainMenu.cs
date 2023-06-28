@@ -32,9 +32,12 @@ public class UltimateMainMenu : MonoBehaviour
     public TMP_InputField width;
     public TMP_InputField height;
 
+    public int currentPanelIndex;
+
     public void ShowPanel(int index)
     {
-        for(int i = 0; i < panels.Length; i++)
+        currentPanelIndex = index;
+        for (int i = 0; i < panels.Length; i++)
         {
             if (index == i)
             {
@@ -159,5 +162,12 @@ public class UltimateMainMenu : MonoBehaviour
                 SceneManager.LoadScene("Game");
             }
         }
+    }
+
+    public void DeleteGame(int index)
+    {
+        Debug.Log(savedGames[index]);
+        File.Delete(savedGames[index]);
+        ShowPanel(currentPanelIndex);
     }
 }

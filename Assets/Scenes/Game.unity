@@ -5146,7 +5146,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Main Menu
+  m_text: Quit Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d29e4527d98b09d4ca2d22e9c1ad8bc7, type: 2}
   m_sharedMaterial: {fileID: 409550311134395199, guid: d29e4527d98b09d4ca2d22e9c1ad8bc7, type: 2}
@@ -28556,7 +28556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursorInfo: {fileID: 0}
-  buttonName: Nymber of Cities
+  buttonName: Number of Cities
   buttonDescription:
   - 
   - 
@@ -29338,7 +29338,7 @@ GameObject:
   - component: {fileID: 1591993863}
   - component: {fileID: 1591993862}
   m_Layer: 5
-  m_Name: MainMenuButton
+  m_Name: QuitGameButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29411,7 +29411,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1987109862}
         m_TargetAssemblyTypeName: GameMenu, Assembly-CSharp
-        m_MethodName: GoToMainMenu
+        m_MethodName: CloseApp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
