@@ -6,7 +6,7 @@
       "baseFile": "Assets/Resources/Players/kingdomsPlayer.json",
       "name": "Summoners",
       "color": "00AAFF",
-      "gold": 10000
+      "gold": 200
     },
     {
       "baseFile": "Assets/Resources/Players/siriansPlayer.json",
