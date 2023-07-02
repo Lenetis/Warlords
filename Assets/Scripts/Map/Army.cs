@@ -354,7 +354,7 @@ public class Army : MapObject /* todo? maybe add MovableMapObject class? */, IOw
             }
         }
         
-        if (attackTarget != null && ((MapObject)attackTarget).OccupiesPosition(nextPosition)) {
+        if (attackTarget != null && attackTarget.owner != null && attackTarget.owner != this.owner && ((MapObject)attackTarget).OccupiesPosition(nextPosition)) {
             if (!Input.GetKey(KeyCode.LeftShift)) {
                 new Battle(this, attackTarget);  // this line looks super cursed, but everything communicates nicely through events, so it's fine. todo?
             }
