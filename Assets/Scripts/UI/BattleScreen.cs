@@ -8,6 +8,7 @@ public class BattleScreen : MonoBehaviour
 {
     private static GameController gameController;
     private CityManagement cityManagement;
+    private MouseSelection mouseSelection;
 
     public GameObject battlePanel;
     public GameObject animationPanel;
@@ -64,6 +65,7 @@ public class BattleScreen : MonoBehaviour
         attackerUnits = new List<GameObject>();
         defenderUnits = new List<GameObject>();
         cityManagement=GameObject.Find("Main").GetComponent<CityManagement>();
+        mouseSelection = GameObject.Find("Main Camera").GetComponent<MouseSelection>();
     }
 
     // Update is called once per frame
@@ -140,6 +142,7 @@ public class BattleScreen : MonoBehaviour
                 {
                     animationPanel.SetActive(false);
                     actionPanel.SetActive(true);
+                    mouseSelection.DeselectArmy();
                 }
                 else {
                     battlePanel.SetActive(false);

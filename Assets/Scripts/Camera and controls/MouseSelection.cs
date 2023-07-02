@@ -266,7 +266,7 @@ public class MouseSelection : MonoBehaviour
         ClearPath();
     }
     
-    private void DeselectArmy()
+    public void DeselectArmy()
     {
         ClearPath();
 
