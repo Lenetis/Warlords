@@ -234,6 +234,7 @@ MonoBehaviour:
   - 
   - 
   mode: 3
+  dispMode: 0
 --- !u!1 &5391471560196907194
 GameObject:
   m_ObjectHideFlags: 0

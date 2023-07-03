@@ -264,6 +264,13 @@ public class MouseSelection : MonoBehaviour
     private void BattleStartedHandler(object sender, System.EventArgs args)
     {
         ClearPath();
+        Position defenderPosition = ((Battle)sender).defender.position;
+        Tile attackedTile = gameController.tileMap.GetTile(defenderPosition);
+
+        if (attackedTile.structure != null)
+        {
+            DeselectArmy();
+        }
     }
     
     public void DeselectArmy()

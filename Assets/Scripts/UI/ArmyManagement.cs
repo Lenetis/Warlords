@@ -144,6 +144,13 @@ public class ArmyManagement : MonoBehaviour
                 units[counter].transform.localPosition = new Vector3((counter + 1) * ((armyManagementPanel.transform.GetChild(0).gameObject.GetComponent<RectTransform>().sizeDelta.x / ((armiesSize) + 1))) - (armyManagementPanel.transform.GetChild(0).gameObject.GetComponent<RectTransform>().sizeDelta.x / 2), 5, 0);
                 units[counter].transform.SetParent(armyManagementPanel.transform.GetChild(0).gameObject.transform);
                 units[counter].name = counter.ToString();
+
+                units[counter].GetComponent<ButtonRightClick>().buttonName = armyTile.armies[i].units[j].name;
+                units[counter].GetComponent<ButtonRightClick>().buttonDescription[0] = armyTile.armies[i].units[j].battleStats.strength.ToString();
+                units[counter].GetComponent<ButtonRightClick>().buttonDescription[1] = armyTile.armies[i].units[j].pathfinder.move.ToString();
+                units[counter].GetComponent<ButtonRightClick>().buttonDescription[2] = armyTile.armies[i].units[j].pathfinder.remainingMove.ToString();
+                units[counter].GetComponent<ButtonRightClick>().buttonDescription[3] = armyTile.armies[i].units[j].economy.upkeep.ToString();
+
                 units[counter].GetComponent<UnitButton>().army = i;
                 units[counter].GetComponent<UnitButton>().unit = j;
 

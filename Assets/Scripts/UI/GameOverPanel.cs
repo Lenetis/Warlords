@@ -30,6 +30,6 @@ public class GameOverPanel : MonoBehaviour
 
     public void Exit()
     {
-        //todo
+        panel.SetActive(false);
     }
 }

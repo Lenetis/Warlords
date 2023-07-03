@@ -41,6 +41,9 @@ public class CursorInfo : MonoBehaviour
 
     public int dispMode;
 
+    public TextMeshProUGUI text1;
+    public TextMeshProUGUI text2;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -97,10 +100,10 @@ public class CursorInfo : MonoBehaviour
                 isMoved = true;
             }
 
-            if (!isMoved && mouseSelection.selectedArmy == null)
+            if (!isMoved)
             {
                 objectName.GetComponent<RectTransform>().anchoredPosition = new Vector2(objectName.GetComponent<RectTransform>().anchoredPosition.x, 15);
-                if (mode == 0)
+                if (mode == 0 && mouseSelection.selectedArmy == null)
                 {
                     if (mouseSelection.highlightedTile.armies != null)
                     {
@@ -268,8 +271,12 @@ public class CursorInfo : MonoBehaviour
                         objectName.text = mouseSelection.highlightedTile.data.name;
                         objectDescription.text = mouseSelection.highlightedTile.data.description;
                     }
+
+                    infoPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2((Input.mousePosition.x + correctionX) - Screen.width / 2, (Input.mousePosition.y + correctionY) - Screen.height / 2) / gui.GetComponent<Canvas>().scaleFactor;
+                    Cursor.visible = false;
+                    infoPanel.SetActive(true);
                 }
-                else if(mode==1)
+                else if(mode== 1 && mouseSelection.selectedArmy == null)
                 {
                     unitStats.SetActive(false);
                     cityStats.SetActive(false);
@@ -287,8 +294,12 @@ public class CursorInfo : MonoBehaviour
                     {
                         objectName.GetComponent<RectTransform>().anchoredPosition = new Vector2(objectName.GetComponent<RectTransform>().anchoredPosition.x, 0);
                     }
+
+                    infoPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2((Input.mousePosition.x + correctionX) - Screen.width / 2, (Input.mousePosition.y + correctionY) - Screen.height / 2) / gui.GetComponent<Canvas>().scaleFactor;
+                    Cursor.visible = false;
+                    infoPanel.SetActive(true);
                 }
-                else if (mode == 2)
+                else if (mode == 2 && mouseSelection.selectedArmy == null)
                 {
                     unitStats.SetActive(false);
                     if (buttonDescription[0] == "Razed!")
@@ -319,6 +330,10 @@ public class CursorInfo : MonoBehaviour
                         stone.SetActive(true);
                     }
                     objectName.text = buttonName;
+
+                    infoPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2((Input.mousePosition.x + correctionX) - Screen.width / 2, (Input.mousePosition.y + correctionY) - Screen.height / 2) / gui.GetComponent<Canvas>().scaleFactor;
+                    Cursor.visible = false;
+                    infoPanel.SetActive(true);
                 }
                 else if (mode == 3)
                 {
@@ -340,13 +355,28 @@ public class CursorInfo : MonoBehaviour
                     unitStats.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = buttonDescription[2];
                     unitStats.transform.GetChild(7).GetComponent<TextMeshProUGUI>().text = buttonDescription[3];
 
+                    if (mouseSelection.selectedArmy == null)
+                    {
+                        unitStats.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Time:";
+                        unitStats.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Cost:";
+                    }
+                    else
+                    {
+                        unitStats.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Remain:";
+                        unitStats.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "Upkeep:";
+                    }
+
+                    infoPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2((Input.mousePosition.x + correctionX) - Screen.width / 2, (Input.mousePosition.y + correctionY) - Screen.height / 2) / gui.GetComponent<Canvas>().scaleFactor;
+                    Cursor.visible = false;
+                    infoPanel.SetActive(true);
                 }
-
-
-                //Debug.Log(gameObject.GetComponent<RectTransform>().anchoredPosition.x * gui.GetComponent<Canvas>().scaleFactor);
-                infoPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2((Input.mousePosition.x + correctionX) - Screen.width / 2, (Input.mousePosition.y + correctionY) - Screen.height / 2) / gui.GetComponent<Canvas>().scaleFactor;
-                Cursor.visible = false;
-                infoPanel.SetActive(true);
+                else
+                {
+                    infoPanel.SetActive(false);
+                    DeleteUnits();
+                    selectedUnits = new GameObject[0];
+                    Cursor.visible = true;
+                }                
             }
             else
             {

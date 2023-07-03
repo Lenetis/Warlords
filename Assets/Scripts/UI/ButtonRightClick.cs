@@ -17,7 +17,7 @@ public class ButtonRightClick : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(eventData.button == PointerEventData.InputButton.Right && (transform.parent.name=="BuildableUnitsPanel" || transform.parent.name == "BuyableUnitsPanel"))
+        if(eventData.button == PointerEventData.InputButton.Right && (transform.parent.name=="BuildableUnitsPanel" || transform.parent.name == "BuyableUnitsPanel" || transform.parent.name== "UnitsField"))
         {
             cursorInfo.mode = mode;
             cursorInfo.dispMode = 0;

@@ -142,7 +142,6 @@ public class BattleScreen : MonoBehaviour
                 {
                     animationPanel.SetActive(false);
                     actionPanel.SetActive(true);
-                    mouseSelection.DeselectArmy();
                 }
                 else {
                     battlePanel.SetActive(false);

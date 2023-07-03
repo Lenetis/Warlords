@@ -165,6 +165,7 @@ GameObject:
   - component: {fileID: 2962281003473992097}
   - component: {fileID: 2962281003473992096}
   - component: {fileID: 3788364381619509157}
+  - component: {fileID: 7035476223118829578}
   m_Layer: 5
   m_Name: UnitIP
   m_TagString: Untagged
@@ -305,6 +306,27 @@ MonoBehaviour:
   armyManagement: {fileID: 0}
   army: 0
   unit: 0
+--- !u!114 &7035476223118829578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2962281003473992094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb6181467c4a03a4faa7aee5f0301490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorInfo: {fileID: 0}
+  buttonName: 
+  buttonDescription:
+  - 
+  - 
+  - 
+  - 
+  mode: 3
+  dispMode: 0
 --- !u!1 &2962281004021134733
 GameObject:
   m_ObjectHideFlags: 0
