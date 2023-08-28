@@ -1,6 +1,7 @@
 {
     "name": "Okoń",
     "texture": "Assets/Resources/Units/okoń.png",
+    "maskTexture": "Assets/Resources/Units/okońMask.png",
     "productionCost": 20,
     "purchaseCost": 100,
     "pathfinder": {
