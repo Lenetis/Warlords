@@ -305,7 +305,9 @@ public class City : MultitileStructure, IOwnableMapObject
 
         cityJObject.Add("production", production);
 
-        cityJObject.Add("tileTypes", new JArray(tileTypes));
+        if (tileTypes != null && tileTypes.Count != 0) {
+            cityJObject.Add("tileTypes", new JArray(tileTypes));
+        }
 
         if (razed) {
             // cities are by default not razed, so no need to save it in that case

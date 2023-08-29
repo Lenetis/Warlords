@@ -66,7 +66,9 @@ public class Signpost : Structure
         signpostJObject.Add("name", name);
         signpostJObject.Add("description", description);
 
-        signpostJObject.Add("tileTypes", new JArray(tileTypes));
+        if (tileTypes != null && tileTypes.Count != 0) {
+            signpostJObject.Add("tileTypes", new JArray(tileTypes));
+        }
 
         ResourceManager.Minimize(signpostJObject);
 

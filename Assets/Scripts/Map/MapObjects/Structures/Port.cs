@@ -61,7 +61,9 @@ public class Port : Structure
 
         portJObject.Add("pathfinding", pathfinding.ToJObject());
 
-        portJObject.Add("tileTypes", new JArray(tileTypes));
+        if (tileTypes != null && tileTypes.Count != 0) {
+            portJObject.Add("tileTypes", new JArray(tileTypes));
+        }
 
         ResourceManager.Minimize(portJObject);
 

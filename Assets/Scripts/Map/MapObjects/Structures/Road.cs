@@ -67,7 +67,9 @@ public class Road : Structure
 
         roadJObject.Add("pathfinding", pathfinding.ToJObject());
 
-        roadJObject.Add("tileTypes", new JArray(tileTypes));
+        if (tileTypes != null && tileTypes.Count != 0) {
+            roadJObject.Add("tileTypes", new JArray(tileTypes));
+        }
 
         ResourceManager.Minimize(roadJObject);
 

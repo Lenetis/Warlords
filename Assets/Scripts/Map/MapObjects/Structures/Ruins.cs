@@ -127,7 +127,9 @@ public class Ruins : Structure, IExplorable
 
         ruinsJObject.Add("pathfinding", pathfinding.ToJObject());
 
-        ruinsJObject.Add("tileTypes", new JArray(tileTypes));
+        if (tileTypes != null && tileTypes.Count != 0) {
+            ruinsJObject.Add("tileTypes", new JArray(tileTypes));
+        }
 
         ResourceManager.Minimize(ruinsJObject);
 
