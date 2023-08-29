@@ -148,7 +148,7 @@ public class UltimateMainMenu : MonoBehaviour
                 return;
             }
 
-            if (int.Parse(width.text) > 0 && int.Parse(height.text) > 0 && int.Parse(width.text) < 200 && int.Parse(height.text) < 200)
+            if (int.Parse(width.text) >= 20 && int.Parse(height.text) >= 20 && int.Parse(width.text) <= 200 && int.Parse(height.text) <= 200)
             {
                 PlayerPrefs.SetString("saveFileDirectory", "Scenarios/");
                 PlayerPrefs.SetString("startFilePath", "");
