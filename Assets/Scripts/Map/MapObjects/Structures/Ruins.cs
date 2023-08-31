@@ -131,6 +131,10 @@ public class Ruins : Structure, IExplorable
             ruinsJObject.Add("tileTypes", new JArray(tileTypes));
         }
 
+        if (explored) {
+            ruinsJObject.Add("explored", explored);
+        }
+
         ResourceManager.Minimize(ruinsJObject);
 
         return ruinsJObject;
